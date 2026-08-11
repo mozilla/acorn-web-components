@@ -5,6 +5,7 @@ import { expect } from 'storybook/test';
 import './moz-button.js';
 import '../moz-provider/moz-provider.js';
 import { type IconName, iconNames } from '../../generated/icons.js';
+import { matchScreenshot } from '../../test-support/visual.js';
 import type { ButtonSize, ButtonVariant } from './moz-button.js';
 
 interface ButtonArgs {
@@ -150,6 +151,9 @@ export const Variants: Story = {
       ${variants.map((v) => html`<moz-button variant=${v}>${v}</moz-button>`)}
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    await matchScreenshot(canvasElement, 'variants');
+  },
 };
 
 export const Sizes: Story = {
@@ -158,4 +162,7 @@ export const Sizes: Story = {
       ${sizes.map((s) => html`<moz-button size=${s}>${s}</moz-button>`)}
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    await matchScreenshot(canvasElement, 'sizes');
+  },
 };

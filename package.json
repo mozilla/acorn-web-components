@@ -48,6 +48,9 @@
     "test": "vitest",
     "test:browsers": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:visual": "VISUAL=1 vitest run",
+    "test:visual:update": "VISUAL=1 vitest run --update",
+    "test:visual:update:docker": "docker run --rm --ipc=host -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.62.1-noble bash -lc \"npm ci && npm run test:visual:update\"",
     "lint": "biome check",
     "format": "biome check --write"
   },

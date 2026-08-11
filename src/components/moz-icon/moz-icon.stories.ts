@@ -10,6 +10,7 @@ import {
   iconSizes,
 } from '../../generated/icon-options.js';
 import { type IconName, iconNames } from '../../generated/icons.js';
+import { matchScreenshot, settleIcons } from '../../test-support/visual.js';
 
 interface IconArgs {
   name: IconName;
@@ -113,6 +114,10 @@ export const Sizes: Story = {
       )}
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    await settleIcons(canvasElement);
+    await matchScreenshot(canvasElement, 'sizes');
+  },
 };
 
 export const Colors: Story = {
@@ -132,6 +137,10 @@ export const Colors: Story = {
       )}
     </div>
   `,
+  play: async ({ canvasElement }) => {
+    await settleIcons(canvasElement);
+    await matchScreenshot(canvasElement, 'colors');
+  },
 };
 
 export const Gallery: Story = {

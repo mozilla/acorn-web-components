@@ -26,7 +26,11 @@ npm run dev        # Storybook at http://localhost:6006
 | --- | --- |
 | `npm run dev` / `npm run storybook` | Storybook dev server |
 | `npm run generate` | Compile tokens (`build:tokens`) and icons (`build:icons`) into `src/generated/` |
-| `npm run test` | Storybook-driven tests via Vitest (browser mode) |
+| `npm run test` | Storybook-driven tests via Vitest (browser mode), watch |
+| `npm run test:browsers` | One-shot cross-browser run (Chromium + Firefox) |
+| `npm run test:coverage` | Chromium-only run with v8 coverage + thresholds |
+| `npm run test:visual` | Compare visual snapshots (Chromium; expects Linux baselines) |
+| `npm run test:visual:update:docker` | Regenerate the committed baselines in the pinned Playwright container |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run build` | Full library build into `dist/` (clean, lib, react, types, assets, manifest) |
 | `npm run build-storybook` | Static Storybook build |
@@ -99,11 +103,24 @@ High contrast is available two ways:
 Tests are Storybook-driven: every story runs as a test in a real browser via Vitest's browser mode (Playwright). A story's `play` function is an interaction test, and `@storybook/addon-a11y` runs axe in the same pass, failing on violations. There is no separate component test suite.
 
 ```sh
-npm run test              # run once
-npx vitest --coverage     # with coverage
+npm run test              # watch
+npm run test:browsers     # one-shot, Chromium + Firefox
+npm run test:coverage     # Chromium-only, v8 coverage + thresholds
 ```
 
-Tests run in Chromium via Playwright (`npx playwright install chromium`). Coverage uses the v8 provider, which is Chromium-only; a Firefox instance could be added later by switching coverage to the istanbul provider.
+A plain run exercises Chromium and Firefox. Coverage uses the v8 provider, which only instruments Chromium, so the coverage run is Chromium-only.
+
+### Visual snapshots
+
+Some tests also assert a pixel snapshot via Vitest's `toMatchScreenshot`, gated behind a `VISUAL` flag so normal runs skip them and stay platform-independent. Pixel output depends on the browser build and fonts, so baselines are authoritative on one environment: the pinned Playwright Linux container. They are committed under `tests/visual/<component>/` as `<name>-chromium-linux.png` and compared by the `visual` CI job, which runs in that same container.
+
+To add or refresh baselines, regenerate them in the container so they match CI, then review and commit the PNGs:
+
+```sh
+npm run test:visual:update:docker   # requires Docker running
+```
+
+The mismatch output (`*-actual.png` / `*-diff.png`) is git-ignored; CI uploads it as an artifact when the `visual` job fails.
 
 ## Build output (`dist/`)
 

@@ -1,8 +1,8 @@
 # CI workflow for acorn-web-components (Lit web-components library).
 #
-# NOTE: This workflow was authored before the repo was pushed to GitHub, so it
-# has not actually been executed yet. Expect to need a small first-run tweak
-# (e.g. action version resolution or a cache miss) once CI runs for real.
+# `ci`: lint, typecheck, build, and tests (Chromium + Firefox) + coverage.
+# `visual`: pixel snapshots, run in the pinned Playwright container so rendering
+# matches the committed baselines (refresh them with test:visual:update:docker).
 
 name: CI
 
@@ -61,3 +61,39 @@ jobs:
       # Coverage gate (Chromium only, v8) enforcing the thresholds.
       - name: Coverage
         run: npm run test:coverage
+
+  # Visual snapshots run in the pinned Playwright container so the browser build
+  # and fonts match the committed `-chromium-linux` baselines exactly. Browsers
+  # ship in the image, so no `playwright install` step is needed.
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --ipc=host
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Visual snapshots (Chromium)
+        run: npm run test:visual
+
+      # On a mismatch, publish the actual/diff images for inspection.
+      - name: Upload diffs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diffs
+          path: |
+            tests/visual/**/*-actual.png
+            tests/visual/**/*-diff.png
+          if-no-files-found: ignore
