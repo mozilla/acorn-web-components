@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# build output (reproducible; published to npm via `files`, not committed)
+dist/
+storybook-static/
+
+# test / tooling artifacts (transient only; screenshot BASELINES are committed)
+coverage/
+playwright-report/
+test-results/
+
+# misc
+*.log
+.DS_Store
+.vite/

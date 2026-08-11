@@ -1,0 +1,2 @@
+/* Generated from a vendored Firefox icon. Do not edit. */
+export default "<svg viewBox=\"0 0 10 22\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"m 8.280,16.293 -3.293,3.293 -3.293,-3.293 a 1,1 0 0 0 -1.414,1.414 l 4,4 a 1,1 0 0 0 1.414,0 l 4,-4 a 1,1 0 0 0 -1.414,-1.414 z M 5.694,0.293 a 1,1 0 0 0 -1.414,0 L 0.28,4.293 a 1,1 0 0 0 1.414,1.414 l 3.293,-3.293 3.293,3.293 a 1,1 0 0 0 1.414,-1.414 z\" fill=\"currentColor\" fill-opacity=\".8\"/> <circle cx=\"5\" cy=\"11\" r=\"2\" fill=\"currentColor\" fill-opacity=\".6\"/> </svg>";

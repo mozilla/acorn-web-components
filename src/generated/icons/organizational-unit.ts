@@ -1,0 +1,2 @@
+/* Generated from a vendored Firefox icon. Do not edit. */
+export default "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path fill=\"currentColor\" d=\"M11 11H7V9.5h4zM11 8H7V6.5h4z\"/><path fill=\"currentColor\" fill-rule=\"evenodd\" d=\"M13.058 1.026a.753.753 0 0 1 .942.726V13.5h1.5V15H.5v-1.5H2V9a1 1 0 0 1 1-1h1V4.001a.75.75 0 0 1 .558-.725zM5.5 4.579V13.5h7V2.726z\" clip-rule=\"evenodd\"/></svg>";

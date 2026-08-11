@@ -1,0 +1,56 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+import { css } from 'lit';
+
+export default css`
+  :host {
+  --card-border-color: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.04));
+  --card-cover-image-height-default: 160px;
+  --card-cover-image-object-fit-default: cover;
+  --card-cover-image-object-position-default: center;
+  --card-header-border-color: transparent;
+  --card-header-border-color-hover: transparent;
+  --card-header-border-color-active: transparent;
+  --card-border-width: var(--border-width);
+  --card-border-radius: var(--border-radius-large);
+  --card-border-radius-compact: var(--border-radius-medium);
+  --card-cover-image-border-radius: var(--border-radius-medium);
+  --card-font-size: var(--font-size-root);
+  --card-font-size-compact: var(--font-size-small);
+  --card-header-background-color: light-dark(rgba(207, 207, 216, 0.33), rgba(0, 0, 0, 0.33));
+  --card-background-color: var(--background-color-box); /** TODO Bug 2030793 - Move card tokens to be used by moz-card rather than globally */
+  --card-border: var(--card-border-width) solid var(--card-border-color);
+  --card-box-shadow: var(--box-shadow-level-2);
+  --card-box-shadow-hover: var(--box-shadow-level-4);
+  --card-cover-image-padding: var(--space-small);
+  --card-cover-image-padding-compact: var(--space-xsmall);
+  --card-focus-outline: var(--focus-outline);
+  --card-padding: var(--space-large);
+  --card-padding-compact: var(--space-small);
+  --card-gap: var(--space-medium);
+  --card-gap-compact: var(--space-small);
+  --card-gap-article: var(--space-small);
+  --card-header-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --card-header-background-color-active: light-dark(#b6aad9, #9687c0);
+  --card-header-text-color: light-dark(#161423, #fcfbff);
+  --card-header-text-color-hover: light-dark(#161423, #fcfbff);
+  --card-header-text-color-active: light-dark(#161423, #fcfbff);
+  }
+  @media (prefers-contrast: more) {
+    :host {
+    --card-border-color: color-mix(in srgb, currentColor 41%, transparent);
+    --card-header-border-color: light-dark(#764edd, #b89cff);
+    }
+  }
+  @media (forced-colors: active) {
+    :host {
+    --card-border-color: CanvasText;
+    --card-header-border-color-active: light-dark(#764edd, #b89cff);
+    --card-header-border-color-hover: light-dark(#764edd, #b89cff);
+    --card-header-border-color: light-dark(#764edd, #b89cff);
+    }
+  }
+  :host([data-contrast='high']) {
+    --card-border-color: color-mix(in srgb, currentColor 41%, transparent);
+    --card-header-border-color: light-dark(#764edd, #b89cff);
+  }
+`;

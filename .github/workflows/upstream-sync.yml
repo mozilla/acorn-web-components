@@ -1,0 +1,76 @@
+# Nightly upstream sync: refresh the vendored Firefox tokens + icons from
+# github.com/mozilla-firefox/firefox (the source this repo references),
+# regenerate, and open a PR to review. Drift is handled here (and via
+# `npm run vendor` on demand), NOT in the standard CI pipeline.
+#
+# Authored but not yet executed (repo not on GitHub); assumes the default
+# branch is `main` and may need a first-run tweak.
+
+name: Upstream sync
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: upstream-sync
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: npm ci
+
+      # Sparse, shallow checkout of only the two Firefox source dirs we vendor,
+      # from the same repo the local checkout tracks.
+      - name: Fetch Firefox sources
+        run: |
+          git clone --depth 1 --filter=blob:none --sparse \
+            https://github.com/mozilla-firefox/firefox.git /tmp/firefox
+          git -C /tmp/firefox sparse-checkout set \
+            toolkit/themes/shared/design-system/src/tokens \
+            toolkit/themes/shared/icons
+
+      # Same vendor script used locally, pointed at the sparse checkout, then
+      # regenerate. `npm run vendor` records /tmp/firefox's revision in VENDOR.json.
+      - name: Vendor + regenerate
+        run: |
+          FIREFOX_PATH=/tmp/firefox npm run vendor
+          npm run generate
+
+      # Opens a PR only if the vendored sources or generated output changed, so
+      # a human can review the token/icon diffs and let Storybook/tests run.
+      - name: Open PR on change
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/upstream-sync
+          add-paths: |
+            vendor/design-system
+            vendor/icons
+            src/generated
+          commit-message: 'chore: sync design tokens and icons from Firefox'
+          title: 'chore: sync design tokens and icons from Firefox'
+          body: |
+            Automated nightly sync of the vendored Firefox tokens and icons, with regenerated output.
+
+            Review the token/icon diffs, check Storybook, and let tests run before merging.
+
+      # TODO: detecting drift in Firefox's hand-authored moz-* COMPONENT source
+      # (for parity with our components) is a separate, notify-only concern that
+      # should open an issue, not a PR. Not implemented: this repo vendors only
+      # tokens and icons.

@@ -1,0 +1,69 @@
+/*
+ * Base stylesheet: the document-level defaults the token layer intentionally
+ * does not set, plus the Acorn typography scale and text helpers. Load once at
+ * the app root, AFTER tokens.css (it references token custom properties).
+ *
+ * Firefox applies the equivalent on :root in its in-content common stylesheet
+ * (color-scheme + font-size: var(--font-size-root)). It has no font-family
+ * token because in-content inherits the OS system font (`message-box`);
+ * `system-ui` is the web equivalent. `--font-family` is exposed so consumers
+ * can override it.
+ */
+:root {
+  color-scheme: light dark;
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-family);
+  font-size: var(--font-size-root);
+}
+
+/*
+ * Typography scale and text helpers, ported from Firefox's
+ * design-system/src/text-and-typography.css to our token names. These are
+ * document-level rules for app content and slotted (light-DOM) markup; they do
+ * not reach into component shadow roots (a component that renders its own
+ * headings would compose an equivalent CSSResult into its styles).
+ */
+h1,
+.heading-xlarge {
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-heading-xlarge);
+}
+
+h2,
+.heading-large {
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-heading-large);
+}
+
+h3,
+.heading-medium {
+  font-weight: var(--font-weight-heading);
+  font-size: var(--font-size-heading-medium);
+}
+
+.text-deemphasized {
+  font-size: var(--font-size-small);
+  color: var(--text-color-deemphasized);
+}
+
+.text-error {
+  color: var(--text-color-error);
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-truncated-ellipsis {
+  /* Will not work on `display: flex` items unless you wrap its contents with
+    another element that has this class. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-box-trim-start {
+  /* Trim the "leading" from the top of the text. This visually removes the
+   * line-height above the first line so we don't get too much padding between
+   * text and its container. `1cap` is the cap height; `1lh` is the computed
+   * line-height, so this removes half the difference between them from the
+   * element height. Emulates the `text-box-trim` property. */
+  margin-block-start: calc((1cap - 1lh) / 2);
+}

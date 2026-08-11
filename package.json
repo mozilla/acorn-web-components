@@ -1,0 +1,101 @@
+{
+  "name": "acorn-web-components",
+  "version": "0.0.0-alpha",
+  "description": "Nova-styled web components; TypeScript with Lit.",
+  "license": "MPL-2.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./foundation.css": "./dist/foundation.css",
+    "./tokens.css": "./dist/tokens/tokens.css",
+    "./base.css": "./dist/base.css",
+    "./tokens/*.css": "./dist/tokens/*.css",
+    "./tokens": {
+      "types": "./dist/generated/tokens.d.ts",
+      "default": "./dist/generated/tokens.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/*.d.ts",
+      "default": "./dist/components/*/*.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "build:tokens": "bun scripts/tokens/build.ts",
+    "build:icons": "bun scripts/icons/build.ts",
+    "generate": "npm run build:tokens && npm run build:icons",
+    "vendor": "bun scripts/vendor.ts",
+    "clean": "bun scripts/clean.ts",
+    "build:lib": "vite build",
+    "build:react": "vite build --config vite.react.config.ts",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:assets": "bun scripts/copy-assets.ts",
+    "analyze": "cem analyze --litelement",
+    "build": "npm run clean && npm run build:lib && npm run build:react && npm run build:types && npm run build:assets && npm run analyze",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:browsers": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "biome check",
+    "format": "biome check --write"
+  },
+  "customElements": "dist/custom-elements.json",
+  "dependencies": {
+    "@lit/context": "^1.1.6",
+    "lit": "^3.3.3"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.8",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@lit/react": "^1.0.8",
+    "@storybook/addon-a11y": "^10.5.7",
+    "@storybook/addon-docs": "^10.5.7",
+    "@storybook/addon-vitest": "^10.5.7",
+    "@storybook/web-components-vite": "^10.5.7",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitest/browser": "^4.1.10",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.10",
+    "playwright": "^1.62.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "storybook": "^10.5.7",
+    "style-dictionary": "^5.5.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1",
+    "vite-plugin-lit-css": "^3.0.0",
+    "vitest": "^4.1.10"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "rs-module-lexer@2.8.0": true,
+    "fsevents@2.3.3": true,
+    "fsevents@2.3.2": true
+  }
+}
