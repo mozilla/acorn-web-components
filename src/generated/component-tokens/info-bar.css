@@ -12,5 +12,5 @@
   }
 }
 :host([data-contrast='high']) {
-    --info-bar-border-color: CanvasText;
+    --info-bar-border-color: light-dark(#000, #fff);
 }

@@ -366,7 +366,7 @@
   [data-contrast='high'] {
       --background-color-box-info: var(--background-color-canvas);
       --background-color-box: var(--background-color-canvas);
-      --background-color-canvas: Canvas;
+      --background-color-canvas: light-dark(#fff, #000);
       --background-color-critical: var(--background-color-canvas);
       --background-color-information: var(--background-color-canvas);
       --background-color-list-item-hover: SelectedItem;
@@ -375,8 +375,8 @@
       --border-color-deemphasized: currentColor;
       --border-color-error: var(--border-color);
       --border-color-interactive: var(--text-color);
-      --border-color-transparent: CanvasText;
-      --border-color: CanvasText;
+      --border-color-transparent: light-dark(#000, #fff);
+      --border-color: light-dark(#000, #fff);
       --color-accent-attention: AccentColor;
       --icon-color-critical: var(--icon-color);
       --icon-color-information: var(--icon-color);
@@ -387,6 +387,6 @@
       --text-color-deemphasized: inherit;
       --text-color-error: inherit;
       --text-color-list-item-hover: SelectedItemText;
-      --text-color: CanvasText;
+      --text-color: light-dark(#000, #fff);
   }
 }
