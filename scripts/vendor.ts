@@ -67,15 +67,22 @@ for (const sub of ['base', 'components']) {
 const widgetsSrc = join(FIREFOX, 'toolkit/content/widgets');
 const componentsDest = join(TOKENS_DEST, 'components');
 for (const name of WIDGET_TOKEN_COMPONENTS) {
-  for (const variant of ['', '.nova']) {
-    const from = join(
-      widgetsSrc,
-      `moz-${name}`,
-      `moz-${name}${variant}.tokens.json`,
+  // The base tokens file is required. Fail loud rather than silently skip:
+  // a missing source (e.g. a CI checkout that didn't fetch this widget dir)
+  // would otherwise wipe the previously vendored tokens.
+  const base = join(widgetsSrc, `moz-${name}`, `moz-${name}.tokens.json`);
+  if (!existsSync(base)) {
+    throw new Error(
+      `Widget token source not found: ${base}\n` +
+        `'${name}' is listed in WIDGET_TOKEN_COMPONENTS. In CI, ensure the ` +
+        `sparse-checkout includes toolkit/content/widgets/moz-${name}.`,
     );
-    if (existsSync(from)) {
-      copyFileSync(from, join(componentsDest, `${name}${variant}.tokens.json`));
-    }
+  }
+  copyFileSync(base, join(componentsDest, `${name}.tokens.json`));
+
+  const nova = join(widgetsSrc, `moz-${name}`, `moz-${name}.nova.tokens.json`);
+  if (existsSync(nova)) {
+    copyFileSync(nova, join(componentsDest, `${name}.nova.tokens.json`));
   }
 }
 
