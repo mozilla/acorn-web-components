@@ -5,10 +5,12 @@ import { expect, test } from 'vitest';
 // Foundation styles (litCss leaves these as global stylesheets); components.
 import '../../src/generated/tokens.css';
 import '../../src/base.css';
+import '../../src/components/moz-badge/moz-badge';
 import '../../src/components/moz-button/moz-button';
 import '../../src/components/moz-icon/moz-icon';
 import '../../src/components/moz-message-bar/moz-message-bar';
 import '../../src/components/moz-provider/moz-provider';
+import type { BadgeType } from '../../src/components/moz-badge/moz-badge';
 import type {
   ButtonSize,
   ButtonVariant,
@@ -54,6 +56,7 @@ async function snapshot(
 const snapshotContrast = (name: string, content: TemplateResult) =>
   snapshot(name, content, 'high');
 
+const badgeTypes: BadgeType[] = ['default', 'beta', 'new'];
 const variants: ButtonVariant[] = [
   'default',
   'primary',
@@ -69,6 +72,15 @@ const messageTypes: MessageBarType[] = [
   'error',
   'critical',
 ];
+
+test('badge types', () =>
+  snapshot(
+    'badge-types',
+    html`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      ${badgeTypes.map((t) => html`<moz-badge type=${t}>${t}</moz-badge>`)}
+      <moz-badge type="new" icon-start="check">verified</moz-badge>
+    </div>`,
+  ));
 
 test('button variants', () =>
   snapshot(
