@@ -10,6 +10,7 @@ export * from './components/moz-card/moz-card';
 export * from './components/moz-details/moz-details';
 export * from './components/moz-icon/moz-icon';
 export * from './components/moz-message-bar/moz-message-bar';
+export * from './components/moz-page-nav/moz-page-nav';
 export * from './components/moz-provider/moz-provider';
 export * from './components/moz-segmented-control/moz-segmented-control';
 export * from './context/contrast-context';
