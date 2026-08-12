@@ -5,16 +5,16 @@ import { expect, test } from 'vitest';
 // Foundation styles (litCss leaves these as global stylesheets); components.
 import '../../src/generated/tokens.css';
 import '../../src/base.css';
-import '../../src/components/moz-button/moz-button.js';
-import '../../src/components/moz-icon/moz-icon.js';
-import '../../src/components/moz-message-bar/moz-message-bar.js';
-import '../../src/components/moz-provider/moz-provider.js';
+import '../../src/components/moz-button/moz-button';
+import '../../src/components/moz-icon/moz-icon';
+import '../../src/components/moz-message-bar/moz-message-bar';
+import '../../src/components/moz-provider/moz-provider';
 import type {
   ButtonSize,
   ButtonVariant,
-} from '../../src/components/moz-button/moz-button.js';
-import type { MessageBarType } from '../../src/components/moz-message-bar/moz-message-bar.js';
-import { iconColors, iconSizes } from '../../src/generated/icon-options.js';
+} from '../../src/components/moz-button/moz-button';
+import type { MessageBarType } from '../../src/components/moz-message-bar/moz-message-bar';
+import { iconColors, iconSizes } from '../../src/generated/icon-options';
 
 // Render a matrix inside a themed provider on the token surface, let it settle,
 // and snapshot it. Baselines: tests/visual/__screenshots__/snapshots.visual.ts/

@@ -1,7 +1,7 @@
 import { readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-import { litCssPlugin } from './litcss.js';
+import { litCssPlugin } from './litcss';
 
 // Library build. `preserveModules` mirrors src/ into dist/ so each component is
 // its own file and the icons stay code-split. Each component module is an

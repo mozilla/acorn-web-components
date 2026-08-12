@@ -1,8 +1,8 @@
 import { consume } from '@lit/context';
 import { LitElement, type PropertyValues } from 'lit';
-import { type Contrast, contrastContext } from '../context/contrast-context.js';
-import { localeContext } from '../context/locale-context.js';
-import { type Theme, themeContext } from '../context/theme-context.js';
+import { type Contrast, contrastContext } from '../context/contrast-context';
+import { localeContext } from '../context/locale-context';
+import { type Theme, themeContext } from '../context/theme-context';
 
 /**
  * Shared base for Acorn components (named after Firefox's own `MozLitElement`).

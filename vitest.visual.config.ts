@@ -1,6 +1,6 @@
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
-import { litCssPlugin } from './litcss.js';
+import { litCssPlugin } from './litcss';
 
 // Visual-regression run (`npm run test:visual`), separate from the Storybook
 // tests: Vitest anchors baselines to the test file's directory, so specs live in

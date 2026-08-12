@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
-import './moz-icon.js';
+import './moz-icon';
 import {
   type IconColor,
   type IconSize,
   iconColors,
   iconSizes,
-} from '../../generated/icon-options.js';
-import { type IconName, iconNames } from '../../generated/icons.js';
+} from '../../generated/icon-options';
+import { type IconName, iconNames } from '../../generated/icons';
 
 interface IconArgs {
   name: IconName;

@@ -9,5 +9,5 @@
     "rootDir": "src",
     "types": []
   },
-  "exclude": ["src/**/*.stories.ts", "scripts", "tests"]
+  "exclude": ["src/**/*.stories.ts", "scripts", "tests", ".storybook"]
 }

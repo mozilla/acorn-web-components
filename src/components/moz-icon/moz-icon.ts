@@ -1,8 +1,8 @@
 import { html, LitElement, nothing, type PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
-import type { IconColor, IconSize } from '../../generated/icon-options.js';
-import { type IconName, iconLoaders } from '../../generated/icons.js';
+import type { IconColor, IconSize } from '../../generated/icon-options';
+import { type IconName, iconLoaders } from '../../generated/icons';
 import styles from './moz-icon.css';
 
 // Cache each icon module so it's only imported once.

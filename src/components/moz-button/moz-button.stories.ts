@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
-import './moz-button.js';
-import '../moz-provider/moz-provider.js';
-import { type IconName, iconNames } from '../../generated/icons.js';
-import type { ButtonSize, ButtonVariant } from './moz-button.js';
+import './moz-button';
+import '../moz-provider/moz-provider';
+import { type IconName, iconNames } from '../../generated/icons';
+import type { ButtonSize, ButtonVariant } from './moz-button';
 
 interface ButtonArgs {
   label: string;

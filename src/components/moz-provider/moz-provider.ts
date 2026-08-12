@@ -1,12 +1,9 @@
 import { provide } from '@lit/context';
 import { html, LitElement, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
-import {
-  type Contrast,
-  contrastContext,
-} from '../../context/contrast-context.js';
-import { localeContext } from '../../context/locale-context.js';
-import { type Theme, themeContext } from '../../context/theme-context.js';
+import { type Contrast, contrastContext } from '../../context/contrast-context';
+import { localeContext } from '../../context/locale-context';
+import { type Theme, themeContext } from '../../context/theme-context';
 import styles from './moz-provider.css';
 
 /**

@@ -1,6 +1,6 @@
 import type { StorybookConfig } from '@storybook/web-components-vite';
 import { mergeConfig } from 'vite';
-import { litCssPlugin } from '../litcss.js';
+import { litCssPlugin } from '../litcss';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(ts|tsx)'],

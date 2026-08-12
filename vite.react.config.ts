@@ -1,6 +1,6 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-import { litCssPlugin } from './litcss.js';
+import { litCssPlugin } from './litcss';
 
 // React wrappers entry. `@lit/react` is bundled in; react/react-dom stay
 // external (optional peer deps) and lit stays external for dedupe.

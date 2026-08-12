@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
-import './moz-message-bar.js';
-import '../moz-button/moz-button.js';
-import type { MessageBarType } from './moz-message-bar.js';
+import './moz-message-bar';
+import '../moz-button/moz-button';
+import type { MessageBarType } from './moz-message-bar';
 
 interface Args {
   type: MessageBarType;

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { expect } from 'storybook/test';
-import '../moz-button/moz-button.js';
-import './moz-provider.js';
-import type { MozButton } from '../moz-button/moz-button.js';
-import type { MozProvider } from './moz-provider.js';
+import '../moz-button/moz-button';
+import './moz-provider';
+import type { MozButton } from '../moz-button/moz-button';
+import type { MozProvider } from './moz-provider';
 
 const meta: Meta = {
   title: 'Foundation/Provider',

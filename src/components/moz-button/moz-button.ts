@@ -1,9 +1,9 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
-import { MozLitElement } from '../../base/moz-lit-element.js';
+import { MozLitElement } from '../../base/moz-lit-element';
 import buttonTokens from '../../generated/component-tokens/button.css';
-import '../moz-icon/moz-icon.js';
-import type { IconName } from '../../generated/icons.js';
+import '../moz-icon/moz-icon';
+import type { IconName } from '../../generated/icons';
 import styles from './moz-button.css';
 
 export type ButtonVariant =

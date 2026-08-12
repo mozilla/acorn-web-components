@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../src/generated/tokens.css';
 import '../src/base.css';
-import '../src/components/moz-provider/moz-provider.js';
+import '../src/components/moz-provider/moz-provider';
 
 export const globalTypes = {
   theme: {

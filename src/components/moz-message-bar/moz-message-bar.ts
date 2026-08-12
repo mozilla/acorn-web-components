@@ -1,12 +1,12 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
-import { MozLitElement } from '../../base/moz-lit-element.js';
+import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
 import messageBarTokens from '../../generated/component-tokens/message-bar.css';
-import '../moz-icon/moz-icon.js';
-import '../moz-button/moz-button.js';
-import type { IconName } from '../../generated/icons.js';
-import type { IconColor } from '../../index.js';
+import '../moz-icon/moz-icon';
+import '../moz-button/moz-button';
+import type { IconName } from '../../generated/icons';
+import type { IconColor } from '../../index';
 import styles from './moz-message-bar.css';
 
 export type MessageBarType =
