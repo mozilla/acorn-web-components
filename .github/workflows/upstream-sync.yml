@@ -1,10 +1,16 @@
-# Nightly upstream sync: refresh the vendored Firefox tokens + icons from
-# github.com/mozilla-firefox/firefox (the source this repo references),
-# regenerate, and open a PR to review. Drift is handled here (and via
-# `npm run vendor` on demand), NOT in the standard CI pipeline.
+# Upstream sync: refresh the vendored Firefox tokens + icons from
+# github.com/mozilla-firefox/firefox (the source this repo references) and
+# regenerate. Drift is handled here (and via `npm run vendor` on demand), NOT in
+# the standard CI pipeline. Two modes:
 #
-# The PR is opened with git + the gh CLI rather than a third-party action, since
-# the Mozilla org restricts workflows to GitHub-owned / allowlisted actions.
+#   - Scheduled / manual (workflow_dispatch): open or update a dedicated
+#     `chore/upstream-sync` PR for review.
+#   - A maintainer commenting `/sync` on a pull request: regenerate on that PR's
+#     own branch and push the commit straight back to it (same-repo branches
+#     only — the token can't push to a fork).
+#
+# Commits/PRs use git + the gh CLI rather than a third-party action, since the
+# Mozilla org restricts workflows to GitHub-owned / allowlisted actions.
 
 name: Upstream sync
 
@@ -12,23 +18,64 @@ on:
   schedule:
     - cron: '17 4 * * *'
   workflow_dispatch:
+  # Let a maintainer re-trigger from the PR itself by commenting `/sync`.
+  issue_comment:
+    types: [created]
 
 concurrency:
-  group: upstream-sync
+  # Per-PR for /sync comments; per-event otherwise, so a manual sync on one PR
+  # can't cancel the nightly (or another PR's sync).
+  group: upstream-sync-${{ github.event.issue.number || github.event_name }}
   cancel-in-progress: true
 
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   sync:
+    # Always run on schedule / manual dispatch. For a comment, run only when a
+    # maintainer types `/sync` on a pull request (issue_comment fires on issues
+    # too, hence the pull_request check).
+    if: >-
+      github.event_name != 'issue_comment' ||
+      (github.event.issue.pull_request &&
+       contains(github.event.comment.body, '/sync') &&
+       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
     runs-on: ubuntu-latest
     steps:
-      # Full history so pushing the sync branch can't hit a shallow-update error.
+      # Immediate feedback in the PR that the command was picked up.
+      - name: Acknowledge command
+        if: github.event_name == 'issue_comment'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            "/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions" \
+            -f content=eyes
+
+      # Full history so pushing a branch can't hit a shallow-update error.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # For a `/sync` comment, switch to the PR's own branch so the regenerated
+      # commit lands on it. Fork branches can't be pushed with the base repo's
+      # token, so bail (fail the job) with an explanatory comment before any
+      # later step could commit against the wrong branch.
+      - name: Check out the PR branch
+        if: github.event_name == 'issue_comment'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          if [ "$(gh pr view "$PR" --json isCrossRepository --jq '.isCrossRepository')" = "true" ]; then
+            gh pr comment "$PR" --body "Can't \`/sync\` from here: this PR is from a fork and the sync can't push back to a fork branch. Run \`npm run vendor && npm run generate\` locally and push the result."
+            exit 1
+          fi
+          gh pr checkout "$PR"
 
       - uses: actions/setup-node@v4
         with:
@@ -61,29 +108,49 @@ jobs:
           FIREFOX_PATH=/tmp/firefox npm run vendor
           npm run generate
 
-      # Open (or update) a PR only if the vendored sources or generated output
-      # changed. Uses git + the runner's gh CLI rather than a third-party action:
-      # the Mozilla org allowlist blocks non-GitHub actions (e.g. peter-evans/
-      # create-pull-request).
-      - name: Open PR on change
+      # Commit the regenerated output when it changed. For a `/sync` comment,
+      # push straight back to the PR branch. For a scheduled / manual run,
+      # maintain the dedicated `chore/upstream-sync` review branch + PR. git +
+      # the gh CLI, not a third-party action (Mozilla org allowlist blocks them).
+      - name: Commit regenerated output
         env:
           GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR: ${{ github.event.issue.number }}
         run: |
           set -euo pipefail
           git add vendor/design-system vendor/icons src/generated
           if git diff --cached --quiet; then
             echo "No token/icon changes; nothing to sync."
+            if [ "$EVENT_NAME" = "issue_comment" ]; then
+              gh pr comment "$PR" --body "Already up to date with upstream — nothing to sync."
+            fi
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B chore/upstream-sync
           git commit -m "chore: sync design tokens and icons from Firefox"
+
+          if [ "$EVENT_NAME" = "issue_comment" ]; then
+            git push origin HEAD
+            gh pr comment "$PR" --body "Synced vendored tokens and icons from upstream and pushed a commit to this branch."
+            exit 0
+          fi
+
+          git branch -f chore/upstream-sync
           git push --force origin chore/upstream-sync
+          BODY=$(cat <<'EOF'
+          Automated nightly sync of the vendored Firefox tokens and icons, with regenerated output.
+
+          Review the diffs, check Storybook, and let tests run before merging.
+
+          To regenerate this branch against the latest upstream, a maintainer can comment `/sync` on this PR, or use **Run workflow** on the [Upstream sync action](${{ github.server_url }}/${{ github.repository }}/actions/workflows/upstream-sync.yml).
+          EOF
+          )
           if [ -z "$(gh pr list --head chore/upstream-sync --state open --json number --jq '.[].number')" ]; then
             gh pr create --head chore/upstream-sync \
               --title "chore: sync design tokens and icons from Firefox" \
-              --body "Automated nightly sync of the vendored Firefox tokens and icons, with regenerated output. Review the diffs, check Storybook, and let tests run before merging."
+              --body "$BODY"
           else
             echo "PR already open for chore/upstream-sync; pushed the update."
           fi
