@@ -1,7 +1,7 @@
 {
   "source": "firefox: toolkit/themes/shared/icons/*.svg",
   "repo": "github.com/mozilla-firefox/firefox",
-  "revision": "537539ad81a9b06e8e90b07d13a66003300d7f06",
-  "vendored": "2026-08-11",
+  "revision": "50691777d300fffc7d1f7844b59769109bc76f3e",
+  "vendored": "2026-08-12",
   "notes": "The chrome://global/skin/icons set. browser/themes/shared/icons is not included."
 }
