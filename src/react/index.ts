@@ -3,6 +3,7 @@ import * as React from 'react';
 import { MozBadge as MozBadgeElement } from '../components/moz-badge/moz-badge';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
+import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
@@ -29,6 +30,15 @@ export const MozCard = createComponent({
   react: React,
   events: {
     onToggle: 'moz-card:toggle',
+  },
+});
+
+export const MozDetails = createComponent({
+  tagName: 'moz-details',
+  elementClass: MozDetailsElement,
+  react: React,
+  events: {
+    onToggle: 'moz-details:toggle',
   },
 });
 

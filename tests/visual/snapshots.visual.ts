@@ -8,6 +8,7 @@ import '../../src/base.css';
 import '../../src/components/moz-badge/moz-badge';
 import '../../src/components/moz-button/moz-button';
 import '../../src/components/moz-card/moz-card';
+import '../../src/components/moz-details/moz-details';
 import '../../src/components/moz-icon/moz-icon';
 import '../../src/components/moz-message-bar/moz-message-bar';
 import '../../src/components/moz-provider/moz-provider';
@@ -227,5 +228,29 @@ test('card accordion', () =>
         Body revealed when expanded.
         <moz-button slot="actions" size="small">Action</moz-button>
       </moz-card>
+    </div>`,
+  ));
+
+test('details states', () =>
+  snapshot(
+    'details-states',
+    html`<div
+      style="display:flex;flex-direction:column;gap:12px;inline-size:360px;"
+    >
+      <moz-details heading="Collapsed">Hidden content.</moz-details>
+      <moz-details heading="Expanded" open
+        >Revealed content in the disclosure body.</moz-details
+      >
+    </div>`,
+  ));
+
+// High contrast (app-driven): borderless normally, gains a border here.
+test('details high-contrast', () =>
+  snapshotContrast(
+    'details-high-contrast',
+    html`<div style="inline-size:360px;">
+      <moz-details heading="High contrast" open
+        >Gains a visible border in high contrast.</moz-details
+      >
     </div>`,
   ));

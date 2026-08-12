@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  border-radius: var(--border-radius-medium);
+  color: var(--text-color);
+  text-align: start;
+}
+
+summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+  padding: var(--space-small) var(--space-medium);
+  font-weight: var(--font-weight-heading);
+  cursor: pointer;
+  user-select: none;
+  /* Drop the native disclosure marker; the chevron replaces it. */
+  list-style: none;
+  /* Chevron follows the summary text colour. */
+  --icon-color: currentColor;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary:focus-visible {
+  outline: var(--focus-outline, 2px solid var(--focus-outline-color));
+  outline-offset: var(--focus-outline-inset, -2px);
+  border-radius: var(--border-radius-medium);
+}
+
+.chevron {
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+:host([open]) .chevron {
+  transform: rotate(-180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+.content {
+  padding: 0 var(--space-medium) var(--space-medium);
+}
+
+/* Disabled: dim only the summary (dimming revealed content would fail
+ * contrast) and block interaction (summary has no native disabled state). */
+:host([disabled]) summary {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* No border/background normally; add a visible border only in high contrast. */
+@media (forced-colors: active) {
+  :host {
+    border: var(--border-width) solid CanvasText;
+  }
+}
+:host([data-contrast="high"]) {
+  border: var(--border-width) solid var(--border-color);
+}
