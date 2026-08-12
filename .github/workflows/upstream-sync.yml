@@ -3,8 +3,8 @@
 # regenerate, and open a PR to review. Drift is handled here (and via
 # `npm run vendor` on demand), NOT in the standard CI pipeline.
 #
-# Authored but not yet executed (repo not on GitHub); assumes the default
-# branch is `main` and may need a first-run tweak.
+# The PR is opened with git + the gh CLI rather than a third-party action, since
+# the Mozilla org restricts workflows to GitHub-owned / allowlisted actions.
 
 name: Upstream sync
 
@@ -25,7 +25,10 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # Full history so pushing the sync branch can't hit a shallow-update error.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -53,22 +56,32 @@ jobs:
           FIREFOX_PATH=/tmp/firefox npm run vendor
           npm run generate
 
-      # Opens a PR only if the vendored sources or generated output changed, so
-      # a human can review the token/icon diffs and let Storybook/tests run.
+      # Open (or update) a PR only if the vendored sources or generated output
+      # changed. Uses git + the runner's gh CLI rather than a third-party action:
+      # the Mozilla org allowlist blocks non-GitHub actions (e.g. peter-evans/
+      # create-pull-request).
       - name: Open PR on change
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: chore/upstream-sync
-          add-paths: |
-            vendor/design-system
-            vendor/icons
-            src/generated
-          commit-message: 'chore: sync design tokens and icons from Firefox'
-          title: 'chore: sync design tokens and icons from Firefox'
-          body: |
-            Automated nightly sync of the vendored Firefox tokens and icons, with regenerated output.
-
-            Review the token/icon diffs, check Storybook, and let tests run before merging.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git add vendor/design-system vendor/icons src/generated
+          if git diff --cached --quiet; then
+            echo "No token/icon changes; nothing to sync."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B chore/upstream-sync
+          git commit -m "chore: sync design tokens and icons from Firefox"
+          git push --force origin chore/upstream-sync
+          if [ -z "$(gh pr list --head chore/upstream-sync --state open --json number --jq '.[].number')" ]; then
+            gh pr create --head chore/upstream-sync \
+              --title "chore: sync design tokens and icons from Firefox" \
+              --body "Automated nightly sync of the vendored Firefox tokens and icons, with regenerated output. Review the diffs, check Storybook, and let tests run before merging."
+          else
+            echo "PR already open for chore/upstream-sync; pushed the update."
+          fi
 
       # TODO: detecting drift in Firefox's hand-authored moz-* COMPONENT source
       # (for parity with our components) is a separate, notify-only concern that
