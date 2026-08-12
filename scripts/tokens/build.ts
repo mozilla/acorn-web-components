@@ -439,16 +439,35 @@ function selectorBlock(
   return `${indent}${selector} {\n${lines.join('\n')}\n${indent}}\n`;
 }
 
+// CSS system colours (Canvas/CanvasText) are authoritative only under OS
+// forced-colors. For the app-driven [data-contrast='high'] toggle we want the
+// maximum-contrast true black/white per the active color-scheme, so remap the
+// canvas/text system colours to concrete light-dark() literals.
+// Applied only to the user selector block.
+const CONTRAST_SYSTEM_COLOR_BW: Record<string, string> = {
+  Canvas: 'light-dark(#fff, #000)',
+  CanvasText: 'light-dark(#000, #fff)',
+};
+const toTrueBlackWhite = (lines: string[]): string[] =>
+  lines.map((line) =>
+    line.replace(/: ([A-Za-z]+);$/, (whole, kw: string) =>
+      CONTRAST_SYSTEM_COLOR_BW[kw]
+        ? `: ${CONTRAST_SYSTEM_COLOR_BW[kw]};`
+        : whole,
+    ),
+  );
+
 // Foundation (:root) a11y layers, appended inside @layer acorn.tokens:
 // OS-driven @media (prefers-contrast + forced-colors), plus an app-driven
 // [data-contrast='high'] block that <moz-provider> activates. The app trigger
 // uses prefers-contrast only; forced-colors stays @media-only because its
-// system colours are meant to be OS-controlled, not forced from an app.
+// system colours are meant to be OS-controlled, not forced from an app. The app
+// block's canvas/text system colours become true black/white (see above).
 const fContrast = overrideLines('contrast', isFoundationNs, defined, '      ');
 const fForced = overrideLines('forced', isFoundationNs, defined, '      ');
 const foundationInject =
   mediaBlocks(':root', '  ', fContrast, fForced) +
-  selectorBlock("[data-contrast='high']", '  ', fContrast);
+  selectorBlock("[data-contrast='high']", '  ', toTrueBlackWhite(fContrast));
 if (foundationInject) {
   writeFileSync(cssFile, css.replace(/\n\}\s*$/, `\n${foundationInject}}\n`));
 }
@@ -468,7 +487,11 @@ for (const ns of COMPONENT_NS) {
   const cForced = overrideLines('forced', only, componentDefined, '    ');
   const blocks =
     mediaBlocks(':host', '', cContrast, cForced) +
-    selectorBlock(":host([data-contrast='high'])", '', cContrast);
+    selectorBlock(
+      ":host([data-contrast='high'])",
+      '',
+      toTrueBlackWhite(cContrast),
+    );
   if (blocks) {
     src = `${src.trimEnd()}\n${blocks}`;
     componentsWithA11y++;
