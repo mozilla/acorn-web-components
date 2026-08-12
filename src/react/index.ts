@@ -1,6 +1,7 @@
 import { createComponent } from '@lit/react';
 import * as React from 'react';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
+import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
@@ -12,6 +13,12 @@ import { MozProvider as MozProviderElement } from '../components/moz-provider/mo
 export const MozButton = createComponent({
   tagName: 'moz-button',
   elementClass: MozButtonElement,
+  react: React,
+});
+
+export const MozCard = createComponent({
+  tagName: 'moz-card',
+  elementClass: MozCardElement,
   react: React,
 });
 

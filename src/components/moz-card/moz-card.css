@@ -1,0 +1,58 @@
+:host {
+  color: inherit;
+  text-align: start;
+}
+:host(:not([hidden])) {
+  display: block;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: var(--card-padding);
+  border: var(--card-border);
+  border-radius: var(--card-border-radius);
+  background-color: var(--card-background-color);
+  box-shadow: var(--card-box-shadow);
+  overflow-wrap: anywhere;
+}
+
+/* Compact spacing swaps in the reduced token scale. */
+:host([spacing="compact"]) {
+  --card-border-radius: var(--card-border-radius-compact);
+  --card-padding: var(--card-padding-compact);
+  --card-gap: var(--card-gap-compact);
+  --card-font-size: var(--card-font-size-compact);
+}
+
+.heading {
+  font-size: var(--card-font-size);
+  font-weight: var(--font-weight-heading);
+}
+
+.content {
+  font-size: var(--card-font-size);
+}
+
+/* Cover image fills the content width with its own rounded corners. */
+.media ::slotted(*) {
+  display: block;
+  max-inline-size: 100%;
+}
+.media ::slotted(img),
+.media ::slotted(picture),
+.media ::slotted(video) {
+  inline-size: 100%;
+  block-size: var(--card-cover-image-height-default);
+  object-fit: var(--card-cover-image-object-fit-default);
+  object-position: var(--card-cover-image-object-position-default);
+  border-radius: var(--card-cover-image-border-radius);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-small);
+}

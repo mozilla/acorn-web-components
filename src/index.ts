@@ -1,5 +1,6 @@
 export * from './base/moz-lit-element';
 export * from './components/moz-button/moz-button';
+export * from './components/moz-card/moz-card';
 export * from './components/moz-icon/moz-icon';
 export * from './components/moz-message-bar/moz-message-bar';
 export * from './components/moz-provider/moz-provider';
