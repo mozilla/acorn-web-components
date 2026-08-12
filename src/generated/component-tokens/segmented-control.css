@@ -1,0 +1,7 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --segmented-control-border-color: var(--border-color-interactive);
+  --segmented-control-border: var(--border-width) solid var(--segmented-control-border-color);
+  --segmented-control-border-radius: calc(24px + var(--focus-outline-width) + var(--focus-outline-offset) + var(--border-width));
+  --segmented-control-padding: var(--space-xsmall);
+}

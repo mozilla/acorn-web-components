@@ -10,10 +10,25 @@ import {
 } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-// Widgets whose design tokens live beside the widget (toolkit/content/widgets/
-// moz-<name>/) rather than in the design-system token tree. We vendor those for
-// the components we ship. Keep in sync with src/components/.
-const WIDGET_TOKEN_COMPONENTS = ['message-bar'];
+// Widgets whose design tokens live beside the widget (toolkit/content/widgets/)
+// rather than in the design-system token tree. We vendor these for the
+// components we ship. An entry is the bare component name (standard layout:
+// moz-<name>/moz-<name>.tokens.json), or { name, dir } when the source path
+// doesn't follow that convention — `dir` is relative to the widgets root, and
+// '.' means the token file sits directly in it. Keep in sync with
+// src/components/.
+type WidgetTokenComponent = string | { name: string; dir: string };
+
+const WIDGET_TOKEN_COMPONENTS: WidgetTokenComponent[] = [
+  'message-bar',
+  'badge',
+  'page-nav',
+  'segmented-control',
+  // moz-breadcrumb ships under the moz-breadcrumb-group widget dir.
+  { name: 'breadcrumb', dir: 'moz-breadcrumb-group' },
+  // moz-box's tokens sit directly in the widgets root, not a moz-box/ subdir.
+  { name: 'box', dir: '.' },
+];
 
 // Refresh the vendored Firefox token JSON + icon SVGs from a local Firefox
 // checkout: github.com/mozilla-firefox/firefox (the source we reference). Point
@@ -66,21 +81,27 @@ for (const sub of ['base', 'components']) {
 // namespace matches the tokens' own `{message-bar.*}` self-references.
 const widgetsSrc = join(FIREFOX, 'toolkit/content/widgets');
 const componentsDest = join(TOKENS_DEST, 'components');
-for (const name of WIDGET_TOKEN_COMPONENTS) {
+for (const entry of WIDGET_TOKEN_COMPONENTS) {
+  const name = typeof entry === 'string' ? entry : entry.name;
+  const srcDir = join(
+    widgetsSrc,
+    typeof entry === 'string' ? `moz-${name}` : entry.dir,
+  );
+
   // The base tokens file is required. Fail loud rather than silently skip:
-  // a missing source (e.g. a CI checkout that didn't fetch this widget dir)
+  // a missing source (e.g. a CI checkout that didn't fetch the widgets tree)
   // would otherwise wipe the previously vendored tokens.
-  const base = join(widgetsSrc, `moz-${name}`, `moz-${name}.tokens.json`);
+  const base = join(srcDir, `moz-${name}.tokens.json`);
   if (!existsSync(base)) {
     throw new Error(
       `Widget token source not found: ${base}\n` +
         `'${name}' is listed in WIDGET_TOKEN_COMPONENTS. In CI, ensure the ` +
-        `sparse-checkout includes toolkit/content/widgets/moz-${name}.`,
+        `sparse-checkout includes toolkit/content/widgets.`,
     );
   }
   copyFileSync(base, join(componentsDest, `${name}.tokens.json`));
 
-  const nova = join(widgetsSrc, `moz-${name}`, `moz-${name}.nova.tokens.json`);
+  const nova = join(srcDir, `moz-${name}.nova.tokens.json`);
   if (existsSync(nova)) {
     copyFileSync(nova, join(componentsDest, `${name}.nova.tokens.json`));
   }

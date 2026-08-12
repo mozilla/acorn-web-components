@@ -1,0 +1,20 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --box-border-width: var(--border-width);
+  --box-border-radius: var(--border-radius-medium);
+  --box-border-color: var(--border-color);
+  --box-border: var(--box-border-width) solid var(--box-border-color);
+  --box-border-radius-inner: calc(var(--box-border-radius) - var(--box-border-width));
+  --box-padding: var(--space-large);
+  --box-button-background-color: transparent;
+  --box-icon-size: var(--icon-size);
+  --box-icon-fill: var(--icon-color);
+  --box-button-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --box-button-background-color-active: light-dark(#b6aad9, #9687c0);
+  --box-button-background-color-disabled: transparent;
+  --box-button-text-color: light-dark(#161423, #fcfbff);
+  --box-icon-stroke: var(--box-icon-fill);
+  --box-button-text-color-hover: light-dark(light-dark(#161423, #fcfbff), light-dark(#161423, #fcfbff));
+  --box-button-text-color-active: light-dark(light-dark(#161423, #fcfbff), light-dark(#161423, #fcfbff));
+  --box-button-text-color-disabled: light-dark(light-dark(#161423, #fcfbff), light-dark(#161423, #fcfbff));
+}

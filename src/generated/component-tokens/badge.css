@@ -1,0 +1,23 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --badge-background-color: transparent;
+  --badge-border-color: light-dark(rgba(21, 20, 26, 0.4), rgba(251, 251, 254, 0.4));
+  --badge-border-color-filled: light-dark(rgba(251, 251, 254, 0.4), rgba(21, 20, 26, 0.4));
+  --badge-border-width: 1px;
+  --badge-padding-block: 1px;
+  --badge-background-color-filled: light-dark(var(--color-green-50), var(--color-green-20));
+  --badge-border-radius: var(--border-radius-circle);
+  --badge-font-weight: var(--font-weight-semibold);
+  --badge-padding-inline: var(--space-xsmall);
+  --badge-padding-nova-inline: calc(var(--space-xsmall) + var(--space-xxsmall));
+  --badge-text-color: var(--text-color);
+  --badge-text-color-filled: light-dark(#ffffff, #252428);
+}
+@media (forced-colors: active) {
+  :host {
+    --badge-background-color-filled: AccentColor;
+    --badge-background-color: Canvas;
+    --badge-border-color-filled: CanvasText;
+    --badge-border-color: CanvasText;
+  }
+}

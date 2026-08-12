@@ -22,6 +22,9 @@ test-results/
 .DS_Store
 .vite/
 
+# Claude Code agent worktrees (transient; each is a full checkout)
+.claude/worktrees/
+
 # Created by https://www.toptal.com/developers/gitignore/api/node,macos,windows,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,windows,linux
 

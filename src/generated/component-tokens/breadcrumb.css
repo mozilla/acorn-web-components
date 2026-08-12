@@ -1,0 +1,9 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --breadcrumb-gap: var(--space-small);
+  --breadcrumb-icon-size: var(--icon-size-xsmall);
+  --breadcrumb-link-color: light-dark(#764edd, #b89cff);
+  --breadcrumb-link-color-hover: light-dark(#5939a8, #d4c1ff);
+  --breadcrumb-link-color-active: light-dark(#3e2976, #eaddff);
+  --breadcrumb-link-color-visited: light-dark(#764edd, #b89cff);
+}
