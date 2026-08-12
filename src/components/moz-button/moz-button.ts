@@ -1,7 +1,7 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { MozLitElement } from '../../base/moz-lit-element.js';
-import buttonTokens from '../../generated/component-tokens/button.js';
+import buttonTokens from '../../generated/component-tokens/button.css';
 import '../moz-icon/moz-icon.js';
 import type { IconName } from '../../generated/icons.js';
 import styles from './moz-button.css';
@@ -38,6 +38,12 @@ export class MozButton extends MozLitElement {
 
   /** Disables the button. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /**
+   * Icon-only: a compact square (`--button-size-icon` scale). Provide the icon
+   * via `icon-start` and a visually-hidden slotted label for the accessible name.
+   */
+  @property({ type: Boolean, reflect: true }) icon = false;
 
   /** Native button type. */
   @property() type: 'button' | 'submit' | 'reset' = 'button';

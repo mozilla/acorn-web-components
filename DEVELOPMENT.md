@@ -74,7 +74,7 @@ Output:
 
 - `tokens.css`: the foundation tokens on `:root` (primitives, semantic tokens, and the broadly used icon and opacity scales), with `@media (prefers-contrast)` and `@media (forced-colors)` layers plus an app-driven `[data-contrast='high']` layer (prefers-contrast only; see below).
 - `tokens.ts`: a typed token map and `TokenName`.
-- `component-tokens/<name>.ts`: each component's `--<name>-*` tokens as a Lit `CSSResult` scoped to `:host`, including that component's own accessibility layers.
+- `component-tokens/<name>.css`: each component's `--<name>-*` tokens scoped to `:host` (including its own accessibility layers). The component imports it as a `CSSResult` via vite-plugin-lit-css, same as its `<name>.css`.
 - `icon-options.ts`: the `IconSize` and `IconColor` scales, kept in sync with the tokens so `moz-icon`'s props cannot drift.
 
 ### Icons (`scripts/icons/build.ts`)
@@ -112,7 +112,9 @@ A plain run exercises Chromium and Firefox. Coverage uses the v8 provider, which
 
 ### Visual snapshots
 
-Some tests also assert a pixel snapshot via Vitest's `toMatchScreenshot`, gated behind a `VISUAL` flag so normal runs skip them and stay platform-independent. Pixel output depends on the browser build and fonts, so baselines are authoritative on one environment: the pinned Playwright Linux container. They are committed under `tests/visual/<component>/` as `<name>-chromium-linux.png` and compared by the `visual` CI job, which runs in that same container.
+Visual regression is a separate run from the Storybook tests, defined in `vitest.visual.config.ts` with its specs in `tests/visual/`. It lives apart because Vitest anchors screenshot baselines to the test file's own directory; keeping the specs in `tests/visual/` is what puts the baselines there (`tests/visual/__screenshots__/`) instead of scattered beside each story under `src/`. The specs re-render the component matrices (they don't duplicate story logic beyond the markup) and assert with `toMatchScreenshot`.
+
+Pixel output depends on the browser build and fonts, so baselines are authoritative on one environment: the pinned Playwright Linux container. Only the `-chromium-linux` baselines are committed (local `-darwin` / `-win32` ones are git-ignored), and the `visual` CI job compares against them in that same container.
 
 To add or refresh baselines, regenerate them in the container so they match CI, then review and commit the PNGs:
 

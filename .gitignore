@@ -9,9 +9,12 @@ storybook-static/
 coverage/
 playwright-report/
 test-results/
-# visual snapshot failure output (the -reference baselines ARE committed)
+# visual snapshots: only the Linux baselines are authoritative and committed;
+# ignore the transient mismatch output and any local-OS baselines.
 *-actual.png
 *-diff.png
+*-darwin.png
+*-win32.png
 .vitest-attachments/
 
 # misc

@@ -5,7 +5,6 @@ import { expect } from 'storybook/test';
 import './moz-button.js';
 import '../moz-provider/moz-provider.js';
 import { type IconName, iconNames } from '../../generated/icons.js';
-import { matchScreenshot } from '../../test-support/visual.js';
 import type { ButtonSize, ButtonVariant } from './moz-button.js';
 
 interface ButtonArgs {
@@ -77,6 +76,17 @@ export const Ghost: Story = { args: { variant: 'ghost', label: 'Cancel' } };
 export const Muted: Story = { args: { variant: 'muted', label: 'Quiet' } };
 export const WithIcon: Story = {
   args: { variant: 'primary', label: 'Edit', iconStart: 'edit' },
+};
+
+// Icon-only; the accessible name comes from visually-hidden slotted text.
+export const Icon: Story = {
+  render: () => html`
+    <moz-button icon variant="ghost" icon-start="close">
+      <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);"
+        >Close</span
+      >
+    </moz-button>
+  `,
 };
 
 export const InForm: Story = {
@@ -151,9 +161,6 @@ export const Variants: Story = {
       ${variants.map((v) => html`<moz-button variant=${v}>${v}</moz-button>`)}
     </div>
   `,
-  play: async ({ canvasElement }) => {
-    await matchScreenshot(canvasElement, 'variants');
-  },
 };
 
 export const Sizes: Story = {
@@ -162,7 +169,4 @@ export const Sizes: Story = {
       ${sizes.map((s) => html`<moz-button size=${s}>${s}</moz-button>`)}
     </div>
   `,
-  play: async ({ canvasElement }) => {
-    await matchScreenshot(canvasElement, 'sizes');
-  },
 };

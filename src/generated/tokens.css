@@ -252,13 +252,10 @@
   --color-accent-primary: light-dark(var(--color-violet-50), var(--color-violet-30));
   --color-accent-primary-hover: light-dark(var(--color-violet-60), var(--color-violet-20));
   --color-accent-primary-active: light-dark(var(--color-violet-70), var(--color-violet-10));
-  --color-accent-primary-selected: light-dark(var(--color-blue-60), var(--color-cyan-30));
   --color-accent-attention: light-dark(var(--color-green-40), var(--color-green-30));
-  --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
   --focus-outline-inset: calc(-1 * var(--focus-outline-width));
   --font-size-heading-xlarge: var(--font-size-xxlarge);
   --font-size-heading-large: var(--font-size-xlarge);
-  --font-size-heading-medium: var(--font-size-large);
   --font-weight-heading: var(--font-weight-semibold);
   --size-image-xsmall: var(--dimension-40);
   --size-image-small: var(--dimension-48);
@@ -266,6 +263,9 @@
   --size-image-large: var(--dimension-64);
   --size-image-xlarge: var(--dimension-80);
   --size-image-xxlarge: var(--dimension-96);
+  --focus-outline-color: var(--color-accent-primary);
+  --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  --font-size-heading-medium: var(--font-size-large);
   --size-layout-xsmall: var(--dimension-100);
   --size-layout-small: var(--dimension-200);
   --size-layout-medium: var(--dimension-300);
@@ -293,10 +293,10 @@
   --icon-size-xxlarge: var(--size-item-xlarge);
   --background-color-list-item-hover: color-mix(in srgb, var(--color-accent-primary) 20%, transparent);
   --border-color-selected: var(--color-accent-primary);
-  --focus-outline-color: var(--color-accent-primary);
   --text-color-list-item-hover: var(--text-color);
   --icon-color: var(--text-color);
   --icon-size: var(--icon-size-small);
+  --color-accent-primary-selected: var(--button-background-color-primary-active);
   }
   @media (prefers-contrast: more) {
     :root {

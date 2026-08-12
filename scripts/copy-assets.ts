@@ -1,11 +1,12 @@
 import {
   copyFileSync,
+  existsSync,
   mkdirSync,
   readdirSync,
-  readFileSync,
+  rmSync,
   writeFileSync,
 } from 'node:fs';
-import { basename, dirname, join } from 'node:path';
+import { dirname, join } from 'node:path';
 
 // Copy the CSS the JS graph doesn't import (loaded as global stylesheets) into
 // dist so the ./tokens.css and ./base.css package exports resolve.
@@ -28,22 +29,27 @@ writeFileSync(
 );
 console.log('wrote dist/foundation.css');
 
-// Emit each component's token layer as raw CSS at dist/tokens/<name>.css,
-// extracted from the generated Lit CSSResult modules. Components bundle their
-// own tokens, so this is not the recommended consumption path, but the raw
-// :host token layer is useful for some consumers.
+// Each component's token layer as raw CSS at dist/tokens/<name>.css. Components
+// bundle their own tokens, so this is a convenience, not the primary path.
 const componentTokensDir = 'src/generated/component-tokens';
 mkdirSync('dist/tokens', { recursive: true });
 for (const file of readdirSync(componentTokensDir).filter((f) =>
-  f.endsWith('.ts'),
+  f.endsWith('.css'),
 )) {
-  const contents = readFileSync(join(componentTokensDir, file), 'utf8');
-  const cssBody = contents.match(/css`([\s\S]*)`;/)?.[1]?.trim();
-  if (!cssBody) continue;
-  const name = basename(file, '.ts');
-  writeFileSync(
-    `dist/tokens/${name}.css`,
-    `/* ${name} component tokens. Generated from a vendored Firefox source. */\n${cssBody}\n`,
-  );
+  copyFileSync(join(componentTokensDir, file), `dist/tokens/${file}`);
 }
 console.log('wrote dist/tokens/<component>.css');
+
+// Drop the per-icon .d.ts (+ maps). Each icon module is an internal SVG-string
+// chunk; the public types live in icons.d.ts. The lazy-imported .js are kept.
+const iconsDist = 'dist/generated/icons';
+if (existsSync(iconsDist)) {
+  let pruned = 0;
+  for (const f of readdirSync(iconsDist)) {
+    if (f.endsWith('.d.ts') || f.endsWith('.d.ts.map')) {
+      rmSync(join(iconsDist, f));
+      pruned++;
+    }
+  }
+  console.log(`pruned ${pruned} icon declaration files`);
+}

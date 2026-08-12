@@ -197,7 +197,7 @@ export const tokens = {
   '--color-accent-primary': "light-dark(#764edd, #b89cff)",
   '--color-accent-primary-hover': "light-dark(#5939a8, #d4c1ff)",
   '--color-accent-primary-active': "light-dark(#3e2976, #eaddff)",
-  '--color-accent-primary-selected': "light-dark(#3246b0, #4cc4e1)",
+  '--color-accent-primary-selected': "light-dark(#3e2976, #eaddff)",
   '--color-accent-attention': "light-dark(#11ae84, #4acca6)",
   '--dimension-2': "2px",
   '--dimension-4': "4px",

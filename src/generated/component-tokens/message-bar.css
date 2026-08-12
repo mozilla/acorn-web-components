@@ -1,0 +1,47 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --message-bar-container-padding-inline: 8px;
+  --message-bar-icon-container-border-color: transparent;
+  --message-bar-icon-container-margin-block-start: 0;
+  --message-bar-text-container-padding-block: 0;
+  --message-bar-border-radius: var(--border-radius-medium);
+  --message-bar-border-width: var(--border-width);
+  --message-bar-container-min-height: var(--size-item-large);
+  --message-bar-icon-container-border: 1px solid var(--message-bar-icon-container-border-color);
+  --message-bar-icon-container-border-radius: var(--border-radius-circle);
+  --message-bar-actions-button-padding: var(--space-xsmall) var(--space-large);
+  --message-bar-actions-gap: var(--space-small);
+  --message-bar-background-color: var(--background-color-box);
+  --message-bar-container-gap: var(--space-small);
+  --message-bar-container-padding-block: var(--space-small);
+  --message-bar-content-gap: var(--space-small) var(--space-medium);
+  --message-bar-icon-background-color: var(--background-color-information);
+  --message-bar-icon-background-color-warning: var(--background-color-warning);
+  --message-bar-icon-background-color-success: var(--background-color-success);
+  --message-bar-icon-background-color-critical: var(--background-color-critical);
+  --message-bar-icon-color: var(--icon-color-information);
+  --message-bar-icon-container-padding: calc(var(--space-small) - 1px);
+  --message-bar-message-margin-inline-end: var(--space-xsmall);
+  --message-bar-text-color: var(--text-color);
+  --message-bar-text-container-gap: var(--space-xsmall) var(--space-small);
+  --message-bar-text-content-gap: var(--space-xsmall) var(--space-small);
+  --message-bar-background-color-warning: var(--message-bar-background-color);
+  --message-bar-background-color-success: var(--message-bar-background-color);
+  --message-bar-background-color-critical: var(--message-bar-background-color);
+  --message-bar-border-color: oklch(from var(--message-bar-icon-color) l c h / 20%);
+  --message-bar-icon-size: var(--icon-size);
+  --message-bar-icon-container-height: var(--message-bar-icon-size);
+}
+@media (prefers-contrast: more) {
+  :host {
+    --message-bar-border-color: var(--border-color);
+  }
+}
+@media (forced-colors: active) {
+  :host {
+    --message-bar-icon-container-border-color: var(--message-bar-icon-color);
+  }
+}
+:host([data-contrast='high']) {
+    --message-bar-border-color: var(--border-color);
+}

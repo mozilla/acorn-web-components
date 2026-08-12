@@ -1,0 +1,116 @@
+:host {
+  background-color: var(--message-bar-background-color);
+  border: var(--message-bar-border-width) solid var(--message-bar-border-color);
+  border-radius: var(--message-bar-border-radius);
+  color: var(--message-bar-text-color);
+  text-align: start;
+}
+:host(:not([hidden])) {
+  display: block;
+}
+
+.container {
+  display: flex;
+  gap: var(--message-bar-container-gap);
+  /* Reserve the full interactive row so dismissable/non-dismissable bars match
+   * height (border-box eats the min-height, so add the block padding back). */
+  min-height: calc(
+    var(--message-bar-container-min-height) +
+    2 *
+    var(--message-bar-container-padding-block)
+  );
+  padding-inline: var(--message-bar-container-padding-inline);
+  padding-block: var(--message-bar-container-padding-block);
+  /* Icon rail fills the height; content/close opt out below. */
+  align-items: stretch;
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--message-bar-content-gap);
+}
+
+.text-content {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--message-bar-text-content-gap);
+  word-break: break-word;
+}
+
+/* Full-height 40px colored rail (Nova experimental, not the shipped circle):
+ * negative margins cancel the container padding; leading corners rounded. */
+.icon-container {
+  flex-shrink: 0;
+  inline-size: 40px;
+  align-self: stretch;
+  margin-block: calc(-1 * var(--message-bar-container-padding-block));
+  margin-inline-start: calc(-1 * var(--message-bar-container-padding-inline));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: var(--message-bar-icon-container-border);
+  border-start-start-radius: var(--message-bar-border-radius);
+  border-end-start-radius: var(--message-bar-border-radius);
+  background-color: var(--message-bar-icon-background-color);
+  padding: var(--message-bar-icon-container-padding);
+  color: var(--message-bar-icon-color);
+}
+
+/* Content centred; close pinned to the top. */
+.content {
+  align-self: center;
+}
+.close {
+  align-self: flex-start;
+}
+
+.icon {
+  --icon-size: var(--message-bar-icon-size);
+  flex-shrink: 0;
+}
+
+.heading {
+  font-weight: var(--font-weight-heading);
+}
+
+.link {
+  display: inline-block;
+}
+.link ::slotted(a) {
+  margin-inline-end: var(--message-bar-message-margin-inline-end);
+}
+
+.actions {
+  display: inline-flex;
+  gap: var(--message-bar-actions-gap);
+}
+
+/* Type colours drop under high contrast (a plain border wins). */
+@media not (prefers-contrast) {
+  :host([type="warning"]) {
+    background-color: var(--message-bar-background-color-warning);
+    --message-bar-icon-background-color: var(
+      --message-bar-icon-background-color-warning
+    );
+    --message-bar-icon-color: var(--icon-color-warning);
+  }
+  :host([type="success"]) {
+    background-color: var(--message-bar-background-color-success);
+    --message-bar-icon-background-color: var(
+      --message-bar-icon-background-color-success
+    );
+    --message-bar-icon-color: var(--icon-color-success);
+  }
+  :host([type="error"]),
+  :host([type="critical"]) {
+    background-color: var(--message-bar-background-color-critical);
+    --message-bar-icon-background-color: var(
+      --message-bar-icon-background-color-critical
+    );
+    --message-bar-icon-color: var(--icon-color-critical);
+  }
+}

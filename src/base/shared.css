@@ -1,0 +1,26 @@
+/*
+ * Minimal primitives shared into a component's shadow root (document defaults in
+ * base.css don't pierce shadow DOM). Kept small; component-specific rules live
+ * in each <name>.css.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  /* biome-ignore lint/complexity/noImportantStyles: [hidden] must win over a
+     component's own display rules, so the override is intentional. */
+  display: none !important;
+}
+
+/* Hidden visually but exposed to assistive tech, e.g. an icon button's name. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

@@ -1,6 +1,7 @@
 export * from './base/moz-lit-element.js';
 export * from './components/moz-button/moz-button.js';
 export * from './components/moz-icon/moz-icon.js';
+export * from './components/moz-message-bar/moz-message-bar.js';
 export * from './components/moz-provider/moz-provider.js';
 export * from './context/contrast-context.js';
 export * from './context/locale-context.js';

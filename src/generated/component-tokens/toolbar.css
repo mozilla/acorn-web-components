@@ -1,0 +1,31 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --toolbar-padding-inline: 6px;
+  --toolbar-field-border-color: light-dark(var(--color-gray-20), var(--color-gray-60));
+  --toolbar-field-text-color: light-dark(var(--color-violet-desaturated-70), var(--color-violet-desaturated-10));
+  --toolbar-text-color: light-dark(var(--color-gray-100), var(--color-gray-0));
+  --toolbar-field-background-color-focus: var(--background-color-box);
+  --toolbar-field-text-color-focus: var(--toolbar-field-text-color);
+  --toolbar-background-color: var(--background-color-box);
+  --toolbar-field-border-color-focus: var(--focus-outline-color);
+  --toolbar-field-background-color: var(--toolbar-background-color);
+}
+@media (prefers-contrast: more) {
+  :host {
+    --toolbar-field-background-color: Field;
+    --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
+    --toolbar-field-text-color: FieldText;
+  }
+}
+@media (forced-colors: active) {
+  :host {
+    --toolbar-background-color: Canvas;
+    --toolbar-field-border-color: ButtonText;
+    --toolbar-field-text-color: var(--text-color);
+  }
+}
+:host([data-contrast='high']) {
+    --toolbar-field-background-color: Field;
+    --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
+    --toolbar-field-text-color: FieldText;
+}

@@ -2,12 +2,18 @@ import { execSync } from 'node:child_process';
 import {
   copyFileSync,
   cpSync,
+  existsSync,
   mkdirSync,
   readdirSync,
   rmSync,
   writeFileSync,
 } from 'node:fs';
 import { join, resolve } from 'node:path';
+
+// Widgets whose design tokens live beside the widget (toolkit/content/widgets/
+// moz-<name>/) rather than in the design-system token tree. We vendor those for
+// the components we ship. Keep in sync with src/components/.
+const WIDGET_TOKEN_COMPONENTS = ['message-bar'];
 
 // Refresh the vendored Firefox token JSON + icon SVGs from a local Firefox
 // checkout: github.com/mozilla-firefox/firefox (the source we reference). Point
@@ -54,6 +60,25 @@ for (const sub of ['base', 'components']) {
   rmSync(dest, { recursive: true, force: true });
   cpSync(join(TOKENS_SRC, sub), dest, { recursive: true });
 }
+
+// Widget-colocated tokens: copy into components/ under the bare widget name
+// (moz-message-bar.tokens.json -> message-bar.tokens.json) so the token build's
+// namespace matches the tokens' own `{message-bar.*}` self-references.
+const widgetsSrc = join(FIREFOX, 'toolkit/content/widgets');
+const componentsDest = join(TOKENS_DEST, 'components');
+for (const name of WIDGET_TOKEN_COMPONENTS) {
+  for (const variant of ['', '.nova']) {
+    const from = join(
+      widgetsSrc,
+      `moz-${name}`,
+      `moz-${name}${variant}.tokens.json`,
+    );
+    if (existsSync(from)) {
+      copyFileSync(from, join(componentsDest, `${name}${variant}.tokens.json`));
+    }
+  }
+}
+
 writeVendorJson(
   TOKENS_DEST,
   'firefox: toolkit/themes/shared/design-system/src/tokens',

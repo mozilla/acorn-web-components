@@ -1,0 +1,4 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --toolbarseparator-color: var(--text-color-deemphasized);
+}

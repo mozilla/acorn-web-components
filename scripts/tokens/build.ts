@@ -7,6 +7,7 @@ import {
 } from 'node:fs';
 import { basename, join } from 'node:path';
 import StyleDictionary from 'style-dictionary';
+import type { DesignTokens } from 'style-dictionary/types';
 import { formattedVariables } from 'style-dictionary/utils';
 
 // Compile the vendored Firefox Nova token JSON into web-ready artifacts, tiered
@@ -155,22 +156,59 @@ function walk(node: Node, path: string[] = []): void {
   }
 }
 
-StyleDictionary.registerParser({
-  name: 'nova-namespace',
-  pattern: /\.tokens\.json$/,
-  parser: ({ filePath, contents }) => {
-    const ns = basename(filePath ?? '').replace(/(\.nova)?\.tokens\.json$/, '');
-    return { [ns]: JSON.parse(contents ?? '{}') };
-  },
-});
+// Primary surfaces select the base web value; a11y surfaces (prefersContrast,
+// forcedColors) are captured separately for the high-contrast layers.
+const PRIMARY_SURFACES = new Set([
+  'light',
+  'dark',
+  'default',
+  '@base',
+  'brand',
+  'platform',
+  'nativeTheme',
+]);
 
-StyleDictionary.registerPreprocessor({
-  name: 'nova-surfaces',
-  preprocessor: (dictionary) => {
-    walk(dictionary as Node);
-    return dictionary;
-  },
-});
+// Merge a Nova overlay's value onto the base value: if the overlay sets any
+// primary surface, its primary surfaces REPLACE the base's (so base light/dark
+// don't bleed through an overlay that sets only `default`); a11y surfaces are
+// unioned, overlay-wins, so base overrides survive. Scalars replace.
+function mergeValue(base: unknown, over: unknown): unknown {
+  const isObj = (x: unknown): x is Node =>
+    !!x && typeof x === 'object' && !Array.isArray(x);
+  if (!isObj(base) || !isObj(over)) return over;
+  const overHasPrimary = Object.keys(over).some((k) => PRIMARY_SURFACES.has(k));
+  const out: Node = {};
+  for (const [k, v] of Object.entries(base)) {
+    if (overHasPrimary && PRIMARY_SURFACES.has(k)) continue; // overlay replaces
+    out[k] = v;
+  }
+  for (const [k, v] of Object.entries(over)) out[k] = v;
+  return out;
+}
+
+// Deep-merge the token tree, but merge each `value` via mergeValue so Style
+// Dictionary's plain deep-merge doesn't leave stale base surfaces behind.
+function mergeTokens(base: Node, over: Node): Node {
+  const out: Node = { ...base };
+  for (const [key, value] of Object.entries(over)) {
+    const existing = out[key];
+    if (key === 'value') {
+      out.value = mergeValue(existing, value);
+    } else if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      existing &&
+      typeof existing === 'object' &&
+      !Array.isArray(existing)
+    ) {
+      out[key] = mergeTokens(existing as Node, value as Node);
+    } else {
+      out[key] = value;
+    }
+  }
+  return out;
+}
 
 StyleDictionary.registerTransform({
   name: 'name/acorn',
@@ -206,17 +244,17 @@ StyleDictionary.registerFormat({
   },
 });
 
-// Component tokens as a Lit CSSResult module, for the component to add to its
-// own `static styles` (scopes the --component-* vars to its shadow :host).
+// Component tokens as a plain CSS file (:host vars); the component imports it
+// as a CSSResult via vite-plugin-lit-css, like its own <name>.css.
 StyleDictionary.registerFormat({
-  name: 'acorn/lit-css',
+  name: 'acorn/component-css',
   format: ({ dictionary, options }: { dictionary: any; options: any }) => {
     const vars = formattedVariables({
       format: 'css',
       dictionary,
       outputReferences: true,
     });
-    return `${HEADER}\nimport { css } from 'lit';\n\nexport default css\`\n  ${options.selector} {\n${vars}\n  }\n\`;\n`;
+    return `${HEADER}\n${options.selector} {\n${vars}\n}\n`;
   },
 });
 
@@ -239,16 +277,26 @@ const valueOk = (t: Token) =>
   !String(t.value).includes('{');
 
 const componentFiles = COMPONENT_NS.map((ns) => ({
-  destination: `component-tokens/${ns}.ts`,
-  format: 'acorn/lit-css',
+  destination: `component-tokens/${ns}.css`,
+  format: 'acorn/component-css',
   filter: (t: Token) => valueOk(t) && t.path[0] === ns,
   options: { selector: ':host' },
 }));
 
+// Namespace each file by its name, merging base then Nova (Nova values win),
+// then collapse surface-keyed values to single web values before handing the
+// tree to Style Dictionary.
+const merged: Node = {};
+for (const file of source) {
+  const ns = basename(file).replace(/(\.nova)?\.tokens\.json$/, '');
+  const parsed = JSON.parse(readFileSync(file, 'utf8')) as Node;
+  merged[ns] = merged[ns] ? mergeTokens(merged[ns] as Node, parsed) : parsed;
+}
+walk(merged);
+
 const sd = new StyleDictionary({
-  source,
-  parsers: ['nova-namespace'],
-  preprocessors: ['nova-surfaces'],
+  // Our merged tree is a plain Node; SD types it as DesignTokens.
+  tokens: merged as unknown as DesignTokens,
   log: { warnings: 'disabled', errors: { brokenReferences: 'console' } },
   platforms: {
     css: {
@@ -405,11 +453,11 @@ if (foundationInject) {
   writeFileSync(cssFile, css.replace(/\n\}\s*$/, `\n${foundationInject}}\n`));
 }
 
-// Component (:host) a11y layers, injected into each component's CSSResult so
+// Component (:host) a11y layers, appended to each component's token CSS so
 // e.g. --button-* colours also flip in high-contrast / forced-colors modes.
 let componentsWithA11y = 0;
 for (const ns of COMPONENT_NS) {
-  const file = join(OUT, 'component-tokens', `${ns}.ts`);
+  const file = join(OUT, 'component-tokens', `${ns}.css`);
   let src = readFileSync(file, 'utf8');
   const componentDefined = new Set([
     ...defined,
@@ -419,10 +467,10 @@ for (const ns of COMPONENT_NS) {
   const cContrast = overrideLines('contrast', only, componentDefined, '    ');
   const cForced = overrideLines('forced', only, componentDefined, '    ');
   const blocks =
-    mediaBlocks(':host', '  ', cContrast, cForced) +
-    selectorBlock(":host([data-contrast='high'])", '  ', cContrast);
+    mediaBlocks(':host', '', cContrast, cForced) +
+    selectorBlock(":host([data-contrast='high'])", '', cContrast);
   if (blocks) {
-    src = src.replace(/`;\s*$/, `${blocks}\`;\n`);
+    src = `${src.trimEnd()}\n${blocks}`;
     componentsWithA11y++;
   }
   // Inline references to other components' tokens (out of this :host scope) so
