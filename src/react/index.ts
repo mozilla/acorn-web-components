@@ -1,5 +1,6 @@
 import { createComponent } from '@lit/react';
 import * as React from 'react';
+import { MozBadge as MozBadgeElement } from '../components/moz-badge/moz-badge';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
@@ -8,6 +9,12 @@ import { MozProvider as MozProviderElement } from '../components/moz-provider/mo
 // Typed React wrappers. React 19 handles custom elements natively, but the
 // wrappers give proper typed props/events and a React-idiomatic API. Importing
 // a wrapper registers its element (the element modules self-define on import).
+
+export const MozBadge = createComponent({
+  tagName: 'moz-badge',
+  elementClass: MozBadgeElement,
+  react: React,
+});
 
 export const MozButton = createComponent({
   tagName: 'moz-button',
