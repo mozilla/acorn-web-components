@@ -1,0 +1,120 @@
+:host {
+  color: inherit;
+  text-align: start;
+}
+:host(:not([hidden])) {
+  display: block;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: var(--card-padding);
+  border: var(--card-border);
+  border-radius: var(--card-border-radius);
+  background-color: var(--card-background-color);
+  box-shadow: var(--card-box-shadow);
+  overflow-wrap: anywhere;
+}
+
+/* Compact spacing swaps in the reduced token scale. */
+:host([spacing="compact"]) {
+  --card-border-radius: var(--card-border-radius-compact);
+  --card-padding: var(--card-padding-compact);
+  --card-cover-image-padding: var(--card-cover-image-padding-compact);
+  --card-gap: var(--card-gap-compact);
+  --card-font-size: var(--card-font-size-compact);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+}
+.header .icon {
+  flex-shrink: 0;
+}
+
+.heading {
+  font-size: var(--card-font-size);
+  font-weight: var(--font-weight-heading);
+}
+
+.content {
+  font-size: var(--card-font-size);
+}
+
+/* Media insets to the cover-image padding, not the full card padding. */
+.media {
+  margin-block-start: calc(
+    -1 *
+    (var(--card-padding) - var(--card-cover-image-padding))
+  );
+  margin-inline: calc(
+    -1 *
+    (var(--card-padding) - var(--card-cover-image-padding))
+  );
+}
+.media ::slotted(*) {
+  display: block;
+  max-inline-size: 100%;
+}
+.media ::slotted(img),
+.media ::slotted(picture),
+.media ::slotted(video) {
+  inline-size: 100%;
+  block-size: var(--card-cover-image-height-default);
+  object-fit: var(--card-cover-image-object-fit-default);
+  object-position: var(--card-cover-image-object-position-default);
+  border-radius: var(--card-cover-image-border-radius);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-small);
+}
+
+/* Accordion: header is a clickable summary, body collapses. The card drops its
+ * padding so the summary fills it — a full-card click/focus target — and the
+ * summary and body pad themselves. */
+:host([type="accordion"]) .card {
+  padding: 0;
+}
+.accordion summary {
+  padding: var(--card-padding);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+.accordion summary:focus-visible {
+  outline: var(--focus-outline, 2px solid var(--focus-outline-color));
+  outline-offset: var(--focus-outline-inset, -2px);
+  border-radius: var(--card-border-radius);
+}
+
+.chevron {
+  flex-shrink: 0;
+  --icon-color: currentColor;
+  transition: transform 150ms ease;
+}
+:host([expanded]) .chevron {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+.details-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: 0 var(--card-padding) var(--card-padding);
+}
