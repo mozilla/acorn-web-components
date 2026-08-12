@@ -189,3 +189,31 @@ test('card media and actions', () =>
       </div>
     </moz-card>`,
   ));
+
+test('card icon', () =>
+  snapshot(
+    'card-icon',
+    html`<moz-card
+      heading="With icon"
+      icon-start="info"
+      style="inline-size:280px;"
+    >
+      A leading icon sits before the heading.
+    </moz-card>`,
+  ));
+
+test('card accordion', () =>
+  snapshot(
+    'card-accordion',
+    html`<div
+      style="display:flex;flex-direction:column;gap:16px;inline-size:320px;"
+    >
+      <moz-card type="accordion" heading="Collapsed"
+        >Hidden until expanded.</moz-card
+      >
+      <moz-card type="accordion" expanded heading="Expanded">
+        Body revealed when expanded.
+        <moz-button slot="actions" size="small">Action</moz-button>
+      </moz-card>
+    </div>`,
+  ));

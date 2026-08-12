@@ -20,6 +20,9 @@ export const MozCard = createComponent({
   tagName: 'moz-card',
   elementClass: MozCardElement,
   react: React,
+  events: {
+    onToggle: 'moz-card:toggle',
+  },
 });
 
 export const MozIcon = createComponent({

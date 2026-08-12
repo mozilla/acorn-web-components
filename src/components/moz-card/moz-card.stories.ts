@@ -195,3 +195,67 @@ export const IconAndEmptyContent: Story = {
     expect(root.querySelector<HTMLElement>('.content')!.hidden).toBe(true);
   },
 };
+
+// Accordion type: the header is a summary and the body collapses.
+export const Accordion: Story = {
+  render: (args) => html`
+    <div style="max-inline-size:360px;">
+      <moz-card
+        type="accordion"
+        heading=${ifDefined(args.heading)}
+        icon-start=${ifDefined(args.iconStart)}
+      >
+        ${args.content}
+        <moz-button slot="actions" size="small">Action</moz-button>
+      </moz-card>
+    </div>
+  `,
+};
+
+export const AccordionExpanded: Story = {
+  args: { heading: 'Expanded by default' },
+  render: (args) => html`
+    <div style="max-inline-size:360px;">
+      <moz-card type="accordion" expanded heading=${ifDefined(args.heading)}>
+        ${args.content}
+      </moz-card>
+    </div>
+  `,
+};
+
+// Interaction test only: clicking the summary toggles expanded state, drives
+// the native <details>, and fires moz-card:toggle.
+export const AccordionToggles: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-card type="accordion" heading="Toggle me"
+      >Hidden until expanded.</moz-card
+    >
+  `,
+  play: async ({ canvasElement }) => {
+    const card = canvasElement.querySelector('moz-card')!;
+    await card.updateComplete;
+    const root = card.shadowRoot!;
+    const summary = root.querySelector('summary')!;
+    const details = root.querySelector('details')!;
+
+    expect(card.expanded).toBe(false);
+    expect(details.open).toBe(false);
+
+    let detail: { open: boolean } | undefined;
+    card.addEventListener('moz-card:toggle', (e) => {
+      detail = (e as CustomEvent).detail;
+    });
+
+    summary.click();
+    await card.updateComplete;
+    expect(card.expanded).toBe(true);
+    expect(details.open).toBe(true);
+    expect(detail).toEqual({ open: true });
+
+    summary.click();
+    await card.updateComplete;
+    expect(card.expanded).toBe(false);
+    expect(details.open).toBe(false);
+  },
+};

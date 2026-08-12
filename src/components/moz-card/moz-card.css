@@ -22,6 +22,7 @@
 :host([spacing="compact"]) {
   --card-border-radius: var(--card-border-radius-compact);
   --card-padding: var(--card-padding-compact);
+  --card-cover-image-padding: var(--card-cover-image-padding-compact);
   --card-gap: var(--card-gap-compact);
   --card-font-size: var(--card-font-size-compact);
 }
@@ -44,7 +45,17 @@
   font-size: var(--card-font-size);
 }
 
-/* Cover image fills the content width with its own rounded corners. */
+/* Media insets to the cover-image padding, not the full card padding. */
+.media {
+  margin-block-start: calc(
+    -1 *
+    (var(--card-padding) - var(--card-cover-image-padding))
+  );
+  margin-inline: calc(
+    -1 *
+    (var(--card-padding) - var(--card-cover-image-padding))
+  );
+}
 .media ::slotted(*) {
   display: block;
   max-inline-size: 100%;
@@ -64,4 +75,46 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-small);
+}
+
+/* Accordion: header is a clickable summary, body collapses. The card drops its
+ * padding so the summary fills it — a full-card click/focus target — and the
+ * summary and body pad themselves. */
+:host([type="accordion"]) .card {
+  padding: 0;
+}
+.accordion summary {
+  padding: var(--card-padding);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+.accordion summary:focus-visible {
+  outline: var(--focus-outline, 2px solid var(--focus-outline-color));
+  outline-offset: var(--focus-outline-inset, -2px);
+  border-radius: var(--card-border-radius);
+}
+
+.chevron {
+  flex-shrink: 0;
+  --icon-color: currentColor;
+  transition: transform 150ms ease;
+}
+:host([expanded]) .chevron {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+.details-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+  padding: 0 var(--card-padding) var(--card-padding);
 }
