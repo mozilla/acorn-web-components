@@ -18,7 +18,8 @@
   --icon-color: currentColor;
   font-size: var(--font-size-small);
   font-weight: var(--badge-font-weight);
-  line-height: 1;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .icon {
