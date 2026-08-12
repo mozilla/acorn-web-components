@@ -3,7 +3,9 @@ import { property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
+import '../moz-icon/moz-icon';
 import cardTokens from '../../generated/component-tokens/card.css';
+import type { IconName } from '../../generated/icons';
 import styles from './moz-card.css';
 
 export type CardSpacing = 'default' | 'compact';
@@ -27,18 +29,26 @@ export class MozCard extends MozLitElement {
   /** Optional heading text; rendered as the card's accessible label. */
   @property() heading?: string;
 
+  /** Optional icon shown before the heading. */
+  @property({ attribute: 'icon-start' }) iconStart?: IconName;
+
   @state() private hasHeadingSlot = false;
   @state() private hasMedia = false;
   @state() private hasActions = false;
+  @state() private hasContent = false;
 
-  // Optional-slot wrappers start hidden and are revealed on slotchange, so an
-  // unused media/heading/actions region adds no stray gap.
-  #onSlot(name: 'heading' | 'media' | 'actions', event: Event) {
+  // Optional regions start hidden and are revealed on slotchange, so an unused
+  // media/heading/content/actions region adds no stray gap. Whitespace-only
+  // text (e.g. formatting newlines) doesn't count as content.
+  #onSlot(name: 'heading' | 'media' | 'actions' | 'content', event: Event) {
     const slot = event.target as HTMLSlotElement;
-    const has = slot.assignedNodes({ flatten: true }).length > 0;
+    const has = slot
+      .assignedNodes({ flatten: true })
+      .some((n) => n.nodeType !== Node.TEXT_NODE || !!n.textContent?.trim());
     if (name === 'heading') this.hasHeadingSlot = has;
     else if (name === 'media') this.hasMedia = has;
-    else this.hasActions = has;
+    else if (name === 'actions') this.hasActions = has;
+    else this.hasContent = has;
   }
 
   render() {
@@ -58,8 +68,17 @@ export class MozCard extends MozLitElement {
         <div
           class="header"
           part="header"
-          ?hidden=${!this.heading && !this.hasHeadingSlot}
+          ?hidden=${!this.heading && !this.hasHeadingSlot && !this.iconStart}
         >
+          ${
+            this.iconStart
+              ? html`<moz-icon
+                  class="icon"
+                  part="icon"
+                  name=${this.iconStart}
+                ></moz-icon>`
+              : nothing
+          }
           ${
             this.heading
               ? html`<span id="heading" class="heading" part="heading"
@@ -72,7 +91,9 @@ export class MozCard extends MozLitElement {
             @slotchange=${(e: Event) => this.#onSlot('heading', e)}
           ></slot>
         </div>
-        <div class="content" part="content"><slot></slot></div>
+        <div class="content" part="content" ?hidden=${!this.hasContent}>
+          <slot @slotchange=${(e: Event) => this.#onSlot('content', e)}></slot>
+        </div>
         <div class="actions" part="actions" ?hidden=${!this.hasActions}>
           <slot
             name="actions"

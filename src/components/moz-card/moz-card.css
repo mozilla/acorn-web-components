@@ -26,6 +26,15 @@
   --card-font-size: var(--card-font-size-compact);
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+}
+.header .icon {
+  flex-shrink: 0;
+}
+
 .heading {
   font-size: var(--card-font-size);
   font-weight: var(--font-weight-heading);

@@ -3,11 +3,13 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
 import '../moz-button/moz-button';
+import type { IconName } from '../../generated/icons';
 import './moz-card';
 import type { CardSpacing } from './moz-card';
 
 interface Args {
   heading?: string;
+  iconStart?: IconName;
   spacing: CardSpacing;
   content: string;
 }
@@ -34,6 +36,7 @@ const meta: Meta<Args> = {
   tags: ['autodocs'],
   argTypes: {
     heading: { control: 'text' },
+    iconStart: { control: 'text' },
     spacing: { control: 'select', options: spacings },
     content: { control: 'text' },
   },
@@ -44,7 +47,11 @@ const meta: Meta<Args> = {
   },
   render: (args) => html`
     <div style="max-inline-size:360px;">
-      <moz-card heading=${ifDefined(args.heading)} spacing=${args.spacing}>
+      <moz-card
+        heading=${ifDefined(args.heading)}
+        icon-start=${ifDefined(args.iconStart)}
+        spacing=${args.spacing}
+      >
         ${args.content}
       </moz-card>
     </div>
@@ -55,6 +62,11 @@ export default meta;
 type Story = StoryObj<Args>;
 
 export const Default: Story = {};
+
+// A leading icon before the heading.
+export const WithIcon: Story = {
+  args: { iconStart: 'info' },
+};
 
 // Heading only — no body, media, or actions.
 export const HeadingOnly: Story = {
@@ -160,5 +172,26 @@ export const SlottedContentRenders: Story = {
     expect(root.querySelector('article')?.getAttribute('aria-labelledby')).toBe(
       'heading',
     );
+  },
+};
+
+// Interaction test only: a leading icon renders in the header, and with no
+// default-slot content the content region collapses (no stray gap below the
+// heading).
+export const IconAndEmptyContent: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () =>
+    html`<moz-card heading="Settings" icon-start="info"></moz-card>`,
+  play: async ({ canvasElement }) => {
+    const card = canvasElement.querySelector('moz-card')!;
+    await card.updateComplete;
+    const root = card.shadowRoot!;
+
+    const icon = root.querySelector('.header moz-icon');
+    expect(icon?.getAttribute('name')).toBe('info');
+    expect(root.querySelector<HTMLElement>('.header')!.hidden).toBe(false);
+
+    // Empty default slot -> content region hidden.
+    expect(root.querySelector<HTMLElement>('.content')!.hidden).toBe(true);
   },
 };
