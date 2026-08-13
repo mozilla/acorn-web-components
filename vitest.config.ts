@@ -1,6 +1,7 @@
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
+import { litCssPlugin } from './litcss';
 
 // Storybook-driven tests: every story runs as a test in a real browser, with
 // its `play` function as an interaction test and the a11y addon running axe.
@@ -12,7 +13,10 @@ const withCoverage = process.argv.includes('--coverage');
 const chromiumOnly = withCoverage;
 
 export default defineConfig({
-  plugins: [storybookTest({ configDir: '.storybook' })],
+  // litCssPlugin transforms component `*.css` imports; the Storybook build/dev
+  // server picks it up from vite.config.ts, but this Vitest run doesn't load
+  // that config, so it registers its own (see litcss.ts — once per pipeline).
+  plugins: [litCssPlugin(), storybookTest({ configDir: '.storybook' })],
   // The run logs "Multiple versions of Lit loaded" — a known upstream Storybook
   // bug (storybookjs/storybook#31507), dev/test-only and harmless.
   test: {

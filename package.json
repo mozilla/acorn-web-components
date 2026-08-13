@@ -85,6 +85,7 @@
     "@vitest/browser": "^4.1.10",
     "@vitest/browser-playwright": "^4.1.10",
     "@vitest/coverage-v8": "^4.1.10",
+    "browserslist": "^4.28.8",
     "playwright": "^1.62.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

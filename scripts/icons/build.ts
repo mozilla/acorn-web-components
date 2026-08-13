@@ -29,6 +29,14 @@ mkdirSync(ICONS_OUT, { recursive: true });
 function normalise(raw: string): string {
   let svg = raw.replace(/<!--[\s\S]*?-->/g, '').trim();
 
+  // Nova is the shipped design. Firefox toggles proton/nova via a chrome-only
+  // @media -moz-pref <style> that never matches on the web; drop it and, when a
+  // nova group exists, the proton group(s). (tab-notes is proton-only.)
+  svg = svg.replace(/<style>[\s\S]*?<\/style>\s*/g, '');
+  if (/<g class="nova">/.test(svg)) {
+    svg = svg.replace(/<g class="proton">[\s\S]*?<\/g>\s*/g, '');
+  }
+
   // Capture dimensions and existing state before we rewrite anything.
   const width = svg.match(/<svg[^>]*\bwidth="([\d.]+)/i)?.[1];
   const height = svg.match(/<svg[^>]*\bheight="([\d.]+)/i)?.[1];
@@ -41,6 +49,10 @@ function normalise(raw: string): string {
     .replace(/context-stroke-opacity/g, '1')
     .replace(/context-fill/g, 'currentColor')
     .replace(/context-stroke/g, 'currentColor');
+
+  // Firefox pairs context-fill with a light-dark() fallback; the two values are
+  // invalid together on the web, so keep just currentColor.
+  svg = svg.replace(/currentColor\s+light-dark\([^)]*\)/g, 'currentColor');
 
   // Solid-colour (monochrome) icons hardcode a single fill (e.g. autoscroll's
   // #0c0c0d). Only when the icon isn't already themeable via context-fill and
