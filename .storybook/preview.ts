@@ -41,7 +41,9 @@ const preview: Preview = {
       // embedded example is sized to its content rather than 100vh tall.
       const minHeight = context.viewMode === 'docs' ? 'auto' : '100vh';
       // Drive the real provider so the preview is faithful (foundation +
-      // component token overrides), not an attribute approximation.
+      // component token overrides), not an attribute approximation. The provider
+      // owns the themed canvas, so Storybook's backgrounds/grid/outline tools are
+      // disabled in parameters (they'd paint over it or no-op through shadow DOM).
       return html`<moz-provider
         theme=${theme}
         .contrast=${contrast === 'high' ? 'high' : 'auto'}
@@ -56,12 +58,14 @@ const preview: Preview = {
   ],
   parameters: {
     a11y: { test: 'error' },
-    backgrounds: {
-      options: {
-        dark: { name: 'Dark', value: '#131215' },
-        light: { name: 'Light', value: '#F7F6FB' },
-      },
-    },
+    // Full-bleed canvas: the decorator supplies its own padding, so drop
+    // Storybook's default padded layout.
+    layout: 'fullscreen',
+    // The provider owns the themed canvas + light/dark, so disable the tools
+    // that would conflict with it (backgrounds/grid) or no-op through shadow
+    // DOM (outline). Use the Scheme toggle instead.
+    backgrounds: { disable: true, grid: { disable: true } },
+    outline: { disable: true },
     docs: {
       // Show only the component usage in "Show code", not the provider/theme
       // wrapper the decorators add. Does not affect how stories render.
