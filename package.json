@@ -51,8 +51,10 @@
     "test:visual": "vitest run --config vitest.visual.config.ts",
     "test:visual:update": "vitest run --config vitest.visual.config.ts --update",
     "test:visual:update:docker": "docker run --rm --ipc=host -v \"$PWD\":/work -v /work/node_modules -w /work mcr.microsoft.com/playwright:v1.62.1-noble bash -lc \"npm ci && npm run test:visual:update\"",
-    "lint": "biome check",
-    "format": "biome check --write"
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "biome check",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "format": "stylelint \"src/**/*.css\" --fix && biome check --write"
   },
   "customElements": "dist/custom-elements.json",
   "dependencies": {
@@ -91,6 +93,8 @@
     "react-dom": "^19.2.8",
     "storybook": "^10.5.7",
     "style-dictionary": "^5.5.1",
+    "stylelint": "^17.14.1",
+    "stylelint-order": "^8.1.1",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
     "vite-plugin-lit-css": "^3.0.0",

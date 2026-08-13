@@ -11,30 +11,35 @@ summary {
   gap: var(--space-small);
   padding: var(--space-small) var(--space-medium);
   font-weight: var(--font-weight-heading);
-  cursor: pointer;
-  user-select: none;
+
   /* Drop the native disclosure marker; the chevron replaces it. */
   list-style: none;
+  cursor: pointer;
+  user-select: none;
+
   /* Chevron follows the summary text colour. */
   --icon-color: currentColor;
 }
+
 summary::-webkit-details-marker {
   display: none;
 }
 
 summary:focus-visible {
+  border-radius: var(--border-radius-medium);
   outline: var(--focus-outline, 2px solid var(--focus-outline-color));
   outline-offset: var(--focus-outline-inset, -2px);
-  border-radius: var(--border-radius-medium);
 }
 
 .chevron {
   flex-shrink: 0;
   transition: transform 150ms ease;
 }
+
 :host([open]) .chevron {
   transform: rotate(-180deg);
 }
+
 @media (prefers-reduced-motion: reduce) {
   .chevron {
     transition: none;
@@ -59,6 +64,7 @@ summary:focus-visible {
     border: var(--border-width) solid CanvasText;
   }
 }
+
 :host([data-contrast="high"]) {
   border: var(--border-width) solid var(--border-color);
 }

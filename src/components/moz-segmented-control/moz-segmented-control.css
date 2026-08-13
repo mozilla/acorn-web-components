@@ -1,25 +1,28 @@
 /* Group container. */
 :host(moz-segmented-control) {
-  display: inline-flex;
   box-sizing: border-box;
-  block-size: 40px;
-  inline-size: fit-content;
+  display: inline-flex;
   gap: var(--space-xsmall);
+  inline-size: fit-content;
+  block-size: 40px;
   padding: var(--segmented-control-padding);
   border: var(--segmented-control-border);
   border-radius: var(--segmented-control-border-radius);
   background-color: transparent;
 }
+
 /* Total control height (Figma): large 40px (default), small 32px. */
 :host(moz-segmented-control[size="small"]) {
   block-size: 32px;
 }
+
 /* Whole-group disable: dim + not-allowed cursor. Selection is blocked in JS, so
  * pointer-events stays on for the cursor feedback. */
 :host(moz-segmented-control[disabled]) {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 :host(moz-segmented-control[hidden]) {
   display: none;
 }
@@ -32,6 +35,7 @@
 ::slotted(moz-segmented-control-item) {
   flex: 1 1 auto;
 }
+
 /* Icon-only segments are circular (width follows the stretched height). */
 ::slotted(moz-segmented-control-item[icon-only]) {
   flex: 0 0 auto;
@@ -43,6 +47,7 @@
   display: flex;
   inline-size: auto;
 }
+
 :host(moz-segmented-control[fill]) ::slotted(moz-segmented-control-item) {
   flex-basis: 0;
 }
@@ -56,25 +61,28 @@
   padding-inline: var(--space-medium);
   border: var(--border-width) solid transparent;
   border-radius: var(--border-radius-xlarge);
-  background-color: transparent;
   color: var(--text-color);
   font: inherit;
   font-size: var(--font-size-root);
   font-weight: var(--font-weight-semibold);
   white-space: nowrap;
+  background-color: transparent;
   cursor: pointer;
   user-select: none;
   --icon-color: currentColor;
 }
+
 :host(moz-segmented-control-item:not([disabled]):not([group-disabled]):hover) {
   background-color: var(--background-color-list-item-hover);
 }
+
 :host(moz-segmented-control-item[checked]) {
-  background-color: var(--color-accent-primary);
   /* White on the accent in light; gray-70 (#252428) on the light accent in
    * dark — matches Figma's segmented-control selected-text token. */
   color: light-dark(var(--color-white), var(--color-gray-70));
+  background-color: var(--color-accent-primary);
 }
+
 :host(
   moz-segmented-control-item[checked]:not([group-disabled]):not(
     [disabled]
@@ -82,14 +90,17 @@
 ) {
   background-color: var(--color-accent-primary-hover);
 }
+
 :host(moz-segmented-control-item:focus-visible) {
   outline: var(--focus-outline);
   outline-offset: var(--focus-outline-offset);
 }
+
 :host(moz-segmented-control-item[disabled]) {
   color: var(--text-color-disabled);
   cursor: not-allowed;
 }
+
 /* Group-disabled items show the not-allowed cursor. */
 :host(moz-segmented-control-item[group-disabled]) {
   cursor: not-allowed;
@@ -100,14 +111,15 @@
   padding-inline: 0;
   border-radius: var(--border-radius-circle);
 }
+
 :host(moz-segmented-control-item[icon-only]) .label {
   /* Visually hidden, but kept in the a11y tree as the accessible name. */
   position: absolute;
+  overflow: hidden;
   inline-size: 1px;
   block-size: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
   white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 .icon {
@@ -122,15 +134,18 @@
     border-color: var(--border-color-interactive);
   }
 }
+
 @media (forced-colors: active) {
   :host(moz-segmented-control-item) {
     border-color: ButtonText;
   }
+
   :host(moz-segmented-control-item[checked]) {
-    background-color: SelectedItem;
-    color: SelectedItemText;
     border-color: SelectedItem;
+    color: SelectedItemText;
+    background-color: SelectedItem;
   }
+
   :host(moz-segmented-control-item[disabled]) {
     color: GrayText;
   }
