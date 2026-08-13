@@ -1,6 +1,8 @@
 :host {
   display: inline-flex;
+  vertical-align: middle;
 }
+
 .badge {
   display: inline-flex;
   align-items: center;
