@@ -4,9 +4,10 @@
   block-size: var(--_icon-size, var(--icon-size, 16px));
   color: var(--_icon-color, var(--icon-color, currentColor));
 }
+
 svg {
+  display: block;
   inline-size: 100%;
   block-size: 100%;
-  display: block;
   fill: currentColor;
 }
