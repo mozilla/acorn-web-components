@@ -1,6 +1,4 @@
 import type { StorybookConfig } from '@storybook/web-components-vite';
-import { mergeConfig } from 'vite';
-import { litCssPlugin } from '../litcss';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.stories.@(ts|tsx)'],
@@ -13,8 +11,9 @@ const config: StorybookConfig = {
     name: '@storybook/web-components-vite',
     options: {},
   },
-  // Transform component `*.css` imports (Storybook and the Vitest run reuse this).
-  viteFinal: async (cfg) => mergeConfig(cfg, { plugins: [litCssPlugin()] }),
+  // CSS handling (litCssPlugin for component `*.css` imports, plus the
+  // LightningCSS config that preserves `light-dark()`) lives in the root
+  // vite.config.ts, which Storybook's Vite builder loads and merges.
 };
 
 export default config;
