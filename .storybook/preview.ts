@@ -4,38 +4,36 @@ import '../src/generated/tokens.css';
 import '../src/base.css';
 import '../src/components/moz-provider/moz-provider';
 
-export const globalTypes = {
-  theme: {
-    description: 'Nova colour scheme',
-    toolbar: {
-      title: 'Scheme',
-      icon: 'circlehollow',
-      items: ['light', 'dark', 'auto'],
-      dynamicTitle: true,
-    },
-  },
-  contrast: {
-    // Preview approximation: high contrast applies prefers-contrast AND
-    // forced-colors together (they ship as separate @media layers in prod).
-    description: 'High contrast (prefers-contrast + forced-colors)',
-    toolbar: {
-      title: 'Contrast',
-      icon: 'contrast',
-      items: [
-        { value: 'normal', title: 'Normal' },
-        { value: 'high', title: 'High contrast' },
-      ],
-      dynamicTitle: true,
-    },
-  },
-};
-
-export const initialGlobals = {
-  theme: 'auto',
-  contrast: 'normal',
-};
-
 const preview: Preview = {
+  initialGlobals: {
+    theme: 'auto',
+    contrast: 'normal',
+  },
+  globalTypes: {
+    theme: {
+      description: 'Nova colour scheme',
+      toolbar: {
+        title: 'Scheme',
+        icon: 'circlehollow',
+        items: ['light', 'dark', 'auto'],
+        dynamicTitle: true,
+      },
+    },
+    contrast: {
+      // Preview approximation: high contrast applies prefers-contrast AND
+      // forced-colors together (they ship as separate @media layers in prod).
+      description: 'High contrast (prefers-contrast + forced-colors)',
+      toolbar: {
+        title: 'Contrast',
+        icon: 'contrast',
+        items: [
+          { value: 'normal', title: 'Normal' },
+          { value: 'high', title: 'High contrast' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
   decorators: [
     (story, context) => {
       const { theme, contrast } = context.globals;
@@ -58,6 +56,12 @@ const preview: Preview = {
   ],
   parameters: {
     a11y: { test: 'error' },
+    backgrounds: {
+      options: {
+        dark: { name: 'Dark', value: '#131215' },
+        light: { name: 'Light', value: '#F7F6FB' },
+      },
+    },
     docs: {
       // Show only the component usage in "Show code", not the provider/theme
       // wrapper the decorators add. Does not affect how stories render.
