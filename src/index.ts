@@ -6,6 +6,7 @@ export * from './components/moz-details/moz-details';
 export * from './components/moz-icon/moz-icon';
 export * from './components/moz-message-bar/moz-message-bar';
 export * from './components/moz-provider/moz-provider';
+export * from './components/moz-segmented-control/moz-segmented-control';
 export * from './context/contrast-context';
 export * from './context/locale-context';
 export * from './context/theme-context';
