@@ -97,7 +97,7 @@ export const Fill: Story = {
   args: { value: 'week', fill: true },
   render: (args) => html`
     <div style="max-width:480px;">
-      <moz-segmented-control label=${args.label} value=${args.value} fill>
+      <moz-segmented-control id="date-range" label=${args.label} value=${args.value} fill>
         <moz-segmented-control-item
           value="day"
           label="Day"
@@ -121,7 +121,7 @@ export const Small: Story = { args: { size: 'small' } };
 export const IconOnly: Story = {
   args: { iconOnly: true },
   render: (args) => html`
-    <moz-segmented-control label="Formatting" value="edit" size=${args.size}>
+    <moz-segmented-control id="formatting" label="Formatting" value="edit" size=${args.size}>
       <moz-segmented-control-item
         value="edit"
         icon="edit"
@@ -147,7 +147,7 @@ export const IconOnly: Story = {
 export const WithIcons: Story = {
   args: { iconOnly: false },
   render: (args) => html`
-    <moz-segmented-control label=${args.label} value=${args.value}>
+    <moz-segmented-control id="view-details" label=${args.label} value=${args.value}>
       <moz-segmented-control-item value="highlights" label="Highlights" icon="highlights" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
       <moz-segmented-control-item value="deleted" label="Deleted" icon="delete" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
       <moz-segmented-control-item value="copy" label="Clipboard" icon="clipboard" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
@@ -159,7 +159,7 @@ export const Disabled: Story = { args: { disabled: true } };
 
 export const DisabledItem: Story = {
   render: (args) => html`
-    <moz-segmented-control label=${args.label} value=${args.value}>
+    <moz-segmented-control id="date-range" label=${args.label} value=${args.value}>
       <moz-segmented-control-item value="day" label="Day"></moz-segmented-control-item>
       <moz-segmented-control-item value="week" label="Week" disabled></moz-segmented-control-item>
       <moz-segmented-control-item value="month" label="Month"></moz-segmented-control-item>
