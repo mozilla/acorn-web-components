@@ -1,0 +1,22 @@
+# Shared setup for CI jobs: Node 24 (with npm cache) + a lockfile install.
+# Callers must `actions/checkout` first, since this composite lives in the repo.
+#
+# NOTE on install scripts: package.json carries a custom `allowScripts` field
+# used by the developer's local npm fork (npm 12) to gate which dependencies may
+# run install scripts. GitHub's stock npm does not understand that field and
+# runs install scripts (esbuild, etc.) normally, so a plain `npm ci` works here.
+name: Setup
+description: Node 24 toolchain with npm caching, then npm ci.
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24
+        cache: npm
+
+    - name: Install dependencies
+      shell: bash
+      run: npm ci

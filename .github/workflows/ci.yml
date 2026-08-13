@@ -1,8 +1,10 @@
-# CI workflow for acorn-web-components (Lit web-components library).
+# CI for acorn-web-components (Lit web-components library).
 #
-# `ci`: lint, typecheck, build, and tests (Chromium + Firefox) + coverage.
-# `visual`: pixel snapshots, run in the pinned Playwright container so rendering
-# matches the committed baselines (refresh them with test:visual:update:docker).
+# Split into independent, parallel jobs so a red check names itself in the PR
+# checks list (lint / typecheck / build / test / visual) instead of hiding one
+# failure inside a long serial run. Jobs share setup via .github/actions/setup.
+#
+# Keep the workflow name "CI": the deploy workflow gates on it via workflow_run.
 
 name: CI
 
@@ -12,59 +14,54 @@ on:
       - main
   pull_request:
 
+# Cancel superseded runs on the same branch/PR (a new push voids the old run).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  ci:
+  lint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      # Separate steps so Biome and Stylelint report independently.
+      - name: Biome
+        run: npm run lint:js
+      - name: Stylelint
+        run: npm run lint:css
 
-      # Node 24 with built-in npm dependency caching.
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: npm run typecheck
 
-      # Bun powers the token/icon generation scripts (npm run generate).
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      # Bun powers the clean/copy-assets steps inside `npm run build`.
+      - uses: oven-sh/setup-bun@v2
+      - run: npm run build
 
-      # `npm ci` installs against the lockfile.
-      #
-      # NOTE on install scripts: package.json carries a custom `allowScripts`
-      # field used by the developer's local npm fork (npm 12) to gate which
-      # dependencies may run install scripts. GitHub's stock npm does not
-      # understand that field and runs install scripts (esbuild, etc.) normally,
-      # so a plain `npm ci` works here without extra configuration.
-      - name: Install dependencies
-        run: npm ci
-
-      # Tests run in real browsers via @vitest/browser + Playwright. The plain
-      # test run exercises Chromium + Firefox; the coverage run is Chromium-only
-      # (the v8 provider only instruments Chromium), so both must be present.
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      # test:browsers exercises Chromium + Firefox; coverage is Chromium-only
+      # (v8 provider), so both browsers must be present.
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium firefox
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Build
-        run: npm run build
-
-      # Cross-browser correctness (Chromium + Firefox), no coverage.
       - name: Test (Chromium + Firefox)
         run: npm run test:browsers
-
-      # Coverage gate (Chromium only, v8) enforcing the thresholds.
       - name: Coverage
         run: npm run test:coverage
 
-  # Visual snapshots run in the pinned Playwright container so the browser build
+  # Pixel snapshots run in the pinned Playwright container so the browser build
   # and fonts match the committed `-chromium-linux` baselines exactly. Browsers
   # ship in the image, so no `playwright install` step is needed.
   visual:
@@ -72,23 +69,11 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
       options: --ipc=host
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
       - name: Visual snapshots (Chromium)
         run: npm run test:visual
-
       # On a mismatch, publish the actual/diff images for inspection.
       - name: Upload diffs on failure
         if: failure()
