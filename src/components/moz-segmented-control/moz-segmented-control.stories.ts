@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import { action } from 'storybook/actions';
 import { expect, userEvent } from 'storybook/test';
+import { logEvents } from '../../../.storybook/story-actions';
 import './moz-segmented-control';
 import type {
   MozSegmentedControl,
@@ -21,23 +21,11 @@ interface Args {
 
 const values = ['day', 'week', 'month'];
 
-// Log the change event's detail ({ id, value }) to the Actions panel.
-const logChange = action('moz-segmented-control:change');
-
 const meta: Meta<Args> = {
   title: 'Components/SegmentedControl',
   component: 'moz-segmented-control',
   tags: ['autodocs'],
-  // A decorator (excluded from "Show code") logs the change detail.
-  decorators: [
-    (story) =>
-      html`<div
-        @moz-segmented-control:change=${(e: Event) =>
-          logChange((e as CustomEvent<SegmentedControlChangeDetail>).detail)}
-      >
-        ${story()}
-      </div>`,
-  ],
+  decorators: [logEvents('moz-segmented-control:change')],
   argTypes: {
     value: { control: 'select', options: values },
     label: { control: 'text' },

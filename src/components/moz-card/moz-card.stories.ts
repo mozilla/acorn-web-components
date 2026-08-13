@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
+import { logEvents } from '../../../.storybook/story-actions';
 import '../moz-button/moz-button';
 import type { IconName } from '../../generated/icons';
 import './moz-card';
@@ -34,6 +35,7 @@ const meta: Meta<Args> = {
   title: 'Components/Card',
   component: 'moz-card',
   tags: ['autodocs'],
+  decorators: [logEvents('moz-card:toggle')],
   argTypes: {
     heading: { control: 'text' },
     iconStart: { control: 'text' },
@@ -48,6 +50,7 @@ const meta: Meta<Args> = {
   render: (args) => html`
     <div style="max-inline-size:360px;">
       <moz-card
+        id="demo-card"
         heading=${ifDefined(args.heading)}
         icon-start=${ifDefined(args.iconStart)}
         spacing=${args.spacing}

@@ -11,9 +11,7 @@ export type SegmentedControlSize = 'small' | 'large';
 
 /** `detail` of the `moz-segmented-control:change` event. */
 export interface SegmentedControlChangeDetail {
-  /** id of the control that changed (empty string if it has none). */
-  id: string;
-  /** Newly-selected value. */
+  /** Newly-selected value. (The source is `event.target`.) */
   value: string;
 }
 
@@ -29,7 +27,7 @@ export interface SegmentedControlChangeDetail {
  * switches the deck's visible panel automatically. Either way, roving-tabindex
  * arrow-key navigation wraps and selects as focus moves.
  *
- * @fires moz-segmented-control:change - `{ id, value }` when the selection changes.
+ * @fires moz-segmented-control:change - `{ value }` when the selection changes.
  */
 export class MozSegmentedControl extends MozLitElement {
   static styles = [shared, segmentedControlTokens, styles];
@@ -151,7 +149,7 @@ export class MozSegmentedControl extends MozLitElement {
         {
           bubbles: true,
           composed: true,
-          detail: { id: this.id, value: this.value },
+          detail: { value: this.value },
         },
       ),
     );

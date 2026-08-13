@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect, userEvent } from 'storybook/test';
+import { logEvents } from '../../../.storybook/story-actions';
 import './moz-details';
 
 interface Args {
@@ -15,6 +16,7 @@ const meta: Meta<Args> = {
   title: 'Components/Details',
   component: 'moz-details',
   tags: ['autodocs'],
+  decorators: [logEvents('moz-details:toggle')],
   argTypes: {
     heading: { control: 'text' },
     open: { control: 'boolean' },
@@ -29,6 +31,7 @@ const meta: Meta<Args> = {
   },
   render: (args) => html`
     <moz-details
+      id="demo-details"
       heading=${ifDefined(args.heading)}
       ?open=${args.open}
       ?disabled=${args.disabled}
