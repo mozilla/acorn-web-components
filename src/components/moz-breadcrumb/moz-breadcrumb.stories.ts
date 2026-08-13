@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { expect } from 'storybook/test';
+import { logEvents } from '../../../.storybook/story-actions';
 import './moz-breadcrumb';
 import type { BreadcrumbSelectDetail } from './moz-breadcrumb';
 
@@ -8,6 +9,7 @@ const meta: Meta = {
   title: 'Components/Breadcrumb',
   component: 'moz-breadcrumb-group',
   tags: ['autodocs'],
+  decorators: [logEvents('moz-breadcrumb:select')],
   render: () => html`
     <moz-breadcrumb-group label="Breadcrumb">
       <moz-breadcrumb href="#home">Home</moz-breadcrumb>
