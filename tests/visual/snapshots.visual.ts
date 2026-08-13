@@ -6,6 +6,7 @@ import { expect, test } from 'vitest';
 import '../../src/generated/tokens.css';
 import '../../src/base.css';
 import '../../src/components/moz-badge/moz-badge';
+import '../../src/components/moz-breadcrumb/moz-breadcrumb';
 import '../../src/components/moz-button/moz-button';
 import '../../src/components/moz-card/moz-card';
 import '../../src/components/moz-details/moz-details';
@@ -394,4 +395,23 @@ test('segmented-control deck', () =>
         <div name="activity">Activity panel content.</div>
       </moz-segmented-control-deck>
     </div>`,
+  ));
+
+const breadcrumbTrail = html`
+  <moz-breadcrumb href="#">Home</moz-breadcrumb>
+  <moz-breadcrumb href="#">Extensions</moz-breadcrumb>
+  <moz-breadcrumb>Details</moz-breadcrumb>
+`;
+
+test('breadcrumb', () =>
+  snapshot(
+    'breadcrumb',
+    html`<moz-breadcrumb-group>${breadcrumbTrail}</moz-breadcrumb-group>`,
+  ));
+
+// High contrast (app-driven): exercises the breadcrumb link a11y layer.
+test('breadcrumb high-contrast', () =>
+  snapshotContrast(
+    'breadcrumb-high-contrast',
+    html`<moz-breadcrumb-group>${breadcrumbTrail}</moz-breadcrumb-group>`,
   ));

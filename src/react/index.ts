@@ -1,6 +1,10 @@
 import { createComponent } from '@lit/react';
 import * as React from 'react';
 import { MozBadge as MozBadgeElement } from '../components/moz-badge/moz-badge';
+import {
+  MozBreadcrumb as MozBreadcrumbElement,
+  MozBreadcrumbGroup as MozBreadcrumbGroupElement,
+} from '../components/moz-breadcrumb/moz-breadcrumb';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
@@ -20,6 +24,21 @@ import {
 export const MozBadge = createComponent({
   tagName: 'moz-badge',
   elementClass: MozBadgeElement,
+  react: React,
+});
+
+export const MozBreadcrumb = createComponent({
+  tagName: 'moz-breadcrumb',
+  elementClass: MozBreadcrumbElement,
+  react: React,
+  events: {
+    onSelect: 'moz-breadcrumb:select',
+  },
+});
+
+export const MozBreadcrumbGroup = createComponent({
+  tagName: 'moz-breadcrumb-group',
+  elementClass: MozBreadcrumbGroupElement,
   react: React,
 });
 

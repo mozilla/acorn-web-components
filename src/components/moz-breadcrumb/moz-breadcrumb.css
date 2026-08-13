@@ -1,0 +1,84 @@
+/* Group container: a block-level nav wrapping the ordered list. */
+:host(moz-breadcrumb-group:not([hidden])) {
+  display: block;
+}
+
+nav {
+  font-size: var(--font-size-small);
+}
+
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--breadcrumb-gap);
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: var(--breadcrumb-gap);
+}
+
+/* Forward arrow between crumbs; xsmall, de-emphasised, flips in RTL. */
+.separator {
+  --icon-size: var(--breadcrumb-icon-size);
+  --icon-color: var(--text-color-deemphasized);
+  flex-shrink: 0;
+}
+.separator:dir(rtl) {
+  transform: scaleX(-1);
+}
+
+/* A single crumb (also usable standalone). */
+:host(moz-breadcrumb) {
+  display: inline;
+  font-size: var(--font-size-small);
+}
+
+.crumb {
+  line-height: 100%;
+  white-space: nowrap;
+}
+
+/* Links use the breadcrumb link tokens (light/dark baked in). */
+a.crumb {
+  color: var(--breadcrumb-link-color);
+}
+a.crumb:visited {
+  color: var(--breadcrumb-link-color-visited);
+}
+a.crumb:hover {
+  color: var(--breadcrumb-link-color-hover);
+}
+a.crumb:hover:active {
+  color: var(--breadcrumb-link-color-active);
+}
+
+/* Current page: plain body text, no link affordance. */
+.crumb[aria-current="page"] {
+  color: var(--text-color);
+}
+
+/* High contrast: defer to the system link/text palette (like message-bar
+ * dropping its own colours under forced-colors). */
+@media (forced-colors: active) {
+  a.crumb {
+    color: LinkText;
+  }
+  a.crumb:visited {
+    color: VisitedText;
+  }
+  a.crumb:active {
+    color: ActiveText;
+  }
+  .crumb[aria-current="page"] {
+    color: CanvasText;
+  }
+  .separator {
+    --icon-color: CanvasText;
+  }
+}
