@@ -18,9 +18,9 @@
 /* Hidden visually but exposed to assistive tech, e.g. an icon button's name. */
 .visually-hidden {
   position: absolute;
+  overflow: hidden;
   width: 1px;
   height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
   white-space: nowrap;
+  clip-path: inset(50%);
 }

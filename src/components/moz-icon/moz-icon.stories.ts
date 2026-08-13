@@ -77,6 +77,7 @@ export const Labelled: Story = {
 };
 
 export const UnknownName: Story = {
+  tags: ['!dev', '!autodocs'],
   render: () => html`<moz-icon name="not-a-real-icon"></moz-icon>`,
   play: async ({ canvasElement }) => {
     const icon = canvasElement.querySelector('moz-icon')!;
@@ -88,6 +89,7 @@ export const UnknownName: Story = {
 };
 
 export const NoName: Story = {
+  tags: ['!dev', '!autodocs'],
   render: () => html`<moz-icon></moz-icon>`,
   play: async ({ canvasElement }) => {
     const icon = canvasElement.querySelector('moz-icon')!;

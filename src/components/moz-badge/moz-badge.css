@@ -1,6 +1,8 @@
 :host {
   display: inline-flex;
+  vertical-align: middle;
 }
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -8,18 +10,20 @@
   inline-size: fit-content;
   padding-block: var(--badge-padding-block);
   padding-inline: var(--badge-padding-nova-inline);
-  color: var(--badge-text-color);
-  background-color: var(--badge-background-color);
+  border-radius: var(--badge-border-radius);
+
   /* Outline (not border) so the ring never shifts layout or overlays the fill;
    * it follows border-radius and stays visible under forced colours. */
   outline: var(--badge-border-width) solid var(--badge-border-color);
-  border-radius: var(--badge-border-radius);
-  /* Icon follows the label colour. */
-  --icon-color: currentColor;
+  color: var(--badge-text-color);
   font-size: var(--font-size-small);
   font-weight: var(--badge-font-weight);
   line-height: 1.1;
   text-transform: uppercase;
+  background-color: var(--badge-background-color);
+
+  /* Icon follows the label colour. */
+  --icon-color: currentColor;
 }
 
 .icon {
@@ -29,7 +33,7 @@
 
 /* Filled/accent variant; tokens supply forced-colours fallbacks. */
 :host([type="new"]) .badge {
+  outline-color: var(--badge-border-color-filled);
   color: var(--badge-text-color-filled);
   background-color: var(--badge-background-color-filled);
-  outline-color: var(--badge-border-color-filled);
 }

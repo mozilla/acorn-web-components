@@ -2,6 +2,7 @@
   color: inherit;
   text-align: start;
 }
+
 :host(:not([hidden])) {
   display: block;
 }
@@ -32,6 +33,7 @@
   align-items: center;
   gap: var(--space-small);
 }
+
 .header .icon {
   flex-shrink: 0;
 }
@@ -56,18 +58,20 @@
     (var(--card-padding) - var(--card-cover-image-padding))
   );
 }
+
 .media ::slotted(*) {
   display: block;
   max-inline-size: 100%;
 }
+
 .media ::slotted(img),
 .media ::slotted(picture),
 .media ::slotted(video) {
   inline-size: 100%;
   block-size: var(--card-cover-image-height-default);
+  border-radius: var(--card-cover-image-border-radius);
   object-fit: var(--card-cover-image-object-fit-default);
   object-position: var(--card-cover-image-object-position-default);
-  border-radius: var(--card-cover-image-border-radius);
 }
 
 .actions {
@@ -83,19 +87,22 @@
 :host([type="accordion"]) .card {
   padding: 0;
 }
+
 .accordion summary {
   padding: var(--card-padding);
+  list-style: none;
   cursor: pointer;
   user-select: none;
-  list-style: none;
 }
+
 .accordion summary::-webkit-details-marker {
   display: none;
 }
+
 .accordion summary:focus-visible {
+  border-radius: var(--card-border-radius);
   outline: var(--focus-outline, 2px solid var(--focus-outline-color));
   outline-offset: var(--focus-outline-inset, -2px);
-  border-radius: var(--card-border-radius);
 }
 
 .chevron {
@@ -103,9 +110,11 @@
   --icon-color: currentColor;
   transition: transform 150ms ease;
 }
+
 :host([expanded]) .chevron {
   transform: rotate(-180deg);
 }
+
 @media (prefers-reduced-motion: reduce) {
   .chevron {
     transition: none;
