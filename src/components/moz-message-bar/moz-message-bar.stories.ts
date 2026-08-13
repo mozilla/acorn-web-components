@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
+import { logEvents } from '../../../.storybook/story-actions';
 import './moz-message-bar';
 import '../moz-button/moz-button';
 import type { MessageBarType } from './moz-message-bar';
@@ -25,6 +26,7 @@ const meta: Meta<Args> = {
   title: 'Components/MessageBar',
   component: 'moz-message-bar',
   tags: ['autodocs'],
+  decorators: [logEvents('moz-message-bar:dismissed', 'moz-message-bar:close')],
   argTypes: {
     type: { control: 'select', options: types },
     heading: { control: 'text' },
@@ -38,6 +40,7 @@ const meta: Meta<Args> = {
   },
   render: (args) => html`
     <moz-message-bar
+      id="demo-message-bar"
       type=${args.type}
       heading=${ifDefined(args.heading)}
       ?dismissable=${args.dismissable}

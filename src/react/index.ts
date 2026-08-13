@@ -7,6 +7,11 @@ import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-d
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
+import {
+  MozSegmentedControlDeck as MozSegmentedControlDeckElement,
+  MozSegmentedControl as MozSegmentedControlElement,
+  MozSegmentedControlItem as MozSegmentedControlItemElement,
+} from '../components/moz-segmented-control/moz-segmented-control';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
 // wrappers give proper typed props/events and a React-idiomatic API. Importing
@@ -61,5 +66,26 @@ export const MozMessageBar = createComponent({
 export const MozProvider = createComponent({
   tagName: 'moz-provider',
   elementClass: MozProviderElement,
+  react: React,
+});
+
+export const MozSegmentedControl = createComponent({
+  tagName: 'moz-segmented-control',
+  elementClass: MozSegmentedControlElement,
+  react: React,
+  events: {
+    onChange: 'moz-segmented-control:change',
+  },
+});
+
+export const MozSegmentedControlItem = createComponent({
+  tagName: 'moz-segmented-control-item',
+  elementClass: MozSegmentedControlItemElement,
+  react: React,
+});
+
+export const MozSegmentedControlDeck = createComponent({
+  tagName: 'moz-segmented-control-deck',
+  elementClass: MozSegmentedControlDeckElement,
   react: React,
 });

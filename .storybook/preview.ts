@@ -37,13 +37,10 @@ const preview: Preview = {
   decorators: [
     (story, context) => {
       const { theme, contrast } = context.globals;
-      // Fill the viewport in the story canvas, but hug content in docs so each
-      // embedded example is sized to its content rather than 100vh tall.
+      // Fill the canvas, but hug content in docs so each example isn't 100vh.
       const minHeight = context.viewMode === 'docs' ? 'auto' : '100vh';
-      // Drive the real provider so the preview is faithful (foundation +
-      // component token overrides), not an attribute approximation. The provider
-      // owns the themed canvas, so Storybook's backgrounds/grid/outline tools are
-      // disabled in parameters (they'd paint over it or no-op through shadow DOM).
+      // Drive the real provider for a faithful preview, and let it own the
+      // themed canvas (Storybook's backgrounds/grid/outline are disabled below).
       return html`<moz-provider
         theme=${theme}
         .contrast=${contrast === 'high' ? 'high' : 'auto'}
@@ -58,19 +55,14 @@ const preview: Preview = {
   ],
   parameters: {
     a11y: { test: 'error' },
-    // Full-bleed canvas: the decorator supplies its own padding, so drop
-    // Storybook's default padded layout.
+    // The decorator supplies its own padding, so drop Storybook's padded layout.
     layout: 'fullscreen',
-    // The provider owns the themed canvas + light/dark, so disable the tools
-    // that would conflict with it (backgrounds/grid) or no-op through shadow
-    // DOM (outline). Use the Scheme toggle instead.
+    // The provider owns the canvas + light/dark, so disable the tools that
+    // conflict (backgrounds/grid) or no-op through shadow DOM (outline).
     backgrounds: { disable: true, grid: { disable: true } },
     outline: { disable: true },
-    docs: {
-      // Show only the component usage in "Show code", not the provider/theme
-      // wrapper the decorators add. Does not affect how stories render.
-      source: { excludeDecorators: true },
-    },
+    // "Show code" shows just the component usage, not the decorator wrappers.
+    docs: { source: { excludeDecorators: true } },
   },
 };
 
