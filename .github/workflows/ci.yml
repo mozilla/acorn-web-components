@@ -47,23 +47,29 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: npm run build
 
+  # Runs in the pinned Playwright container: the browsers and their system deps
+  # are baked into the image, so there's no per-run `playwright install`, apt
+  # step, or browser download. Bump the image tag deliberately, in step with the
+  # `playwright` dependency (and the `visual` job below) — a ~monthly update
+  # rather than churn on every run.
   test:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+      options: --ipc=host
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       # test:browsers exercises Chromium + Firefox; coverage is Chromium-only
-      # (v8 provider), so both browsers must be present.
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium firefox
+      # (v8 provider). Both ship in the image.
       - name: Test (Chromium + Firefox)
         run: npm run test:browsers
       - name: Coverage
         run: npm run test:coverage
 
-  # Pixel snapshots run in the pinned Playwright container so the browser build
-  # and fonts match the committed `-chromium-linux` baselines exactly. Browsers
-  # ship in the image, so no `playwright install` step is needed.
+  # Pixel snapshots run in the same pinned Playwright container so the browser
+  # build and fonts match the committed `-chromium-linux` baselines exactly.
+  # Keep this image tag in sync with the `test` job's.
   visual:
     runs-on: ubuntu-latest
     container:
