@@ -57,6 +57,11 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
       options: --ipc=host
+    # The container runs as root, but the image's default $HOME is owned by
+    # pwuser, and Firefox won't launch as root in another user's home. Point
+    # HOME at root's own home (per Playwright's own guidance).
+    env:
+      HOME: /root
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
@@ -75,6 +80,10 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
       options: --ipc=host
+    # Chromium-only today so it doesn't strictly need this, but keep it in step
+    # with `test` so adding a Firefox snapshot later can't regress (see above).
+    env:
+      HOME: /root
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
