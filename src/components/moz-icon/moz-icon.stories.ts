@@ -113,7 +113,7 @@ export const Sizes: Story = {
           <div
             style="display:flex;flex-direction:column;align-items:center;gap:6px;"
           >
-            <moz-icon name=${args.name} color=${args.color} size=${s}></moz-icon>
+            <moz-icon name=${args.name} color=${ifDefined(args.color)} size=${s}></moz-icon>
             <span style="font-size:11px;font-family:monospace;opacity:0.75;"
               >${s}</span
             >

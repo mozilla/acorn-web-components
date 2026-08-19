@@ -1,7 +1,6 @@
-/// <reference types="@vitest/browser/context" />
-import { page } from '@vitest/browser/context';
 import { html, render, type TemplateResult } from 'lit';
 import { expect, test } from 'vitest';
+import { page } from 'vitest/browser';
 // Foundation styles (litCss leaves these as global stylesheets); components.
 import '../../src/generated/tokens.css';
 import '../../src/base.css';
