@@ -79,13 +79,18 @@ Output:
 
 ### Icons (`scripts/icons/build.ts`)
 
-Input: `vendor/icons/`, the SVGs from Firefox's `toolkit/themes/shared/icons`. Each icon is normalised for the web: Firefox's `context-fill` becomes `currentColor`, fixed sizes are stripped, a `viewBox` is ensured, and single-colour icons become `currentColor`. Each icon is emitted as its own module (`icons/<name>.ts`) alongside a lazy-loading registry (`icons.ts`), so a consumer only bundles the icons it actually renders.
+Input: `vendor/icons/<size>/`, the desktop SVGs from `github.com/FirefoxUX/acorn-icons` (Acorn/Nova). Each icon is normalised for the web: `context-fill` becomes `currentColor`, fixed sizes are stripped, a `viewBox` is ensured, and single-colour icons become `currentColor`. Acorn draws each icon at several optical sizes, so each `(name, size)` is emitted as its own module (`icons/<name>-<size>.ts`) and the registry (`icons.ts`) maps name → available sizes → lazy loader; `moz-icon` picks the closest size and a consumer only bundles what it renders.
 
-### Updating from Firefox
+### Updating from upstream
 
-The build scripts do not fetch anything; they compile the committed snapshot in `vendor/`. To refresh that snapshot, run `npm run vendor`, which copies the token JSON and icons from a local Firefox checkout (`github.com/mozilla-firefox/firefox`, defaulting to `../firefox`, or set `FIREFOX_PATH`) and records the checkout's revision in each `VENDOR.json`. Then run `npm run generate` and review the diff in Storybook.
+The build scripts do not fetch anything; they compile the committed snapshot in `vendor/`. Two vendor scripts refresh it, each recording its source revision in the matching `VENDOR.json`:
 
-The nightly `upstream-sync` workflow does the same in CI by sparse-cloning that Firefox repo, running `vendor` + `generate`, and opening a PR when tokens or icons change. Drift is handled there and by `npm run vendor` on demand, not in the standard CI pipeline.
+- `npm run vendor:tokens` — Firefox design tokens from `github.com/mozilla-firefox/firefox`. Sparse-clones the source itself (set `FIREFOX_PATH` to reuse a local checkout, or `FIREFOX_REF` for a branch/tag).
+- `npm run vendor:icons` — icons from `github.com/FirefoxUX/acorn-icons`, pinned to a release tag (override with `ACORN_ICONS_REF`).
+
+`npm run vendor` runs both. Then run `npm run generate` and review the diff in Storybook.
+
+Two workflows handle drift in CI (not the standard pipeline): the nightly `upstream-sync` for tokens, and `icons-sync`, which opens a bump PR when acorn-icons cuts a newer release.
 
 ## Theming (light and dark)
 

@@ -1,2 +1,0 @@
-/* Generated from a vendored Firefox icon. Do not edit. */
-export default "<svg viewBox=\"0 0 16 16\" fill=\"currentColor\" fill-opacity=\"1\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M8.445 2.195a.666.666 0 0 1 .942 0L14.63 7.44a1.165 1.165 0 0 1 0 1.647l-5.244 5.245a.666.666 0 0 1-.942-.941l4.124-4.122a.2.2 0 0 0-.142-.34H1.665a.666.666 0 0 1 0-1.331h10.76a.2.2 0 0 0 .14-.341l-4.12-4.122a.666.666 0 0 1 0-.94Z\"/></svg>";

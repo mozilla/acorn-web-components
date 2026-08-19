@@ -5,8 +5,37 @@ import type { IconColor, IconSize } from '../../generated/icon-options';
 import { type IconName, iconLoaders } from '../../generated/icons';
 import styles from './moz-icon.css';
 
-// Cache each icon module so it's only imported once.
+// Cache each icon module (keyed by name + optical size) so it loads once.
 const cache = new Map<string, string>();
+
+type IconLoader = () => Promise<{ default: string }>;
+
+// Nominal pixel size for each t-shirt step (the default `--icon-size-*` scale),
+// used only to pick the closest optically-tuned SVG. The rendered box size still
+// comes from the tokens, so a themed override resizes without reselecting.
+const NOMINAL_PX: Record<IconSize, number> = {
+  xsmall: 12,
+  small: 16,
+  medium: 20,
+  large: 24,
+  xlarge: 32,
+  xxlarge: 48,
+};
+
+// Acorn draws each icon at a subset of sizes. Pick the closest available to the
+// target, preferring the larger on a tie (scaling down stays crisp).
+function pickOpticalSize(available: number[], target: number): number {
+  let best = available[0];
+  let bestDiff = Number.POSITIVE_INFINITY;
+  for (const size of available) {
+    const diff = Math.abs(size - target);
+    if (diff < bestDiff || (diff === bestDiff && size > best)) {
+      best = size;
+      bestDiff = diff;
+    }
+  }
+  return best;
+}
 
 /**
  * Renders a Firefox (Nova) icon by name. Decorative by default; pass `label` to
@@ -31,33 +60,39 @@ export class MozIcon extends LitElement {
   @state() private svg?: string;
 
   protected willUpdate(changed: PropertyValues<this>) {
-    if (changed.has('name')) {
-      void this.load(this.name);
+    // Size selects the optical variant, so reload when either changes.
+    if (changed.has('name') || changed.has('size')) {
+      void this.load();
     }
   }
 
-  private async load(name?: IconName) {
+  private async load() {
+    const { name, size } = this;
     if (!name) {
       this.svg = undefined;
       return;
     }
-    const cached = cache.get(name);
-    if (cached) {
-      this.svg = cached;
-      return;
-    }
-    const loader = iconLoaders[name];
-    if (!loader) {
+    const loaders = iconLoaders[name] as Record<number, IconLoader> | undefined;
+    if (!loaders) {
       console.warn(
         `<moz-icon>: unknown icon name "${name}". It will render nothing; see the exported \`iconNames\` for valid values.`,
       );
       this.svg = undefined;
       return;
     }
+    const target = size ? NOMINAL_PX[size] : NOMINAL_PX.small;
+    const optical = pickOpticalSize(Object.keys(loaders).map(Number), target);
+    const key = `${name}-${optical}`;
+    const cached = cache.get(key);
+    if (cached) {
+      this.svg = cached;
+      return;
+    }
     try {
-      const mod = await loader();
-      cache.set(name, mod.default);
-      if (this.name === name) this.svg = mod.default;
+      const mod = await loaders[optical]();
+      cache.set(key, mod.default);
+      // Ignore if name/size changed while the chunk was in flight.
+      if (this.name === name && this.size === size) this.svg = mod.default;
     } catch {
       this.svg = undefined;
     }

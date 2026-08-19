@@ -54,7 +54,7 @@ const meta: Meta<Args> = {
       <moz-segmented-control-item
         value="day"
         label="Day"
-        icon="highlights"
+        icon="highlighter"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
       <moz-segmented-control-item
@@ -66,7 +66,7 @@ const meta: Meta<Args> = {
       <moz-segmented-control-item
         value="month"
         label="Month"
-        icon="clipboard"
+        icon="copy"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
     </moz-segmented-control>
@@ -118,7 +118,7 @@ export const IconOnly: Story = {
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="copy"
-        icon="clipboard"
+        icon="copy"
         label="Copy"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
@@ -136,9 +136,9 @@ export const WithIcons: Story = {
   args: { iconOnly: false },
   render: (args) => html`
     <moz-segmented-control id="view-details" label=${args.label} value=${args.value}>
-      <moz-segmented-control-item value="highlights" label="Highlights" icon="highlights" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
+      <moz-segmented-control-item value="highlights" label="Highlights" icon="highlighter" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
       <moz-segmented-control-item value="deleted" label="Deleted" icon="delete" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
-      <moz-segmented-control-item value="copy" label="Clipboard" icon="clipboard" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
+      <moz-segmented-control-item value="copy" label="Clipboard" icon="copy" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
     </moz-segmented-control>
   `,
 };

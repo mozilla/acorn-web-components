@@ -62,7 +62,7 @@ export const Default: Story = {
 };
 
 export const Labelled: Story = {
-  args: { name: 'info', label: 'Information', color: 'information' },
+  args: { name: 'information', label: 'Information', color: 'information' },
   play: async ({ canvasElement }) => {
     const icon = canvasElement.querySelector('moz-icon')!;
     await icon.updateComplete;
@@ -125,7 +125,7 @@ export const Colors: Story = {
           <div
             style="display:flex;flex-direction:column;align-items:center;gap:6px;"
           >
-            <moz-icon name="info" size="large" color=${c}></moz-icon>
+            <moz-icon name="information" size="large" color=${c}></moz-icon>
             <span style="font-size:11px;font-family:monospace;opacity:0.75;"
               >${c}</span
             >
