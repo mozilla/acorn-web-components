@@ -100,8 +100,8 @@ export const NoName: Story = {
 
 export const Sizes: Story = {
   args: {
-    name: "edit",
-    color: "default"
+    name: 'edit',
+    color: 'default',
   },
   argTypes: {
     size: { control: { disable: true } },
@@ -126,7 +126,7 @@ export const Sizes: Story = {
 
 export const Colors: Story = {
   args: {
-    name: "information"
+    name: 'information',
   },
   argTypes: {
     color: { control: { disable: true } },
@@ -151,7 +151,7 @@ export const Colors: Story = {
 
 export const Gallery: Story = {
   args: {
-    size: "medium",
+    size: 'medium',
   },
   argTypes: {
     name: { control: { disable: true } },
