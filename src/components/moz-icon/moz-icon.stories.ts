@@ -99,14 +99,21 @@ export const NoName: Story = {
 };
 
 export const Sizes: Story = {
-  render: () => html`
+  args: {
+    name: "edit",
+    color: "default"
+  },
+  argTypes: {
+    size: { control: { disable: true } },
+  },
+  render: (args) => html`
     <div style="display:flex;align-items:flex-end;gap:16px;">
       ${iconSizes.map(
         (s) => html`
           <div
             style="display:flex;flex-direction:column;align-items:center;gap:6px;"
           >
-            <moz-icon name="edit" size=${s}></moz-icon>
+            <moz-icon name=${args.name} color=${args.color} size=${s}></moz-icon>
             <span style="font-size:11px;font-family:monospace;opacity:0.75;"
               >${s}</span
             >
@@ -118,14 +125,20 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
-  render: () => html`
+  args: {
+    name: "information"
+  },
+  argTypes: {
+    color: { control: { disable: true } },
+  },
+  render: (args) => html`
     <div style="display:flex;align-items:center;gap:16px;">
       ${iconColors.map(
         (c) => html`
           <div
             style="display:flex;flex-direction:column;align-items:center;gap:6px;"
           >
-            <moz-icon name="information" size="large" color=${c}></moz-icon>
+            <moz-icon name=${args.name} size="large" color=${c}></moz-icon>
             <span style="font-size:11px;font-family:monospace;opacity:0.75;"
               >${c}</span
             >
@@ -137,7 +150,14 @@ export const Colors: Story = {
 };
 
 export const Gallery: Story = {
-  render: () => html`
+  args: {
+    size: "medium",
+  },
+  argTypes: {
+    name: { control: { disable: true } },
+    label: { control: { disable: true } },
+  },
+  render: (args) => html`
     <div
       style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;"
     >
@@ -146,7 +166,7 @@ export const Gallery: Story = {
           <div
             style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;border:1px solid var(--border-color-interactive, #ccc);border-radius:var(--border-radius-small, 4px);"
           >
-            <moz-icon name=${n} size="medium"></moz-icon>
+            <moz-icon name=${n} size=${ifDefined(args.size)} color=${ifDefined(args.color)}></moz-icon>
             <span
               style="font-size:11px;font-family:monospace;background-color:black;color:white;padding:1px 5px;line-height:1.3;text-align:center;word-break:break-word;opacity:0.75;"
               >${n}</span
