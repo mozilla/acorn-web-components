@@ -1,2 +1,2 @@
-/* Generated from a vendored Firefox icon. Do not edit. */
-export default "<svg viewBox=\"0 0 16 16\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\"> <defs><clipPath id=\"a\"><path d=\"M0 0h16v16H0z\"/></clipPath></defs></g> <g class=\"nova\"> <path d=\"M8.51 2a6.5 6.5 0 1 1-6.195 8.473.75.75 0 0 1 1.43-.455 5 5 0 1 0 1.33-5.15l1.278 1.278A.5.5 0 0 1 5.999 7H2.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .854-.353l1.16 1.16A6.48 6.48 0 0 1 8.51 2\" /> </g> </svg>";
+/* Generated from a vendored Acorn icon. Do not edit. */
+export default "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" fill-opacity=\"1\" viewBox=\"0 0 16 16\"> <path d=\"M8.51 2a6.5 6.5 0 1 1-6.195 8.473.75.75 0 0 1 1.43-.455 5 5 0 1 0 1.33-5.15l1.278 1.278A.5.5 0 0 1 5.999 7H2.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .854-.353l1.16 1.16A6.48 6.48 0 0 1 8.51 2\" /> </svg>";

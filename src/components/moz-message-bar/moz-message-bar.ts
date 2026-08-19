@@ -17,11 +17,11 @@ export type MessageBarType =
   | 'critical';
 
 const typeIcon: Record<MessageBarType, IconName> = {
-  info: 'info-filled',
-  warning: 'warning',
-  success: 'check-filled',
-  error: 'error',
-  critical: 'error',
+  info: 'information-fill',
+  warning: 'warning-fill',
+  success: 'checkmark-circle-fill',
+  error: 'error-fill',
+  critical: 'error-fill',
 };
 
 const typeColor: Record<MessageBarType, IconColor> = {

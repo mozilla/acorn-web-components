@@ -1,7 +1,8 @@
-# Upstream sync: refresh the vendored Firefox tokens + icons from
+# Upstream sync: refresh the vendored Firefox design-system tokens from
 # github.com/mozilla-firefox/firefox (the source this repo references) and
-# regenerate. Drift is handled here (and via `npm run vendor` on demand), NOT in
-# the standard CI pipeline. Two modes:
+# regenerate. Icons come from acorn-icons and are synced separately
+# (icons-sync.yml). Drift is handled here (and via `npm run vendor:tokens` on
+# demand), NOT in the standard CI pipeline. Two modes:
 #
 #   - Scheduled / manual (workflow_dispatch): open or update a dedicated
 #     `chore/upstream-sync` PR for review.
@@ -86,26 +87,14 @@ jobs:
 
       - run: npm ci
 
-      # Sparse, shallow checkout of only the Firefox source dirs we vendor, from
-      # the same repo the local checkout tracks: the design-system tokens, the
-      # icons, and the widgets tree (whose colocated *.tokens.json we vendor for
-      # the components in WIDGET_TOKEN_COMPONENTS). The whole widgets dir is
-      # fetched so adding a component to that list needs no workflow change;
-      # blob:none keeps it cheap by deferring blobs until checkout.
-      - name: Fetch Firefox sources
-        run: |
-          git clone --depth 1 --filter=blob:none --sparse \
-            https://github.com/mozilla-firefox/firefox.git /tmp/firefox
-          git -C /tmp/firefox sparse-checkout set \
-            toolkit/themes/shared/design-system/src/tokens \
-            toolkit/themes/shared/icons \
-            toolkit/content/widgets
-
-      # Same vendor script used locally, pointed at the sparse checkout, then
-      # regenerate. `npm run vendor` records /tmp/firefox's revision in VENDOR.json.
+      # Vendor the Firefox design tokens and regenerate. The vendor script
+      # sparse-clones the source itself (shallow + blobless, only the token and
+      # widgets trees), so no separate fetch step is needed. Icons regenerate
+      # from the unchanged committed snapshot. vendor:tokens records the source
+      # revision in VENDOR.json.
       - name: Vendor + regenerate
         run: |
-          FIREFOX_PATH=/tmp/firefox npm run vendor
+          npm run vendor:tokens
           npm run generate
 
       # Commit the regenerated output when it changed. For a `/sync` comment,
@@ -119,9 +108,9 @@ jobs:
           PR: ${{ github.event.issue.number }}
         run: |
           set -euo pipefail
-          git add vendor/design-system vendor/icons src/generated
+          git add vendor/design-system src/generated
           if git diff --cached --quiet; then
-            echo "No token/icon changes; nothing to sync."
+            echo "No token changes; nothing to sync."
             if [ "$EVENT_NAME" = "issue_comment" ]; then
               gh pr comment "$PR" --body "Already up to date with upstream — nothing to sync."
             fi
@@ -129,18 +118,18 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: sync design tokens and icons from Firefox"
+          git commit -m "chore: sync design tokens from Firefox"
 
           if [ "$EVENT_NAME" = "issue_comment" ]; then
             git push origin HEAD
-            gh pr comment "$PR" --body "Synced vendored tokens and icons from upstream and pushed a commit to this branch."
+            gh pr comment "$PR" --body "Synced vendored design tokens from upstream and pushed a commit to this branch."
             exit 0
           fi
 
           git branch -f chore/upstream-sync
           git push --force origin chore/upstream-sync
           BODY=$(cat <<'EOF'
-          Automated nightly sync of the vendored Firefox tokens and icons, with regenerated output.
+          Automated nightly sync of the vendored Firefox design tokens, with regenerated output.
 
           Review the diffs, check Storybook, and let tests run before merging.
 
@@ -149,7 +138,7 @@ jobs:
           )
           if [ -z "$(gh pr list --head chore/upstream-sync --state open --json number --jq '.[].number')" ]; then
             gh pr create --head chore/upstream-sync \
-              --title "chore: sync design tokens and icons from Firefox" \
+              --title "chore: sync design tokens from Firefox" \
               --body "$BODY"
           else
             echo "PR already open for chore/upstream-sync; pushed the update."
@@ -157,5 +146,5 @@ jobs:
 
       # TODO: detecting drift in Firefox's hand-authored moz-* COMPONENT source
       # (for parity with our components) is a separate, notify-only concern that
-      # should open an issue, not a PR. Not implemented: this repo vendors only
-      # tokens and icons.
+      # should open an issue, not a PR. Not implemented: this workflow vendors
+      # only design tokens (icons are synced by icons-sync.yml).

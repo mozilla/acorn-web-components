@@ -1,0 +1,92 @@
+# Icons sync: bump the vendored icon catalogue when FirefoxUX/acorn-icons cuts a
+# new release. Icons are pinned to a tag (vendor/icons/VENDOR.json), separate
+# from the Firefox token sync (upstream-sync.yml). When the latest release is
+# newer than the pinned tag, re-vendor at that tag, regenerate, and open/update a
+# dedicated `chore/icons-sync` PR for review.
+#
+# git + the gh CLI, not a third-party PR action (the Mozilla org allowlist blocks
+# them). setup-bun is already allowlisted for this repo (see upstream-sync.yml).
+
+name: Icons sync
+
+on:
+  schedule:
+    - cron: '37 5 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: icons-sync
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # Compare the pinned tag (source of truth: VENDOR.json) to the latest
+      # release. Skip the rest of the job when already current.
+      - name: Check for a newer release
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          current=$(jq -r .ref vendor/icons/VENDOR.json)
+          latest=$(gh api repos/FirefoxUX/acorn-icons/releases/latest --jq .tag_name)
+          echo "current=$current  latest=$latest"
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+          if [ "$current" = "$latest" ]; then
+            echo "up_to_date=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: ./.github/actions/setup
+        if: steps.check.outputs.up_to_date == 'false'
+
+      - uses: oven-sh/setup-bun@v2
+        if: steps.check.outputs.up_to_date == 'false'
+
+      # Re-vendor at the latest tag and regenerate. VENDOR.json records the tag.
+      - name: Vendor + regenerate
+        if: steps.check.outputs.up_to_date == 'false'
+        env:
+          ACORN_ICONS_REF: ${{ steps.check.outputs.latest }}
+        run: |
+          npm run vendor:icons
+          npm run generate
+
+      - name: Commit + open PR
+        if: steps.check.outputs.up_to_date == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LATEST: ${{ steps.check.outputs.latest }}
+        run: |
+          set -euo pipefail
+          git add vendor/icons src/generated
+          if git diff --cached --quiet; then
+            echo "Tag advanced but produced no output change; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync icons from acorn-icons ${LATEST}"
+          git branch -f chore/icons-sync
+          git push --force origin chore/icons-sync
+          BODY="Automated sync of the vendored icons to acorn-icons \`${LATEST}\`, with regenerated output.
+
+          Review the diffs, check Storybook, and let tests run before merging."
+          if [ -z "$(gh pr list --head chore/icons-sync --state open --json number --jq '.[].number')" ]; then
+            gh pr create --head chore/icons-sync \
+              --title "chore: sync icons from acorn-icons ${LATEST}" \
+              --body "$BODY"
+          else
+            echo "PR already open for chore/icons-sync; pushed the update."
+          fi

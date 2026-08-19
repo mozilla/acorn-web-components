@@ -1,2 +1,0 @@
-/* Generated from a vendored Firefox icon. Do not edit. */
-export default "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 12 12\" fill=\"currentColor\" fill-opacity=\"1\"> <g class=\"nova\"> <path d=\"M6.5 3.999c.367 0 .712.143.972.403l3.345 3.345a.626.626 0 0 1-.884.884L6.588 5.286c-.042-.042-.135-.042-.177 0L3.066 8.631A.626.626 0 0 1 2 8.189c0-.16.062-.32.184-.442l3.345-3.345c.26-.26.605-.403.972-.403\" /> </g> </svg>";
