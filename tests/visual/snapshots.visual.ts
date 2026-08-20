@@ -1,7 +1,6 @@
-/// <reference types="@vitest/browser/context" />
-import { page } from '@vitest/browser/context';
 import { html, render, type TemplateResult } from 'lit';
 import { expect, test } from 'vitest';
+import { page } from 'vitest/browser';
 // Foundation styles (litCss leaves these as global stylesheets); components.
 import '../../src/generated/tokens.css';
 import '../../src/base.css';
@@ -82,7 +81,7 @@ test('badge types', () =>
     'badge-types',
     html`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
       ${badgeTypes.map((t) => html`<moz-badge type=${t}>${t}</moz-badge>`)}
-      <moz-badge type="new" icon-start="check">verified</moz-badge>
+      <moz-badge type="new" icon-start="checkmark">verified</moz-badge>
     </div>`,
   ));
 
@@ -115,7 +114,8 @@ test('icon colors', () =>
     'icon-colors',
     html`<div style="display:flex;gap:16px;align-items:center;">
       ${iconColors.map(
-        (c) => html`<moz-icon name="info" size="large" color=${c}></moz-icon>`,
+        (c) =>
+          html`<moz-icon name="information" size="large" color=${c}></moz-icon>`,
       )}
     </div>`,
   ));
@@ -210,7 +210,7 @@ test('card icon', () =>
     'card-icon',
     html`<moz-card
       heading="With icon"
-      icon-start="info"
+      icon-start="information"
       style="inline-size:280px;"
     >
       A leading icon sits before the heading.
@@ -342,7 +342,7 @@ test('segmented-control icon-only', () =>
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="copy"
-        icon="clipboard"
+        icon="copy"
         label="Copy"
         icon-only
       ></moz-segmented-control-item>

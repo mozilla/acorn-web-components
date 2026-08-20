@@ -1,0 +1,2 @@
+/* Generated from a vendored Acorn icon. Do not edit. */
+export default "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" fill-opacity=\"1\" viewBox=\"0 0 20 20\"> <path fill-rule=\"evenodd\" d=\"M9.963 1c1.196 0 2.392.599 3.06 1.799l6.023 10.83c1.253 2.255-.283 5.057-2.858 5.2a111 111 0 0 1-12.397-.003c-2.56-.144-4.078-2.932-2.844-5.178L6.895 2.815A3.46 3.46 0 0 1 9.963 1M10 13.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0-7a.876.876 0 0 0-.875.875v3.75a.876.876 0 0 0 1.75 0v-3.75A.875.875 0 0 0 10 6.5\" clip-rule=\"evenodd\" /> </svg>";

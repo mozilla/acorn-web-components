@@ -53,7 +53,7 @@ export const New: Story = {
   parameters: filledA11y,
 };
 export const WithIcon: Story = {
-  args: { type: 'new', label: 'New', iconStart: 'info' },
+  args: { type: 'new', label: 'New', iconStart: 'information' },
   parameters: filledA11y,
 };
 
@@ -100,12 +100,12 @@ export const TypeReflects: Story = {
 // Icon branch: `icon-start` renders a moz-icon with the given name.
 export const IconStartRenders: Story = {
   tags: ['!dev', '!autodocs'],
-  args: { iconStart: 'info', label: 'Info' },
+  args: { iconStart: 'information', label: 'Info' },
   play: async ({ canvasElement }) => {
     const badge = canvasElement.querySelector('moz-badge')!;
     await badge.updateComplete;
     const icon = badge.shadowRoot?.querySelector('moz-icon');
     expect(icon).toBeTruthy();
-    expect(icon?.getAttribute('name')).toBe('info');
+    expect(icon?.getAttribute('name')).toBe('information');
   },
 };

@@ -52,7 +52,7 @@ export class MozDetails extends MozLitElement {
           @click=${this.#disclosure.handleSummaryClick}
           @keydown=${this.#disclosure.handleSummaryKeydown}
         >
-          <moz-icon class="chevron" part="chevron" name="arrow-down"></moz-icon>
+          <moz-icon class="chevron" part="chevron" name="chevron-down"></moz-icon>
           <span class="heading" part="heading">
             <slot name="heading">${this.heading ?? nothing}</slot>
           </span>

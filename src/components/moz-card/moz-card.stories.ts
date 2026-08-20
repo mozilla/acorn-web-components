@@ -68,7 +68,7 @@ export const Default: Story = {};
 
 // A leading icon before the heading.
 export const WithIcon: Story = {
-  args: { iconStart: 'info' },
+  args: { iconStart: 'information' },
 };
 
 // Heading only — no body, media, or actions.
@@ -184,14 +184,14 @@ export const SlottedContentRenders: Story = {
 export const IconAndEmptyContent: Story = {
   tags: ['!dev', '!autodocs'],
   render: () =>
-    html`<moz-card heading="Settings" icon-start="info"></moz-card>`,
+    html`<moz-card heading="Settings" icon-start="information"></moz-card>`,
   play: async ({ canvasElement }) => {
     const card = canvasElement.querySelector('moz-card')!;
     await card.updateComplete;
     const root = card.shadowRoot!;
 
     const icon = root.querySelector('.header moz-icon');
-    expect(icon?.getAttribute('name')).toBe('info');
+    expect(icon?.getAttribute('name')).toBe('information');
     expect(root.querySelector<HTMLElement>('.header')!.hidden).toBe(false);
 
     // Empty default slot -> content region hidden.

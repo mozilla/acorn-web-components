@@ -1,2 +1,0 @@
-/* Generated from a vendored Firefox icon. Do not edit. */
-export default "<svg viewBox=\"0 0 16 16\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\"> <g class=\"nova\"> <path fill-rule=\"evenodd\" d=\"M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0m3.405 5.82a.75.75 0 0 0-1.06 0L7.267 8.898l-1.612-1.61a.75.75 0 0 0-1.06 1.06l1.611 1.611a1.5 1.5 0 0 0 2.121 0l3.078-3.078a.75.75 0 0 0 0-1.06\" clip-rule=\"evenodd\" /> </g> </svg>";

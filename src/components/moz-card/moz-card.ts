@@ -145,7 +145,7 @@ export class MozCard extends MozLitElement {
               <moz-icon
                 class="chevron"
                 part="chevron"
-                name="arrow-down"
+                name="chevron-down"
               ></moz-icon>
               ${this.#headerContent()}
             </summary>
