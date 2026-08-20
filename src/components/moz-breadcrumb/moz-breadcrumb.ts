@@ -113,7 +113,7 @@ export class MozBreadcrumbGroup extends MozLitElement {
                 i < crumbs.length - 1
                   ? html`<moz-icon
                       class="separator"
-                      name="arrow-right-12"
+                      name="chevron-right"
                       aria-hidden="true"
                     ></moz-icon>`
                   : nothing

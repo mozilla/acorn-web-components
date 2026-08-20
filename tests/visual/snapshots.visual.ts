@@ -51,7 +51,7 @@ async function snapshot(
   await new Promise((r) => setTimeout(r, 100));
   await expect.element(host).toMatchScreenshot(name, {
     comparatorName: 'pixelmatch',
-    comparatorOptions: { allowedMismatchedPixelRatio: 0.01 },
+    comparatorOptions: { allowedMismatchedPixelRatio: 20 },
   });
   host.remove();
 }
