@@ -63,6 +63,11 @@ const preview: Preview = {
     outline: { disable: true },
     // "Show code" shows just the component usage, not the decorator wrappers.
     docs: { source: { excludeDecorators: true } },
+    options: {
+      storySort: {
+        method: 'alphabetical',
+      },
+    },
   },
 };
 
