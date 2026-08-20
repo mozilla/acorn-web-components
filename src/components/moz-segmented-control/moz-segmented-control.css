@@ -17,9 +17,10 @@
 }
 
 /* Whole-group disable: dim + not-allowed cursor. Selection is blocked in JS, so
- * pointer-events stays on for the cursor feedback. */
+ * pointer-events stays on for the cursor feedback. 0.7 matches
+ * --button-opacity-disabled, the system's disabled-dim value. */
 :host(moz-segmented-control[disabled]) {
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
