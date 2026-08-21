@@ -1,8 +1,8 @@
 {
   "source": "acorn-icons: icons/desktop/<size>/*.svg",
   "repo": "github.com/FirefoxUX/acorn-icons",
-  "ref": "v1.112.0",
-  "revision": "f4fc018c99453df16ba150f5ec18c3145a043d32",
-  "vendored": "2026-08-19",
+  "ref": "v1.114.1",
+  "revision": "d65238c7b2bf66451528028f7f83f1ce378ea65d",
+  "vendored": "2026-08-21",
   "notes": "Desktop icon set (sizes: 12, 15, 16, 20, 22, 32, 40). Nova single-design SVGs; the build normalises context-fill to currentColor."
 }
