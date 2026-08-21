@@ -352,7 +352,7 @@
       --color-accent-primary-active: var(--color-accent-primary-hover);
       --color-accent-primary-hover: SelectedItem;
       --color-accent-primary-selected: SelectedItem;
-      --color-accent-primary: AccentColor;
+      --color-accent-primary: ButtonText;
       --focus-outline-color: var(--text-color);
       --icon-color-accent-primary-desaturated: CanvasText;
       --icon-color-critical: var(--icon-color);

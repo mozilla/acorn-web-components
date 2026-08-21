@@ -1,17 +1,16 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
-  --button-nova-border-width-split: 0;
-  --button-nova-gap-split: 0;
   --button-background-color: transparent; /** TODO Bug 1821203 - Gray use needs to be consolidated */
   --button-background-color-toolbar: transparent;
   --button-badge-size: 6px;
   --button-border-color-ghost: transparent;
+  --button-border-width-split: 0;
   --button-content-alignment: center;
+  --button-gap-split: 0;
   --button-icon-fill: currentColor;
   --button-min-height-large: 40px;
   --button-opacity-disabled: 0.7;
   --button-padding-icon: 0;
-  --button-split-separator-background-color: transparent;
   --button-text-color-toolbar: inherit;
   --button-text-color-toolbar-active: inherit;
   --button-text-color-toolbar-disabled: inherit;
@@ -39,14 +38,12 @@
   --button-border-color-muted: var(--button-border-color-ghost);
   --button-border-color-primary: var(--button-border-color-ghost);
   --button-border-radius: var(--border-radius-xlarge);
-  --button-border-width-split: var(--border-width);
   --button-font-size: var(--font-size-root);
   --button-font-size-small: var(--font-size-small);
   --button-font-weight: var(--font-weight-semibold);
   --button-icon-stroke: var(--button-icon-fill);
   --button-min-height: var(--size-item-large);
   --button-min-height-small: var(--size-item-medium);
-  --button-size-icon-small: var(--size-item-medium);
   --button-size-icon-large: var(--button-min-height-large);
   --button-text-color: light-dark(var(--color-violet-90), var(--color-gray-0));
   --button-text-color-primary: light-dark(var(--color-white), var(--color-gray-70));
@@ -82,7 +79,6 @@
   --button-border-color-primary-hover: var(--button-border-color-primary);
   --button-border-color-primary-selected: var(--button-border-color-primary);
   --button-border-color-toolbar-selected: var(--button-border-color-ghost-active);
-  --button-gap-split: var(--space-xxsmall);
   --button-padding-block: var(--space-xsmall);
   --button-padding-block-large: var(--space-small);
   --button-padding-block-small: var(--space-xxsmall);
@@ -90,8 +86,8 @@
   --button-padding-inline-large: var(--space-xlarge);
   --button-padding-inline-small: var(--space-medium);
   --button-size-icon: var(--button-min-height);
+  --button-size-icon-small: var(--button-min-height-small);
   --button-text-color-active: var(--button-text-color);
-  --button-text-color-primary-hover: var(--button-text-color-primary);
   --button-text-color-destructive-active: var(--button-text-color-destructive);
   --button-text-color-destructive-disabled: var(--button-text-color-destructive);
   --button-text-color-destructive-hover: var(--button-text-color-destructive);
@@ -102,9 +98,9 @@
   --button-text-color-hover: var(--button-text-color);
   --button-text-color-primary-active: var(--button-text-color-primary);
   --button-text-color-primary-disabled: var(--button-text-color-primary);
+  --button-text-color-primary-hover: var(--button-text-color-primary);
   --button-text-color-selected: var(--button-text-color);
   --button-attention-dot-color: var(--color-accent-attention);
-  --button-nova-split-separator-background-color: var(--button-border-color);
   --button-background-color-primary-selected: var(--button-background-color-primary-active);
   --button-background-color-ghost-selected: var(--button-background-color-selected);
   --button-background-color-menu-active: var(--button-background-color-ghost-active);
@@ -118,6 +114,7 @@
   --button-border-color-selected: var(--button-border-color);
   --button-border-color-toolbar: var(--button-border-color);
   --button-padding: var(--button-padding-block) var(--button-padding-inline);
+  --button-split-separator-background-color: var(--button-border-color);
   --button-text-color-ghost-active: var(--button-text-color-ghost);
   --button-text-color-ghost-disabled: var(--button-text-color-ghost);
   --button-text-color-ghost-hover: var(--button-text-color-ghost);
@@ -168,6 +165,7 @@
     --button-background-color-muted-selected: var(--button-background-color-ghost-active);
     --button-background-color-muted: var(--button-background-color);
     --button-background-color-primary-disabled: GrayText;
+    --button-background-color-selected: SelectedItem;
     --button-background-color: ButtonFace;
     --button-border-color-active: var(--border-color-interactive-active);
     --button-border-color-destructive-active: var(--button-border-color-primary-active);
@@ -207,7 +205,7 @@
     --button-text-color-ghost: ButtonText;
     --button-text-color-hover: SelectedItem;
     --button-text-color-menu-active: var(--button-text-color-primary-active);
-    --button-text-color-menu-disabled: var(--button-text-color-primary-disabled);
+    --button-text-color-menu-disabled: var(--button-text-color-disabled);
     --button-text-color-menu-hover: var(--button-text-color-primary);
     --button-text-color-menu-selected: var(--button-text-color-primary-selected);
     --button-text-color-muted-active: var(--button-text-color-active);
