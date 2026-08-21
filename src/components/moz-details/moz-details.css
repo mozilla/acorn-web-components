@@ -51,9 +51,10 @@ summary:focus-visible {
 }
 
 /* Disabled: dim only the summary (dimming revealed content would fail
- * contrast) and block interaction (summary has no native disabled state). */
+ * contrast) and block interaction (summary has no native disabled state).
+ * 0.7 matches --button-opacity-disabled, the system's disabled-dim value. */
 :host([disabled]) summary {
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: not-allowed;
   pointer-events: none;
 }

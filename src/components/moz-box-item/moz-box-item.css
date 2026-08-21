@@ -1,0 +1,32 @@
+.box-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+  padding: var(--box-padding);
+  font-size: inherit;
+  text-align: start;
+}
+
+.box-content {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-xsmall);
+}
+
+:host(:focus-visible) {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-inset);
+}
+
+/* With a larger icon, a two-line row keeps the icon beside both lines. */
+:host([layout$="-icon"]) .text-content.has-icon.has-description {
+  grid-template-areas:
+    "icon label"
+    "icon description";
+}
