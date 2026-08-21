@@ -1,6 +1,10 @@
 import { createComponent } from '@lit/react';
 import * as React from 'react';
 import { MozBadge as MozBadgeElement } from '../components/moz-badge/moz-badge';
+import { MozBoxButton as MozBoxButtonElement } from '../components/moz-box-button/moz-box-button';
+import { MozBoxGroup as MozBoxGroupElement } from '../components/moz-box-group/moz-box-group';
+import { MozBoxItem as MozBoxItemElement } from '../components/moz-box-item/moz-box-item';
+import { MozBoxLink as MozBoxLinkElement } from '../components/moz-box-link/moz-box-link';
 import {
   MozBreadcrumb as MozBreadcrumbElement,
   MozBreadcrumbGroup as MozBreadcrumbGroupElement,
@@ -24,6 +28,30 @@ import {
 export const MozBadge = createComponent({
   tagName: 'moz-badge',
   elementClass: MozBadgeElement,
+  react: React,
+});
+
+export const MozBoxGroup = createComponent({
+  tagName: 'moz-box-group',
+  elementClass: MozBoxGroupElement,
+  react: React,
+});
+
+export const MozBoxItem = createComponent({
+  tagName: 'moz-box-item',
+  elementClass: MozBoxItemElement,
+  react: React,
+});
+
+export const MozBoxButton = createComponent({
+  tagName: 'moz-box-button',
+  elementClass: MozBoxButtonElement,
+  react: React,
+});
+
+export const MozBoxLink = createComponent({
+  tagName: 'moz-box-link',
+  elementClass: MozBoxLinkElement,
   react: React,
 });
 

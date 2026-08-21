@@ -1,0 +1,35 @@
+/*
+ * The outer border is an outline so it isn't clipped by overflow: hidden, which
+ * in turn rounds the slotted rows' corners. Each row exposes --box-border-*
+ * hooks; here we drop their side borders, collapse the shared edge into a single
+ * divider, and round only the first row's top and the last row's bottom.
+ */
+:host {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--box-border-radius);
+  outline: var(--box-border);
+}
+
+::slotted(*) {
+  --box-border-inline-start: none;
+  --box-border-inline-end: none;
+  --box-border-block-end: 0;
+  --box-border-radius-start: 0;
+  --box-border-radius-end: 0;
+}
+
+::slotted(:first-child) {
+  --box-border-block-start: none;
+  --box-border-radius-start: var(--box-border-radius-inner);
+}
+
+::slotted(:last-child) {
+  --box-border-radius-end: var(--box-border-radius-inner);
+}
+
+@media (forced-colors: active) {
+  :host {
+    outline-color: CanvasText;
+  }
+}
