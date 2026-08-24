@@ -106,6 +106,16 @@ Component-specific tokens (`--button-*`, and so on) are scoped to each component
 
 A [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (`custom-elements.json`) ships for editor autocomplete and tooling.
 
+## Examples
+
+Runnable usage examples live in [`examples/`](./examples), served against the library source (no build step):
+
+```sh
+npm run example
+```
+
+This opens a dev server whose landing page links to each example. See [examples/README.md](./examples/README.md) for the list.
+
 ## Contributing
 
 See [DEVELOPMENT.md](./DEVELOPMENT.md) for how to build and work on the library, and how the tokens and icons are compiled from Firefox.

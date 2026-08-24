@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Segmented control + deck — acorn-web-components</title>
+    <style>
+      body {
+        margin: 0;
+        background: var(--background-color-canvas);
+        color: var(--text-color);
+        font-family: var(--font-family, system-ui, sans-serif);
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      moz-segmented-control-deck section {
+        min-block-size: 160px;
+      }
+
+      section h2 {
+        margin-block-start: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>Add-on</h1>
+
+      <moz-segmented-control label="Sections" deck="sections" value="details">
+        <moz-segmented-control-item
+          value="details"
+          label="Details"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="versions"
+          label="Versions"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="reviews"
+          label="Reviews"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="stats"
+          label="Statistics"
+        ></moz-segmented-control-item>
+      </moz-segmented-control>
+
+      <moz-card>
+        <moz-segmented-control-deck id="sections">
+          <section name="details">
+            <h2>Details</h2>
+            <p>Description, categories, and support links for the add-on.</p>
+          </section>
+          <section name="versions">
+            <h2>Versions</h2>
+            <p>Release history and per-version compatibility.</p>
+          </section>
+          <section name="reviews">
+            <h2>Reviews</h2>
+            <p>Ratings and written feedback from users.</p>
+          </section>
+          <section name="stats">
+            <h2>Statistics</h2>
+            <p>Downloads and active users over time.</p>
+          </section>
+        </moz-segmented-control-deck>
+      </moz-card>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

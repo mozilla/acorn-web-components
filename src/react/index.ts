@@ -11,9 +11,15 @@ import {
 } from '../components/moz-breadcrumb/moz-breadcrumb';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
+import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
+import { MozPageHeader as MozPageHeaderElement } from '../components/moz-page-header/moz-page-header';
+import {
+  MozPageNavButton as MozPageNavButtonElement,
+  MozPageNav as MozPageNavElement,
+} from '../components/moz-page-nav/moz-page-nav';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
 import {
   MozSegmentedControlDeck as MozSegmentedControlDeckElement,
@@ -85,6 +91,15 @@ export const MozCard = createComponent({
   },
 });
 
+export const MozChip = createComponent({
+  tagName: 'moz-chip',
+  elementClass: MozChipElement,
+  react: React,
+  events: {
+    onRemove: 'moz-chip:remove',
+  },
+});
+
 export const MozDetails = createComponent({
   tagName: 'moz-details',
   elementClass: MozDetailsElement,
@@ -108,6 +123,27 @@ export const MozMessageBar = createComponent({
     onDismissed: 'moz-message-bar:dismissed',
     onClose: 'moz-message-bar:close',
   },
+});
+
+export const MozPageHeader = createComponent({
+  tagName: 'moz-page-header',
+  elementClass: MozPageHeaderElement,
+  react: React,
+});
+
+export const MozPageNav = createComponent({
+  tagName: 'moz-page-nav',
+  elementClass: MozPageNavElement,
+  react: React,
+  events: {
+    onChange: 'moz-page-nav:change',
+  },
+});
+
+export const MozPageNavButton = createComponent({
+  tagName: 'moz-page-nav-button',
+  elementClass: MozPageNavButtonElement,
+  react: React,
 });
 
 export const MozProvider = createComponent({
