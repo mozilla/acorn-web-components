@@ -1,0 +1,88 @@
+:host {
+  box-sizing: border-box;
+  block-size: 32px;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius-circle);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: var(--font-size-small);
+  line-height: 1;
+  background-color: var(--background-color-box);
+  --icon-color: currentColor;
+}
+
+/* Host display kept off [hidden] so `hidden` still hides the chip. */
+:host(:not([hidden])) {
+  display: inline-flex;
+}
+
+/* Nova sizes: default 32px tall, small 22px. Widths hug their content. */
+:host([size="small"]) {
+  block-size: 22px;
+}
+
+.container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xsmall);
+  block-size: 100%;
+  padding-inline: var(--space-small);
+}
+
+:host([size="small"]) .container {
+  gap: var(--space-xxsmall);
+  padding-inline: var(--space-xsmall);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Leading + dismiss icons are 16px in both sizes (Figma). */
+.icon {
+  --icon-size: var(--icon-size-small);
+  flex-shrink: 0;
+}
+
+/* Negative end margin tucks the dismiss button to the trailing edge. */
+.remove {
+  --icon-size: var(--icon-size-small);
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-inline-end: calc(-1 * var(--space-xxsmall));
+  padding: 2px;
+  border: none;
+  border-radius: var(--border-radius-small);
+  color: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+.remove:hover:not(:disabled) {
+  background-color: var(--background-color-list-item-hover);
+}
+
+.remove:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-inset);
+}
+
+.remove:disabled {
+  cursor: not-allowed;
+}
+
+:host([selected]) {
+  border-color: var(--border-color-selected);
+  color: var(--text-color-list-item-hover);
+  background-color: var(--background-color-list-item-hover);
+}
+
+:host([disabled]) {
+  border-color: var(--border-color-interactive-disabled);
+  color: var(--text-color-disabled);
+  cursor: not-allowed;
+}
