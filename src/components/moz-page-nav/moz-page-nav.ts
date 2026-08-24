@@ -1,7 +1,10 @@
 import { html, nothing, type PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
+import { rovingIndex } from '../../base/roving';
 import shared from '../../base/shared.css';
+import { slotHasContent } from '../../base/slots';
 import pageNavTokens from '../../generated/component-tokens/page-nav.css';
 import '../moz-icon/moz-icon';
 import type { IconName } from '../../generated/icons';
@@ -10,6 +13,12 @@ import styles from './moz-page-nav.css';
 // Internal, composed event a child button fires on activation; the parent
 // catches it and stops it so it never leaks past <moz-page-nav>.
 const ACTIVATE_EVENT = 'moz-page-nav-button:activate';
+
+/** `detail` of the `moz-page-nav:change` event. */
+export interface PageNavChangeDetail {
+  /** Identity of the newly-current item (a button's `value` or an `#id`). */
+  value: string | undefined;
+}
 
 /**
  * Nova vertical in-page navigation (the about:preferences-style side nav). View
@@ -26,13 +35,14 @@ const ACTIVATE_EVENT = 'moz-page-nav-button:activate';
  * become in-page anchors (shareable, native scroll) and the item for the
  * section in view highlights as you scroll.
  *
- * @fires moz-page-nav:change - the current item changed (click, keyboard, or
- *   scrollspy); `detail.value` is the item's identity. Programmatic `current`
- *   changes stay silent.
- * @slot - default: `<moz-page-nav-button>` view items.
+ * @slot - `<moz-page-nav-button>` view items.
  * @slot heading - custom heading content (overrides the `heading` attribute).
  * @slot subheading - a search box or notification, shown under the heading.
  * @slot secondary - `<moz-page-nav-button href="...">` external links.
+ * @csspart separator - the rule dividing the primary and secondary sections.
+ * @fires moz-page-nav:change - the current item changed (click, keyboard, or
+ *   scrollspy); `detail.value` is the item's identity. Programmatic `current`
+ *   changes stay silent.
  */
 export class MozPageNav extends MozLitElement {
   static styles = [shared, pageNavTokens, styles];
@@ -44,19 +54,19 @@ export class MozPageNav extends MozLitElement {
   @property() current?: string;
 
   /**
-   * By default the nav auto-selects the first view when `current` matches none.
-   * Set this to allow a non-matching `current` (i.e. no selection) instead.
+   * Whether a non-matching `current` (no selection) is allowed. By default the
+   * nav auto-selects the first view when `current` matches none.
    */
   @property({ type: Boolean, attribute: 'allow-no-selection' })
   allowNoSelection = false;
 
   /** Accessible name for the `<nav>` when there is no visible heading. */
-  @property({ attribute: 'label' }) label?: string;
+  @property() label?: string;
 
   /**
-   * Highlight the item for the section in view as the user scrolls (a
-   * table-of-contents nav). Items must be in-page anchors (`href="#id"`); the
-   * nav observes those targets and updates `current` silently.
+   * Whether to highlight the item for the section in view as the user scrolls
+   * (a table-of-contents nav). Items must be in-page anchors (`href="#id"`);
+   * the nav observes those targets and updates `current` silently.
    */
   @property({ type: Boolean, reflect: true }) scrollspy = false;
 
@@ -101,18 +111,15 @@ export class MozPageNav extends MozLitElement {
   }
 
   #onSecondarySlotChange(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-    this.hasSecondary = slot.assignedElements().length > 0;
+    this.hasSecondary = slotHasContent(e.target as HTMLSlotElement);
   }
 
   #onSubheadingSlotChange(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-    this.hasSubheading = slot.assignedElements().length > 0;
+    this.hasSubheading = slotHasContent(e.target as HTMLSlotElement);
   }
 
   #onHeadingSlotChange(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-    this.hasHeadingSlot = slot.assignedElements().length > 0;
+    this.hasHeadingSlot = slotHasContent(e.target as HTMLSlotElement);
   }
 
   // Reflect `current` onto the items; when nothing matches, auto-select the
@@ -139,7 +146,7 @@ export class MozPageNav extends MozLitElement {
     }
     if (changed) {
       this.dispatchEvent(
-        new CustomEvent('moz-page-nav:change', {
+        new CustomEvent<PageNavChangeDetail>('moz-page-nav:change', {
           detail: { value },
           bubbles: true,
           composed: true,
@@ -156,39 +163,14 @@ export class MozPageNav extends MozLitElement {
   }
 
   #onKeydown(e: KeyboardEvent) {
-    const keys = [
-      'ArrowUp',
-      'ArrowDown',
-      'ArrowLeft',
-      'ArrowRight',
-      'Home',
-      'End',
-    ];
-    if (!keys.includes(e.key)) return;
     const buttons = this.#buttons.filter((b) => !b.hidden);
     if (!buttons.length) return;
     const current = buttons.findIndex((b) => b.selected);
-    let next = current;
-    switch (e.key) {
-      case 'ArrowUp':
-      case 'ArrowLeft':
-        next = Math.max(0, current - 1);
-        break;
-      case 'ArrowDown':
-      case 'ArrowRight':
-        next = Math.min(buttons.length - 1, current + 1);
-        break;
-      case 'Home':
-        next = 0;
-        break;
-      case 'End':
-        next = buttons.length - 1;
-        break;
-    }
-    if (next !== current) {
-      e.preventDefault();
-      this.#select(buttons[next].navValue, { focus: true });
-    }
+    const rtl = getComputedStyle(this).direction === 'rtl';
+    const next = rovingIndex(e.key, current, buttons.length, { rtl });
+    if (next === null || next === current) return;
+    e.preventDefault();
+    this.#select(buttons[next].navValue, { focus: true });
   }
 
   // Observe each anchor item's target section; the section occupying the top of
@@ -216,7 +198,7 @@ export class MozPageNav extends MozLitElement {
       this.#scrollObserver.observe(el);
     }
 
-    // Honour an initial hash so a deep link highlights on load.
+    // Honor an initial hash so a deep link highlights on load.
     const hash = location.hash.slice(1);
     if (hash && [...this.#scrollTargets.values()].includes(hash)) {
       this.current = hash;
@@ -242,8 +224,8 @@ export class MozPageNav extends MozLitElement {
   render() {
     const showHeading = this.hasHeadingSlot || !!this.heading;
     return html`
-      <nav aria-label=${!showHeading && this.label ? this.label : nothing}
-        aria-labelledby=${showHeading ? 'page-nav-heading' : nothing}>
+      <nav aria-label=${ifDefined(!showHeading && this.label ? this.label : undefined)}
+        aria-labelledby=${ifDefined(showHeading ? 'page-nav-heading' : undefined)}>
         <div class="heading" id="page-nav-heading" ?hidden=${!showHeading}>
           <slot name="heading" @slotchange=${this.#onHeadingSlotChange}>
             ${
@@ -283,6 +265,7 @@ export class MozPageNav extends MozLitElement {
  * event; an `href` item in the `secondary` slot is a plain external link.
  *
  * @slot - the item's label.
+ * @csspart item - the interactive element (a `<button>`, or an `<a>` when `href` is set).
  */
 export class MozPageNavButton extends MozLitElement {
   static styles = [shared, pageNavTokens, styles];
@@ -346,9 +329,9 @@ export class MozPageNavButton extends MozLitElement {
         class="item"
         part="item"
         href=${this.href}
-        aria-current=${!secondary && this.selected ? 'page' : nothing}
-        tabindex=${secondary ? nothing : this.selected ? 0 : -1}
-        @click=${secondary ? nothing : this.#activate}
+        aria-current=${ifDefined(!secondary && this.selected ? 'page' : undefined)}
+        tabindex=${ifDefined(secondary ? undefined : this.selected ? 0 : -1)}
+        @click=${secondary ? undefined : this.#activate}
         >${this.#inner()}</a
       >`;
     }
@@ -357,7 +340,7 @@ export class MozPageNavButton extends MozLitElement {
         class="item"
         part="item"
         type="button"
-        aria-current=${this.selected ? 'page' : nothing}
+        aria-current=${ifDefined(this.selected ? 'page' : undefined)}
         tabindex=${this.selected ? 0 : -1}
         @click=${this.#activate}
       >

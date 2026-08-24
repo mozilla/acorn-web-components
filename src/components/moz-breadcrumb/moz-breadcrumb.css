@@ -23,7 +23,7 @@ li {
   gap: var(--breadcrumb-gap);
 }
 
-/* Forward arrow between crumbs; xsmall, de-emphasised, flips in RTL. */
+/* Forward arrow between crumbs; xsmall, de-emphasized, flips in RTL. */
 .separator {
   --icon-size: var(--breadcrumb-icon-size);
   --icon-color: var(--text-color-deemphasized);
@@ -68,7 +68,7 @@ a.crumb:hover:active {
 }
 
 /* High contrast: defer to the system link/text palette (like message-bar
- * dropping its own colours under forced-colors). */
+ * dropping its own colors under forced-colors). */
 @media (forced-colors: active) {
   a.crumb {
     color: LinkText;

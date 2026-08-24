@@ -9,9 +9,12 @@ Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.
 
 - `<moz-provider>` provides ambient theme, locale, and high-contrast state to its descendants.
 - The Nova design tokens, as CSS custom properties and a typed map.
-- A small set of Nova-styled components, including:
-  - `<moz-button>`: primary, secondary, tertiary, and icon-only buttons.
-  - `<moz-icon>`: renders a named icon from the Nova icon set.
+- A set of Nova-styled components:
+  - Actions: `<moz-button>` (default / primary / destructive / ghost / muted, plus icon-only), `<moz-chip>`.
+  - Surfaces & layout: `<moz-card>`, `<moz-details>`, `<moz-dialog>`, `<moz-box-group>` with `<moz-box-item>` / `<moz-box-button>` / `<moz-box-link>`.
+  - Navigation & structure: `<moz-page-nav>`, `<moz-breadcrumb>`, `<moz-segmented-control>`, `<moz-page-header>`.
+  - Status & feedback: `<moz-message-bar>`, `<moz-badge>`.
+  - Primitive: `<moz-icon>` renders a named icon from the Nova set.
 
 These are standard custom elements, so they work in plain HTML and in any framework (React, Vue, Svelte, and so on). Typed React wrappers are included for a more idiomatic React API.
 
@@ -59,7 +62,7 @@ Most theming is pure CSS: the tokens use `light-dark()`, so light and dark follo
 
 - `theme`: `light` | `dark` | `auto` (sets `color-scheme`).
 - `contrast`: `auto` | `high`. `high` turns on the higher-contrast token set for everything inside. High contrast also responds to the OS automatically through `@media (prefers-contrast)` and `@media (forced-colors)`.
-- `locale`: BCP-47 locale, broadcast for future internationalisation.
+- `locale`: BCP-47 locale, broadcast for future internationalization.
 
 Per-component appearance is set through the token scales rather than arbitrary values (see each component below).
 

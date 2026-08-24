@@ -3,6 +3,7 @@ import { state } from 'lit/decorators.js';
 import { MozBoxRow } from '../../base/box-row';
 import boxRow from '../../base/box-row.css';
 import shared from '../../base/shared.css';
+import { slotHasContent } from '../../base/slots';
 import boxTokens from '../../generated/component-tokens/box.css';
 import styles from './moz-box-item.css';
 
@@ -11,6 +12,10 @@ import styles from './moz-box-item.css';
  * optional leading icon, label, and description, with `actions-start` and
  * `actions-end` slots at either end. The default slot replaces the text content
  * for fully custom rows. Presentational — use moz-box-button/-link for actions.
+ *
+ * @slot - custom row content, shown in place of the label/description text.
+ * @slot actions-start - controls shown before the content (e.g. a button).
+ * @slot actions-end - controls shown after the content (e.g. a button).
  */
 export class MozBoxItem extends MozBoxRow {
   static styles = [shared, boxTokens, boxRow, styles];
@@ -19,13 +24,11 @@ export class MozBoxItem extends MozBoxRow {
   @state() private hasActionsEnd = false;
 
   #onActionsStart(event: Event) {
-    this.hasActionsStart =
-      (event.target as HTMLSlotElement).assignedNodes().length > 0;
+    this.hasActionsStart = slotHasContent(event.target as HTMLSlotElement);
   }
 
   #onActionsEnd(event: Event) {
-    this.hasActionsEnd =
-      (event.target as HTMLSlotElement).assignedNodes().length > 0;
+    this.hasActionsEnd = slotHasContent(event.target as HTMLSlotElement);
   }
 
   render() {

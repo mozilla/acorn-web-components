@@ -17,7 +17,7 @@ summary {
   cursor: pointer;
   user-select: none;
 
-  /* Chevron follows the summary text colour. */
+  /* Chevron follows the summary text color. */
   --icon-color: currentColor;
 }
 

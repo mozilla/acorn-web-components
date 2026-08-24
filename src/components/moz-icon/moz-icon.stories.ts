@@ -61,7 +61,7 @@ export const Default: Story = {
   },
 };
 
-export const Labelled: Story = {
+export const Labeled: Story = {
   args: { name: 'information', label: 'Information', color: 'information' },
   play: async ({ canvasElement }) => {
     const icon = canvasElement.querySelector('moz-icon')!;

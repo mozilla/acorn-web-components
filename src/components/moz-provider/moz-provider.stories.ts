@@ -14,8 +14,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-// System-colour fallbacks keep the demo a valid contrast pair even before the
-// token stylesheet is loaded, so these behaviour stories also pass the a11y run.
+// System-color fallbacks keep the demo a valid contrast pair even before the
+// token stylesheet is loaded, so these behavior stories also pass the a11y run.
 const surface = `
   background-color: var(--background-color-canvas, Canvas);
   color: var(--text-color, CanvasText);

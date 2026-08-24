@@ -81,7 +81,7 @@ export const WithIcon: Story = {
 // Icon-only; the accessible name comes from visually-hidden slotted text.
 export const Icon: Story = {
   render: () => html`
-    <moz-button icon variant="ghost" icon-start="close">
+    <moz-button icon-only variant="ghost" icon-start="close">
       <span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);"
         >Close</span
       >

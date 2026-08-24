@@ -11,14 +11,18 @@ import styles from './moz-provider.css';
  * components via `@lit/context`, sets `color-scheme` so the token layer's
  * `light-dark()` values resolve, and toggles `data-contrast` for high contrast.
  * Wrap an app or a subtree in it.
+ *
+ * @slot - descendant content that receives the provided context.
  */
 export class MozProvider extends LitElement {
   static styles = styles;
 
+  /** Color theme (`light`, `dark`, or `auto`) broadcast to descendants; also drives `color-scheme`. */
   @provide({ context: themeContext })
   @property({ type: String, reflect: true })
   theme: Theme = 'auto';
 
+  /** BCP-47 locale broadcast to descendants (reserved for future i18n). */
   @provide({ context: localeContext })
   @property({ type: String })
   locale = 'en-US';

@@ -266,7 +266,7 @@ export const SecondaryLinkIsAnchor: Story = {
 };
 
 // A non-matching `current` auto-selects the first button and adopts its value.
-export const AutoSelectBehaviour: Story = {
+export const AutoSelectBehavior: Story = {
   tags: ['!dev', '!autodocs'],
   args: { current: 'nope' },
   play: async ({ canvasElement }) => {

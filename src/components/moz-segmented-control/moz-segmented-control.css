@@ -53,7 +53,7 @@
   flex-basis: 0;
 }
 
-/* Item: a ghost pill that fills to the accent colour when selected. */
+/* Item: a ghost pill that fills to the accent color when selected. */
 :host(moz-segmented-control-item) {
   display: inline-flex;
   align-items: center;
@@ -77,7 +77,7 @@
   background-color: var(--background-color-list-item-hover);
 }
 
-:host(moz-segmented-control-item[checked]) {
+:host(moz-segmented-control-item[selected]) {
   /* White on the accent in light; gray-70 (#252428) on the light accent in
    * dark — matches Figma's segmented-control selected-text token. */
   color: light-dark(var(--color-white), var(--color-gray-70));
@@ -85,7 +85,7 @@
 }
 
 :host(
-  moz-segmented-control-item[checked]:not([group-disabled]):not(
+  moz-segmented-control-item[selected]:not([group-disabled]):not(
     [disabled]
   ):hover
 ) {
@@ -107,7 +107,7 @@
   cursor: not-allowed;
 }
 
-/* Icon-only: a circle with the icon centred (label hidden). */
+/* Icon-only: a circle with the icon centered (label hidden). */
 :host(moz-segmented-control-item[icon-only]) {
   padding-inline: 0;
   border-radius: var(--border-radius-circle);
@@ -128,7 +128,7 @@
   flex-shrink: 0;
 }
 
-/* High-contrast: fall back to system colours so the selected segment and the
+/* High-contrast: fall back to system colors so the selected segment and the
  * group border stay visible. */
 @media (prefers-contrast) {
   :host(moz-segmented-control-item) {
@@ -136,12 +136,17 @@
   }
 }
 
+/* Provider-driven high contrast: mirror the media-query border above. */
+:host(moz-segmented-control-item[data-contrast="high"]) {
+  border-color: var(--border-color-interactive);
+}
+
 @media (forced-colors: active) {
   :host(moz-segmented-control-item) {
     border-color: ButtonText;
   }
 
-  :host(moz-segmented-control-item[checked]) {
+  :host(moz-segmented-control-item[selected]) {
     border-color: SelectedItem;
     color: SelectedItemText;
     background-color: SelectedItem;

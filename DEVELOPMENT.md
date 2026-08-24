@@ -79,7 +79,7 @@ Output:
 
 ### Icons (`scripts/icons/build.ts`)
 
-Input: `vendor/icons/<size>/`, the desktop SVGs from `github.com/FirefoxUX/acorn-icons` (Acorn/Nova). Each icon is normalised for the web: `context-fill` becomes `currentColor`, fixed sizes are stripped, a `viewBox` is ensured, and single-colour icons become `currentColor`. Acorn draws each icon at several optical sizes, so each `(name, size)` is emitted as its own module (`icons/<name>-<size>.ts`) and the registry (`icons.ts`) maps name → available sizes → lazy loader; `moz-icon` picks the closest size and a consumer only bundles what it renders.
+Input: `vendor/icons/<size>/`, the desktop SVGs from `github.com/FirefoxUX/acorn-icons` (Acorn/Nova). Each icon is normalized for the web: `context-fill` becomes `currentColor`, fixed sizes are stripped, a `viewBox` is ensured, and single-color icons become `currentColor`. Acorn draws each icon at several optical sizes, so each `(name, size)` is emitted as its own module (`icons/<name>-<size>.ts`) and the registry (`icons.ts`) maps name → available sizes → lazy loader; `moz-icon` picks the closest size and a consumer only bundles what it renders.
 
 ### Updating from upstream
 
@@ -101,7 +101,7 @@ Two workflows handle drift in CI (not the standard pipeline): the nightly `upstr
 High contrast is available two ways:
 
 - OS-driven, automatically, through the `@media (prefers-contrast: more)` and `@media (forced-colors: active)` layers (foundation `:root` and component `:host`).
-- App-driven, through `<moz-provider contrast="high">`. The provider sets a `data-contrast` attribute, and `MozLitElement` reflects it onto each component host so the component's own `:host([data-contrast='high'])` overrides apply. The app trigger uses the prefers-contrast set only. forced-colors stays `@media`-only, because its system colours are meant to be controlled by the OS.
+- App-driven, through `<moz-provider contrast="high">`. The provider sets a `data-contrast` attribute, and `MozLitElement` reflects it onto each component host so the component's own `:host([data-contrast='high'])` overrides apply. The app trigger uses the prefers-contrast set only. forced-colors stays `@media`-only, because its system colors are meant to be controlled by the OS.
 
 ## Testing
 
@@ -144,5 +144,9 @@ The mismatch output (`*-actual.png` / `*-diff.png`) is git-ignored; CI uploads i
 - Elements use the `moz-` prefix, matching Firefox.
 - Components extend `MozLitElement` (the shared base) to consume ambient context.
 - Foundation tokens are global (`:root`); component tokens are scoped to `:host`.
-- Never hardcode colours or spacing in a component; reference tokens instead.
+- Never hardcode colors or spacing in a component; reference tokens instead.
+- `type` vs `variant`. Use `type` when the value is a semantic category that carries meaning and maps to distinct affordances — an icon, a color, an ARIA/severity treatment — e.g. `moz-message-bar` (`info`/`warning`/`success`/`error`/`critical`), `moz-badge` (`beta`/`new`). Use `variant` when the value is an interchangeable presentational or structural style with no semantic payload — e.g. `moz-button` (`primary`/`destructive`/`ghost`/`muted`), `moz-card` (`accordion`), `moz-dialog` (`modal`/`inline`). Firefox packs button styles into `type`; we deliberately use `variant` there because those are styles, not categories.
+- Leading/trailing icons are `icon-start` / `icon-end` (an `IconName` from the set); `icon-only` is the boolean for a square icon button. A slot (`icon`) is added only where arbitrary markup — an image, a logo — is also wanted (e.g. `moz-page-header`).
+- Events are named `moz-<component>:<verb>` and dispatched `{ bubbles: true, composed: true }` (plus `cancelable` for a preventable action). Any payload gets an exported `<Name>Detail` interface. Present tense is the request (`:dismiss`), past tense the completed notification (`:dismissed`).
+- Shared render/behavior helpers live in `src/base/`: `slots.ts` (`slotHasContent`), `roving.ts` (`rovingIndex` for arrow-key groups), and `icon-button.ts` (`iconButton` for close/back controls). Reuse them rather than re-implementing.
 - A component's styles live in a sibling `<name>.css`, imported as a Lit `CSSResult` (`import styles from './<name>.css'`) via vite-plugin-lit-css, and composed with the token layer: `static styles = [<name>Tokens, styles]`. This matches Firefox and the enterprise-console frontend, and keeps the CSS diffable against Firefox's own component CSS. The document-level `base.css` / `tokens.css` are the exception: they load as global `:root` stylesheets and are excluded from the transform.

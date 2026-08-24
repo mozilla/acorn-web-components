@@ -54,19 +54,19 @@ const meta: Meta<Args> = {
       <moz-segmented-control-item
         value="day"
         label="Day"
-        icon="highlighter"
+        icon-start="highlighter"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="week"
         label="Week"
-        icon="delete"
+        icon-start="delete"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="month"
         label="Month"
-        icon="copy"
+        icon-start="copy"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
     </moz-segmented-control>
@@ -112,19 +112,19 @@ export const IconOnly: Story = {
     <moz-segmented-control id="formatting" label="Formatting" value="edit" size=${args.size}>
       <moz-segmented-control-item
         value="edit"
-        icon="edit"
+        icon-start="edit"
         label="Edit"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="copy"
-        icon="copy"
+        icon-start="copy"
         label="Copy"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="close"
-        icon="close"
+        icon-start="close"
         label="Close"
         ?icon-only=${args.iconOnly}
       ></moz-segmented-control-item>
@@ -136,9 +136,9 @@ export const WithIcons: Story = {
   args: { iconOnly: false },
   render: (args) => html`
     <moz-segmented-control id="view-details" label=${args.label} value=${args.value}>
-      <moz-segmented-control-item value="highlights" label="Highlights" icon="highlighter" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
-      <moz-segmented-control-item value="deleted" label="Deleted" icon="delete" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
-      <moz-segmented-control-item value="copy" label="Clipboard" icon="copy" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
+      <moz-segmented-control-item value="highlights" label="Highlights" icon-start="highlighter" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
+      <moz-segmented-control-item value="deleted" label="Deleted" icon-start="delete" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
+      <moz-segmented-control-item value="copy" label="Clipboard" icon-start="copy" ?icon-only=${args.iconOnly}></moz-segmented-control-item>
     </moz-segmented-control>
   `,
 };
@@ -312,7 +312,7 @@ export const DeckSwitches: Story = {
 
 // Interaction test: a disabled group ignores clicks (no value change, no event)
 // and marks itself + its items disabled.
-export const DisabledBehaviour: Story = {
+export const DisabledBehavior: Story = {
   tags: ['!dev', '!autodocs'],
   args: { disabled: true },
   play: async ({ canvasElement }) => {

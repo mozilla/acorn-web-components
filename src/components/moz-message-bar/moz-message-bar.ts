@@ -1,5 +1,6 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
+import { iconButton } from '../../base/icon-button';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
 import messageBarTokens from '../../generated/component-tokens/message-bar.css';
@@ -35,23 +36,23 @@ const typeColor: Record<MessageBarType, IconColor> = {
 /**
  * Nova message bar for surfacing important information. The message goes in the
  * default slot; the `actions` slot adds buttons and `support-link` adds a link.
- * `type` picks the colour and icon; `dismissable` adds a close button.
+ * `type` picks the color and icon; `dismissable` adds a close button.
  *
- * @fires moz-message-bar:dismissed - cancelable; the user clicked close. If not
- *   prevented, the bar removes itself and fires `moz-message-bar:close`.
- * @fires moz-message-bar:close - the bar was removed.
+ * @fires moz-message-bar:dismiss - cancelable; the user clicked close. If not
+ *   prevented, the bar removes itself and fires `moz-message-bar:dismissed`.
+ * @fires moz-message-bar:dismissed - the bar was removed.
  */
 export class MozMessageBar extends MozLitElement {
   static styles = [shared, messageBarTokens, styles];
 
-  /** Message category, selecting the colour and icon. */
+  /** Message category, selecting the color and icon. */
   @property({ reflect: true }) type: MessageBarType = 'info';
 
   /** Optional bold heading shown before the message. */
   @property() heading?: string;
 
   /** Whether to show a close button. */
-  @property({ type: Boolean }) dismissable = false;
+  @property({ type: Boolean, reflect: true }) dismissable = false;
 
   /** Accessible name for the close button; pass a localized string. */
   @property({ attribute: 'dismiss-label' }) dismissLabel = 'Close';
@@ -62,20 +63,24 @@ export class MozMessageBar extends MozLitElement {
     if (!this.hasAttribute('role')) this.setAttribute('role', 'alert');
   }
 
-  #dismiss() {
-    const event = new CustomEvent('moz-message-bar:dismissed', {
+  #requestDismiss() {
+    const event = new CustomEvent('moz-message-bar:dismiss', {
       bubbles: true,
+      composed: true,
       cancelable: true,
     });
     this.dispatchEvent(event);
-    if (!event.defaultPrevented) this.close();
+    if (!event.defaultPrevented) this.dismiss();
   }
 
   /** Remove the bar and notify listeners. */
-  close() {
+  dismiss() {
     this.remove();
     this.dispatchEvent(
-      new CustomEvent('moz-message-bar:close', { bubbles: true }),
+      new CustomEvent('moz-message-bar:dismissed', {
+        bubbles: true,
+        composed: true,
+      }),
     );
   }
 
@@ -103,14 +108,12 @@ export class MozMessageBar extends MozLitElement {
         </div>
         ${
           this.dismissable
-            ? html`<moz-button
-                class="close"
-                icon
-                variant="ghost"
-                icon-start="close"
-                @click=${this.#dismiss}
-                ><span class="visually-hidden">${this.dismissLabel}</span></moz-button
-              >`
+            ? iconButton({
+                icon: 'close',
+                label: this.dismissLabel,
+                onClick: () => this.#requestDismiss(),
+                class: 'close',
+              })
             : nothing
         }
       </div>

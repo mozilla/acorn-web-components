@@ -116,7 +116,7 @@ export const MozDialog = createComponent({
   react: React,
   events: {
     onOpen: 'moz-dialog:open',
-    onClose: 'moz-dialog:close',
+    onDismiss: 'moz-dialog:dismiss',
   },
 });
 
@@ -131,8 +131,8 @@ export const MozMessageBar = createComponent({
   elementClass: MozMessageBarElement,
   react: React,
   events: {
+    onDismiss: 'moz-message-bar:dismiss',
     onDismissed: 'moz-message-bar:dismissed',
-    onClose: 'moz-message-bar:close',
   },
 });
 
