@@ -125,6 +125,9 @@ export const MozFiveStar = createComponent({
   tagName: 'moz-five-star',
   elementClass: MozFiveStarElement,
   react: React,
+  events: {
+    onChange: 'moz-five-star:change',
+  },
 });
 
 export const MozIcon = createComponent({

@@ -80,7 +80,7 @@ export const RendersRatingAndLabel: Story = {
     const el = canvasElement.querySelector('moz-five-star')!;
     await el.updateComplete;
     const container = el.shadowRoot!.querySelector('.stars')!;
-    // Read-only display exposed as a single labelled image.
+    // Read-only display exposed as a single labeled image.
     expect(container.getAttribute('role')).toBe('img');
     expect(container.getAttribute('aria-label')).toBe('3.5 out of 5 stars');
     // 3.5 rounds to three full + one half + one empty.

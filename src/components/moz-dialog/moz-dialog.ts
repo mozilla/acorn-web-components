@@ -28,6 +28,7 @@ export type DialogVariant = 'inline' | 'modal';
  * @slot - dialog body.
  * @slot heading - heading content (overrides the `heading` attribute).
  * @slot actions - footer buttons.
+ * @csspart dialog - the dialog panel (the native `<dialog>`).
  * @fires moz-dialog:open - the dialog opened.
  * @fires moz-dialog:dismiss - cancelable; a close was requested (close button,
  *   Escape, backdrop click, or a `[data-dismiss]` control). If prevented, the
