@@ -4,6 +4,10 @@
   color: var(--message-bar-text-color);
   text-align: start;
   background-color: var(--message-bar-background-color);
+
+  /* Figma spaces the icon rail 12px from the content (Firefox ships 8px); no rem
+   * space token lands on 12px at our 15px root, so hardcode it. */
+  --message-bar-container-gap: 12px;
 }
 
 :host(:not([hidden])) {
