@@ -19,15 +19,16 @@ const ACTIVATE_EVENT = 'moz-page-nav-button:activate';
  *
  * Exactly one view button is current at a time (`aria-current="page"`); it is
  * the single tab stop, and Up/Down/Left/Right/Home/End move between buttons,
- * with selection following focus. Setting `current` from outside updates the
- * selection silently; only user activation fires `moz-page-nav:change`.
+ * with selection following focus. Setting `current` from outside is silent;
+ * clicks, keyboard, and scrollspy fire `moz-page-nav:change`.
  *
  * For a table of contents, give items `href="#id"` and set `scrollspy`: they
  * become in-page anchors (shareable, native scroll) and the item for the
  * section in view highlights as you scroll.
  *
- * @fires moz-page-nav:change - a view button was activated by the user;
- *   `detail.value` is the selected button's `value`.
+ * @fires moz-page-nav:change - the current item changed (click, keyboard, or
+ *   scrollspy); `detail.value` is the item's identity. Programmatic `current`
+ *   changes stay silent.
  * @slot - default: `<moz-page-nav-button>` view items.
  * @slot heading - custom heading content (overrides the `heading` attribute).
  * @slot subheading - a search box or notification, shown under the heading.
@@ -190,8 +191,8 @@ export class MozPageNav extends MozLitElement {
     }
   }
 
-  // Observe each anchor item's target section; the first section (in nav order)
-  // within the top band becomes current. Only the nav's own targets are watched.
+  // Observe each anchor item's target section; the section occupying the top of
+  // the viewport becomes current. Only the nav's own targets are watched.
   #setupScrollspy() {
     this.#scrollObserver?.disconnect();
     this.#scrollTargets.clear();
@@ -205,10 +206,11 @@ export class MozPageNav extends MozLitElement {
     }
     if (!this.#scrollTargets.size) return;
 
-    // A section is "active" once its top reaches the top ~30% of the viewport.
+    // Trigger on a thin band at the very top: a section is "active" while it
+    // occupies the top of the viewport.
     this.#scrollObserver = new IntersectionObserver(
       (entries) => this.#onIntersect(entries),
-      { rootMargin: '0px 0px -70% 0px' },
+      { rootMargin: '0px 0px -90% 0px' },
     );
     for (const el of this.#scrollTargets.keys()) {
       this.#scrollObserver.observe(el);
@@ -228,11 +230,13 @@ export class MozPageNav extends MozLitElement {
       if (entry.isIntersecting) this.#visibleSections.add(id);
       else this.#visibleSections.delete(id);
     }
+    // If a section boundary sits in the band, the lower section has just reached
+    // the top of the viewport — highlight that one.
     const active = this.#buttons
       .map((b) => b.navValue)
-      .find((id) => id && this.#visibleSections.has(id));
-    // Silent: scroll updates never fire the change event (only user clicks do).
-    if (active) this.current = active;
+      .findLast((id) => id && this.#visibleSections.has(id));
+    // Fire change so consumers can sync the URL etc. as the section scrolls by.
+    if (active) this.#select(active);
   }
 
   render() {

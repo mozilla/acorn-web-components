@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Table of contents — acorn-web-components</title>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background-color-canvas);
+        color: var(--text-color);
+        font-family: var(--font-family, system-ui, sans-serif);
+      }
+
+      .page {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem 80vh;
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 1rem;
+        flex: 0 0 220px;
+      }
+
+      .content {
+        flex: 1 1 auto;
+        min-inline-size: 0;
+      }
+
+      section {
+        scroll-margin-top: 1rem;
+        min-block-size: 80vh;
+      }
+
+      section h2 {
+        margin-block-start: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <aside class="sidebar">
+        <moz-card>
+          <moz-page-nav id="toc" heading="On this page" scrollspy>
+            <moz-page-nav-button href="#overview">Overview</moz-page-nav-button>
+            <moz-page-nav-button href="#install"
+              >Installation</moz-page-nav-button
+            >
+            <moz-page-nav-button href="#usage">Usage</moz-page-nav-button>
+            <moz-page-nav-button href="#theming">Theming</moz-page-nav-button>
+            <moz-page-nav-button href="#api">API reference</moz-page-nav-button>
+          </moz-page-nav>
+        </moz-card>
+      </aside>
+
+      <main class="content">
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>
+            Scroll the page: the nav highlights the section in view and the URL
+            hash updates to match, so the location is always shareable.
+          </p>
+        </section>
+        <section id="install">
+          <h2>Installation</h2>
+          <p>Install the package and import the components you need.</p>
+        </section>
+        <section id="usage">
+          <h2>Usage</h2>
+          <p>Drop the elements into your markup and wire up the events.</p>
+        </section>
+        <section id="theming">
+          <h2>Theming</h2>
+          <p>Everything is driven by the Nova design tokens.</p>
+        </section>
+        <section id="api">
+          <h2>API reference</h2>
+          <p>Props, slots, and events for each component.</p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
