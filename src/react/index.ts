@@ -14,6 +14,7 @@ import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dialog';
+import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozPageHeader as MozPageHeaderElement } from '../components/moz-page-header/moz-page-header';
@@ -118,6 +119,12 @@ export const MozDialog = createComponent({
     onOpen: 'moz-dialog:open',
     onDismiss: 'moz-dialog:dismiss',
   },
+});
+
+export const MozFiveStar = createComponent({
+  tagName: 'moz-five-star',
+  elementClass: MozFiveStarElement,
+  react: React,
 });
 
 export const MozIcon = createComponent({
