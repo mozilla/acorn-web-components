@@ -46,6 +46,7 @@
     "build:assets": "bun scripts/copy-assets.ts",
     "analyze": "cem analyze --litelement",
     "build": "npm run clean && npm run build:lib && npm run build:react && npm run build:types && npm run build:assets && npm run analyze",
+    "prepare": "npm run build:lib && npm run build:react && npm run build:types && node scripts/copy-assets.ts && npm run analyze",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:browsers": "vitest run",
