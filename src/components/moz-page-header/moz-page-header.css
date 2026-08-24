@@ -1,0 +1,79 @@
+:host {
+  color: var(--text-color);
+  text-align: start;
+}
+
+:host(:not([hidden])) {
+  display: block;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-small);
+}
+
+.breadcrumbs {
+  display: flex;
+}
+
+.back {
+  flex-shrink: 0;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: var(--space-medium);
+}
+
+.leading {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* Size a slotted image; moz-icon controls its own size. */
+.leading ::slotted(img) {
+  display: block;
+  inline-size: var(--icon-size-xlarge);
+  block-size: var(--icon-size-xlarge);
+}
+
+/* Grows so actions sit at the far edge; min-width lets long text wrap. */
+.titles {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-xxsmall);
+  min-width: 0;
+}
+
+/* Heading and its optional badge sit inline. */
+.heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-small);
+}
+
+/* Semantics come from the tag; the visual size is constant across levels. */
+.heading {
+  margin: 0;
+  font-size: var(--font-size-heading-large);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.2;
+}
+
+/* Deemphasized foundation colour resolves to plain text under high contrast. */
+.description {
+  margin: 0;
+  color: var(--text-color-deemphasized);
+}
+
+.actions {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-small);
+}

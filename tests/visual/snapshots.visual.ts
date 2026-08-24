@@ -12,10 +12,12 @@ import '../../src/components/moz-box-link/moz-box-link';
 import '../../src/components/moz-breadcrumb/moz-breadcrumb';
 import '../../src/components/moz-button/moz-button';
 import '../../src/components/moz-card/moz-card';
+import '../../src/components/moz-chip/moz-chip';
 import '../../src/components/moz-details/moz-details';
 import '../../src/components/moz-icon/moz-icon';
 import '../../src/components/moz-message-bar/moz-message-bar';
 import '../../src/components/moz-page-nav/moz-page-nav';
+import '../../src/components/moz-page-header/moz-page-header';
 import '../../src/components/moz-provider/moz-provider';
 import '../../src/components/moz-segmented-control/moz-segmented-control';
 import type { BadgeType } from '../../src/components/moz-badge/moz-badge';
@@ -546,3 +548,59 @@ test('page-nav', () => snapshot('page-nav', pageNav));
 
 test('page-nav high-contrast', () =>
   snapshotContrast('page-nav-high-contrast', pageNav));
+
+// Chip: default (32px) + small (22px) rows, each covering plain / icon /
+// selected / disabled. The dismiss button is always present.
+const chipRow = html`<div
+  style="display:flex;flex-direction:column;gap:12px;align-items:start;"
+>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+    <moz-chip>Plain</moz-chip>
+    <moz-chip icon-start="folder">With icon</moz-chip>
+    <moz-chip selected icon-start="checkmark">Selected</moz-chip>
+    <moz-chip disabled>Disabled</moz-chip>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+    <moz-chip size="small">Plain</moz-chip>
+    <moz-chip size="small" icon-start="folder">With icon</moz-chip>
+    <moz-chip size="small" selected icon-start="checkmark">Selected</moz-chip>
+    <moz-chip size="small" disabled>Disabled</moz-chip>
+  </div>
+</div>`;
+
+test('chip', () => snapshot('chip', chipRow));
+
+test('chip high-contrast', () =>
+  snapshotContrast('chip-high-contrast', chipRow));
+
+// Page header: basic, the full config (back button + badge + icon + actions),
+// and one with breadcrumbs above the heading.
+const pageHeaders = html`<div
+  style="display:flex;flex-direction:column;gap:24px;inline-size:640px;"
+>
+  <moz-page-header
+    heading="Extensions"
+    description="Manage the add-ons installed in your browser."
+  ></moz-page-header>
+  <moz-page-header
+    heading="Extension details"
+    description="This feature is still in testing."
+    back-button
+    badge="beta"
+  >
+    <moz-icon slot="icon" name="plugin" size="xlarge"></moz-icon>
+    <moz-button slot="actions" variant="primary">Add extension</moz-button>
+  </moz-page-header>
+  <moz-page-header heading="Privacy">
+    <moz-breadcrumb-group slot="breadcrumbs" label="Breadcrumb">
+      <moz-breadcrumb href="#home">Home</moz-breadcrumb>
+      <moz-breadcrumb>Privacy</moz-breadcrumb>
+    </moz-breadcrumb-group>
+    <span slot="description">Control what data is shared.</span>
+  </moz-page-header>
+</div>`;
+
+test('page-header', () => snapshot('page-header', pageHeaders));
+
+test('page-header high-contrast', () =>
+  snapshotContrast('page-header-high-contrast', pageHeaders));
