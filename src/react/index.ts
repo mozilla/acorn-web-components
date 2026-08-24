@@ -11,6 +11,7 @@ import {
 } from '../components/moz-breadcrumb/moz-breadcrumb';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
+import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
@@ -83,6 +84,15 @@ export const MozCard = createComponent({
   react: React,
   events: {
     onToggle: 'moz-card:toggle',
+  },
+});
+
+export const MozChip = createComponent({
+  tagName: 'moz-chip',
+  elementClass: MozChipElement,
+  react: React,
+  events: {
+    onRemove: 'moz-chip:remove',
   },
 });
 
