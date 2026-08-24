@@ -7,6 +7,7 @@ export * from './components/moz-box-link/moz-box-link';
 export * from './components/moz-breadcrumb/moz-breadcrumb';
 export * from './components/moz-button/moz-button';
 export * from './components/moz-card/moz-card';
+export * from './components/moz-chip/moz-chip';
 export * from './components/moz-details/moz-details';
 export * from './components/moz-icon/moz-icon';
 export * from './components/moz-message-bar/moz-message-bar';
