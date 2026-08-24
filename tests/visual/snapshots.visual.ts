@@ -14,6 +14,7 @@ import '../../src/components/moz-button/moz-button';
 import '../../src/components/moz-card/moz-card';
 import '../../src/components/moz-chip/moz-chip';
 import '../../src/components/moz-details/moz-details';
+import '../../src/components/moz-dialog/moz-dialog';
 import '../../src/components/moz-icon/moz-icon';
 import '../../src/components/moz-message-bar/moz-message-bar';
 import '../../src/components/moz-page-nav/moz-page-nav';
@@ -606,3 +607,18 @@ test('page-header', () => snapshot('page-header', pageHeaders));
 
 test('page-header high-contrast', () =>
   snapshotContrast('page-header-high-contrast', pageHeaders));
+
+// Inline mode (renders in flow) so the panel is captured in the element
+// screenshot; a modal would draw in the top layer, outside the host box. Same
+// header / body / actions chrome either way.
+const dialog = html`<moz-dialog mode="inline" open dismissable heading="Delete file?">
+  <moz-icon slot="icon" name="delete" size="large"></moz-icon>
+  This action can't be undone.
+  <moz-button slot="actions" variant="ghost" data-close>Cancel</moz-button>
+  <moz-button slot="actions" variant="destructive" data-close>Delete</moz-button>
+</moz-dialog>`;
+
+test('dialog', () => snapshot('dialog', dialog));
+
+test('dialog high-contrast', () =>
+  snapshotContrast('dialog-high-contrast', dialog));

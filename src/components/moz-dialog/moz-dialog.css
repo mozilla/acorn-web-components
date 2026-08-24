@@ -1,0 +1,91 @@
+:host {
+  /* The native <dialog> owns its own box and open/closed display; the host is
+   * just a placement anchor (inline mode flows where the host sits). */
+  display: contents;
+}
+
+dialog {
+  overflow: auto;
+  inline-size: min(90vw, 32rem);
+  max-block-size: min(90vh, 40rem);
+  margin: auto; /* centre the modal in the viewport */
+
+  /* Padding lives on .content so backdrop clicks (target === dialog) stay
+   * distinguishable from clicks on the dialog's own content. */
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius-medium);
+  color: var(--text-color);
+  background-color: var(--background-color-box);
+  box-shadow: var(--box-shadow-level-4);
+}
+
+/* Focus is moved to the dialog programmatically on open (tabindex=-1, not a tab
+ * stop); interactive children carry their own rings, so skip a full-panel one. */
+dialog:focus {
+  outline: none;
+}
+
+/* Modal dimming + blur of the page behind the dialog. */
+dialog::backdrop {
+  background-color: var(--background-color-overlay);
+  backdrop-filter: blur(4px);
+}
+
+/* Inline: no top layer, sits in normal flow, sized to content. `position: static`
+ * overrides the UA `absolute` so the dialog flows instead of overlapping. */
+:host([mode="inline"]) dialog {
+  position: static;
+  inline-size: auto;
+  max-inline-size: min(90vw, 32rem);
+  box-shadow: var(--box-shadow-level-2);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-medium);
+  padding: var(--space-large);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+}
+
+.heading {
+  flex-grow: 1;
+  margin: 0;
+  font-size: var(--font-size-heading-medium);
+  font-weight: var(--font-weight-heading);
+  line-height: 1.2;
+}
+
+/* Pull the close button into the surface padding, aligned with the heading. */
+.close {
+  flex-shrink: 0;
+  margin-block-start: calc(-1 * var(--space-xsmall));
+  margin-inline-end: calc(-1 * var(--space-xsmall));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-small);
+}
+
+/* Forced colours drop the shadow and blurred backdrop, so restore a border to
+ * keep the panel's edge visible. */
+@media (prefers-contrast: more), (forced-colors: active) {
+  dialog {
+    border: var(--border-width) solid var(--border-color);
+  }
+}
+
+:host([data-contrast="high"]) {
+  dialog {
+    border: var(--border-width) solid var(--border-color);
+  }
+}
