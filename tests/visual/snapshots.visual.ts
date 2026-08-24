@@ -16,6 +16,7 @@ import '../../src/components/moz-chip/moz-chip';
 import '../../src/components/moz-details/moz-details';
 import '../../src/components/moz-icon/moz-icon';
 import '../../src/components/moz-message-bar/moz-message-bar';
+import '../../src/components/moz-page-nav/moz-page-nav';
 import '../../src/components/moz-page-header/moz-page-header';
 import '../../src/components/moz-provider/moz-provider';
 import '../../src/components/moz-segmented-control/moz-segmented-control';
@@ -520,6 +521,33 @@ test('box item layouts', () =>
       ></moz-box-item>
     </div>`,
   ));
+
+// Page nav: side-nav with a heading, view buttons (one current), icons, and a
+// secondary external link below the separator.
+const pageNav = html`<div style="inline-size:240px;">
+  <moz-page-nav heading="Settings" current="privacy">
+    <moz-page-nav-button value="general" icon-start="settings"
+      >General</moz-page-nav-button
+    >
+    <moz-page-nav-button value="privacy" icon-start="shield"
+      >Privacy &amp; Security</moz-page-nav-button
+    >
+    <moz-page-nav-button value="sync" icon-start="sync"
+      >Sync</moz-page-nav-button
+    >
+    <moz-page-nav-button
+      slot="secondary"
+      href="https://support.mozilla.org"
+      icon-start="help"
+      >Get help</moz-page-nav-button
+    >
+  </moz-page-nav>
+</div>`;
+
+test('page-nav', () => snapshot('page-nav', pageNav));
+
+test('page-nav high-contrast', () =>
+  snapshotContrast('page-nav-high-contrast', pageNav));
 
 // Chip: default (32px) + small (22px) rows, each covering plain / icon /
 // selected / disabled. The dismiss button is always present.

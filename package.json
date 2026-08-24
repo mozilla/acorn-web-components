@@ -31,6 +31,7 @@
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
+    "example": "vite --config examples/vite.config.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:tokens": "bun scripts/tokens/build.ts",

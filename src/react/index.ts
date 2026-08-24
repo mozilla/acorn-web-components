@@ -16,6 +16,10 @@ import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-d
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozPageHeader as MozPageHeaderElement } from '../components/moz-page-header/moz-page-header';
+import {
+  MozPageNavButton as MozPageNavButtonElement,
+  MozPageNav as MozPageNavElement,
+} from '../components/moz-page-nav/moz-page-nav';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
 import {
   MozSegmentedControlDeck as MozSegmentedControlDeckElement,
@@ -124,6 +128,21 @@ export const MozMessageBar = createComponent({
 export const MozPageHeader = createComponent({
   tagName: 'moz-page-header',
   elementClass: MozPageHeaderElement,
+  react: React,
+});
+
+export const MozPageNav = createComponent({
+  tagName: 'moz-page-nav',
+  elementClass: MozPageNavElement,
+  react: React,
+  events: {
+    onChange: 'moz-page-nav:change',
+  },
+});
+
+export const MozPageNavButton = createComponent({
+  tagName: 'moz-page-nav-button',
+  elementClass: MozPageNavButtonElement,
   react: React,
 });
 

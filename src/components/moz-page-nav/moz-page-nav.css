@@ -1,0 +1,154 @@
+/* Shared by <moz-page-nav> (nav container) and <moz-page-nav-button> (items);
+ * the token file scopes both to their own :host. */
+
+:host {
+  text-align: start;
+}
+
+:host(:not([hidden])) {
+  display: block;
+}
+
+/* --- Container (moz-page-nav) --- */
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-nav-gap);
+}
+
+/* No baked-in top offset: Firefox's --page-nav-margin-block-start (64px) exists
+ * only to align the nav with the main content column beside it, which is the
+ * consuming layout's concern — not something a standalone component forces. */
+.heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+}
+
+.heading-text {
+  margin: 0;
+  font-size: var(--font-size-xlarge);
+  font-weight: var(--font-weight-heading);
+}
+
+.subheading {
+  display: block;
+}
+
+.primary,
+.secondary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--page-nav-button-gap);
+  margin: calc(var(--page-nav-focus-padding) * -1);
+
+  /* Padding so non-inset focus outlines aren't clipped; negative margin keeps
+   * the visual box flush. */
+  padding: var(--page-nav-focus-padding);
+}
+
+hr {
+  inline-size: 100%;
+  block-size: 1px;
+  margin: 0;
+  border: 0;
+  background-color: var(--page-nav-hr-background-color);
+}
+
+/* --- Item (moz-page-nav-button) --- */
+
+/* The host (a list item, `role="listitem"`) carries the visual box so the
+ * slotted label text has it as a real DOM ancestor — axe and background
+ * inheritance resolve colour against the host, not the shadow <button>. */
+:host([role="listitem"]) {
+  position: relative;
+  border: var(--border-width) solid var(--page-nav-button-border-color);
+  border-radius: var(--page-nav-button-border-radius);
+  color: var(--page-nav-button-text-color);
+  background-color: var(--page-nav-button-background-color);
+  transition: background-color 150ms;
+  --icon-color: currentColor;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-medium);
+  inline-size: 100%;
+  padding: var(--page-nav-button-padding);
+  border: 0;
+  border-radius: inherit;
+  color: inherit;
+  font: inherit;
+  font-weight: normal;
+  text-align: start;
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.label {
+  user-select: none;
+}
+
+:host([role="listitem"]:not([selected]):hover) {
+  border-color: var(--page-nav-button-border-color-hover);
+  color: var(--page-nav-button-text-color-hover);
+  background-color: var(--page-nav-button-background-color-hover);
+}
+
+:host([role="listitem"]:not([selected]):active) {
+  border-color: var(--page-nav-button-border-color-active);
+  color: var(--page-nav-button-text-color-active);
+  background-color: var(--page-nav-button-background-color-active);
+}
+
+:host([selected]) {
+  color: var(--page-nav-button-text-color-selected);
+  background-color: var(--page-nav-button-background-color-selected);
+}
+
+:host([selected]) .item {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Leading selection indicator rail (0-width in Nova; kept for fidelity). */
+:host([role="listitem"])::before {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--page-nav-button-indicator-width);
+  background-color: transparent;
+  content: "";
+  border-end-start-radius: var(--page-nav-button-border-radius);
+  border-start-start-radius: var(--page-nav-button-border-radius);
+}
+
+:host([selected])::before {
+  background-color: var(--page-nav-button-indicator-background-color);
+}
+
+.item:focus-visible {
+  border-radius: var(--page-nav-button-border-radius-focused);
+  outline: var(--focus-outline);
+  outline-offset: var(--page-nav-focus-outline-offset);
+}
+
+/* High contrast: the border carries the states; the token file flips the
+ * border colour under forced-colors. */
+@media (prefers-contrast) {
+  :host([selected]) {
+    border-color: var(--border-color-selected);
+  }
+}
+
+@media (forced-colors: active) {
+  :host([role="listitem"]) {
+    transition: none;
+  }
+}
