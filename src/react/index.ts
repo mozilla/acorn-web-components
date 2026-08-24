@@ -14,6 +14,7 @@ import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
+import { MozPageHeader as MozPageHeaderElement } from '../components/moz-page-header/moz-page-header';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
 import {
   MozSegmentedControlDeck as MozSegmentedControlDeckElement,
@@ -108,6 +109,12 @@ export const MozMessageBar = createComponent({
     onDismissed: 'moz-message-bar:dismissed',
     onClose: 'moz-message-bar:close',
   },
+});
+
+export const MozPageHeader = createComponent({
+  tagName: 'moz-page-header',
+  elementClass: MozPageHeaderElement,
+  react: React,
 });
 
 export const MozProvider = createComponent({
