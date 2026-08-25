@@ -7,10 +7,11 @@ import { litCssPlugin } from './litcss';
 // its `play` function as an interaction test and the a11y addon running axe.
 
 // v8 coverage only instruments Chromium, so a --coverage run is Chromium-only;
-// a plain `vitest` run adds Firefox for cross-browser confidence. (Visual
-// regression is a separate run — see vitest.visual.config.ts.)
+// a plain `vitest` run adds Firefox and WebKit for cross-browser confidence.
+// CI runs the coverage (Chromium) pass and a `--project=firefox --project=webkit`
+// pass separately, so no engine runs twice. (Visual regression is a separate
+// run — see vitest.visual.config.ts.)
 const withCoverage = process.argv.includes('--coverage');
-const chromiumOnly = withCoverage;
 
 export default defineConfig({
   // litCssPlugin transforms component `*.css` imports; the Storybook build/dev
@@ -24,9 +25,13 @@ export default defineConfig({
       enabled: true,
       headless: true,
       provider: playwright(),
-      instances: chromiumOnly
+      instances: withCoverage
         ? [{ browser: 'chromium' }]
-        : [{ browser: 'chromium' }, { browser: 'firefox' }],
+        : [
+            { browser: 'chromium' },
+            { browser: 'firefox' },
+            { browser: 'webkit' },
+          ],
     },
     coverage: {
       provider: 'v8',
