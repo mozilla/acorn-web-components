@@ -28,6 +28,9 @@
     --box-border-radius-start,
     var(--box-border-radius)
   );
+
+  /* Row height (Figma); content centers within it. */
+  --box-min-block-size: 68px;
 }
 
 :host([layout="medium-icon"]) {
@@ -85,6 +88,7 @@
   justify-content: space-between;
   gap: var(--space-small);
   inline-size: 100%;
+  min-block-size: var(--box-min-block-size);
   padding: var(--box-padding);
   border: none;
   border-radius: inherit;

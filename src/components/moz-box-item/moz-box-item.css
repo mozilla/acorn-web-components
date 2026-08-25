@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-small);
+  min-block-size: var(--box-min-block-size);
   padding: var(--box-padding);
   font-size: inherit;
   text-align: start;
