@@ -29,6 +29,9 @@ test-results/
 .firefox-tmp/
 .acorn-icons-tmp/
 
+# Local scratch list; use GitHub Issues for anything real.
+TODO.md
+
 # Created by https://www.toptal.com/developers/gitignore/api/node,macos,windows,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,windows,linux
 

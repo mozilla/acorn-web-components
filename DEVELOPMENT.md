@@ -6,6 +6,7 @@ How to build, test, and extend the library, and how the tokens and icons are com
 
 - Node.js 24+ and npm.
 - [Bun](https://bun.sh), used to run the token and icon build scripts (they are TypeScript, with no compile step).
+- Playwright browsers for the tests — `npm run playwright:install` once (CI runs them from the pinned Playwright image instead).
 
 ## Setup
 
@@ -27,9 +28,11 @@ npm run dev        # Storybook at http://localhost:6006
 | `npm run dev` / `npm run storybook` | Storybook dev server |
 | `npm run generate` | Compile tokens (`build:tokens`) and icons (`build:icons`) into `src/generated/` |
 | `npm run test` | Storybook-driven tests via Vitest (browser mode), watch |
-| `npm run test:browsers` | One-shot cross-browser run (Chromium + Firefox) |
+| `npm run test:browsers` | One-shot cross-browser run (Chromium + Firefox + WebKit) |
 | `npm run test:coverage` | Chromium-only run with v8 coverage + thresholds |
-| `npm run test:visual` | Compare visual snapshots (Chromium; expects Linux baselines) |
+| `npm run playwright:install` | Install the Playwright browsers (Chromium, Firefox, WebKit) matching the pinned version |
+| `npm run test:visual` | Compare visual snapshots locally (baselines are `-chromium-linux`, so pixels only match in the container — use `:docker`) |
+| `npm run test:visual:docker` | Compare against the committed baselines in the pinned Playwright container (the reliable local check) |
 | `npm run test:visual:update:docker` | Regenerate the committed baselines in the pinned Playwright container |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run build` | Full library build into `dist/` (clean, lib, react, types, assets, manifest) |
@@ -109,7 +112,7 @@ Tests are Storybook-driven: every story runs as a test in a real browser via Vit
 
 ```sh
 npm run test              # watch
-npm run test:browsers     # one-shot, Chromium + Firefox
+npm run test:browsers     # one-shot, Chromium + Firefox + WebKit
 npm run test:coverage     # Chromium-only, v8 coverage + thresholds
 ```
 

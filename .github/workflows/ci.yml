@@ -65,12 +65,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
-      # test:browsers exercises Chromium + Firefox; coverage is Chromium-only
-      # (v8 provider). Both ship in the image.
-      - name: Test (Chromium + Firefox)
-        run: npm run test:browsers
-      - name: Coverage
+      # Each engine runs once: Chromium via the coverage pass (v8 only
+      # instruments Chromium), Firefox + WebKit via a separate cross-browser
+      # pass. All three ship in the image.
+      - name: Coverage (Chromium)
         run: npm run test:coverage
+      - name: Cross-browser (Firefox + WebKit)
+        run: npm run test:browsers -- --project=firefox --project=webkit
 
   # Pixel snapshots run in the same pinned Playwright container so the browser
   # build and fonts match the committed `-chromium-linux` baselines exactly.
