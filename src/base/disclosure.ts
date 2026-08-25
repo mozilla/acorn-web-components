@@ -3,9 +3,9 @@ import type { ReactiveController, ReactiveControllerHost } from 'lit';
 type DisclosureHost = ReactiveControllerHost & EventTarget;
 
 interface DisclosureConfig {
-  /** Read the host's current expanded state. */
+  /** Read the host's current open state. */
   get: () => boolean;
-  /** Apply a new expanded state to the host. */
+  /** Apply a new open state to the host. */
   set: (open: boolean) => void;
   /** Event dispatched on user toggle (bubbles + composed); detail: { open }. */
   eventType: string;
@@ -14,7 +14,7 @@ interface DisclosureConfig {
 }
 
 /**
- * Shared disclosure toggle behaviour for native `<details>`/`<summary>`
+ * Shared disclosure toggle behavior for native `<details>`/`<summary>`
  * elements (moz-details, moz-card's accordion type). Wire `handleSummaryClick`
  * and `handleSummaryKeydown` onto the `<summary>`; the host owns its open state.
  */

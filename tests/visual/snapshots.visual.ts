@@ -159,7 +159,7 @@ test('message-bar dismissable', () =>
     </div>`,
   ));
 
-// High-contrast (app-driven): type colours drop to a plain border.
+// High-contrast (app-driven): type colors drop to a plain border.
 test('message-bar high-contrast', () =>
   snapshotContrast(
     'message-bar-high-contrast',
@@ -179,7 +179,7 @@ test('icon buttons', () =>
     html`<div style="display:flex;gap:12px;align-items:center;">
       ${sizes.map(
         (s) =>
-          html`<moz-button icon variant="ghost" size=${s} icon-start="close"
+          html`<moz-button icon-only variant="ghost" size=${s} icon-start="close"
             ><span style=${srOnly}>Close</span></moz-button
           >`,
       )}
@@ -234,10 +234,10 @@ test('card accordion', () =>
     html`<div
       style="display:flex;flex-direction:column;gap:16px;inline-size:320px;"
     >
-      <moz-card type="accordion" heading="Collapsed"
+      <moz-card variant="accordion" heading="Collapsed"
         >Hidden until expanded.</moz-card
       >
-      <moz-card type="accordion" expanded heading="Expanded">
+      <moz-card variant="accordion" open heading="Expanded">
         Body revealed when expanded.
         <moz-button slot="actions" size="small">Action</moz-button>
       </moz-card>
@@ -347,19 +347,19 @@ test('segmented-control icon-only', () =>
     html`<moz-segmented-control label="Formatting" value="edit">
       <moz-segmented-control-item
         value="edit"
-        icon="edit"
+        icon-start="edit"
         label="Edit"
         icon-only
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="copy"
-        icon="copy"
+        icon-start="copy"
         label="Copy"
         icon-only
       ></moz-segmented-control-item>
       <moz-segmented-control-item
         value="close"
-        icon="close"
+        icon-start="close"
         label="Close"
         icon-only
       ></moz-segmented-control-item>
@@ -591,8 +591,8 @@ const pageHeaders = html`<div
     description="This feature is still in testing."
     back-button
     badge="beta"
+    icon-start="plugin"
   >
-    <moz-icon slot="icon" name="plugin" size="xlarge"></moz-icon>
     <moz-button slot="actions" variant="primary">Add extension</moz-button>
   </moz-page-header>
   <moz-page-header heading="Privacy">
@@ -612,11 +612,16 @@ test('page-header high-contrast', () =>
 // Inline mode (renders in flow) so the panel is captured in the element
 // screenshot; a modal would draw in the top layer, outside the host box. Same
 // header / body / actions chrome either way.
-const dialog = html`<moz-dialog mode="inline" open dismissable heading="Delete file?">
-  <moz-icon slot="icon" name="delete" size="large"></moz-icon>
+const dialog = html`<moz-dialog
+  variant="inline"
+  open
+  dismissable
+  heading="Delete file?"
+  icon-start="delete"
+>
   This action can't be undone.
-  <moz-button slot="actions" variant="ghost" data-close>Cancel</moz-button>
-  <moz-button slot="actions" variant="destructive" data-close>Delete</moz-button>
+  <moz-button slot="actions" variant="ghost" data-dismiss>Cancel</moz-button>
+  <moz-button slot="actions" variant="destructive" data-dismiss>Delete</moz-button>
 </moz-dialog>`;
 
 test('dialog', () => snapshot('dialog', dialog));

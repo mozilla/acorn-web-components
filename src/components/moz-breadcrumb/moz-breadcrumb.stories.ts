@@ -115,7 +115,7 @@ export const SelectEvent: Story = {
   },
 };
 
-// Cancelling the event blocks the anchor's default navigation.
+// Canceling the event blocks the anchor's default navigation.
 export const SelectCancelable: Story = {
   tags: ['!dev', '!autodocs'],
   render: () => html`

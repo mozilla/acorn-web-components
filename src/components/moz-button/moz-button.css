@@ -20,7 +20,7 @@ button {
   background-color: var(--button-background-color);
   cursor: pointer;
 
-  /* Icons inherit the button's text colour across variants/states. */
+  /* Icons inherit the button's text color across variants/states. */
   --icon-color: currentColor;
 }
 
@@ -159,20 +159,20 @@ button[disabled] {
   padding: var(--button-padding-block-large) var(--button-padding-inline-large);
 }
 
-/* Icon-only: a compact square from the --button-size-icon scale, icon centred. */
-:host([icon]) button {
+/* Icon-only: a compact square from the --button-size-icon scale, icon centered. */
+:host([icon-only]) button {
   min-height: 0;
   inline-size: var(--button-size-icon);
   block-size: var(--button-size-icon);
   padding: var(--button-padding-icon);
 }
 
-:host([icon][size="small"]) button {
+:host([icon-only][size="small"]) button {
   inline-size: var(--button-size-icon-small);
   block-size: var(--button-size-icon-small);
 }
 
-:host([icon][size="large"]) button {
+:host([icon-only][size="large"]) button {
   inline-size: var(--button-size-icon-large);
   block-size: var(--button-size-icon-large);
 }

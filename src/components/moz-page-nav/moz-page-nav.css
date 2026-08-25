@@ -60,7 +60,7 @@ hr {
 
 /* The host (a list item, `role="listitem"`) carries the visual box so the
  * slotted label text has it as a real DOM ancestor — axe and background
- * inheritance resolve colour against the host, not the shadow <button>. */
+ * inheritance resolve color against the host, not the shadow <button>. */
 :host([role="listitem"]) {
   position: relative;
   border: var(--border-width) solid var(--page-nav-button-border-color);
@@ -140,7 +140,7 @@ hr {
 }
 
 /* High contrast: the border carries the states; the token file flips the
- * border colour under forced-colors. */
+ * border color under forced-colors. */
 @media (prefers-contrast) {
   :host([selected]) {
     border-color: var(--border-color-selected);

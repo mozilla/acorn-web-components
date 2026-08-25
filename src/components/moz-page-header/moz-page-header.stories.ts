@@ -59,8 +59,11 @@ export const WithDescription: Story = {
 export const WithIcon: Story = {
   args: { description: 'Manage the add-ons installed in your browser.' },
   render: (args) => html`
-    <moz-page-header heading=${ifDefined(args.heading)} level=${args.level}>
-      <moz-icon slot="icon" name="plugin" size="xlarge"></moz-icon>
+    <moz-page-header
+      heading=${ifDefined(args.heading)}
+      level=${args.level}
+      icon-start="plugin"
+    >
       <span slot="description">${args.description}</span>
     </moz-page-header>
   `,
@@ -107,12 +110,17 @@ export const WithActions: Story = {
 // Everything at once: back button, breadcrumbs, icon, badge, description, actions.
 export const Complete: Story = {
   render: () => html`
-    <moz-page-header heading="Extensions" level="1" back-button badge="beta">
+    <moz-page-header
+      heading="Extensions"
+      level="1"
+      back-button
+      badge="beta"
+      icon-start="plugin"
+    >
       <moz-breadcrumb-group slot="breadcrumbs" label="Breadcrumb">
         <moz-breadcrumb href="#home">Home</moz-breadcrumb>
         <moz-breadcrumb>Extensions</moz-breadcrumb>
       </moz-breadcrumb-group>
-      <moz-icon slot="icon" name="plugin" size="xlarge"></moz-icon>
       <span slot="description"
         >Manage the add-ons installed in your browser.</span
       >

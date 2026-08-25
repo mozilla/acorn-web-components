@@ -33,7 +33,7 @@
   align-items: center;
 }
 
-/* Size a slotted image; moz-icon controls its own size. */
+/* Size a slotted image; moz-icon (icon-start) controls its own size. */
 .leading ::slotted(img) {
   display: block;
   inline-size: var(--icon-size-xlarge);
@@ -65,7 +65,7 @@
   line-height: 1.2;
 }
 
-/* Deemphasized foundation colour resolves to plain text under high contrast. */
+/* Deemphasized foundation color resolves to plain text under high contrast. */
 .description {
   margin: 0;
   color: var(--text-color-deemphasized);

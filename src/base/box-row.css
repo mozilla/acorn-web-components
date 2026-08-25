@@ -112,7 +112,7 @@
   background-color: var(--box-button-background-color-active);
 }
 
-/* The disabled colour tokens resolve to the normal values, so dim the whole row
+/* The disabled color tokens resolve to the normal values, so dim the whole row
  * with --button-opacity-disabled (which also resets to 1 under high contrast). */
 .button:disabled {
   color: var(--box-button-text-color-disabled);

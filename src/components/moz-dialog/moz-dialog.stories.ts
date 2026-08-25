@@ -4,18 +4,17 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect, userEvent } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import '../moz-button/moz-button';
-import '../moz-icon/moz-icon';
 import './moz-dialog';
-import type { DialogMode, MozDialog } from './moz-dialog';
+import type { DialogVariant, MozDialog } from './moz-dialog';
 
 interface Args {
-  mode: DialogMode;
+  variant: DialogVariant;
   heading?: string;
   dismissable: boolean;
   open: boolean;
 }
 
-const modes: DialogMode[] = ['modal', 'inline'];
+const variants: DialogVariant[] = ['modal', 'inline'];
 
 // Open the sibling dialog — the trigger-button pattern (like shadcn's Dialog).
 const openDialog = (e: Event) => {
@@ -28,15 +27,15 @@ const meta: Meta<Args> = {
   title: 'Components/Dialog',
   component: 'moz-dialog',
   tags: ['autodocs'],
-  decorators: [logEvents('moz-dialog:open', 'moz-dialog:close')],
+  decorators: [logEvents('moz-dialog:open', 'moz-dialog:dismiss')],
   argTypes: {
-    mode: { control: 'select', options: modes },
+    variant: { control: 'select', options: variants },
     heading: { control: 'text' },
     dismissable: { control: 'boolean' },
     open: { control: 'boolean' },
   },
   args: {
-    mode: 'modal',
+    variant: 'modal',
     heading: 'Delete file?',
     dismissable: true,
     open: false,
@@ -45,14 +44,14 @@ const meta: Meta<Args> = {
     <moz-button @click=${openDialog}>Open dialog</moz-button>
     <moz-dialog
       id="dialog"
-      mode=${args.mode}
+      variant=${args.variant}
       heading=${ifDefined(args.heading)}
       ?dismissable=${args.dismissable}
       ?open=${args.open}
     >
       This action can't be undone.
-      <moz-button slot="actions" variant="ghost" data-close>Cancel</moz-button>
-      <moz-button slot="actions" variant="destructive" data-close>Delete</moz-button>
+      <moz-button slot="actions" variant="ghost" data-dismiss>Cancel</moz-button>
+      <moz-button slot="actions" variant="destructive" data-dismiss>Delete</moz-button>
     </moz-dialog>
   `,
 };
@@ -61,42 +60,42 @@ export default meta;
 type Story = StoryObj<Args>;
 
 // Click "Open dialog" to show a modal over the dimmed, blurred page.
-export const Modal: Story = { args: { mode: 'modal' } };
+export const Modal: Story = { args: { variant: 'modal' } };
 
 // An inline dialog rendered in normal document flow, no backdrop.
 export const Inline: Story = {
-  args: { mode: 'inline', heading: 'Inline notice' },
+  args: { variant: 'inline', heading: 'Inline notice' },
   render: (args) => html`
     <moz-button @click=${openDialog}>Open dialog</moz-button>
     <moz-dialog
       id="inline-dialog"
-      mode=${args.mode}
+      variant=${args.variant}
       heading=${ifDefined(args.heading)}
       ?dismissable=${args.dismissable}
       ?open=${args.open}
     >
       This dialog sits in the page rather than overlaying it.
-      <moz-button slot="actions" variant="primary" data-close>Got it</moz-button>
+      <moz-button slot="actions" variant="primary" data-dismiss>Got it</moz-button>
     </moz-dialog>
   `,
 };
 
-// A header icon (slotted) sits before the heading.
+// A header icon before the heading, via the `icon-start` attribute.
 export const WithIcon: Story = {
-  args: { mode: 'modal', heading: 'Delete file?' },
+  args: { variant: 'modal', heading: 'Delete file?' },
   render: (args) => html`
     <moz-button @click=${openDialog}>Open dialog</moz-button>
     <moz-dialog
       id="icon-dialog"
-      mode=${args.mode}
+      variant=${args.variant}
       heading=${ifDefined(args.heading)}
       ?dismissable=${args.dismissable}
       ?open=${args.open}
+      icon-start="delete"
     >
-      <moz-icon slot="icon" name="delete" size="large"></moz-icon>
       This action can't be undone.
-      <moz-button slot="actions" variant="ghost" data-close>Cancel</moz-button>
-      <moz-button slot="actions" variant="destructive" data-close>Delete</moz-button>
+      <moz-button slot="actions" variant="ghost" data-dismiss>Cancel</moz-button>
+      <moz-button slot="actions" variant="destructive" data-dismiss>Delete</moz-button>
     </moz-dialog>
   `,
 };
@@ -111,12 +110,12 @@ const harness = (args: Partial<Args> = {}) => html`
   <div>
     <button id="trigger">Open</button>
     <moz-dialog
-      mode=${args.mode ?? 'modal'}
+      variant=${args.variant ?? 'modal'}
       heading=${args.heading ?? 'Dialog'}
       ?dismissable=${args.dismissable ?? true}
     >
       Body content.
-      <moz-button slot="actions" variant="ghost" data-close>Cancel</moz-button>
+      <moz-button slot="actions" variant="ghost" data-dismiss>Cancel</moz-button>
       <moz-button slot="actions" variant="primary">OK</moz-button>
     </moz-dialog>
   </div>
@@ -125,7 +124,7 @@ const harness = (args: Partial<Args> = {}) => html`
 const settle = () => new Promise((r) => setTimeout(r, 25));
 
 // Opening a modal fires open, moves focus in; the close button closes it,
-// fires the cancelable close event, and restores focus to the trigger.
+// fires the cancelable dismiss event, and restores focus to the trigger.
 export const OpensAndClosesViaButton: Story = {
   tags: testTags,
   render: () => harness(),
@@ -136,7 +135,7 @@ export const OpensAndClosesViaButton: Story = {
     let opened = 0;
     let closed = 0;
     el.addEventListener('moz-dialog:open', () => opened++);
-    el.addEventListener('moz-dialog:close', () => closed++);
+    el.addEventListener('moz-dialog:dismiss', () => closed++);
 
     trigger.focus();
     el.open = true;
@@ -160,7 +159,7 @@ export const OpensAndClosesViaButton: Story = {
   },
 };
 
-// A [data-close] action button (Cancel) closes the dialog and fires close.
+// A [data-dismiss] action button (Cancel) closes the dialog and fires dismiss.
 export const ClosesViaCancelButton: Story = {
   tags: testTags,
   render: () => harness(),
@@ -168,11 +167,11 @@ export const ClosesViaCancelButton: Story = {
     const el = canvasElement.querySelector<MozDialog>('moz-dialog')!;
     await el.updateComplete;
     let closed = 0;
-    el.addEventListener('moz-dialog:close', () => closed++);
+    el.addEventListener('moz-dialog:dismiss', () => closed++);
     el.open = true;
     await el.updateComplete;
 
-    const cancel = el.querySelector<HTMLElement>('[data-close]')!;
+    const cancel = el.querySelector<HTMLElement>('[data-dismiss]')!;
     await userEvent.click(cancel);
     await settle();
     expect(closed).toBe(1);
@@ -180,7 +179,7 @@ export const ClosesViaCancelButton: Story = {
   },
 };
 
-// Escape closes a dismissable modal and fires the close event. The browser maps
+// Escape closes a dismissable modal and fires the dismiss event. The browser maps
 // Escape on a modal to the dialog's `cancel` event, which we dispatch here (a
 // synthetic keypress does not trigger the UA's native mapping).
 export const ClosesOnEscape: Story = {
@@ -190,7 +189,7 @@ export const ClosesOnEscape: Story = {
     const el = canvasElement.querySelector<MozDialog>('moz-dialog')!;
     await el.updateComplete;
     let closed = 0;
-    el.addEventListener('moz-dialog:close', () => closed++);
+    el.addEventListener('moz-dialog:dismiss', () => closed++);
     el.open = true;
     await el.updateComplete;
 
@@ -210,7 +209,7 @@ export const ClosesOnBackdropClick: Story = {
     const el = canvasElement.querySelector<MozDialog>('moz-dialog')!;
     await el.updateComplete;
     let closed = 0;
-    el.addEventListener('moz-dialog:close', () => closed++);
+    el.addEventListener('moz-dialog:dismiss', () => closed++);
     el.open = true;
     await el.updateComplete;
 
@@ -231,7 +230,7 @@ export const EscapeIgnoredWhenNotDismissable: Story = {
     const el = canvasElement.querySelector<MozDialog>('moz-dialog')!;
     await el.updateComplete;
     let closed = 0;
-    el.addEventListener('moz-dialog:close', () => closed++);
+    el.addEventListener('moz-dialog:dismiss', () => closed++);
     el.open = true;
     await el.updateComplete;
 
@@ -250,7 +249,7 @@ export const PreventedCloseStaysOpen: Story = {
   play: async ({ canvasElement }) => {
     const el = canvasElement.querySelector<MozDialog>('moz-dialog')!;
     await el.updateComplete;
-    el.addEventListener('moz-dialog:close', (e) => e.preventDefault());
+    el.addEventListener('moz-dialog:dismiss', (e) => e.preventDefault());
     el.open = true;
     await el.updateComplete;
 
@@ -264,10 +263,10 @@ export const PreventedCloseStaysOpen: Story = {
   },
 };
 
-// Inline mode opens without the top layer (not a modal) and closes on demand.
+// The inline variant opens without the top layer (not a modal), closes on demand.
 export const InlineOpensAndCloses: Story = {
   tags: testTags,
-  render: () => harness({ mode: 'inline' }),
+  render: () => harness({ variant: 'inline' }),
   play: async ({ canvasElement }) => {
     const el = canvasElement.querySelector<MozDialog>('moz-dialog')!;
     await el.updateComplete;

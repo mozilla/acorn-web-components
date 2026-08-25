@@ -14,6 +14,8 @@ export type BadgeType = 'default' | 'beta' | 'new';
  * scoped `--badge-*` tokens, selected by the `type` attribute (`new` is the
  * filled/accent variant; `default` and `beta` are outlined). The label goes in
  * the default slot; `icon-start` renders a leading moz-icon. Purely presentational.
+ *
+ * @slot - the badge label.
  */
 export class MozBadge extends MozLitElement {
   static styles = [shared, badgeTokens, styles];

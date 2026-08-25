@@ -8,7 +8,7 @@ dialog {
   overflow: auto;
   inline-size: min(90vw, 32rem);
   max-block-size: min(90vh, 40rem);
-  margin: auto; /* centre the modal in the viewport */
+  margin: auto; /* center the modal in the viewport */
 
   /* Padding lives on .content so backdrop clicks (target === dialog) stay
    * distinguishable from clicks on the dialog's own content. */
@@ -34,7 +34,7 @@ dialog::backdrop {
 
 /* Inline: no top layer, sits in normal flow, sized to content. `position: static`
  * overrides the UA `absolute` so the dialog flows instead of overlapping. */
-:host([mode="inline"]) dialog {
+:host([variant="inline"]) dialog {
   position: static;
   inline-size: auto;
   max-inline-size: min(90vw, 32rem);
@@ -76,7 +76,7 @@ dialog::backdrop {
   gap: var(--space-small);
 }
 
-/* Forced colours drop the shadow and blurred backdrop, so restore a border to
+/* Forced colors drop the shadow and blurred backdrop, so restore a border to
  * keep the panel's edge visible. */
 @media (prefers-contrast: more), (forced-colors: active) {
   dialog {

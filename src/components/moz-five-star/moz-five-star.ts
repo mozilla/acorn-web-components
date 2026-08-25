@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
+import { rovingIndex } from '../../base/roving';
 import shared from '../../base/shared.css';
 import '../moz-icon/moz-icon';
 import type { IconSize } from '../../generated/icon-options';
@@ -22,7 +23,7 @@ export interface FiveStarChangeDetail {
  * Nova component to show or select a 5-star rating. `rating` (0–`max`, halves
  * supported for display) is drawn as full / half / empty stars.
  *
- * By default it's a read-only display: a single labelled image with the stars
+ * By default it's a read-only display: a single labeled image with the stars
  * hidden from assistive tech. Add `selectable` to let the user pick a whole-star
  * rating — the stars become a radio group (arrow keys move and select, click
  * sets, hover previews) that fires `moz-five-star:change`.
@@ -38,7 +39,7 @@ export class MozFiveStar extends MozLitElement {
   /** Total number of stars. */
   @property({ type: Number, reflect: true }) max = 5;
 
-  /** Let the user pick a whole-star rating (radio-group semantics). */
+  /** Whether the user can pick a whole-star rating (radio-group semantics). */
   @property({ type: Boolean, reflect: true }) selectable = false;
 
   /** Star size, from the Nova `--icon-size-*` scale. Defaults to 16px. */
@@ -107,25 +108,12 @@ export class MozFiveStar extends MozLitElement {
 
   #onKeydown(e: KeyboardEvent) {
     if (!this.selectable) return;
-    const keys = [
-      'ArrowRight',
-      'ArrowLeft',
-      'ArrowUp',
-      'ArrowDown',
-      'Home',
-      'End',
-    ];
-    if (!keys.includes(e.key)) return;
-    e.preventDefault();
     const rtl = getComputedStyle(this).direction === 'rtl';
-    const forward =
-      e.key === 'ArrowDown' || e.key === (rtl ? 'ArrowLeft' : 'ArrowRight');
-    let next: number;
-    if (e.key === 'Home') next = 1;
-    else if (e.key === 'End') next = this.max;
-    else if (forward) next = Math.min(this.max, (this.#selected || 0) + 1);
-    else next = Math.max(1, (this.#selected || 1) - 1);
-    this.#select(next, true);
+    // Stars are a roving group of `max` items; #selected is 1-based (0 = none).
+    const next = rovingIndex(e.key, this.#selected - 1, this.max, { rtl });
+    if (next === null) return;
+    e.preventDefault();
+    this.#select(next + 1, true);
   }
 
   render() {

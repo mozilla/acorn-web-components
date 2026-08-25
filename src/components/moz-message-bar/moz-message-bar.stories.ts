@@ -26,7 +26,9 @@ const meta: Meta<Args> = {
   title: 'Components/MessageBar',
   component: 'moz-message-bar',
   tags: ['autodocs'],
-  decorators: [logEvents('moz-message-bar:dismissed', 'moz-message-bar:close')],
+  decorators: [
+    logEvents('moz-message-bar:dismiss', 'moz-message-bar:dismissed'),
+  ],
   argTypes: {
     type: { control: 'select', options: types },
     heading: { control: 'text' },
@@ -60,7 +62,10 @@ export const Warning: Story = {
 export const Success: Story = { args: { type: 'success' } };
 export const ErrorBar: Story = {
   name: 'Error',
-  args: { type: 'error', message: 'Something went wrong. Please try again.' },
+  args: {
+    type: 'error',
+    message: 'Something went wrong. Please try again.',
+  },
 };
 
 export const WithHeading: Story = {
@@ -70,7 +75,7 @@ export const WithHeading: Story = {
   },
 };
 
-// Visible example (renders the close button). The dismiss *behaviour* is
+// Visible example (renders the close button). The dismiss *behavior* is
 // covered separately below, because a play that removes the bar would leave
 // this story's canvas empty.
 export const Dismissable: Story = {
@@ -81,7 +86,7 @@ export const Dismissable: Story = {
 // unprevented, removes the bar. Tagged test-only (`!dev`/`!autodocs`) so it
 // still runs under Vitest/CI but doesn't show an empty canvas in the sidebar or
 // docs.
-export const DismissBehaviour: Story = {
+export const DismissBehavior: Story = {
   tags: ['!dev', '!autodocs'],
   args: { dismissable: true },
   play: async ({ canvasElement }) => {

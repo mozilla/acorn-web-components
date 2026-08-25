@@ -22,6 +22,9 @@ export type ButtonSize = 'small' | 'medium' | 'large';
  * Form-associated: with `type="submit"` or `type="reset"` it drives the
  * associated light-DOM form, even though the real `<button>` lives in the shadow
  * tree.
+ *
+ * @slot - button label.
+ * @csspart button - the native `<button>` element.
  */
 export class MozButton extends MozLitElement {
   static styles = [buttonTokens, styles];
@@ -36,14 +39,16 @@ export class MozButton extends MozLitElement {
   /** Size step. */
   @property({ reflect: true }) size: ButtonSize = 'medium';
 
-  /** Disables the button. */
+  /** Whether the button is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   /**
-   * Icon-only: a compact square (`--button-size-icon` scale). Provide the icon
-   * via `icon-start` and a visually-hidden slotted label for the accessible name.
+   * Whether to render as a compact icon-only square (`--button-size-icon`
+   * scale); provide the icon via `icon-start` and a visually-hidden slotted
+   * label for the accessible name.
    */
-  @property({ type: Boolean, reflect: true }) icon = false;
+  @property({ type: Boolean, reflect: true, attribute: 'icon-only' })
+  iconOnly = false;
 
   /** Native button type. */
   @property() type: 'button' | 'submit' | 'reset' = 'button';

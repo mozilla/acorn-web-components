@@ -1,5 +1,6 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { DisclosureController } from '../../base/disclosure';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
@@ -7,16 +8,20 @@ import '../moz-icon/moz-icon';
 import styles from './moz-details.css';
 
 /**
- * Nova disclosure: a labelled summary that expands to reveal its content. Built
+ * Nova disclosure: a labeled summary that expands to reveal its content. Built
  * on native `<details>`/`<summary>` for correct keyboard and ARIA semantics.
  * The heading comes from the `heading` attribute or the `heading` slot; the
  * collapsible content goes in the default slot. A chevron rotates when open.
  * Stack several to build an accordion.
  *
- * @fires moz-details:toggle - the open state changed via user interaction;
- *   `detail: { open }`.
  * @slot - collapsible content.
  * @slot heading - rich summary label (overrides the `heading` attribute).
+ * @csspart summary - the clickable `<summary>` row.
+ * @csspart chevron - the disclosure chevron.
+ * @csspart heading - the summary label wrapper.
+ * @csspart content - the collapsible content region.
+ * @fires moz-details:toggle - the open state changed via user interaction;
+ *   `detail: { open }`.
  */
 export class MozDetails extends MozLitElement {
   static styles = [shared, styles];
@@ -27,7 +32,7 @@ export class MozDetails extends MozLitElement {
   /** Plain-text summary label; use the `heading` slot for richer content. */
   @property() heading?: string;
 
-  /** Disables toggling. */
+  /** Whether toggling is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   // Toggling (managed open state, keyboard, disabled guard, event) is shared
@@ -48,7 +53,7 @@ export class MozDetails extends MozLitElement {
         <summary
           part="summary"
           tabindex=${this.disabled ? -1 : 0}
-          aria-disabled=${this.disabled ? 'true' : nothing}
+          aria-disabled=${ifDefined(this.disabled ? 'true' : undefined)}
           @click=${this.#disclosure.handleSummaryClick}
           @keydown=${this.#disclosure.handleSummaryKeydown}
         >

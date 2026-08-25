@@ -67,7 +67,7 @@
   border-start-start-radius: var(--message-bar-border-radius);
 }
 
-/* Content centred; close pinned to the top. */
+/* Content centered; close pinned to the top. */
 .content {
   align-self: center;
 }
@@ -98,9 +98,10 @@
   gap: var(--message-bar-actions-gap);
 }
 
-/* Type colours drop under high contrast (a plain border wins). */
+/* Type colors drop under high contrast (a plain border wins) — for both the
+ * OS `prefers-contrast` query and provider-driven `data-contrast`. */
 @media not (prefers-contrast) {
-  :host([type="warning"]) {
+  :host([type="warning"]:not([data-contrast="high"])) {
     background-color: var(--message-bar-background-color-warning);
     --message-bar-icon-background-color: var(
       --message-bar-icon-background-color-warning
@@ -108,7 +109,7 @@
     --message-bar-icon-color: var(--icon-color-warning);
   }
 
-  :host([type="success"]) {
+  :host([type="success"]:not([data-contrast="high"])) {
     background-color: var(--message-bar-background-color-success);
     --message-bar-icon-background-color: var(
       --message-bar-icon-background-color-success
@@ -116,8 +117,8 @@
     --message-bar-icon-color: var(--icon-color-success);
   }
 
-  :host([type="error"]),
-  :host([type="critical"]) {
+  :host([type="error"]:not([data-contrast="high"])),
+  :host([type="critical"]:not([data-contrast="high"])) {
     background-color: var(--message-bar-background-color-critical);
     --message-bar-icon-background-color: var(
       --message-bar-icon-background-color-critical

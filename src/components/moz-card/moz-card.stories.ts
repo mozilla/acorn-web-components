@@ -199,12 +199,12 @@ export const IconAndEmptyContent: Story = {
   },
 };
 
-// Accordion type: the header is a summary and the body collapses.
+// Accordion variant: the header is a summary and the body collapses.
 export const Accordion: Story = {
   render: (args) => html`
     <div style="max-inline-size:360px;">
       <moz-card
-        type="accordion"
+        variant="accordion"
         heading=${ifDefined(args.heading)}
         icon-start=${ifDefined(args.iconStart)}
       >
@@ -219,20 +219,20 @@ export const AccordionExpanded: Story = {
   args: { heading: 'Expanded by default' },
   render: (args) => html`
     <div style="max-inline-size:360px;">
-      <moz-card type="accordion" expanded heading=${ifDefined(args.heading)}>
+      <moz-card variant="accordion" open heading=${ifDefined(args.heading)}>
         ${args.content}
       </moz-card>
     </div>
   `,
 };
 
-// Interaction test only: clicking the summary toggles expanded state, drives
+// Interaction test only: clicking the summary toggles open state, drives
 // the native <details>, and fires moz-card:toggle.
 export const AccordionToggles: Story = {
   tags: ['!dev', '!autodocs'],
   render: () => html`
-    <moz-card type="accordion" heading="Toggle me"
-      >Hidden until expanded.</moz-card
+    <moz-card variant="accordion" heading="Toggle me"
+      >Hidden until open.</moz-card
     >
   `,
   play: async ({ canvasElement }) => {
@@ -242,7 +242,7 @@ export const AccordionToggles: Story = {
     const summary = root.querySelector('summary')!;
     const details = root.querySelector('details')!;
 
-    expect(card.expanded).toBe(false);
+    expect(card.open).toBe(false);
     expect(details.open).toBe(false);
 
     let detail: { open: boolean } | undefined;
@@ -252,13 +252,13 @@ export const AccordionToggles: Story = {
 
     summary.click();
     await card.updateComplete;
-    expect(card.expanded).toBe(true);
+    expect(card.open).toBe(true);
     expect(details.open).toBe(true);
     expect(detail).toEqual({ open: true });
 
     summary.click();
     await card.updateComplete;
-    expect(card.expanded).toBe(false);
+    expect(card.open).toBe(false);
     expect(details.open).toBe(false);
   },
 };

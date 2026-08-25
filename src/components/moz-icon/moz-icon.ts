@@ -51,7 +51,7 @@ export class MozIcon extends LitElement {
   /** Size step, from the Nova `--icon-size-*` scale. Defaults to `--icon-size`. */
   @property({ type: String }) size?: IconSize;
 
-  /** Colour, from the Nova `--icon-color[-*]` tokens. Defaults to `--icon-color`. */
+  /** Color, from the Nova `--icon-color[-*]` tokens. Defaults to `--icon-color`. */
   @property({ type: String }) color?: IconColor;
 
   /** Accessible label. When omitted, the icon is treated as decorative. */
@@ -99,7 +99,7 @@ export class MozIcon extends LitElement {
   }
 
   protected updated(changed: PropertyValues<this>) {
-    // Decorative unless labelled.
+    // Decorative unless labeled.
     if (this.label) {
       this.setAttribute('role', 'img');
       this.setAttribute('aria-label', this.label);

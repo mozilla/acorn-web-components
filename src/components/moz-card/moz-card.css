@@ -84,7 +84,7 @@
 /* Accordion: header is a clickable summary, body collapses. The card drops its
  * padding so the summary fills it — a full-card click/focus target — and the
  * summary and body pad themselves. */
-:host([type="accordion"]) .card {
+:host([variant="accordion"]) .card {
   padding: 0;
 }
 
@@ -111,7 +111,7 @@
   transition: transform 150ms ease;
 }
 
-:host([expanded]) .chevron {
+:host([open]) .chevron {
   transform: rotate(-180deg);
 }
 

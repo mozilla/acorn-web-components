@@ -117,7 +117,7 @@ export const MozDialog = createComponent({
   react: React,
   events: {
     onOpen: 'moz-dialog:open',
-    onClose: 'moz-dialog:close',
+    onDismiss: 'moz-dialog:dismiss',
   },
 });
 
@@ -125,6 +125,9 @@ export const MozFiveStar = createComponent({
   tagName: 'moz-five-star',
   elementClass: MozFiveStarElement,
   react: React,
+  events: {
+    onChange: 'moz-five-star:change',
+  },
 });
 
 export const MozIcon = createComponent({
@@ -138,8 +141,8 @@ export const MozMessageBar = createComponent({
   elementClass: MozMessageBarElement,
   react: React,
   events: {
+    onDismiss: 'moz-message-bar:dismiss',
     onDismissed: 'moz-message-bar:dismissed',
-    onClose: 'moz-message-bar:close',
   },
 });
 

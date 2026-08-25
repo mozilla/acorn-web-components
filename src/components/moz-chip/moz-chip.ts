@@ -10,11 +10,12 @@ export type ChipSize = 'default' | 'small';
 
 /**
  * Nova chip: a compact pill for a tag, filter, or selection. The label goes in
- * the default slot; `icon-start` renders a leading moz-icon. A dismiss button is
+ * the default slot; `icon-start` renders a leading moz-icon. A remove button is
  * always present (per the Nova design); `selected` and `disabled` are reflected
  * presentational states. Purely presentational — not form-associated.
  *
- * @fires moz-chip:remove - cancelable; the user activated dismiss. If not
+ * @slot - chip label.
+ * @fires moz-chip:remove - cancelable; the user activated remove. If not
  *   prevented, the chip removes itself.
  */
 export class MozChip extends MozLitElement {
@@ -26,13 +27,13 @@ export class MozChip extends MozLitElement {
   /** Leading icon name (rendered via moz-icon). */
   @property({ attribute: 'icon-start' }) iconStart?: IconName;
 
-  /** Reflected selected state for styling. */
+  /** Whether the chip is selected (reflected for styling). */
   @property({ type: Boolean, reflect: true }) selected = false;
 
-  /** Reflected disabled state; suppresses the dismiss action. */
+  /** Whether the chip is disabled (reflected; suppresses the remove action). */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Accessible name for the dismiss button; pass a localized string. */
+  /** Accessible name for the remove button; pass a localized string. */
   @property({ attribute: 'remove-label' }) removeLabel = 'Remove';
 
   protected updated(changed: PropertyValues<this>) {
@@ -46,6 +47,7 @@ export class MozChip extends MozLitElement {
     if (this.disabled) return;
     const event = new CustomEvent('moz-chip:remove', {
       bubbles: true,
+      composed: true,
       cancelable: true,
     });
     this.dispatchEvent(event);

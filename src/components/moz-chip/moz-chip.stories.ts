@@ -87,7 +87,7 @@ export const Overview: Story = {
 
 // Interaction: clicking dismiss fires the cancelable event and, when unprevented,
 // removes the chip. Test-only so the sidebar/docs don't show an empty canvas.
-export const RemoveBehaviour: Story = {
+export const RemoveBehavior: Story = {
   tags: ['!dev', '!autodocs'],
   args: { label: 'Filter' },
   play: async ({ canvasElement }) => {

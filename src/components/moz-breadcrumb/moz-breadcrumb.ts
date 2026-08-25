@@ -1,5 +1,6 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
 import breadcrumbTokens from '../../generated/component-tokens/breadcrumb.css';
@@ -17,9 +18,9 @@ export interface BreadcrumbSelectDetail {
  * a {@link MozBreadcrumbGroup} (which marks the last one current). The label is
  * the default slot.
  *
+ * @slot - the crumb label.
  * @fires moz-breadcrumb:select - cancelable; the crumb's link was activated.
  *   detail is `{ href }`. preventDefault to block navigation (e.g. SPA routing).
- * @slot - the crumb label.
  */
 export class MozBreadcrumb extends MozLitElement {
   static styles = [shared, breadcrumbTokens, styles];
@@ -49,7 +50,7 @@ export class MozBreadcrumb extends MozLitElement {
     return this.current || !this.href
       ? html`<span
           class="crumb"
-          aria-current=${this.current ? 'page' : nothing}
+          aria-current=${ifDefined(this.current ? 'page' : undefined)}
           ><slot></slot
         ></span>`
       : html`<a class="crumb" href=${this.href} @click=${this.#select}

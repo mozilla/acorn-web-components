@@ -22,7 +22,7 @@ export class MozBoxButton extends MozBoxRow {
     delegatesFocus: true,
   };
 
-  /** Disables the button. */
+  /** Whether the button is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   render() {

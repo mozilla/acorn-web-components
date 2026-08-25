@@ -4,13 +4,14 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { DisclosureController } from '../../base/disclosure';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
+import { slotHasContent } from '../../base/slots';
 import '../moz-icon/moz-icon';
 import cardTokens from '../../generated/component-tokens/card.css';
 import type { IconName } from '../../generated/icons';
 import styles from './moz-card.css';
 
 export type CardSpacing = 'default' | 'compact';
-export type CardType = 'default' | 'accordion';
+export type CardVariant = 'default' | 'accordion';
 
 /**
  * Nova card: a presentational surface grouping content and actions about a
@@ -20,16 +21,25 @@ export type CardType = 'default' | 'accordion';
  * (e.g. buttons). Appearance is driven by the scoped `--card-*` tokens;
  * `spacing` picks the default or compact scale.
  *
- * With `type="accordion"` the header becomes a clickable summary and the body
- * collapses; `expanded` controls (and reflects) the open state. The disclosure
- * behaviour is shared with moz-details via DisclosureController.
+ * With `variant="accordion"` the header becomes a clickable summary and the body
+ * collapses; `open` controls (and reflects) the open state. The disclosure
+ * behavior is shared with moz-details via DisclosureController.
  *
- * @fires moz-card:toggle - accordion open state changed via user interaction;
- *   `detail: { open }`.
  * @slot - body content.
  * @slot heading - rich heading markup (overrides the `heading` attribute).
  * @slot media - cover image/media, shown above the header.
  * @slot actions - footer actions row.
+ * @csspart card - the outer `<article>` surface.
+ * @csspart media - the cover media region.
+ * @csspart header - the header row (the `<summary>` when `variant="accordion"`).
+ * @csspart summary - the accordion `<summary>` (accordion variant only).
+ * @csspart chevron - the accordion disclosure chevron (accordion variant only).
+ * @csspart icon - the leading `icon-start` icon.
+ * @csspart heading - the heading text from the `heading` attribute.
+ * @csspart content - the body content region.
+ * @csspart actions - the footer actions region.
+ * @fires moz-card:toggle - accordion open state changed via user interaction;
+ *   `detail: { open }`.
  */
 export class MozCard extends MozLitElement {
   static styles = [shared, cardTokens, styles];
@@ -38,10 +48,10 @@ export class MozCard extends MozLitElement {
   @property({ reflect: true }) spacing: CardSpacing = 'default';
 
   /** `accordion` makes the card an expandable disclosure. */
-  @property({ reflect: true }) type: CardType = 'default';
+  @property({ reflect: true }) variant: CardVariant = 'default';
 
-  /** Accordion open state (only meaningful when `type="accordion"`). */
-  @property({ type: Boolean, reflect: true }) expanded = false;
+  /** Whether the accordion is open (only meaningful when `variant="accordion"`). */
+  @property({ type: Boolean, reflect: true }) open = false;
 
   /** Optional heading text; rendered as the card's accessible label. */
   @property() heading?: string;
@@ -55,9 +65,9 @@ export class MozCard extends MozLitElement {
   @state() private hasContent = false;
 
   #disclosure = new DisclosureController(this, {
-    get: () => this.expanded,
+    get: () => this.open,
     set: (open) => {
-      this.expanded = open;
+      this.open = open;
     },
     eventType: 'moz-card:toggle',
   });
@@ -66,10 +76,7 @@ export class MozCard extends MozLitElement {
   // media/heading/content/actions region adds no stray gap. Whitespace-only
   // text (e.g. formatting newlines) doesn't count as content.
   #onSlot(name: 'heading' | 'media' | 'actions' | 'content', event: Event) {
-    const slot = event.target as HTMLSlotElement;
-    const has = slot
-      .assignedNodes({ flatten: true })
-      .some((n) => n.nodeType !== Node.TEXT_NODE || !!n.textContent?.trim());
+    const has = slotHasContent(event.target as HTMLSlotElement);
     if (name === 'heading') this.hasHeadingSlot = has;
     else if (name === 'media') this.hasMedia = has;
     else if (name === 'actions') this.hasActions = has;
@@ -127,7 +134,7 @@ export class MozCard extends MozLitElement {
 
   render() {
     const labelledby = this.heading ? 'heading' : undefined;
-    if (this.type === 'accordion') {
+    if (this.variant === 'accordion') {
       return html`
         <article
           class="card"
@@ -135,7 +142,7 @@ export class MozCard extends MozLitElement {
           aria-labelledby=${ifDefined(labelledby)}
         >
           ${this.#media()}
-          <details class="accordion" ?open=${this.expanded}>
+          <details class="accordion" ?open=${this.open}>
             <summary
               class="header"
               part="header summary"

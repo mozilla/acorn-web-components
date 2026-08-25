@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { MozLitElement } from '../../base/moz-lit-element';
+import { rovingIndex } from '../../base/roving';
 import shared from '../../base/shared.css';
 import segmentedControlTokens from '../../generated/component-tokens/segmented-control.css';
 import '../moz-icon/moz-icon';
@@ -27,6 +28,7 @@ export interface SegmentedControlChangeDetail {
  * switches the deck's visible panel automatically. Either way, roving-tabindex
  * arrow-key navigation wraps and selects as focus moves.
  *
+ * @slot - segment items (`<moz-segmented-control-item>` children).
  * @fires moz-segmented-control:change - `{ value }` when the selection changes.
  */
 export class MozSegmentedControl extends MozLitElement {
@@ -38,11 +40,11 @@ export class MozSegmentedControl extends MozLitElement {
   /** Accessible name for the group (applied as `aria-label`). */
   @property() label = '';
 
-  /** Disables the whole group. */
+  /** Whether the whole group is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Fill the container width with equally-sized segments (default: hug
-   * content). */
+  /** Whether segments fill the container width equally, rather than hugging
+   * their content. */
   @property({ type: Boolean, reflect: true }) fill = false;
 
   /** Control size: `large` (40px total, default) or `small` (32px). */
@@ -105,7 +107,7 @@ export class MozSegmentedControl extends MozLitElement {
     this.#sync();
   };
 
-  // Push checked state + roving tabindex down to the items, wire the ARIA
+  // Push selected state + roving tabindex down to the items, wire the ARIA
   // mode, and (in tabs mode) tie each tab to its deck panel. The focusable
   // item is the selected one, else the first enabled one.
   #sync() {
@@ -118,7 +120,7 @@ export class MozSegmentedControl extends MozLitElement {
     items.forEach((it, i) => {
       it.mode = this.#tabs ? 'tab' : 'radio';
       it.groupDisabled = this.disabled;
-      it.checked = it.value === this.value && !it.disabled;
+      it.selected = it.value === this.value && !it.disabled;
       it.itemTabIndex = i === focusable ? 0 : -1;
       const panel =
         this.#tabs && deck
@@ -166,34 +168,19 @@ export class MozSegmentedControl extends MozLitElement {
   };
 
   #onKeydown = (e: KeyboardEvent) => {
-    const keys = [
-      'ArrowRight',
-      'ArrowLeft',
-      'ArrowUp',
-      'ArrowDown',
-      'Home',
-      'End',
-    ];
-    if (!keys.includes(e.key)) return;
     const enabled = this.disabled
       ? []
       : this.#items.filter((it) => !it.disabled);
     if (!enabled.length) return;
-    e.preventDefault();
     const rtl = getComputedStyle(this).direction === 'rtl';
-    const forward =
-      e.key === 'ArrowDown' || e.key === (rtl ? 'ArrowLeft' : 'ArrowRight');
-    const backward =
-      e.key === 'ArrowUp' || e.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
     const current = this.#items.find(
       (it) => it.value === this.value && !it.disabled,
     );
-    let idx = current ? enabled.indexOf(current) : 0;
-    if (e.key === 'Home') idx = 0;
-    else if (e.key === 'End') idx = enabled.length - 1;
-    else if (forward) idx = (idx + 1) % enabled.length;
-    else if (backward) idx = (idx - 1 + enabled.length) % enabled.length;
-    this.#select(enabled[idx], true);
+    const idx = current ? enabled.indexOf(current) : 0;
+    const next = rovingIndex(e.key, idx, enabled.length, { wrap: true, rtl });
+    if (next === null) return;
+    e.preventDefault();
+    this.#select(enabled[next], true);
   };
 
   render() {
@@ -205,8 +192,10 @@ export class MozSegmentedControl extends MozLitElement {
  * A single segment inside {@link MozSegmentedControl}. Its ARIA role
  * (`radio`/`tab`), selection state, roving tabindex, and disabled propagation
  * are driven by the parent group. Label comes from `label` or the default slot;
- * `icon` adds a leading icon, and `icon-only` renders it as a circle (the label
- * stays the accessible name).
+ * `icon-start` adds a leading icon, and `icon-only` renders it as a circle (the
+ * label stays the accessible name).
+ *
+ * @slot - the segment label (falls back to the `label` property).
  */
 export class MozSegmentedControlItem extends MozLitElement {
   static styles = [shared, segmentedControlTokens, styles];
@@ -219,19 +208,19 @@ export class MozSegmentedControlItem extends MozLitElement {
   @property() label = '';
 
   /** Optional leading icon. */
-  @property() icon?: IconName;
+  @property({ attribute: 'icon-start' }) iconStart?: IconName;
 
-  /** Show only the icon (as a circle); `label` stays the accessible name. */
+  /** Whether to show only the icon (as a circle); `label` stays the accessible name. */
   @property({ type: Boolean, reflect: true, attribute: 'icon-only' })
   iconOnly = false;
 
-  /** Disables this segment. */
+  /** Whether this segment is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Selected state; managed by the parent group. */
-  @property({ type: Boolean, reflect: true }) checked = false;
+  /** Whether this segment is selected; managed by the parent group. */
+  @property({ type: Boolean, reflect: true }) selected = false;
 
-  /** Set by the parent group when the whole group is disabled. */
+  /** Whether the whole group is disabled; set by the parent group. */
   @property({ type: Boolean, reflect: true, attribute: 'group-disabled' })
   groupDisabled = false;
 
@@ -249,13 +238,13 @@ export class MozSegmentedControlItem extends MozLitElement {
     const isDisabled = this.disabled || this.groupDisabled;
     if (this.mode === 'tab') {
       this.setAttribute('role', 'tab');
-      this.setAttribute('aria-selected', this.checked ? 'true' : 'false');
+      this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
       this.removeAttribute('aria-checked');
       if (this.controls) this.setAttribute('aria-controls', this.controls);
       else this.removeAttribute('aria-controls');
     } else {
       this.setAttribute('role', 'radio');
-      this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+      this.setAttribute('aria-checked', this.selected ? 'true' : 'false');
       this.removeAttribute('aria-selected');
       this.removeAttribute('aria-controls');
     }
@@ -267,8 +256,8 @@ export class MozSegmentedControlItem extends MozLitElement {
   render() {
     return html`
       ${
-        this.icon
-          ? html`<moz-icon class="icon" name=${this.icon}></moz-icon>`
+        this.iconStart
+          ? html`<moz-icon class="icon" name=${this.iconStart}></moz-icon>`
           : nothing
       }
       <span class="label"><slot>${this.label}</slot></span>

@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
+import { rovingIndex } from '../../base/roving';
 import shared from '../../base/shared.css';
 import boxTokens from '../../generated/component-tokens/box.css';
 import styles from './moz-box-group.css';
@@ -16,6 +17,8 @@ const NAVIGABLE =
  * rounded top/bottom corners. Rows keep their natural tab order (each is its own
  * tab stop) and Arrow Up/Down + Home/End also move focus between them. Drag-to-
  * reorder is out of scope.
+ *
+ * @slot - the box rows (moz-box-item / moz-box-button / moz-box-link).
  */
 export class MozBoxGroup extends MozLitElement {
   static styles = [shared, boxTokens, styles];
@@ -47,24 +50,10 @@ export class MozBoxGroup extends MozLitElement {
     );
     if (current === -1) return;
 
-    const last = rows.length - 1;
-    let next: number;
-    switch (event.key) {
-      case 'ArrowDown':
-        next = Math.min(current + 1, last);
-        break;
-      case 'ArrowUp':
-        next = Math.max(current - 1, 0);
-        break;
-      case 'Home':
-        next = 0;
-        break;
-      case 'End':
-        next = last;
-        break;
-      default:
-        return;
-    }
+    const next = rovingIndex(event.key, current, rows.length, {
+      orientation: 'vertical',
+    });
+    if (next === null) return;
     event.preventDefault();
     rows[next]?.focus();
   }

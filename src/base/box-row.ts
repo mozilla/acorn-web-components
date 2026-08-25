@@ -11,6 +11,9 @@ export type BoxLayout = 'default' | 'medium-icon' | 'large-icon';
  * Shared base for the box row components (moz-box-item / -button / -link): a
  * leading icon, label, and description laid out in the grid from box-row.css.
  * Each subclass wraps this text content in its own container (div, button, a).
+ *
+ * @csspart label - the row label text.
+ * @csspart description - the secondary description text below the label.
  */
 export abstract class MozBoxRow extends MozLitElement {
   /** Row label. */

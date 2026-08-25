@@ -5,10 +5,14 @@ import {
   type StaticValue,
   html as staticHtml,
 } from 'lit/static-html.js';
+import { iconButton } from '../../base/icon-button';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
+import { slotHasContent } from '../../base/slots';
 import '../moz-badge/moz-badge';
 import '../moz-button/moz-button';
+import '../moz-icon/moz-icon';
+import type { IconName } from '../../generated/icons';
 import styles from './moz-page-header.css';
 
 /** Heading level 1-6; picks the real heading element to render. */
@@ -34,9 +38,10 @@ const badgeText: Record<PageHeaderBadge, string> = {
 /**
  * Nova page header: a title block giving context for a page. The heading comes
  * from the `heading` attribute or the default slot; the description from the
- * `description` attribute or the `description` slot. Optional: a leading `icon`
- * slot, a `back-button`, a `beta`/`new` `badge`, a `breadcrumbs` slot above the
- * heading, and a right-aligned `actions` slot.
+ * `description` attribute or the `description` slot. Optional: a leading
+ * `icon-start` (or the `icon` slot for arbitrary markup, e.g. an image), a
+ * `back-button`, a `beta`/`new` `badge`, a `breadcrumbs` slot above the heading,
+ * and a right-aligned `actions` slot.
  *
  * Semantics and appearance are decoupled: `level` chooses the real heading
  * element (`<h1>`-`<h6>`) while the visual size stays constant.
@@ -44,7 +49,7 @@ const badgeText: Record<PageHeaderBadge, string> = {
  * @slot - Heading content (fallback when `heading` is unset).
  * @slot description - Secondary text (fallback when `description` is unset).
  * @slot breadcrumbs - A moz-breadcrumb-group shown above the heading.
- * @slot icon - Leading icon or image.
+ * @slot icon - Leading icon or image (alternative to `icon-start`).
  * @slot actions - Right-aligned actions, e.g. buttons.
  * @csspart heading - The rendered heading element.
  * @csspart description - The description paragraph.
@@ -58,6 +63,9 @@ export class MozPageHeader extends MozLitElement {
 
   /** Secondary text. When unset, the `description` slot supplies it. */
   @property() description?: string;
+
+  /** Leading icon; for arbitrary markup (e.g. an image) use the `icon` slot. */
+  @property({ attribute: 'icon-start' }) iconStart?: IconName;
 
   /** Heading level, selecting the `<h1>`-`<h6>` element. */
   @property({ type: Number, reflect: true }) level: PageHeaderLevel = 1;
@@ -79,9 +87,7 @@ export class MozPageHeader extends MozLitElement {
 
   #onSlotChange(event: Event) {
     const slot = event.target as HTMLSlotElement;
-    const filled = slot
-      .assignedNodes({ flatten: true })
-      .some((n) => n.nodeType !== Node.TEXT_NODE || n.textContent?.trim());
+    const filled = slotHasContent(slot);
     if (slot.name === 'icon') this.hasIcon = filled;
     else if (slot.name === 'actions') this.hasActions = filled;
     else if (slot.name === 'description') this.hasDescriptionSlot = filled;
@@ -114,18 +120,20 @@ export class MozPageHeader extends MozLitElement {
         <div class="main">
           ${
             this.backButton
-              ? html`<moz-button
-                  class="back"
-                  icon
-                  variant="ghost"
-                  icon-start="back"
-                  @click=${this.#back}
-                  ><span class="visually-hidden">${this.backLabel}</span></moz-button
-                >`
+              ? iconButton({
+                  icon: 'back',
+                  label: this.backLabel,
+                  onClick: () => this.#back(),
+                  class: 'back',
+                })
               : nothing
           }
-          <span class="leading" ?hidden=${!this.hasIcon}>
-            <slot name="icon" @slotchange=${this.#onSlotChange}></slot>
+          <span class="leading" ?hidden=${!this.iconStart && !this.hasIcon}>
+            ${
+              this.iconStart
+                ? html`<moz-icon name=${this.iconStart} size="xlarge"></moz-icon>`
+                : html`<slot name="icon" @slotchange=${this.#onSlotChange}></slot>`
+            }
           </span>
           <div class="titles">
             <div class="heading-row">
