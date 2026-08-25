@@ -147,6 +147,10 @@ hr {
   }
 }
 
+:host([data-contrast="high"][selected]) {
+  border-color: var(--border-color-selected);
+}
+
 @media (forced-colors: active) {
   :host([role="listitem"]) {
     transition: none;

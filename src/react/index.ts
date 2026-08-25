@@ -13,6 +13,7 @@ import { MozButton as MozButtonElement } from '../components/moz-button/moz-butt
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
+import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dialog';
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
@@ -107,6 +108,16 @@ export const MozDetails = createComponent({
   react: React,
   events: {
     onToggle: 'moz-details:toggle',
+  },
+});
+
+export const MozDialog = createComponent({
+  tagName: 'moz-dialog',
+  elementClass: MozDialogElement,
+  react: React,
+  events: {
+    onOpen: 'moz-dialog:open',
+    onClose: 'moz-dialog:close',
   },
 });
 
