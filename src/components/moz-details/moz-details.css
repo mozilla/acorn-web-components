@@ -40,12 +40,6 @@ summary:focus-visible {
   transform: rotate(-180deg);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .chevron {
-    transition: none;
-  }
-}
-
 .content {
   padding: 0 var(--space-medium) var(--space-medium);
 }

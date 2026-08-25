@@ -13,7 +13,28 @@
   font-family: var(--font-family);
   font-size: var(--font-size-root);
   color-scheme: light dark;
-  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Crisper text: antialias where the OS honors it, ligatures/kerning on, and
+   * no synthesized faux bold/italic when a weight is missing. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  /* Stop mobile browsers inflating text in landscape. */
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+
+  --font-family:
+    system-ui, -apple-system, "Segoe UI", "Ubuntu Sans", Roboto, sans-serif;
+
+  /* Reference breakpoints (Material-derived), for JS and matching custom page
+   * layouts. CSS can't use custom properties in `@media` conditions, so these
+   * are reference values only — not `@media (min-width: var(...))`. */
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1536px;
 }
 
 /*
@@ -46,6 +67,10 @@ h3,
   font-size: var(--font-size-small);
 }
 
+.text-small {
+  font-size: var(--font-size-small);
+}
+
 .text-error {
   color: var(--text-color-error);
   font-weight: var(--font-weight-semibold);
@@ -66,4 +91,16 @@ h3,
    * line-height, so this removes half the difference between them from the
    * element height. Emulates the `text-box-trim` property. */
   margin-block-start: calc((1cap - 1lh) / 2);
+}
+
+/* Hidden visually but exposed to assistive tech, e.g. a heading that only
+ * screen readers need. shared.css carries an identical rule for component
+ * shadow roots (document CSS doesn't pierce shadow DOM). */
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  white-space: nowrap;
+  clip-path: inset(50%);
 }

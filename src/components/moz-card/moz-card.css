@@ -1,6 +1,9 @@
 :host {
   color: inherit;
   text-align: start;
+
+  /* Collapsed accordion header height (Figma); compact drops to 32px below. */
+  --card-accordion-summary-min-height: 42px;
 }
 
 :host(:not([hidden])) {
@@ -26,6 +29,7 @@
   --card-cover-image-padding: var(--card-cover-image-padding-compact);
   --card-gap: var(--card-gap-compact);
   --card-font-size: var(--card-font-size-compact);
+  --card-accordion-summary-min-height: 32px;
 }
 
 .header {
@@ -89,7 +93,9 @@
 }
 
 .accordion summary {
-  padding: var(--card-padding);
+  min-block-size: var(--card-accordion-summary-min-height);
+  padding-block: 0;
+  padding-inline: var(--card-padding);
   list-style: none;
   cursor: pointer;
   user-select: none;
@@ -113,12 +119,6 @@
 
 :host([open]) .chevron {
   transform: rotate(-180deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .chevron {
-    transition: none;
-  }
 }
 
 .details-body {

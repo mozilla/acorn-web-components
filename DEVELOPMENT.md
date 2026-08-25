@@ -122,6 +122,8 @@ A plain run exercises Chromium and Firefox. Coverage uses the v8 provider, which
 
 Visual regression is a separate run from the Storybook tests, defined in `vitest.visual.config.ts` with its specs in `tests/visual/`. It lives apart because Vitest anchors screenshot baselines to the test file's own directory; keeping the specs in `tests/visual/` is what puts the baselines there (`tests/visual/__screenshots__/`) instead of scattered beside each story under `src/`. The specs re-render the component matrices (they don't duplicate story logic beyond the markup) and assert with `toMatchScreenshot`.
 
+There is one `<component>.visual.ts` spec per component, each importing the shared `snapshot` / `snapshotDark` / `snapshotContrast` helpers from `tests/visual/snapshot.ts` (which render the matrix in a themed `<moz-provider>` and own the shared tolerance). Every spec covers the component in the default light theme plus at least one dark (`snapshotDark`) and one high-contrast (`snapshotContrast`) variant — the two ambient modes the provider drives — usually by reusing one representative matrix across all three. Because baselines are keyed by the spec file's name, each component's PNGs live under its own `__screenshots__/<component>.visual.ts/` directory — so moving a test between files means moving its baselines too.
+
 Pixel output depends on the browser build and fonts, so baselines are authoritative on one environment: the pinned Playwright Linux container. Only the `-chromium-linux` baselines are committed (local `-darwin` / `-win32` ones are git-ignored), and the `visual` CI job compares against them in that same container.
 
 To add or refresh baselines, regenerate them in the container so they match CI, then review and commit the PNGs:
