@@ -109,8 +109,11 @@ jobs:
         run: |
           set -euo pipefail
           git add vendor/design-system src/generated
-          if git diff --cached --quiet; then
-            echo "No token changes; nothing to sync."
+          # A refresh always rewrites VENDOR.json (it records the upstream
+          # revision + date), so only sync when the tokens or generated output
+          # actually changed — a lone revision bump isn't worth a commit/PR.
+          if git diff --cached --quiet -- vendor/design-system src/generated ':(exclude)vendor/design-system/VENDOR.json'; then
+            echo "No token changes (only the recorded upstream revision moved); nothing to sync."
             if [ "$EVENT_NAME" = "issue_comment" ]; then
               gh pr comment "$PR" --body "Already up to date with upstream — nothing to sync."
             fi
@@ -128,6 +131,8 @@ jobs:
 
           git branch -f chore/upstream-sync
           git push --force origin chore/upstream-sync
+          REV=$(jq -r .revision vendor/design-system/VENDOR.json)
+          TOKENS_PATH=$(jq -r .source vendor/design-system/VENDOR.json | sed 's/^firefox: //')
           BODY=$(cat <<'EOF'
           Automated nightly sync of the vendored Firefox design tokens, with regenerated output.
 
@@ -136,6 +141,9 @@ jobs:
           To regenerate this branch against the latest upstream, a maintainer can comment `/sync` on this PR, or use **Run workflow** on the [Upstream sync action](${{ github.server_url }}/${{ github.repository }}/actions/workflows/upstream-sync.yml).
           EOF
           )
+          BODY="${BODY}
+
+          Upstream: [\`${TOKENS_PATH}\` @ ${REV:0:12}](https://github.com/mozilla-firefox/firefox/tree/${REV}/${TOKENS_PATH})"
           if [ -z "$(gh pr list --head chore/upstream-sync --state open --json number --jq '.[].number')" ]; then
             gh pr create --head chore/upstream-sync \
               --title "chore: sync design tokens from Firefox" \

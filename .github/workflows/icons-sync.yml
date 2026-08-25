@@ -71,7 +71,10 @@ jobs:
         run: |
           set -euo pipefail
           git add vendor/icons src/generated
-          if git diff --cached --quiet; then
+          # Re-vendoring always rewrites VENDOR.json (it records the tag), so
+          # ignore a lone ref bump: only sync when the icons or generated output
+          # actually changed.
+          if git diff --cached --quiet -- vendor/icons src/generated ':(exclude)vendor/icons/VENDOR.json'; then
             echo "Tag advanced but produced no output change; nothing to commit."
             exit 0
           fi
@@ -80,7 +83,7 @@ jobs:
           git commit -m "chore: sync icons from acorn-icons ${LATEST}"
           git branch -f chore/icons-sync
           git push --force origin chore/icons-sync
-          BODY="Automated sync of the vendored icons to acorn-icons \`${LATEST}\`, with regenerated output.
+          BODY="Automated sync of the vendored icons to [acorn-icons \`${LATEST}\`](https://github.com/FirefoxUX/acorn-icons/releases/tag/${LATEST}), with regenerated output.
 
           Review the diffs, check Storybook, and let tests run before merging."
           if [ -z "$(gh pr list --head chore/icons-sync --state open --json number --jq '.[].number')" ]; then
