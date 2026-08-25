@@ -1,0 +1,62 @@
+:host {
+  display: inline-block;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+
+  /* Figma spaces the stars 4px apart. */
+  gap: var(--dimension-4);
+}
+
+/* The empty layer sits in flow and sizes the star to the icon; the fill overlays
+   it, clipped to full / half / none to show the rating. */
+.star {
+  position: relative;
+  display: inline-flex;
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+}
+
+:host([selectable]) .star {
+  cursor: pointer;
+}
+
+.star:focus-visible {
+  border-radius: var(--border-radius-small);
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+/* Inactive stars are the same glyph dimmed to 25% (Figma). */
+.empty {
+  opacity: 0.25;
+}
+
+.star[data-fill="empty"] .fill {
+  display: none;
+}
+
+.star[data-fill="half"] .fill {
+  clip-path: inset(0 50% 0 0);
+}
+
+/* Mirror the half fill for right-to-left. */
+.star[data-fill="half"]:dir(rtl) .fill {
+  clip-path: inset(0 0 0 50%);
+}
+
+/* High contrast: lift the dimmed stars so they stay legible. */
+@media (prefers-contrast) {
+  .empty {
+    opacity: 0.4;
+  }
+}
+
+:host([data-contrast="high"]) .empty {
+  opacity: 0.4;
+}
