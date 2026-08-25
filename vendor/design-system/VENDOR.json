@@ -1,7 +1,7 @@
 {
   "source": "firefox: toolkit/themes/shared/design-system/src/tokens",
   "repo": "github.com/mozilla-firefox/firefox",
-  "revision": "092b4be38e4fa42c638ff6700e3f833f71085fd2",
-  "vendored": "2026-08-24",
+  "revision": "1ac9c360f82e17f20c6a79c02a04439ea13b6adf",
+  "vendored": "2026-08-25",
   "notes": "Full snapshot: base primitives + Nova overlays + components. The build compiles base + components."
 }
