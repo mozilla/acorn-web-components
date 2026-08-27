@@ -46,7 +46,7 @@ export async function snapshot(
   // layout shifts, which move pixels at percent scale (a 4px gap change is ~5%).
   await expect.element(host).toMatchScreenshot(name, {
     comparatorName: 'pixelmatch',
-    comparatorOptions: { allowedMismatchedPixelRatio: 0.01 },
+    comparatorOptions: { allowedMismatchedPixelRatio: 0 },
   });
   host.remove();
 }

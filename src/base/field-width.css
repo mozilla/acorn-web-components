@@ -1,0 +1,13 @@
+/*
+ * Opt-in width control for block-level fields (moz-input, moz-fieldset, and
+ * future block controls). Defaults to 320px; `full-width` fills the container;
+ * for any other width set `--field-width` (or inline-size) on the host.
+ */
+:host {
+  inline-size: var(--field-width, 320px);
+  max-inline-size: 100%;
+}
+
+:host([full-width]) {
+  --field-width: 100%;
+}

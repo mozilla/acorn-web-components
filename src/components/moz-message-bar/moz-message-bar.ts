@@ -22,7 +22,7 @@ const typeIcon: Record<MessageBarType, IconName> = {
   warning: 'warning-fill',
   success: 'checkmark-circle-fill',
   error: 'error-fill',
-  critical: 'error-fill',
+  critical: 'critical-fill',
 };
 
 const typeColor: Record<MessageBarType, IconColor> = {
