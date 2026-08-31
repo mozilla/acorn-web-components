@@ -644,6 +644,9 @@ export const iconLoaders = {
     16: () => import("./icons/musical-note-16.js"),
     20: () => import("./icons/musical-note-20.js"),
   },
+  "new-chat": {
+    16: () => import("./icons/new-chat-16.js"),
+  },
   "newsfeed": {
     16: () => import("./icons/newsfeed-16.js"),
     20: () => import("./icons/newsfeed-20.js"),
