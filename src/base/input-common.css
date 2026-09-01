@@ -1,0 +1,69 @@
+/*
+ * Shared layout for form controls built on MozBaseInputElement, mirroring
+ * Firefox's moz-input-common.css. Each control's own tokens/markup live in its
+ * <name>.css; the label/description *look* is in label-content.css; this file
+ * owns the label + control arrangement and the three inputLayout modes.
+ */
+:host(:not([hidden])) {
+  display: block;
+}
+
+/* Inline controls (checkbox, radio, toggle) shrink-wrap and sit inline; block
+ * controls (text inputs, select) get their own line (width via field-width.css). */
+:host([inputlayout="inline"]:not([hidden])) {
+  display: inline-block;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xsmall);
+}
+
+label {
+  font-weight: var(--font-weight);
+  cursor: default;
+}
+
+/* Inline: the control sits inside the label, before the text. */
+:host([inputlayout="inline"]) label,
+:host([inputlayout="inline-end"]) label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+}
+
+/* Inline-end: label text first, control pushed to the far edge. */
+:host([inputlayout="inline-end"]) .content-wrapper {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host(:state(disabled)) {
+  cursor: not-allowed;
+}
+
+/* Error message below the field, prefixed with the critical icon (which inherits
+ * the error color via currentColor). */
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xsmall);
+  margin-top: 2px;
+  color: var(--text-color-error);
+  font-size: var(--font-size-small);
+
+  /* Avoid a lone word on the last line (keeps at least two). */
+  text-wrap: pretty;
+}
+
+.error-icon {
+  flex-shrink: 0;
+}
+
+@media (forced-colors: active) {
+  :host(:state(disabled)) {
+    color: GrayText;
+  }
+}

@@ -1,0 +1,55 @@
+/*
+ * Shared appearance for label surfaces (MozBaseInputElement + moz-label),
+ * paired with the labelContent() helper in label-content.ts. Layout/association
+ * live in each consumer; this is only the label text/icon/required + the
+ * description look.
+ */
+.label-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xsmall);
+  font-weight: var(--font-weight);
+}
+
+.label-icon {
+  flex-shrink: 0;
+}
+
+.label-required {
+  color: var(--text-color-error);
+}
+
+.description {
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+
+  /* Avoid a lone word on the last line (keeps at least two). */
+  text-wrap: pretty;
+}
+
+/* Disabled dims the label + description to 0.7, matching the disabled button
+ * and field. `:state(disabled)` covers form controls (incl. a disabled
+ * ancestor fieldset); `[disabled]` covers the standalone moz-label. */
+:host([disabled]) label,
+:host(:state(disabled)) label,
+:host([disabled]) .description,
+:host(:state(disabled)) .description {
+  opacity: var(--label-opacity-disabled, 0.7);
+}
+
+/* `cursor` doesn't inherit into the label (it sets its own), so restate it
+ * here; the description and whitespace inherit not-allowed from the host. */
+:host([disabled]) label,
+:host(:state(disabled)) label {
+  cursor: not-allowed;
+}
+
+/* Forced colors convey disabled via GrayText, so drop the opacity there. */
+@media (forced-colors: active) {
+  :host([disabled]) label,
+  :host(:state(disabled)) label,
+  :host([disabled]) .description,
+  :host(:state(disabled)) .description {
+    opacity: 1;
+  }
+}

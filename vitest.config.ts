@@ -44,12 +44,12 @@ export default defineConfig({
         'src/react/**',
       ],
       // A regression floor just under current coverage; ratchet up as the
-      // suite grows.
+      // suite grows. Keeping it close to actual is what catches slow erosion.
       thresholds: {
-        statements: 90,
-        lines: 90,
-        functions: 90,
-        branches: 70,
+        statements: 94,
+        lines: 96,
+        functions: 95,
+        branches: 78,
       },
     },
   },
