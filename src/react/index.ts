@@ -11,6 +11,7 @@ import {
 } from '../components/moz-breadcrumb/moz-breadcrumb';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
+import { MozCheckbox as MozCheckboxElement } from '../components/moz-checkbox/moz-checkbox';
 import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dialog';
@@ -93,6 +94,15 @@ export const MozCard = createComponent({
   react: React,
   events: {
     onToggle: 'moz-card:toggle',
+  },
+});
+
+export const MozCheckbox = createComponent({
+  tagName: 'moz-checkbox',
+  elementClass: MozCheckboxElement,
+  react: React,
+  events: {
+    onChange: 'change',
   },
 });
 
