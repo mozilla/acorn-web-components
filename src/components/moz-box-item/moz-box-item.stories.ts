@@ -84,6 +84,28 @@ export const WithActions: Story = {
   },
 };
 
+// Both action slots reveal their region via slotchange.
+export const ActionsSlots: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-box-item label="Item">
+      <moz-button slot="actions-start" variant="ghost" icon-start="settings"
+        >Settings</moz-button
+      >
+      <moz-button slot="actions-end" variant="ghost" icon-start="edit"
+        >Edit</moz-button
+      >
+    </moz-box-item>
+  `,
+  play: async ({ canvasElement }) => {
+    const item = canvasElement.querySelector('moz-box-item')!;
+    await item.updateComplete;
+    const regions = item.shadowRoot!.querySelectorAll('.actions');
+    expect(regions[0].hasAttribute('hidden')).toBe(false); // actions-start
+    expect(regions[1].hasAttribute('hidden')).toBe(false); // actions-end
+  },
+};
+
 // The default slot replaces the text content for fully custom rows.
 export const CustomContent: Story = {
   render: () => html`

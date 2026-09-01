@@ -228,3 +228,74 @@ export const Validation: Story = {
     expect(input.validationMessage).toBe('Nope');
   },
 };
+
+// Imperative API: focus/select/blur/click delegate to the inner control, and the
+// validity getters + labelEl read through.
+export const ImperativeApi: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`<moz-input label="Name" value="hello"></moz-input>`,
+  play: async ({ canvasElement }) => {
+    const input = canvasElement.querySelector('moz-input')!;
+    const inner = input.shadowRoot!.querySelector('input')!;
+
+    input.focus();
+    expect(input.shadowRoot!.activeElement).toBe(inner);
+    input.select();
+    expect(inner.selectionEnd).toBe('hello'.length);
+    // A synthetic click doesn't move focus, so just exercise the delegation.
+    input.click();
+    input.blur();
+    expect(input.shadowRoot!.activeElement).toBeNull();
+
+    expect(input.labelEl?.tagName).toBe('LABEL');
+    expect(input.willValidate).toBe(true);
+    expect(input.validity.valid).toBe(true);
+    expect(input.reportValidity()).toBe(true);
+  },
+};
+
+// Enter in a single-line field submits the associated form.
+export const EnterSubmits: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <form
+      @submit=${(e: Event) => {
+        e.preventDefault();
+        (e.currentTarget as HTMLElement).setAttribute('data-submitted', 'true');
+      }}
+    >
+      <moz-input label="Query" value="firefox"></moz-input>
+    </form>
+  `,
+  play: async ({ canvasElement }) => {
+    const form = canvasElement.querySelector('form')!;
+    const inner = canvasElement
+      .querySelector('moz-input')!
+      .shadowRoot!.querySelector('input')!;
+    inner.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Enter',
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await new Promise((r) => setTimeout(r, 20));
+    expect(form.getAttribute('data-submitted')).toBe('true');
+  },
+};
+
+// A native disabled <fieldset> disables the control via formDisabledCallback.
+export const InDisabledFieldset: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <fieldset disabled>
+      <moz-input label="Name" value="x"></moz-input>
+    </fieldset>
+  `,
+  play: async ({ canvasElement }) => {
+    const input = canvasElement.querySelector('moz-input')!;
+    await new Promise((r) => setTimeout(r, 20));
+    expect(input.disabled).toBe(true);
+    expect(input.shadowRoot!.querySelector('input')!.disabled).toBe(true);
+  },
+};

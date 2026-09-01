@@ -79,3 +79,20 @@ export const Disabled: Story = {
     expect(checkbox.checked).toBe(false);
   },
 };
+
+// A slotted description shows the region (exercises the slotchange handler).
+export const DescriptionSlot: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-label label="API key">
+      <input type="checkbox" />
+      <span slot="description">Kept secret and never shared.</span>
+    </moz-label>
+  `,
+  play: async ({ canvasElement }) => {
+    const label = canvasElement.querySelector('moz-label')!;
+    await new Promise((r) => setTimeout(r, 20));
+    const description = label.shadowRoot!.querySelector('.description')!;
+    expect(description.hasAttribute('hidden')).toBe(false);
+  },
+};
