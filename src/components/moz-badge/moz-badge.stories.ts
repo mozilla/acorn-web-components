@@ -109,3 +109,21 @@ export const IconStartRenders: Story = {
     expect(icon?.getAttribute('name')).toBe('information');
   },
 };
+
+// Check sizing against the Figma defined size of a badge with label of "Label"
+export const FigmaSizes: Story = {
+  tags: ['!dev', '!autodocs'],
+  args: { label: 'Label' },
+  play: async ({ canvasElement }) => {
+    const badge = canvasElement.querySelector('moz-badge')!;
+    await badge.updateComplete;
+    expect(badge.type).toBe('default');
+    expect(badge.textContent?.trim()).toBe('Label');
+    // Figma spec is 54×18; browsers render text a couple of pixels tighter than
+    // Figma (and vary by OS), so allow a small margin of difference
+    const nearFigma = (actual: number, figma: number) =>
+      expect(Math.abs(actual - figma)).toBeLessThanOrEqual(2);
+    nearFigma(badge.offsetWidth, 54);
+    nearFigma(badge.offsetHeight, 18);
+  },
+};

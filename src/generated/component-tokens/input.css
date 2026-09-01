@@ -9,13 +9,13 @@
   --input-text-border-radius: var(--border-radius-medium);
   --input-text-color-disabled: var(--input-text-color);
   --input-text-opacity-disabled: 0.7;
+  --input-search-border-radius: var(--border-radius-circle);
   --input-width: var(--size-item-small);
   --input-border-color: var(--border-color-interactive);
   --input-text-background-color-disabled: transparent;
   --input-text-border-color-disabled: var(--border-color-interactive-disabled);
   --input-text-icon-size: var(--icon-size-xsmall);
   --input-text-min-height: 32px;
-  --input-search-border-radius: var(--input-text-border-radius);
 }
 @media (forced-colors: active) {
   :host {

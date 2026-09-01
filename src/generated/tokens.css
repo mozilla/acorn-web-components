@@ -241,7 +241,7 @@
   --focus-outline-inset: calc(-1 * var(--focus-outline-width));
   --font-size-heading-large: var(--font-size-xlarge);
   --font-size-heading-medium: var(--font-size-large);
-  --text-color-accent-primary-selected: light-dark(var(--color-white), var(--color-gray-100));
+  --text-color-accent-primary-selected: light-dark(var(--color-white), var(--color-gray-55));
   --icon-size-xsmall: var(--size-item-xsmall);
   --icon-size-small: var(--size-item-small);
   --icon-size-xlarge: var(--size-item-large);
@@ -250,8 +250,8 @@
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
   --font-size-heading-xlarge: var(--font-size-xxlarge);
   --font-weight-heading: var(--font-weight-semibold);
-  --text-color: light-dark(var(--color-gray-100), var(--color-gray-0));
-  --text-color-error: light-dark(var(--color-red-70), var(--color-red-20));
+  --text-color: light-dark(var(--color-violet-desaturated-90), var(--color-violet-desaturated-0));
+  --text-color-error: light-dark(var(--color-red-50), var(--color-red-20));
   --icon-color-accent-primary-desaturated: light-dark(var(--color-violet-desaturated-60), var(--color-violet-desaturated-40));
   --icon-color-information: light-dark(var(--color-violet-50), var(--color-violet-20));
   --icon-color-success: light-dark(var(--color-green-50), var(--color-green-20));

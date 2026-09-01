@@ -2,7 +2,6 @@
 :host {
   --page-nav-button-indicator-background-color: transparent;
   --page-nav-button-indicator-width: 0;
-  --page-nav-focus-padding: 0px;
   --page-nav-margin-inline-start: 40px;
   --page-nav-border-color: var(--border-color-transparent);
   --page-nav-button-border-color: var(--border-color-transparent);
@@ -12,6 +11,7 @@
   --page-nav-button-padding: var(--space-medium);
   --page-nav-button-padding-small: var(--space-medium);
   --page-nav-focus-outline-offset: var(--focus-outline-offset);
+  --page-nav-focus-padding: calc(var(--focus-outline-offset) + var(--focus-outline-width));
   --page-nav-gap: var(--space-large);
   --page-nav-margin-block-start: 64px;
   --page-nav-button-background-color: transparent;
