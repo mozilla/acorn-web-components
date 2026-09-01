@@ -9,6 +9,8 @@ export * from './components/moz-breadcrumb/moz-breadcrumb';
 export * from './components/moz-button/moz-button';
 export * from './components/moz-card/moz-card';
 export * from './components/moz-checkbox/moz-checkbox';
+export * from './components/moz-checkbox-all/moz-checkbox-all';
+export * from './components/moz-checkbox-visual/moz-checkbox-visual';
 export * from './components/moz-chip/moz-chip';
 export * from './components/moz-details/moz-details';
 export * from './components/moz-dialog/moz-dialog';

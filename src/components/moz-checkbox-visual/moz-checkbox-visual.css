@@ -1,0 +1,53 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--checkbox-margin-inline);
+}
+
+.box {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  inline-size: var(--checkbox-size);
+  block-size: var(--checkbox-size);
+  border: var(--border-width) solid var(--border-color-interactive);
+  border-radius: var(--border-radius-xsmall);
+  background-color: var(--background-color-box);
+}
+
+:host([checked]) .box,
+:host([indeterminate]) .box {
+  border-color: var(--color-accent-primary);
+  background-color: var(--color-accent-primary);
+}
+
+/* The mark overlays the box, centered at its intrinsic Figma size; shown per
+ * state. Its color is the on-accent foreground (see base/marks). */
+.mark {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  display: none;
+  color: light-dark(var(--color-white), var(--color-gray-70));
+  translate: -50% -50%;
+}
+
+:host([checked]) .check,
+:host([indeterminate]) .dash {
+  display: block;
+}
+
+/* Forced colors strip custom control styling; keep the box as a system-colored
+ * outline with a system-colored mark. */
+@media (forced-colors: active) {
+  .box,
+  :host([checked]) .box,
+  :host([indeterminate]) .box {
+    border-color: canvastext;
+    background-color: canvas;
+  }
+
+  .mark {
+    color: canvastext;
+  }
+}

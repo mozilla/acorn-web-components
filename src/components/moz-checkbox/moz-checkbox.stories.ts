@@ -20,7 +20,7 @@ interface CheckboxArgs {
 }
 
 const meta: Meta<CheckboxArgs> = {
-  title: 'Components/Checkbox',
+  title: 'Components/Checkbox/Checkbox',
   component: 'moz-checkbox',
   tags: ['autodocs'],
   decorators: [logEvents('change')],

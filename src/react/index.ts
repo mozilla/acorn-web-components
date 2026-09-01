@@ -12,6 +12,8 @@ import {
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozCheckbox as MozCheckboxElement } from '../components/moz-checkbox/moz-checkbox';
+import { MozCheckboxAll as MozCheckboxAllElement } from '../components/moz-checkbox-all/moz-checkbox-all';
+import { MozCheckboxVisual as MozCheckboxVisualElement } from '../components/moz-checkbox-visual/moz-checkbox-visual';
 import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dialog';
@@ -104,6 +106,21 @@ export const MozCheckbox = createComponent({
   events: {
     onChange: 'change',
   },
+});
+
+export const MozCheckboxAll = createComponent({
+  tagName: 'moz-checkbox-all',
+  elementClass: MozCheckboxAllElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
+});
+
+export const MozCheckboxVisual = createComponent({
+  tagName: 'moz-checkbox-visual',
+  elementClass: MozCheckboxVisualElement,
+  react: React,
 });
 
 export const MozChip = createComponent({

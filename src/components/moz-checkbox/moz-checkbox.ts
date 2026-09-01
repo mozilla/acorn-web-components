@@ -2,6 +2,8 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozBaseInputElement } from '../../base/input-element';
+import { checkMark, dashMark } from '../../base/marks';
+import buttonTokens from '../../generated/component-tokens/button.css';
 import checkboxTokens from '../../generated/component-tokens/checkbox.css';
 import styles from './moz-checkbox.css';
 
@@ -17,7 +19,14 @@ import styles from './moz-checkbox.css';
  * @slot nested - Sub-options shown indented; gated by the checked/disabled state.
  */
 export class MozCheckbox extends MozBaseInputElement {
-  static styles = [...MozBaseInputElement.styles, checkboxTokens, styles];
+  // buttonTokens: the checked box shares the primary button's fill, including
+  // its disabled variant (see moz-checkbox.css).
+  static styles = [
+    ...MozBaseInputElement.styles,
+    checkboxTokens,
+    buttonTokens,
+    styles,
+  ];
   static inputLayout = 'inline' as const;
   static activatedProperty = 'checked';
 
@@ -46,9 +55,7 @@ export class MozCheckbox extends MozBaseInputElement {
   };
 
   protected inputTemplate() {
-    // The mark overlays the box, drawn from the Figma checkbox spec (its own
-    // sizes/weight, distinct from moz-icon). `currentColor` lets it recolor for
-    // dark mode.
+    // The mark overlays the box (see base/marks); `currentColor` recolors it.
     return html`<span class="box">
       <input
         id="input"
@@ -65,38 +72,7 @@ export class MozCheckbox extends MozBaseInputElement {
         ?required=${!!this.required}
         @change=${this.#handleChange}
       />
-      <svg
-        class="mark check"
-        width="11"
-        height="9"
-        viewBox="0 0 11 9"
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M9.5 1 4 7.5 1 4.5"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <svg
-        class="mark dash"
-        width="10"
-        height="2"
-        viewBox="0 0 10 2"
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M9 1 1 1"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      ${checkMark}${dashMark}
     </span>`;
   }
 }
