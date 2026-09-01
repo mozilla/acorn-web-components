@@ -15,7 +15,7 @@ import styles from './moz-label.css';
  * control here rather than by id.
  *
  * Shares its label appearance (icon, text, required marker) with the built-in
- * labels on `moz-input` and friends via the `labelContent` helper.
+ * labels on `moz-input-text` and friends via the `labelContent` helper.
  *
  * @slot - the labelled control.
  * @slot description - rich helper text, as an alternative to the attribute.

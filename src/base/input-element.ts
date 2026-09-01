@@ -38,7 +38,7 @@ const requiredConverter = {
  * the real control lives in the shadow tree, and re-emits `input`/`change` as
  * composed events so consumers get the platform contract they expect.
  *
- * Not registered — subclass it (see `moz-input`).
+ * Not registered — subclass it (see `moz-input-text`).
  *
  * @slot description - Rich helper text, as an alternative to the `description` attribute.
  * @csspart wrapper - The label + control container.
@@ -47,8 +47,8 @@ const requiredConverter = {
  * @csspart input - The control the subclass renders (its `id` is `input`).
  * @csspart description - The helper-text region.
  * @csspart error - The error message region.
- * @fires input - Composed; the value changed (on each keystroke).
- * @fires change - Composed; the value was committed (on blur/enter).
+ * @fires input - Composed; the value changed (controls that support live edits).
+ * @fires change - Composed; the value was committed.
  */
 export abstract class MozBaseInputElement<
   T extends
@@ -77,14 +77,29 @@ export abstract class MozBaseInputElement<
   #internals = this.attachInternals();
   #customValidity = '';
   #slottedDescription = false;
+  #hasNested = false;
+  #accessKey?: string;
+
+  /** Access key forwarded to the inner control (see {@link connectedCallback}). */
+  protected get controlAccessKey(): string | undefined {
+    return this.#accessKey;
+  }
 
   /** Visible label text. */
   @property() label?: string;
 
-  /** Form control name. */
-  @property() name?: string;
+  /**
+   * Form control name. Reflected so form submission keys off it whether set as
+   * an attribute or a property (ElementInternals submits under the `name`
+   * content attribute).
+   */
+  @property({ reflect: true }) name?: string;
 
-  /** Current (submitted) value. */
+  /**
+   * Current value. Submitted under `name` (for choice controls, only when
+   * activated). The `value` attribute is the default used by form reset — like
+   * a native control's `defaultValue` — so it is not reflected.
+   */
   @property() value = '';
 
   /** Whether the control is disabled. */
@@ -124,6 +139,20 @@ export abstract class MozBaseInputElement<
     this.addEventListener('keydown', this.#handleKeydown);
   }
 
+  connectedCallback(): void {
+    super.connectedCallback();
+    // Move an authored `accesskey` onto the inner control (and off the host) so
+    // the browser's access key activates the control (toggles a checkbox, focuses
+    // a text field) rather than just focusing the host. The matching label
+    // character is underlined in labelContent. (Access keys can still collide
+    // with browser/OS shortcuts — the letter choice matters.)
+    const accessKey = this.getAttribute('accesskey');
+    if (accessKey) {
+      this.#accessKey = accessKey;
+      this.removeAttribute('accesskey');
+    }
+  }
+
   // --- Form lifecycle ---
 
   formDisabledCallback(disabled: boolean) {
@@ -131,7 +160,17 @@ export abstract class MozBaseInputElement<
   }
 
   formResetCallback() {
-    this.value = this.getAttribute('value') ?? '';
+    const activated = (this.constructor as typeof MozBaseInputElement)
+      .activatedProperty;
+    if (activated) {
+      // Restore the activated state to its default — the initial attribute,
+      // like a native control's `defaultChecked` (so the property must not
+      // reflect, or the default would be lost on toggle).
+      (this as Record<string, unknown>)[activated] =
+        this.hasAttribute(activated);
+    } else {
+      this.value = this.getAttribute('value') ?? '';
+    }
   }
 
   formStateRestoreCallback(state: string) {
@@ -168,11 +207,56 @@ export abstract class MozBaseInputElement<
 
   protected updated(changed: PropertyValues<this>): void {
     super.updated(changed);
-    if (changed.has('value')) this.#internals.setFormValue(this.value);
+    const activated = (this.constructor as typeof MozBaseInputElement)
+      .activatedProperty;
+    // A choice control (checkbox/radio/toggle) submits its value only when
+    // activated; a text control always submits its value.
+    // `activatedProperty` is a dynamic key the base's type doesn't know, so
+    // check it against the change set as a plain map.
+    const changedKeys = changed as unknown as Map<string, unknown>;
+    if (activated) {
+      if (changedKeys.has('value') || changedKeys.has(activated)) {
+        const on = !!(this as Record<string, unknown>)[activated];
+        this.#internals.setFormValue(on ? this.value : null);
+      }
+      if (
+        changedKeys.has('disabled') ||
+        changedKeys.has('parentDisabled') ||
+        changedKeys.has(activated)
+      ) {
+        this.#updateNestedElements();
+      }
+    } else if (changed.has('value')) {
+      this.#internals.setFormValue(this.value);
+    }
     // Validity depends on value plus any number of constraint attributes, so
     // re-mirror it from the inner control on every update rather than enumerate.
     this.#updateValidation();
   }
+
+  // Gate nested controls: disable them while this control is disabled or not
+  // activated (an unchecked parent checkbox shouldn't leave its sub-options live).
+  #updateNestedElements = () => {
+    const slot = this.renderRoot?.querySelector<HTMLSlotElement>(
+      'slot[name="nested"]',
+    );
+    if (!slot) return;
+    const activated = (this.constructor as typeof MozBaseInputElement)
+      .activatedProperty;
+    const off = activated
+      ? !(this as Record<string, unknown>)[activated]
+      : false;
+    const assigned = slot.assignedElements({ flatten: true });
+    // Hide the nested region when empty so it doesn't add spacing.
+    if (assigned.length > 0 !== this.#hasNested) {
+      this.#hasNested = assigned.length > 0;
+      this.requestUpdate();
+    }
+    const gated = this.isDisabled || off;
+    for (const el of assigned) {
+      if (el instanceof MozBaseInputElement) el.parentDisabled = gated;
+    }
+  };
 
   #setState(key: string, on: boolean) {
     if (on) this.#internals.states.add(key);
@@ -197,6 +281,17 @@ export abstract class MozBaseInputElement<
   #onDescriptionSlotChange = (event: Event) => {
     this.#slottedDescription = slotHasContent(event.target as HTMLSlotElement);
     this.requestUpdate();
+  };
+
+  #onDescriptionClick = (event: MouseEvent) => {
+    // Clicking the helper text acts like the label — focus and activate the
+    // control (toggles a checkbox) — but interactive content inside it (e.g. a
+    // support link) still behaves normally.
+    if ((event.target as HTMLElement).closest('a, button, input, select')) {
+      return;
+    }
+    this.inputEl?.focus();
+    this.inputEl?.click();
   };
 
   // --- Validation (mirrors the inner control's native validity) ---
@@ -320,6 +415,7 @@ export abstract class MozBaseInputElement<
       part="description"
       class="description"
       ?hidden=${!(this.description || this.#slottedDescription)}
+      @click=${this.#onDescriptionClick}
     >
       ${
         this.description ??
@@ -341,7 +437,12 @@ export abstract class MozBaseInputElement<
 
   #nestedTemplate() {
     return (this.constructor as typeof MozBaseInputElement).activatedProperty
-      ? html`<slot name="nested" class="nested"></slot>`
+      ? html`<slot
+          name="nested"
+          class="nested"
+          ?hidden=${!this.#hasNested}
+          @slotchange=${this.#updateNestedElements}
+        ></slot>`
       : nothing;
   }
 
@@ -356,6 +457,7 @@ export abstract class MozBaseInputElement<
               label: this.label,
               icon: this.labelIcon,
               required: !!this.required,
+              accessKey: this.#accessKey,
             })}
           </label>
           ${this.#descriptionTemplate()}

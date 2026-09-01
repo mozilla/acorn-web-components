@@ -9,6 +9,18 @@
   box-sizing: border-box;
 }
 
+/* Shared disabled-dim opacity (matches the Firefox button/input token value).
+ * Forced colors convey disabled via system colors, so it drops to 1 there. */
+:host {
+  --opacity-disabled: 0.7;
+}
+
+@media (forced-colors: active) {
+  :host {
+    --opacity-disabled: 1;
+  }
+}
+
 [hidden] {
   /* biome-ignore lint/complexity/noImportantStyles: [hidden] must win over a
      component's own display rules, so the override is intentional. */

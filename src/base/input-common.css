@@ -25,6 +25,12 @@ label {
   cursor: default;
 }
 
+/* The description reads as static text (default cursor) even though clicking it
+ * activates the control; disabled inherits not-allowed from the host. */
+:host(:not(:state(disabled))) .description {
+  cursor: default;
+}
+
 /* Inline: the control sits inside the label, before the text. */
 :host([inputlayout="inline"]) label,
 :host([inputlayout="inline-end"]) label {
@@ -38,6 +44,12 @@ label {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+/* For inline controls, align the description under the label text (past the
+ * control). Each inline control sets --field-inline-offset to its box + gap. */
+:host([inputlayout="inline"]) .description {
+  margin-inline-start: var(--field-inline-offset, 0);
 }
 
 :host(:state(disabled)) {
