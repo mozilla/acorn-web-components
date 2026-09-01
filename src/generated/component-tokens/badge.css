@@ -9,7 +9,6 @@
   --badge-border-radius: var(--border-radius-circle);
   --badge-font-weight: var(--font-weight-semibold);
   --badge-padding-inline: var(--space-xsmall);
-  --badge-padding-nova-inline: calc(var(--space-xsmall) + var(--space-xxsmall));
   --badge-text-color: var(--text-color);
   --badge-text-color-filled: light-dark(#ffffff, #252428);
 }

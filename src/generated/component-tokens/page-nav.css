@@ -2,13 +2,17 @@
 :host {
   --page-nav-button-indicator-background-color: transparent;
   --page-nav-button-indicator-width: 0;
-  --page-nav-focus-padding: calc(var(--focus-outline-offset) + var(--focus-outline-width));
+  --page-nav-focus-padding: 0px;
   --page-nav-margin-inline-start: 40px;
   --page-nav-border-color: var(--border-color-transparent);
   --page-nav-button-border-color: var(--border-color-transparent);
   --page-nav-button-border-radius: var(--border-radius-circle);
   --page-nav-button-border-radius-focused: var(--border-radius-circle);
+  --page-nav-button-gap: var(--space-xsmall);
+  --page-nav-button-padding: var(--space-medium);
+  --page-nav-button-padding-small: var(--space-medium);
   --page-nav-focus-outline-offset: var(--focus-outline-offset);
+  --page-nav-gap: var(--space-large);
   --page-nav-margin-block-start: 64px;
   --page-nav-button-background-color: transparent;
   --page-nav-button-background-color-hover: light-dark(#d2c8ec, #75669f);
@@ -16,11 +20,7 @@
   --page-nav-button-background-color-selected: var(--color-accent-primary);
   --page-nav-button-border-color-hover: transparent;
   --page-nav-button-border-color-active: transparent;
-  --page-nav-button-gap: var(--space-xsmall);
-  --page-nav-button-padding: var(--space-medium);
-  --page-nav-button-padding-small: var(--space-medium);
   --page-nav-button-text-color-selected: light-dark(#ffffff, #252428);
-  --page-nav-gap: var(--space-large);
   --page-nav-heading-logo-size: var(--icon-size-large);
   --page-nav-hr-background-color: var(--border-color-deemphasized);
   --page-nav-button-text-color: light-dark(#161423, #fcfbff);

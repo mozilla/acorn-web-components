@@ -24,26 +24,6 @@
       "value": "0.4"
     }
   },
-  "background": {
-    "color": {
-      "hover": {
-        "value": {
-          "nativeTheme": "{button.background.color.ghost.hover}",
-          "light": "rgba(117, 102, 159, 0.25)",
-          "dark": "rgba(182, 170, 217, 0.25)",
-          "forcedColors": "{button.background.color.hover}"
-        }
-      },
-      "active": {
-        "value": {
-          "nativeTheme": "{button.background.color.ghost.active}",
-          "light": "rgba(117, 102, 159, 0.4)",
-          "dark": "rgba(182, 170, 217, 0.4)",
-          "forcedColors": "{button.background.color.active}"
-        }
-      }
-    }
-  },
   "outline": {
     "color": {
       "@base": {

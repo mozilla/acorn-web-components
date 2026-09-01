@@ -11,21 +11,21 @@
   --card-border-radius: var(--border-radius-large);
   --card-border-radius-compact: var(--border-radius-medium);
   --card-cover-image-border-radius: var(--border-radius-medium);
-  --card-font-size: var(--font-size-root);
-  --card-font-size-compact: var(--font-size-small);
-  --card-header-background-color: transparent;
-  --card-background-color: var(--background-color-box); /** TODO Bug 2030793 - Move card tokens to be used by moz-card rather than globally */
-  --card-border: var(--card-border-width) solid var(--card-border-color);
-  --card-box-shadow: var(--box-shadow-level-2);
-  --card-box-shadow-hover: var(--box-shadow-level-4);
   --card-cover-image-padding: var(--space-small);
   --card-cover-image-padding-compact: var(--space-xsmall);
-  --card-focus-outline: var(--focus-outline);
+  --card-font-size: var(--font-size-root);
+  --card-font-size-compact: var(--font-size-small);
   --card-padding: var(--space-large);
   --card-padding-compact: var(--space-small);
   --card-gap: var(--space-medium);
   --card-gap-compact: var(--space-small);
   --card-gap-article: var(--space-small);
+  --card-header-background-color: transparent;
+  --card-background-color: var(--background-color-box); /** TODO Bug 2030793 - Move card tokens to be used by moz-card rather than globally */
+  --card-border: var(--card-border-width) solid var(--card-border-color);
+  --card-box-shadow: var(--box-shadow-level-2);
+  --card-box-shadow-hover: var(--box-shadow-level-4);
+  --card-focus-outline: var(--focus-outline);
   --card-header-background-color-hover: light-dark(#d2c8ec, #75669f);
   --card-header-background-color-active: light-dark(#b6aad9, #9687c0);
   --card-header-text-color: light-dark(#161423, #fcfbff);

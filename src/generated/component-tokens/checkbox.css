@@ -1,5 +1,5 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
-  --checkbox-size: var(--size-item-small); /** TODO Bug 1876537: Make this em-based, probably? */
   --checkbox-margin-inline: var(--space-small);
+  --checkbox-size: var(--size-item-small); /** TODO Bug 1876537: Make this em-based, probably? */
 }

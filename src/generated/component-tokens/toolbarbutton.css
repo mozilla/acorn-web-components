@@ -13,8 +13,8 @@
   --toolbarbutton-padding-inner-touch: 9px;
   --toolbarbutton-padding-inner-touch-narrow: 8px;
   --toolbarbutton-opacity-disabled: 0.4;
-  --toolbarbutton-background-color-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
-  --toolbarbutton-background-color-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
+  --toolbarbutton-background-color-hover: color-mix(in srgb, currentColor 17%, transparent);
+  --toolbarbutton-background-color-active: color-mix(in srgb, currentColor 30%, transparent);
   --toolbarbutton-outline-color: transparent;
   --toolbarbutton-outline-color-hover: transparent;
   --toolbarbutton-outline-color-active: transparent;

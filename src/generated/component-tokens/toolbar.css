@@ -7,12 +7,13 @@
   --toolbar-field-background-color-focus: var(--background-color-box);
   --toolbar-field-text-color-focus: var(--toolbar-field-text-color);
   --toolbar-background-color: var(--background-color-box);
-  --toolbar-field-border-color-focus: var(--focus-outline-color);
+  --toolbar-field-border-color-focus: color-mix(in srgb, var(--focus-outline-color) 50%, transparent);
   --toolbar-field-background-color: var(--toolbar-background-color);
 }
 @media (prefers-contrast: more) {
   :host {
     --toolbar-field-background-color: Field;
+    --toolbar-field-border-color-focus: var(--focus-outline-color);
     --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
     --toolbar-field-text-color: FieldText;
   }
@@ -26,6 +27,7 @@
 }
 :host([data-contrast='high']) {
     --toolbar-field-background-color: Field;
+    --toolbar-field-border-color-focus: var(--focus-outline-color);
     --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
     --toolbar-field-text-color: FieldText;
 }
