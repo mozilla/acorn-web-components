@@ -13,6 +13,7 @@ Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.
   - Actions: `<moz-button>` (default / primary / destructive / ghost / muted, plus icon-only), `<moz-chip>`.
   - Surfaces & layout: `<moz-card>`, `<moz-details>`, `<moz-dialog>`, `<moz-box-group>` with `<moz-box-item>` / `<moz-box-button>` / `<moz-box-link>`.
   - Navigation & structure: `<moz-page-nav>`, `<moz-breadcrumb>`, `<moz-segmented-control>`, `<moz-page-header>`.
+  - Forms: `<moz-input>` (text / email / url / tel), `<moz-label>`, `<moz-fieldset>` — form-associated, with built-in labelling, description, and validation.
   - Status & feedback: `<moz-message-bar>`, `<moz-badge>`, `<moz-five-star>` (a read-only or selectable star rating).
   - Primitive: `<moz-icon>` renders a named icon from the Nova set.
 

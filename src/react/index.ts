@@ -14,8 +14,11 @@ import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
 import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dialog';
+import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/moz-fieldset';
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
+import { MozInput as MozInputElement } from '../components/moz-input/moz-input';
+import { MozLabel as MozLabelElement } from '../components/moz-label/moz-label';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozPageHeader as MozPageHeaderElement } from '../components/moz-page-header/moz-page-header';
 import {
@@ -121,6 +124,12 @@ export const MozDialog = createComponent({
   },
 });
 
+export const MozFieldset = createComponent({
+  tagName: 'moz-fieldset',
+  elementClass: MozFieldsetElement,
+  react: React,
+});
+
 export const MozFiveStar = createComponent({
   tagName: 'moz-five-star',
   elementClass: MozFiveStarElement,
@@ -133,6 +142,22 @@ export const MozFiveStar = createComponent({
 export const MozIcon = createComponent({
   tagName: 'moz-icon',
   elementClass: MozIconElement,
+  react: React,
+});
+
+export const MozInput = createComponent({
+  tagName: 'moz-input',
+  elementClass: MozInputElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozLabel = createComponent({
+  tagName: 'moz-label',
+  elementClass: MozLabelElement,
   react: React,
 });
 

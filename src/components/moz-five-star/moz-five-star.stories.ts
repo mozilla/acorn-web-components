@@ -119,5 +119,28 @@ export const SelectsRating: Story = {
     expect(
       el.shadowRoot!.querySelectorAll('.star')[2].getAttribute('aria-checked'),
     ).toBe('true');
+
+    // Keyboard: ArrowRight from the selected star moves and selects the next.
+    container.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+    );
+    await el.updateComplete;
+    expect(el.rating).toBe(4);
+    expect(changes).toEqual([3, 4]);
+
+    const fills = () =>
+      [...el.shadowRoot!.querySelectorAll('.star')].map((s) =>
+        s.getAttribute('data-fill'),
+      );
+    // Hover previews whole-star fills up to the hovered star...
+    el.shadowRoot!.querySelectorAll<HTMLElement>('.star')[1].dispatchEvent(
+      new PointerEvent('pointerenter'),
+    );
+    await el.updateComplete;
+    expect(fills()).toEqual(['full', 'full', 'empty', 'empty', 'empty']);
+    // ...and leaving restores the selected rating (4).
+    container.dispatchEvent(new PointerEvent('pointerleave'));
+    await el.updateComplete;
+    expect(fills()).toEqual(['full', 'full', 'full', 'full', 'empty']);
   },
 };

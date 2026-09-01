@@ -1,0 +1,46 @@
+:host(:not([hidden])) {
+  display: block;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-small);
+
+  /* A fieldset defaults to min-inline-size: min-content, which stops its
+   * controls from shrinking; reset it so they follow the fieldset's width. */
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  padding: 0;
+  font-weight: var(--font-weight-heading);
+}
+
+.description {
+  margin: 0;
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-medium);
+}
+
+/* The fieldset carries the group width; its controls fill it (overriding their
+ * own default 320px) via the inherited --field-width. */
+::slotted(*) {
+  --field-width: 100%;
+}
+
+.error {
+  margin: 0;
+  color: var(--text-color-error);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
