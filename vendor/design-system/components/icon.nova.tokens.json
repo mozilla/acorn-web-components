@@ -50,9 +50,6 @@
     "small": {
       "value": "{size.item.small}"
     },
-    "medium": {
-      "value": "20px"
-    },
     "large": {
       "value": "{size.item.medium}"
     },

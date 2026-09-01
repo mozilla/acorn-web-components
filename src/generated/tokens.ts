@@ -199,39 +199,6 @@ export const tokens = {
   '--color-accent-primary-active': "light-dark(#3e2976, #eaddff)",
   '--color-accent-primary-selected': "light-dark(#3e2976, #eaddff)",
   '--color-accent-attention': "light-dark(#11ae84, #4acca6)",
-  '--dimension-2': "2px",
-  '--dimension-4': "4px",
-  '--dimension-8': "8px",
-  '--dimension-12': "12px",
-  '--dimension-16': "16px",
-  '--dimension-20': "20px",
-  '--dimension-24': "24px",
-  '--dimension-32': "32px",
-  '--dimension-40': "40px",
-  '--dimension-48': "48px",
-  '--dimension-56': "56px",
-  '--dimension-64': "64px",
-  '--dimension-80': "80px",
-  '--dimension-96': "96px",
-  '--dimension-100': "100px",
-  '--dimension-200': "200px",
-  '--dimension-300': "300px",
-  '--dimension-400': "400px",
-  '--dimension-500': "500px",
-  '--dimension-relative-100': "1rem",
-  '--dimension-relative-125': "1.25rem",
-  '--dimension-relative-150': "1.5rem",
-  '--dimension-relative-200': "2rem",
-  '--dimension-relative-250': "2.5rem",
-  '--dimension-relative-300': "3rem",
-  '--dimension-relative-350': "3.5rem",
-  '--dimension-relative-400': "4rem",
-  '--dimension-relative-500': "5rem",
-  '--dimension-relative-600': "6rem",
-  '--dimension-relative-0125': "0.125rem",
-  '--dimension-relative-025': "0.25rem",
-  '--dimension-relative-050': "0.5rem",
-  '--dimension-relative-075': "0.75rem",
   '--focus-outline': "2px solid light-dark(#764edd, #b89cff)",
   '--focus-outline-color': "light-dark(#764edd, #b89cff)",
   '--focus-outline-inset': "calc(-1 * 2px)",
@@ -498,39 +465,6 @@ export type TokenName =
   | '--color-accent-primary-active'
   | '--color-accent-primary-selected'
   | '--color-accent-attention'
-  | '--dimension-2'
-  | '--dimension-4'
-  | '--dimension-8'
-  | '--dimension-12'
-  | '--dimension-16'
-  | '--dimension-20'
-  | '--dimension-24'
-  | '--dimension-32'
-  | '--dimension-40'
-  | '--dimension-48'
-  | '--dimension-56'
-  | '--dimension-64'
-  | '--dimension-80'
-  | '--dimension-96'
-  | '--dimension-100'
-  | '--dimension-200'
-  | '--dimension-300'
-  | '--dimension-400'
-  | '--dimension-500'
-  | '--dimension-relative-100'
-  | '--dimension-relative-125'
-  | '--dimension-relative-150'
-  | '--dimension-relative-200'
-  | '--dimension-relative-250'
-  | '--dimension-relative-300'
-  | '--dimension-relative-350'
-  | '--dimension-relative-400'
-  | '--dimension-relative-500'
-  | '--dimension-relative-600'
-  | '--dimension-relative-0125'
-  | '--dimension-relative-025'
-  | '--dimension-relative-050'
-  | '--dimension-relative-075'
   | '--focus-outline'
   | '--focus-outline-color'
   | '--focus-outline-inset'

@@ -7,7 +7,7 @@
   align-items: center;
 
   /* Figma spaces the stars 4px apart. */
-  gap: var(--dimension-4);
+  gap: var(--space-xsmall);
 }
 
 /* The empty layer sits in flow and sizes the star to the icon; the fill overlays

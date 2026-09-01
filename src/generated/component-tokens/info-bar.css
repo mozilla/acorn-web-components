@@ -1,8 +1,7 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
   --info-bar-margin-block-start: 4px;
-  --info-bar-margin-block-end: 4px;
-  --info-bar-margin-block-nova-end: 0;
+  --info-bar-margin-block-end: 0;
   --info-bar-margin-inline: 4px;
   --info-bar-border-color: light-dark(var(--color-violet-desaturated-20), var(--color-gray-60));
 }

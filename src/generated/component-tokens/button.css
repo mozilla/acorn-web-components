@@ -26,8 +26,8 @@
   --button-background-color-muted: light-dark(var(--color-gray-20), var(--color-gray-55));
   --button-background-color-muted-active: light-dark(var(--color-gray-40), var(--color-gray-35));
   --button-background-color-muted-hover: light-dark(var(--color-gray-30), var(--color-gray-45));
-  --button-background-color-toolbar-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
-  --button-background-color-toolbar-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
+  --button-background-color-toolbar-active: color-mix(in srgb, currentColor 30%, transparent);
+  --button-background-color-toolbar-hover: color-mix(in srgb, currentColor 17%, transparent);
   --button-border: var(--border-width) solid var(--button-border-color);
   --button-border-color-destructive: var(--button-border-color-ghost);
   --button-border-color-ghost-active: var(--button-border-color-ghost);
@@ -44,6 +44,12 @@
   --button-icon-stroke: var(--button-icon-fill);
   --button-min-height: var(--size-item-large);
   --button-min-height-small: var(--size-item-medium);
+  --button-padding-block: var(--space-xsmall);
+  --button-padding-block-large: var(--space-small);
+  --button-padding-block-small: var(--space-xxsmall);
+  --button-padding-inline: var(--space-large);
+  --button-padding-inline-large: var(--space-xlarge);
+  --button-padding-inline-small: var(--space-medium);
   --button-size-icon-large: var(--button-min-height-large);
   --button-text-color: light-dark(var(--color-violet-90), var(--color-gray-0));
   --button-text-color-primary: light-dark(var(--color-white), var(--color-gray-70));
@@ -79,12 +85,7 @@
   --button-border-color-primary-hover: var(--button-border-color-primary);
   --button-border-color-primary-selected: var(--button-border-color-primary);
   --button-border-color-toolbar-selected: var(--button-border-color-ghost-active);
-  --button-padding-block: var(--space-xsmall);
-  --button-padding-block-large: var(--space-small);
-  --button-padding-block-small: var(--space-xxsmall);
-  --button-padding-inline: var(--space-large);
-  --button-padding-inline-large: var(--space-xlarge);
-  --button-padding-inline-small: var(--space-medium);
+  --button-padding: var(--button-padding-block) var(--button-padding-inline);
   --button-size-icon: var(--button-min-height);
   --button-size-icon-small: var(--button-min-height-small);
   --button-text-color-active: var(--button-text-color);
@@ -103,9 +104,7 @@
   --button-attention-dot-color: var(--color-accent-attention);
   --button-background-color-primary-selected: var(--button-background-color-primary-active);
   --button-background-color-ghost-selected: var(--button-background-color-selected);
-  --button-background-color-menu-active: var(--button-background-color-ghost-active);
   --button-background-color-menu-disabled: var(--button-background-color-ghost-disabled);
-  --button-background-color-menu-hover: var(--button-background-color-ghost-hover);
   --button-background-color-toolbar-selected: var(--button-background-color-ghost-active);
   --button-border-color-active: var(--button-border-color);
   --button-border-color-disabled: var(--button-border-color);
@@ -113,7 +112,6 @@
   --button-border-color-hover: var(--button-border-color);
   --button-border-color-selected: var(--button-border-color);
   --button-border-color-toolbar: var(--button-border-color);
-  --button-padding: var(--button-padding-block) var(--button-padding-inline);
   --button-split-separator-background-color: var(--button-border-color);
   --button-text-color-ghost-active: var(--button-text-color-ghost);
   --button-text-color-ghost-disabled: var(--button-text-color-ghost);
@@ -155,8 +153,6 @@
     --button-background-color-ghost-disabled: var(--button-background-color-disabled);
     --button-background-color-ghost: ButtonFace;
     --button-background-color-hover: SelectedItemText;
-    --button-background-color-menu-active: var(--button-background-color-primary);
-    --button-background-color-menu-hover: var(--button-background-color-primary);
     --button-background-color-menu-selected: var(--button-background-color-primary-selected);
     --button-background-color-menu: var(--button-background-color);
     --button-background-color-muted-active: var(--button-background-color-active);
@@ -204,9 +200,9 @@
     --button-text-color-ghost-hover: var(--button-text-color-ghost-active);
     --button-text-color-ghost: ButtonText;
     --button-text-color-hover: SelectedItem;
-    --button-text-color-menu-active: var(--button-text-color-primary-active);
+    --button-text-color-menu-active: ButtonFace;
     --button-text-color-menu-disabled: var(--button-text-color-disabled);
-    --button-text-color-menu-hover: var(--button-text-color-primary);
+    --button-text-color-menu-hover: ButtonFace;
     --button-text-color-menu-selected: var(--button-text-color-primary-selected);
     --button-text-color-muted-active: var(--button-text-color-active);
     --button-text-color-muted-disabled: GrayText;

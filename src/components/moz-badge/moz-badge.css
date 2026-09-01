@@ -9,7 +9,7 @@
   gap: var(--space-xsmall);
   inline-size: fit-content;
   padding-block: var(--badge-padding-block);
-  padding-inline: var(--badge-padding-nova-inline);
+  padding-inline: var(--badge-padding-inline);
   border-radius: var(--badge-border-radius);
 
   /* Outline (not border) so the ring never shifts layout or overlays the fill;

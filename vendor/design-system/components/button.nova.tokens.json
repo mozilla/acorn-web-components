@@ -29,6 +29,15 @@
         "value": "{button.background.color.@base}"
       },
       "primary": {
+        "@base": {
+          "value": "{color.accent.primary.@base}"
+        },
+        "hover": {
+          "value": "{color.accent.primary.hover}"
+        },
+        "active": {
+          "value": "{color.accent.primary.active}"
+        },
         "disabled": {
           "value": {
             "light": "{color.violet-desaturated.50}",
@@ -364,25 +373,11 @@
         }
       },
       "menu": {
-        "active": {
-          "value": {
-            "light": "{button.text.color.ghost.active}",
-            "dark": "{button.text.color.active}",
-            "forcedColors": "{button.text.color.primary.active}"
-          }
-        },
         "disabled": {
           "value": {
             "light": "{button.text.color.ghost.disabled}",
             "dark": "{button.text.color.disabled}",
             "forcedColors": "{button.text.color.disabled}"
-          }
-        },
-        "hover": {
-          "value": {
-            "light": "{button.text.color.ghost.hover}",
-            "dark": "{button.text.color.hover}",
-            "forcedColors": "{button.text.color.primary.@base}"
           }
         },
         "selected": {

@@ -129,7 +129,20 @@ function walk(node: Node, path: string[] = []): void {
     const childPath = [...path, key];
     if ('value' in c) {
       if (c.value !== null && typeof c.value === 'object') {
-        const orig = c.value as Node;
+        let orig = c.value as Node;
+        // Upstream nests the Nova web value beside the Figma `default` (a value
+        // Figma can't express, e.g. a rem calc). We build Nova, so merge that
+        // value over `default` — same rules as a .nova.tokens.json overlay —
+        // rather than letting `collapse` fall back to `default`.
+        if ('nova' in orig) {
+          const novaNode = orig.nova;
+          const novaVal =
+            novaNode && typeof novaNode === 'object' && 'value' in novaNode
+              ? (novaNode as Node).value
+              : novaNode;
+          const base = 'default' in orig ? orig.default : orig;
+          orig = mergeValue(base, novaVal) as Node;
+        }
         const collapsed = collapse(orig);
         // Capture a11y surface overrides (foundation + components) so both the
         // foundation :root layers and the component :host modules get them.

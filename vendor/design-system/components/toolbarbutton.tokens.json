@@ -106,6 +106,7 @@
   "background": {
     "color": {
       "hover": {
+        "ignoreFigma": "color-mix with currentColor cannot be expressed in Figma",
         "value": {
           "default": "color-mix(in srgb, currentColor 17%, transparent)",
           "forcedColors": "{button.background.color.hover}",
@@ -113,6 +114,7 @@
         }
       },
       "active": {
+        "ignoreFigma": "color-mix with currentColor cannot be expressed in Figma",
         "value": {
           "default": "color-mix(in srgb, currentColor 30%, transparent)",
           "forcedColors": "{button.background.color.active}",

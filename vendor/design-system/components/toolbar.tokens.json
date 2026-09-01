@@ -17,7 +17,15 @@
         "focus": {
           "value": {
             "default": "color-mix(in srgb, {focus.outline.color} 50%, transparent)",
-            "prefersContrast": "{focus.outline.color}"
+            "prefersContrast": "{focus.outline.color}",
+            "nova": {
+              "comment": "color-mix cannot be expressed in Figma",
+              "value": {
+                "nativeTheme": "color-mix(in srgb, {focus.outline.color} 50%, transparent)",
+                "default": "{focus.outline.color}",
+                "prefersContrast": "{focus.outline.color}"
+              }
+            }
           }
         }
       }

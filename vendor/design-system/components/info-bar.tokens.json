@@ -15,10 +15,13 @@
         "value": "4px"
       },
       "end": {
-        "value": "4px"
-      },
-      "nova-end": {
-        "value": "0"
+        "value": {
+          "default": "4px",
+          "nova": {
+            "comment": "There is no equivalent value for this token in Figma",
+            "value": "0"
+          }
+        }
       }
     },
     "inline": {

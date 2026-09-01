@@ -14,13 +14,6 @@
             "dark": "{color.gray.60}",
             "forcedColors": "ButtonText"
           }
-        },
-        "focus": {
-          "value": {
-            "nativeTheme": "color-mix(in srgb, {focus.outline.color} 50%, transparent)",
-            "default": "{focus.outline.color}",
-            "prefersContrast": "{focus.outline.color}"
-          }
         }
       }
     },
