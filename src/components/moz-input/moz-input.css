@@ -1,0 +1,71 @@
+/* The bordered box; the icon, input, and clear button sit inside it so the
+ * border and focus ring wrap the whole field. */
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xsmall);
+  min-block-size: var(--input-text-min-height);
+  padding-inline: var(--space-small);
+  border: var(--input-text-border);
+  border-radius: var(--input-text-border-radius);
+
+  /* Box surface (white / gray-70) rather than the Firefox field grey in dark. */
+  background-color: var(--background-color-box);
+}
+
+.field:focus-within {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-inset);
+}
+
+.field-icon {
+  flex-shrink: 0;
+  color: var(--text-color-deemphasized);
+}
+
+/* The clear button hugs the trailing edge; trim the field's own padding there. */
+.clear {
+  flex-shrink: 0;
+  margin-inline-end: calc(-1 * var(--space-xsmall));
+}
+
+#input {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  padding-block: var(--space-xsmall);
+  border: none;
+  color: var(--input-text-color);
+  font: inherit;
+  background-color: transparent;
+}
+
+/* The focus ring is on .field (focus-within), so suppress the input's own. */
+#input:focus-visible {
+  outline: none;
+}
+
+/* The input carries its own text cursor, so restate not-allowed when disabled
+ * (the .field/host not-allowed only shows on the padding around it otherwise). */
+#input:disabled {
+  cursor: not-allowed;
+}
+
+:host(:not(:state(disabled)):not(:state(error)):not([readonly])) .field:hover {
+  border-color: var(--border-color-interactive-hover);
+}
+
+:host(:state(disabled)) .field {
+  border-color: var(--input-text-border-color-disabled);
+  background-color: var(--input-text-background-color-disabled);
+  opacity: var(--input-text-opacity-disabled);
+  cursor: not-allowed;
+}
+
+:host(:state(error)) .field {
+  border-color: var(--border-color-error);
+}
+
+/* On focus the error border thickens to 2px and stands in for the focus ring. */
+:host(:state(error)) .field:focus-within {
+  outline-color: var(--border-color-error);
+}

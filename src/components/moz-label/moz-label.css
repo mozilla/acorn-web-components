@@ -1,0 +1,15 @@
+:host(:not([hidden])) {
+  display: inline-block;
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-small);
+  color: var(--text-color);
+  cursor: default;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+}
