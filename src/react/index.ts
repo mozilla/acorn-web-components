@@ -11,13 +11,16 @@ import {
 } from '../components/moz-breadcrumb/moz-breadcrumb';
 import { MozButton as MozButtonElement } from '../components/moz-button/moz-button';
 import { MozCard as MozCardElement } from '../components/moz-card/moz-card';
+import { MozCheckbox as MozCheckboxElement } from '../components/moz-checkbox/moz-checkbox';
+import { MozCheckboxAll as MozCheckboxAllElement } from '../components/moz-checkbox-all/moz-checkbox-all';
+import { MozCheckboxVisual as MozCheckboxVisualElement } from '../components/moz-checkbox-visual/moz-checkbox-visual';
 import { MozChip as MozChipElement } from '../components/moz-chip/moz-chip';
 import { MozDetails as MozDetailsElement } from '../components/moz-details/moz-details';
 import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dialog';
 import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/moz-fieldset';
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
-import { MozInput as MozInputElement } from '../components/moz-input/moz-input';
+import { MozInputText as MozInputTextElement } from '../components/moz-input-text/moz-input-text';
 import { MozLabel as MozLabelElement } from '../components/moz-label/moz-label';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
 import { MozPageHeader as MozPageHeaderElement } from '../components/moz-page-header/moz-page-header';
@@ -96,6 +99,30 @@ export const MozCard = createComponent({
   },
 });
 
+export const MozCheckbox = createComponent({
+  tagName: 'moz-checkbox',
+  elementClass: MozCheckboxElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
+});
+
+export const MozCheckboxAll = createComponent({
+  tagName: 'moz-checkbox-all',
+  elementClass: MozCheckboxAllElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
+});
+
+export const MozCheckboxVisual = createComponent({
+  tagName: 'moz-checkbox-visual',
+  elementClass: MozCheckboxVisualElement,
+  react: React,
+});
+
 export const MozChip = createComponent({
   tagName: 'moz-chip',
   elementClass: MozChipElement,
@@ -145,9 +172,9 @@ export const MozIcon = createComponent({
   react: React,
 });
 
-export const MozInput = createComponent({
-  tagName: 'moz-input',
-  elementClass: MozInputElement,
+export const MozInputText = createComponent({
+  tagName: 'moz-input-text',
+  elementClass: MozInputTextElement,
   react: React,
   events: {
     onInput: 'input',

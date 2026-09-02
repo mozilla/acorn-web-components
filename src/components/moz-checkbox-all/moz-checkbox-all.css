@@ -1,0 +1,4 @@
+/* Set it apart from the options it governs. */
+.label-text {
+  font-weight: var(--font-weight-semibold);
+}

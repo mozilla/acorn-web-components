@@ -4,12 +4,16 @@ import { action } from 'storybook/actions';
 
 /**
  * Storybook decorator that logs the given component events to the Actions panel
- * (like the Firefox storybook) as `{ id, ...detail }` — the `id` comes from the
- * dispatching element (`event.target`), so events from multiple instances are
- * distinguishable. It's a decorator, so it's excluded from "Show code"; pass one
- * or more custom-event names.
+ * (like the Firefox storybook). The payload is pulled from the dispatching
+ * element (`event.target`): `id` and `name` when present, then the meaningful
+ * state — `checked` for checkable controls (their `value` is a static submit
+ * token), otherwise `value` — plus any custom-event `detail`. Fields appear only
+ * when present, so events from multiple instances stay distinguishable. It's a
+ * decorator, so it's excluded from "Show code"; pass one or more event names
+ * (native or custom).
  *
  *   decorators: [logEvents('moz-card:toggle')]
+ *   decorators: [logEvents('input', 'change')]
  */
 export function logEvents(...types: string[]): Decorator {
   const loggers = new Map(types.map((t) => [t, action(t)]));
@@ -17,8 +21,16 @@ export function logEvents(...types: string[]): Decorator {
     const host = document.createElement('div');
     for (const type of types) {
       host.addEventListener(type, (e) => {
-        const id = (e.target as HTMLElement | null)?.id || undefined;
-        loggers.get(type)?.({ id, ...(e as CustomEvent).detail });
+        const target = e.target as
+          | (HTMLElement & { name?: string; value?: string; checked?: boolean })
+          | null;
+        const payload: Record<string, unknown> = {};
+        if (target?.id) payload.id = target.id;
+        if (target && 'name' in target) payload.name = target.name;
+        if (target && 'checked' in target) payload.checked = target.checked;
+        else if (target && 'value' in target) payload.value = target.value;
+        Object.assign(payload, (e as CustomEvent).detail);
+        loggers.get(type)?.(payload);
       });
     }
     render(story(), host);

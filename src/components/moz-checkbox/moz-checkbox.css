@@ -1,0 +1,99 @@
+:host {
+  /* Indent for the description and nested options, aligning them under the
+   * label text (past the box). */
+  --field-inline-offset: calc(var(--checkbox-size) + var(--space-small));
+}
+
+.box {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+#input {
+  inline-size: var(--checkbox-size);
+  block-size: var(--checkbox-size);
+  margin: 0;
+  border: var(--border-width) solid var(--border-color-interactive);
+  border-radius: var(--border-radius-xsmall);
+  background-color: var(--background-color-box);
+  cursor: inherit;
+  appearance: none;
+}
+
+/* The filled box mirrors the primary button. */
+#input:checked,
+#input:indeterminate {
+  border-color: var(--button-border-color-primary);
+  background-color: var(--button-background-color-primary);
+}
+
+/* Hover/active take the button's fill whether or not the box is checked; only a
+ * disabled box opts out. */
+#input:hover:not(:disabled) {
+  border-color: var(--border-color-interactive-hover);
+  background-color: var(--button-background-color-hover);
+}
+
+#input:active:not(:disabled) {
+  border-color: var(--border-color-interactive-active);
+  background-color: var(--button-background-color-active);
+}
+
+/* The mark overlays the box, centered at its intrinsic Figma size; shown per
+ * state. Its color is the on-accent foreground (white on the light accent, dark
+ * on the lighter dark-mode accent). */
+.mark {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  display: none;
+  color: light-dark(var(--color-white), var(--color-gray-70));
+  pointer-events: none;
+  translate: -50% -50%;
+}
+
+#input:checked ~ .check,
+#input:indeterminate ~ .dash {
+  display: block;
+}
+
+#input:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+#input:disabled {
+  border-color: var(--border-color-interactive-disabled);
+  cursor: not-allowed;
+}
+
+/* A disabled filled box matches a disabled primary button, rather than keeping
+ * the full accent fill. */
+#input:disabled:checked,
+#input:disabled:indeterminate {
+  border-color: var(--button-background-color-primary-disabled);
+  background-color: var(--button-background-color-primary-disabled);
+}
+
+/* Sub-options stack indented under the label, aligned past the box. */
+.nested {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-small);
+  margin-block-start: var(--space-small);
+  margin-inline-start: var(--field-inline-offset);
+}
+
+/* Forced colors strip custom control styling; fall back to the native checkbox,
+ * which the OS renders with system colors (and hide our overlay mark). */
+@media (forced-colors: active) {
+  #input {
+    appearance: auto;
+  }
+
+  #input:checked ~ .check,
+  #input:indeterminate ~ .dash {
+    display: none;
+  }
+}

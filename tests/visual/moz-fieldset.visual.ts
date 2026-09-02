@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { test } from 'vitest';
 import '../../src/components/moz-fieldset/moz-fieldset';
-import '../../src/components/moz-input/moz-input';
+import '../../src/components/moz-input-text/moz-input-text';
 import { snapshot, snapshotContrast, snapshotDark } from './snapshot';
 
 const fieldset = html`<moz-fieldset
@@ -10,8 +10,8 @@ const fieldset = html`<moz-fieldset
   description="How reviewers can reach you about this add-on."
   error="Enter at least one way to reach you."
 >
-  <moz-input label="Name" name="name"></moz-input>
-  <moz-input label="Email" name="email" type="email"></moz-input>
+  <moz-input-text label="Name" name="name"></moz-input-text>
+  <moz-input-text label="Email" name="email" type="email"></moz-input-text>
 </moz-fieldset>`;
 
 test('fieldset states', () => snapshot('fieldset-states', fieldset));

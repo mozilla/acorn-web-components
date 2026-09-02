@@ -27,14 +27,15 @@
   text-wrap: pretty;
 }
 
-/* Disabled dims the label + description to 0.7, matching the disabled button
- * and field. `:state(disabled)` covers form controls (incl. a disabled
- * ancestor fieldset); `[disabled]` covers the standalone moz-label. */
+/* Disabled dims the label + description, matching the button/field.
+ * `:state(disabled)` covers form controls (incl. a disabled ancestor fieldset);
+ * `[disabled]` covers the standalone moz-label. --opacity-disabled (shared.css)
+ * already drops to 1 under forced colors. */
 :host([disabled]) label,
 :host(:state(disabled)) label,
 :host([disabled]) .description,
 :host(:state(disabled)) .description {
-  opacity: var(--label-opacity-disabled, 0.7);
+  opacity: var(--opacity-disabled);
 }
 
 /* `cursor` doesn't inherit into the label (it sets its own), so restate it
@@ -42,14 +43,4 @@
 :host([disabled]) label,
 :host(:state(disabled)) label {
   cursor: not-allowed;
-}
-
-/* Forced colors convey disabled via GrayText, so drop the opacity there. */
-@media (forced-colors: active) {
-  :host([disabled]) label,
-  :host(:state(disabled)) label,
-  :host([disabled]) .description,
-  :host(:state(disabled)) .description {
-    opacity: 1;
-  }
 }

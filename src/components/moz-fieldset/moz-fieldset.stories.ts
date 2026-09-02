@@ -3,7 +3,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
 import './moz-fieldset';
-import '../moz-input/moz-input';
+import '../moz-input-text/moz-input-text';
 import '../moz-provider/moz-provider';
 
 interface FieldsetArgs {
@@ -39,8 +39,8 @@ const meta: Meta<FieldsetArgs> = {
       ?disabled=${args.disabled}
       ?full-width=${args.fullWidth}
     >
-      <moz-input label="Name" name="name"></moz-input>
-      <moz-input label="Email" name="email" type="email"></moz-input>
+      <moz-input-text label="Name" name="name"></moz-input-text>
+      <moz-input-text label="Email" name="email" type="email"></moz-input-text>
     </moz-fieldset>
   `,
 };
@@ -61,7 +61,7 @@ export const Disabled: Story = {
   args: { disabled: true },
   play: async ({ canvasElement }) => {
     await new Promise((r) => setTimeout(r, 20));
-    const inputs = canvasElement.querySelectorAll('moz-input');
+    const inputs = canvasElement.querySelectorAll('moz-input-text');
     for (const input of inputs) {
       const inner = input.shadowRoot!.querySelector('input')!;
       expect(inner.disabled).toBe(true);

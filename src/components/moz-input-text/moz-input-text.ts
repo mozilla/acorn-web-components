@@ -7,7 +7,7 @@ import { MozBaseInputElement } from '../../base/input-element';
 import inputTokens from '../../generated/component-tokens/input.css';
 import type { IconName } from '../../generated/icons';
 import '../moz-icon/moz-icon';
-import styles from './moz-input.css';
+import styles from './moz-input-text.css';
 
 /**
  * The text-entry types that share this one control: they differ only by the
@@ -25,7 +25,7 @@ export type InputType = 'text' | 'email' | 'url' | 'tel';
  * @csspart field - The bordered box wrapping the icon, input, and clear button.
  * @csspart input - The native `<input>` element.
  */
-export class MozInput extends MozBaseInputElement {
+export class MozInputText extends MozBaseInputElement {
   static styles = [
     ...MozBaseInputElement.styles,
     inputTokens,
@@ -93,6 +93,7 @@ export class MozInput extends MozBaseInputElement {
         aria-label=${ifDefined(this.inputAriaLabel ?? undefined)}
         aria-describedby=${ifDefined(this.describedBy)}
         aria-invalid=${ifDefined(this.error ? 'true' : undefined)}
+        accesskey=${ifDefined(this.controlAccessKey)}
         ?disabled=${this.isDisabled}
         ?readonly=${this.readonly}
         ?required=${!!this.required}
@@ -114,12 +115,12 @@ export class MozInput extends MozBaseInputElement {
   }
 }
 
-if (!customElements.get('moz-input')) {
-  customElements.define('moz-input', MozInput);
+if (!customElements.get('moz-input-text')) {
+  customElements.define('moz-input-text', MozInputText);
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    'moz-input': MozInput;
+    'moz-input-text': MozInputText;
   }
 }
