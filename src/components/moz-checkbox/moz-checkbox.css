@@ -79,8 +79,8 @@
   cursor: not-allowed;
 }
 
-/* A disabled filled box takes the disabled primary fill. The box is inline
- * inside the label, so the label's disabled opacity already dims it. */
+/* A disabled filled box takes the disabled primary fill. The box sits inside the
+ * label, so the label's disabled opacity already dims it. */
 #input:disabled:checked,
 #input:disabled:indeterminate {
   border-color: var(--button-background-color-primary-disabled);
