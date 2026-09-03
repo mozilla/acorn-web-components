@@ -10,7 +10,6 @@
   flex-shrink: 0;
 }
 
-/* Off (unchecked). */
 #input {
   inline-size: var(--checkbox-size);
   block-size: var(--checkbox-size);
@@ -32,7 +31,7 @@
   background-color: var(--button-background-color-active);
 }
 
-/* On (checked/indeterminate): the fill mirrors the primary button. */
+/* The fill mirrors the primary button. */
 #input:checked,
 #input:indeterminate {
   border-color: var(--button-border-color-primary);

@@ -10,7 +10,6 @@
   flex-shrink: 0;
 }
 
-/* Off (unchecked). */
 #input {
   box-sizing: border-box;
   inline-size: var(--toggle-width);
@@ -33,7 +32,7 @@
   background-color: var(--toggle-background-color-active);
 }
 
-/* On (checked): the fill mirrors the primary button; the border matches it. */
+/* The fill mirrors the primary button; the border matches it. */
 #input:checked {
   border-color: var(--toggle-background-color-pressed);
   background-color: var(--toggle-background-color-pressed);
@@ -71,8 +70,7 @@
   opacity: var(--toggle-opacity-disabled);
 }
 
-/* The knob slides from the start edge to the end on toggle; logical inset keeps
- * the direction correct under RTL. */
+/* Logical inset keeps the knob's slide direction correct under RTL. */
 .thumb {
   position: absolute;
   inset-block-start: 50%;
