@@ -24,6 +24,7 @@ export * from './components/moz-page-header/moz-page-header';
 export * from './components/moz-page-nav/moz-page-nav';
 export * from './components/moz-provider/moz-provider';
 export * from './components/moz-segmented-control/moz-segmented-control';
+export * from './components/moz-toggle/moz-toggle';
 export * from './context/contrast-context';
 export * from './context/locale-context';
 export * from './context/theme-context';

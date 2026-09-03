@@ -34,6 +34,7 @@ import {
   MozSegmentedControl as MozSegmentedControlElement,
   MozSegmentedControlItem as MozSegmentedControlItemElement,
 } from '../components/moz-segmented-control/moz-segmented-control';
+import { MozToggle as MozToggleElement } from '../components/moz-toggle/moz-toggle';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
 // wrappers give proper typed props/events and a React-idiomatic API. Importing
@@ -244,4 +245,13 @@ export const MozSegmentedControlDeck = createComponent({
   tagName: 'moz-segmented-control-deck',
   elementClass: MozSegmentedControlDeckElement,
   react: React,
+});
+
+export const MozToggle = createComponent({
+  tagName: 'moz-toggle',
+  elementClass: MozToggleElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
 });
