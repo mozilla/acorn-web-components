@@ -51,9 +51,8 @@
   background-color: var(--button-background-color-primary-active);
 }
 
-/* The mark overlays the box, centered at its intrinsic Figma size; shown per
- * state. Its color is the on-accent foreground (white on the light accent, dark
- * on the lighter dark-mode accent). */
+/* Overlay the box, centered at the mark's intrinsic size (see base/marks); its
+ * on-accent fill flips with the theme. */
 .mark {
   position: absolute;
   inset-block-start: 50%;
