@@ -195,3 +195,20 @@ export const RequiredValidation: Story = {
     expect(el.checkValidity()).toBe(true);
   },
 };
+
+// Form state restoration (bfcache / autofill) restores the on/off state in both
+// directions, not just the value.
+export const RestoresState: Story = {
+  tags: ['!dev', '!autodocs'],
+  play: async ({ canvasElement }) => {
+    const el = canvasElement.querySelector('moz-toggle')!;
+    await el.updateComplete;
+    el.formStateRestoreCallback('on');
+    await el.updateComplete;
+    expect(el.checked).toBe(true);
+
+    el.formStateRestoreCallback('off');
+    await el.updateComplete;
+    expect(el.checked).toBe(false);
+  },
+};

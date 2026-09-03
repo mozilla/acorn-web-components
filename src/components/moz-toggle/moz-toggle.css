@@ -64,8 +64,10 @@
   background-color: var(--button-background-color-primary-disabled);
 }
 
-/* Disabled dims the whole switch (label dims via label-content). */
-:host(:state(disabled)) .track {
+/* Inline (default) renders the switch inside the label, so the label's disabled
+ * opacity already dims it; the full-width variant renders it outside the label,
+ * so dim it here instead. */
+:host([inputlayout="inline-end"]:state(disabled)) .track {
   opacity: var(--toggle-opacity-disabled);
 }
 
@@ -74,7 +76,12 @@
 .thumb {
   position: absolute;
   inset-block-start: 50%;
-  inset-inline-start: var(--toggle-dot-margin);
+
+  /* Start inside the track's border (border + margin) so the end gaps stay even. */
+  inset-inline-start: calc(
+    var(--toggle-border-width) +
+    var(--toggle-dot-margin)
+  );
   inline-size: var(--toggle-dot-width);
   block-size: var(--toggle-dot-height);
   border-radius: var(--border-radius-circle);
@@ -86,8 +93,18 @@
   translate: 0 -50%;
 }
 
+/* The off knob darkens with the track; the on knob keeps its on-pressed color. */
+#input:hover:not(:disabled):not(:checked) ~ .thumb {
+  background-color: var(--toggle-dot-background-color-hover);
+}
+
+#input:active:not(:disabled):not(:checked) ~ .thumb {
+  background-color: var(--toggle-dot-background-color-active);
+}
+
 #input:checked ~ .thumb {
   inset-inline-start: calc(
+    var(--toggle-border-width) +
     var(--toggle-dot-margin) +
     var(--toggle-dot-transform-x)
   );
@@ -130,6 +147,11 @@
 
   #input:disabled ~ .thumb {
     background-color: GrayText;
+  }
+
+  /* A disabled checked track is GrayText; keep the knob visible against it. */
+  #input:disabled:checked ~ .thumb {
+    background-color: ButtonFace;
   }
 }
 

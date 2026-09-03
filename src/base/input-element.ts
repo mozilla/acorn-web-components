@@ -174,7 +174,15 @@ export abstract class MozBaseInputElement<
   }
 
   formStateRestoreCallback(state: string) {
-    this.value = state ?? '';
+    const activated = (this.constructor as typeof MozBaseInputElement)
+      .activatedProperty;
+    if (activated) {
+      // Restore the activated property (checkbox/toggle/radio), not `value` —
+      // the state was persisted as on/off in updated().
+      (this as Record<string, unknown>)[activated] = state === 'on';
+    } else {
+      this.value = state ?? '';
+    }
   }
 
   #handleKeydown = (event: KeyboardEvent) => {
@@ -217,7 +225,9 @@ export abstract class MozBaseInputElement<
     if (activated) {
       if (changedKeys.has('value') || changedKeys.has(activated)) {
         const on = !!(this as Record<string, unknown>)[activated];
-        this.#internals.setFormValue(on ? this.value : null);
+        // Second arg is the restoration state (bfcache/autofill): persist on/off
+        // so formStateRestoreCallback restores the activated property.
+        this.#internals.setFormValue(on ? this.value : null, on ? 'on' : 'off');
       }
       if (
         changedKeys.has('disabled') ||
