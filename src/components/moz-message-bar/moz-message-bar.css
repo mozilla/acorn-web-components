@@ -17,7 +17,7 @@
 .container {
   display: flex;
 
-  /* Icon rail fills the height; content/close opt out below. */
+  /* Stretch so the colored icon rail fills the full height. */
   align-items: stretch;
   gap: var(--message-bar-container-gap);
 

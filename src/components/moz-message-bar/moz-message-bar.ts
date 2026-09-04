@@ -59,7 +59,7 @@ export class MozMessageBar extends MozLitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    // Announce as an alert by default; a consumer can override with `role`.
+    // Default to role=alert so assistive tech announces it.
     if (!this.hasAttribute('role')) this.setAttribute('role', 'alert');
   }
 

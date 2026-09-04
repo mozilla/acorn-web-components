@@ -29,7 +29,7 @@
     var(--box-border-radius)
   );
 
-  /* Row height (Figma); content centers within it. */
+  /* Row height (Figma). */
   --box-min-block-size: 68px;
 }
 

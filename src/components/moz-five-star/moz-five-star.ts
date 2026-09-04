@@ -54,7 +54,6 @@ export class MozFiveStar extends MozLitElement {
   /** Star (1-based) previewed on hover; 0 when not hovering. */
   @state() private hoverValue = 0;
 
-  // Whole-star selection value; rounds a half rating to the nearest star.
   get #selected(): number {
     return Math.round(Math.max(0, Math.min(this.max, this.rating)));
   }

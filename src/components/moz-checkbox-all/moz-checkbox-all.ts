@@ -24,7 +24,6 @@ export class MozCheckboxAll extends MozCheckbox {
     this.#scope = this.parentElement;
     // Child toggles bubble to the container; recompute our state from them.
     this.#scope?.addEventListener('change', this.#onChildChange);
-    // Track checkboxes being added or removed from the set.
     this.#observer = new MutationObserver(this.#sync);
     if (this.#scope)
       this.#observer.observe(this.#scope, { childList: true, subtree: true });
@@ -63,9 +62,7 @@ export class MozCheckboxAll extends MozCheckbox {
     this.indeterminate = checked > 0 && checked < items.length;
   };
 
-  // Our own toggle: drive every enabled child to match, firing each one's change
-  // so forms and listeners stay in sync. Overrides the base re-emit (an arrow
-  // field, so there's no super to call — replicate its composed dispatch).
+  // Overrides the base re-emit; it's an arrow field so there's no super to call — replicate its composed dispatch.
   protected handleChange = (event: Event) => {
     event.stopPropagation();
     // Snapshot the target state: each child's change re-enters #sync, which

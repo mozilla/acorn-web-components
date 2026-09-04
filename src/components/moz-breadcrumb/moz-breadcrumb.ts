@@ -92,8 +92,6 @@ export class MozBreadcrumbGroup extends MozLitElement {
     return Array.from(this.querySelectorAll('moz-breadcrumb'));
   }
 
-  // Project each crumb into its own <li> via an indexed slot, and mark the last
-  // as current.
   willUpdate() {
     const crumbs = this.#crumbs;
     crumbs.forEach((crumb, i) => {

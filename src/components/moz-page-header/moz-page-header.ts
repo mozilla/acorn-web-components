@@ -104,7 +104,6 @@ export class MozPageHeader extends MozLitElement {
   }
 
   #headingTemplate() {
-    // Fall back to h1 for an out-of-range level.
     const tag = headings[this.level] ?? headings[1];
     const content = this.heading ? this.heading : html`<slot></slot>`;
     return staticHtml`<${tag} class="heading" part="heading">${content}</${tag}>`;

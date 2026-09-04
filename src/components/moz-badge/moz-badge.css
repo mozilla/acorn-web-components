@@ -22,7 +22,6 @@
   text-transform: uppercase;
   background-color: var(--badge-background-color);
 
-  /* Icon follows the label color. */
   --icon-color: currentColor;
 }
 
@@ -31,7 +30,7 @@
   flex-shrink: 0;
 }
 
-/* Filled/accent variant; tokens supply forced-colors fallbacks. */
+/* Tokens supply the forced-colors fallbacks. */
 :host([type="new"]) .badge {
   outline-color: var(--badge-border-color-filled);
   color: var(--badge-text-color-filled);

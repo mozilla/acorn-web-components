@@ -37,5 +37,4 @@ export {
   iconSizes,
 } from './generated/icon-options';
 export { type IconName, iconNames } from './generated/icons';
-// Public token + option surfaces (typed).
 export { type TokenName, tokens } from './generated/tokens';

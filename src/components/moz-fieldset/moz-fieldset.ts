@@ -56,8 +56,7 @@ export class MozFieldset extends MozLitElement {
     this.#propagated = current;
   }
 
-  // Any slotted control that opts into container disabling via `parentDisabled`
-  // (MozBaseInputElement controls and moz-radio-group).
+  // Slotted Acorn controls that opt in: MozBaseInputElement inputs and moz-radio-group.
   get #controls(): Array<Element & { parentDisabled: boolean }> {
     const slot =
       this.renderRoot?.querySelector<HTMLSlotElement>('slot:not([name])');

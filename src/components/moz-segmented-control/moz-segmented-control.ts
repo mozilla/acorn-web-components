@@ -107,9 +107,6 @@ export class MozSegmentedControl extends MozLitElement {
     this.#sync();
   };
 
-  // Push selected state + roving tabindex down to the items, wire the ARIA
-  // mode, and (in tabs mode) tie each tab to its deck panel. The focusable
-  // item is the selected one, else the first enabled one.
   #sync() {
     const items = this.#items;
     let focusable = items.findIndex(

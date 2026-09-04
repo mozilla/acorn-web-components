@@ -84,9 +84,7 @@
   gap: var(--space-small);
 }
 
-/* Accordion: header is a clickable summary, body collapses. The card drops its
- * padding so the summary fills it — a full-card click/focus target — and the
- * summary and body pad themselves. */
+/* Card drops its padding so the summary fills it as a full-card click/focus target; summary and body pad themselves instead. */
 :host([variant="accordion"]) .card {
   padding: 0;
 }

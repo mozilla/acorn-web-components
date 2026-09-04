@@ -5,7 +5,6 @@ import type { IconColor, IconSize } from '../../generated/icon-options';
 import { type IconName, iconLoaders } from '../../generated/icons';
 import styles from './moz-icon.css';
 
-// Cache each icon module (keyed by name + optical size) so it loads once.
 const cache = new Map<string, string>();
 
 type IconLoader = () => Promise<{ default: string }>;
@@ -22,8 +21,7 @@ const NOMINAL_PX: Record<IconSize, number> = {
   xxlarge: 48,
 };
 
-// Acorn draws each icon at a subset of sizes. Pick the closest available to the
-// target, preferring the larger on a tie (scaling down stays crisp).
+// Icons exist at only a subset of sizes; on a tie prefer the larger, since scaling down stays crisp.
 function pickOpticalSize(available: number[], target: number): number {
   let best = available[0];
   let bestDiff = Number.POSITIVE_INFINITY;

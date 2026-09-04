@@ -7,9 +7,6 @@ import shared from '../../base/shared.css';
 import boxTokens from '../../generated/component-tokens/box.css';
 import styles from './moz-box-group.css';
 
-// Rows that take focus directly: buttons/links, or an item made focusable.
-// Disabled box-buttons are excluded — their delegatesFocus host can't take
-// focus, so including them would trap arrow-key navigation on that row.
 const NAVIGABLE =
   'moz-box-button:not([disabled]), moz-box-link, moz-box-item[tabindex]:not([tabindex="-1"])';
 

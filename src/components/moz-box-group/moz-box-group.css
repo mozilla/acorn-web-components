@@ -1,9 +1,4 @@
-/*
- * The outer border is an outline so it isn't clipped by overflow: hidden, which
- * in turn rounds the slotted rows' corners. Each row exposes --box-border-*
- * hooks; here we drop their side borders, collapse the shared edge into a single
- * divider, and round only the first row's top and the last row's bottom.
- */
+/* Outer edge is an outline, not a border, so overflow: hidden (used to round the slotted rows to the corners) doesn't clip it. Rows expose --box-border-* hooks: drop their side borders and collapse the shared edge into one divider. */
 :host {
   display: block;
   overflow: hidden;

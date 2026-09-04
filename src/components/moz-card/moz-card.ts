@@ -72,9 +72,7 @@ export class MozCard extends MozLitElement {
     eventType: 'moz-card:toggle',
   });
 
-  // Optional regions start hidden and are revealed on slotchange, so an unused
-  // media/heading/content/actions region adds no stray gap. Whitespace-only
-  // text (e.g. formatting newlines) doesn't count as content.
+  // Regions start hidden and are revealed on slotchange, so an unused region adds no stray gap.
   #onSlot(name: 'heading' | 'media' | 'actions' | 'content', event: Event) {
     const has = slotHasContent(event.target as HTMLSlotElement);
     if (name === 'heading') this.hasHeadingSlot = has;

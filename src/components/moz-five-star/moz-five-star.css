@@ -45,7 +45,6 @@
   clip-path: inset(0 50% 0 0);
 }
 
-/* Mirror the half fill for right-to-left. */
 .star[data-fill="half"]:dir(rtl) .fill {
   clip-path: inset(0 0 0 50%);
 }

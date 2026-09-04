@@ -66,8 +66,7 @@ export class MozLabel extends MozLitElement {
 
   #activate = (event: MouseEvent) => {
     const control = this.#control;
-    // Skip when disabled, or when the click already reached the control (so it
-    // activates once).
+    // Skip if the click already reached the control, so we don't activate it twice.
     if (this.disabled || !control || event.composedPath().includes(control)) {
       return;
     }

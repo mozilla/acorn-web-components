@@ -38,7 +38,7 @@ export class MozChip extends MozLitElement {
 
   protected updated(changed: PropertyValues<this>) {
     super.updated(changed);
-    // Expose disabled to AT; also exempts the dimmed label from axe contrast.
+    // aria-disabled also exempts the dimmed label from axe contrast checks.
     if (this.disabled) this.setAttribute('aria-disabled', 'true');
     else this.removeAttribute('aria-disabled');
   }

@@ -32,7 +32,6 @@
   background-color: var(--toggle-background-color-active);
 }
 
-/* The fill mirrors the primary button; the border matches it. */
 #input:checked {
   border-color: var(--toggle-background-color-pressed);
   background-color: var(--toggle-background-color-pressed);
@@ -91,7 +90,6 @@
   translate: 0 -50%;
 }
 
-/* The off knob darkens with the track; the on knob keeps its on-pressed color. */
 #input:hover:not(:disabled):not(:checked) ~ .thumb {
   background-color: var(--toggle-dot-background-color-hover);
 }

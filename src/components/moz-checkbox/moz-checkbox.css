@@ -31,7 +31,6 @@
   background-color: var(--button-background-color-active);
 }
 
-/* The fill mirrors the primary button. */
 #input:checked,
 #input:indeterminate {
   border-color: var(--button-border-color-primary);
@@ -50,8 +49,7 @@
   background-color: var(--button-background-color-primary-active);
 }
 
-/* Overlay the box, centered at the mark's intrinsic size (see base/marks); its
- * on-accent fill flips with the theme. */
+/* Mark's on-accent fill flips with the theme (see base/marks). */
 .mark {
   position: absolute;
   inset-block-start: 50%;
@@ -83,15 +81,13 @@
   cursor: not-allowed;
 }
 
-/* A disabled filled box takes the disabled primary fill. The box sits inside the
- * label, so the label's disabled opacity already dims it. */
+/* The box sits inside the label, whose disabled opacity already dims it. */
 #input:disabled:checked,
 #input:disabled:indeterminate {
   border-color: var(--button-background-color-primary-disabled);
   background-color: var(--button-background-color-primary-disabled);
 }
 
-/* Sub-options stack indented under the label, aligned past the box. */
 .nested {
   display: flex;
   flex-direction: column;

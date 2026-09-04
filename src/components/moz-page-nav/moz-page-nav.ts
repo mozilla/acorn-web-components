@@ -155,7 +155,6 @@ export class MozPageNav extends MozLitElement {
   }
 
   #onActivate(e: Event) {
-    // Internal event: consume it and re-emit the public change instead.
     e.stopPropagation();
     const { value } = (e as CustomEvent<{ value?: string }>).detail;
     this.#select(value);
@@ -173,8 +172,6 @@ export class MozPageNav extends MozLitElement {
     buttons[next].focus();
   }
 
-  // Observe each anchor item's target section; the section occupying the top of
-  // the viewport becomes current. Only the nav's own targets are watched.
   #setupScrollspy() {
     this.#scrollObserver?.disconnect();
     this.#scrollTargets.clear();
@@ -217,7 +214,6 @@ export class MozPageNav extends MozLitElement {
     const active = this.#buttons
       .map((b) => b.navValue)
       .findLast((id) => id && this.#visibleSections.has(id));
-    // Fire change so consumers can sync the URL etc. as the section scrolls by.
     if (active) this.#select(active);
   }
 
@@ -325,8 +321,6 @@ export class MozPageNavButton extends MozLitElement {
 
   render() {
     if (this.href) {
-      // Secondary items are plain links; a primary in-page anchor participates
-      // in selection (roving focus, aria-current) and fires the change event.
       const secondary = this.slot === 'secondary';
       return html`<a
         class="item"
