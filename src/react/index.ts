@@ -29,6 +29,8 @@ import {
   MozPageNav as MozPageNavElement,
 } from '../components/moz-page-nav/moz-page-nav';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
+import { MozRadio as MozRadioElement } from '../components/moz-radio/moz-radio';
+import { MozRadioGroup as MozRadioGroupElement } from '../components/moz-radio-group/moz-radio-group';
 import {
   MozSegmentedControlDeck as MozSegmentedControlDeckElement,
   MozSegmentedControl as MozSegmentedControlElement,
@@ -250,6 +252,24 @@ export const MozSegmentedControlDeck = createComponent({
 export const MozToggle = createComponent({
   tagName: 'moz-toggle',
   elementClass: MozToggleElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
+});
+
+export const MozRadio = createComponent({
+  tagName: 'moz-radio',
+  elementClass: MozRadioElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
+});
+
+export const MozRadioGroup = createComponent({
+  tagName: 'moz-radio-group',
+  elementClass: MozRadioGroupElement,
   react: React,
   events: {
     onChange: 'change',

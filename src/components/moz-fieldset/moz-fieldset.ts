@@ -1,7 +1,6 @@
 import { html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import fieldWidth from '../../base/field-width.css';
-import { MozBaseInputElement } from '../../base/input-element';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
 import styles from './moz-fieldset.css';
@@ -49,11 +48,14 @@ export class MozFieldset extends MozLitElement {
       control.parentDisabled = this.disabled;
   }
 
-  get #controls(): MozBaseInputElement[] {
+  // Any slotted control that opts into container disabling via `parentDisabled`
+  // (MozBaseInputElement controls and moz-radio-group).
+  get #controls(): Array<Element & { parentDisabled: boolean }> {
     const slot =
       this.renderRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
     return (slot?.assignedElements({ flatten: true }) ?? []).filter(
-      (el): el is MozBaseInputElement => el instanceof MozBaseInputElement,
+      (el): el is Element & { parentDisabled: boolean } =>
+        'parentDisabled' in el,
     );
   }
 

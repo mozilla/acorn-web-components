@@ -27,8 +27,15 @@ export function logEvents(...types: string[]): Decorator {
         const payload: Record<string, unknown> = {};
         if (target?.id) payload.id = target.id;
         if (target && 'name' in target) payload.name = target.name;
-        if (target && 'checked' in target) payload.checked = target.checked;
-        else if (target && 'value' in target) payload.value = target.value;
+        // A radio's meaningful state is which option (its value); a
+        // checkbox/toggle's is checked (their value is a static submit token).
+        if (target?.localName === 'moz-radio' && 'value' in target) {
+          payload.value = target.value;
+        } else if (target && 'checked' in target) {
+          payload.checked = target.checked;
+        } else if (target && 'value' in target) {
+          payload.value = target.value;
+        }
         Object.assign(payload, (e as CustomEvent).detail);
         loggers.get(type)?.(payload);
       });
