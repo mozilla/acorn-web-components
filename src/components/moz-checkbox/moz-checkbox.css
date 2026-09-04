@@ -16,20 +16,11 @@
   margin: 0;
   border: var(--border-width) solid var(--border-color-interactive);
   border-radius: var(--border-radius-xsmall);
-  background-color: var(--background-color-box);
+  background-color: var(--button-background-color);
   cursor: inherit;
   appearance: none;
 }
 
-/* The filled box mirrors the primary button. */
-#input:checked,
-#input:indeterminate {
-  border-color: var(--button-border-color-primary);
-  background-color: var(--button-background-color-primary);
-}
-
-/* Hover/active take the button's fill whether or not the box is checked; only a
- * disabled box opts out. */
 #input:hover:not(:disabled) {
   border-color: var(--border-color-interactive-hover);
   background-color: var(--button-background-color-hover);
@@ -40,9 +31,27 @@
   background-color: var(--button-background-color-active);
 }
 
-/* The mark overlays the box, centered at its intrinsic Figma size; shown per
- * state. Its color is the on-accent foreground (white on the light accent, dark
- * on the lighter dark-mode accent). */
+/* The fill mirrors the primary button. */
+#input:checked,
+#input:indeterminate {
+  border-color: var(--button-border-color-primary);
+  background-color: var(--button-background-color-primary);
+}
+
+#input:checked:hover:not(:disabled),
+#input:indeterminate:hover:not(:disabled) {
+  border-color: var(--button-border-color-primary-hover);
+  background-color: var(--button-background-color-primary-hover);
+}
+
+#input:checked:active:not(:disabled),
+#input:indeterminate:active:not(:disabled) {
+  border-color: var(--button-border-color-primary-active);
+  background-color: var(--button-background-color-primary-active);
+}
+
+/* Overlay the box, centered at the mark's intrinsic size (see base/marks); its
+ * on-accent fill flips with the theme. */
 .mark {
   position: absolute;
   inset-block-start: 50%;
@@ -65,11 +74,12 @@
 
 #input:disabled {
   border-color: var(--border-color-interactive-disabled);
+  background-color: var(--button-background-color-disabled);
   cursor: not-allowed;
 }
 
-/* A disabled filled box matches a disabled primary button, rather than keeping
- * the full accent fill. */
+/* A disabled filled box takes the disabled primary fill. The box sits inside the
+ * label, so the label's disabled opacity already dims it. */
 #input:disabled:checked,
 #input:disabled:indeterminate {
   border-color: var(--button-background-color-primary-disabled);

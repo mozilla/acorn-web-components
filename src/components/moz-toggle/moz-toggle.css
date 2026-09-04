@@ -1,0 +1,160 @@
+:host {
+  /* In the default inline layout, indent the description under the label text,
+   * past the switch. */
+  --field-inline-offset: calc(var(--toggle-width) + var(--space-small));
+}
+
+.track {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+#input {
+  box-sizing: border-box;
+  inline-size: var(--toggle-width);
+  block-size: var(--toggle-height);
+  margin: 0;
+  border: var(--toggle-border-width) solid var(--toggle-border-color);
+  border-radius: var(--toggle-border-radius);
+  background-color: var(--toggle-background-color);
+  cursor: inherit;
+  appearance: none;
+}
+
+#input:hover:not(:disabled) {
+  border-color: var(--toggle-border-color-hover);
+  background-color: var(--toggle-background-color-hover);
+}
+
+#input:active:not(:disabled) {
+  border-color: var(--toggle-border-color-active);
+  background-color: var(--toggle-background-color-active);
+}
+
+/* The fill mirrors the primary button; the border matches it. */
+#input:checked {
+  border-color: var(--toggle-background-color-pressed);
+  background-color: var(--toggle-background-color-pressed);
+}
+
+#input:checked:hover:not(:disabled) {
+  border-color: var(--toggle-background-color-pressed-hover);
+  background-color: var(--toggle-background-color-pressed-hover);
+}
+
+#input:checked:active:not(:disabled) {
+  border-color: var(--toggle-background-color-pressed-active);
+  background-color: var(--toggle-background-color-pressed-active);
+}
+
+#input:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+#input:disabled {
+  border-color: var(--border-color-interactive-disabled);
+  cursor: not-allowed;
+}
+
+#input:disabled:checked {
+  border-color: var(--button-background-color-primary-disabled);
+  background-color: var(--button-background-color-primary-disabled);
+}
+
+/* Inline (default) renders the switch inside the label, so the label's disabled
+ * opacity already dims it; the full-width variant renders it outside the label,
+ * so dim it here instead. */
+:host([inputlayout="inline-end"]:state(disabled)) .track {
+  opacity: var(--toggle-opacity-disabled);
+}
+
+/* Logical inset keeps the knob's slide direction correct under RTL. */
+.thumb {
+  position: absolute;
+  inset-block-start: 50%;
+
+  /* Start inside the track's border (border + margin) so the end gaps stay even. */
+  inset-inline-start: calc(
+    var(--toggle-border-width) +
+    var(--toggle-dot-margin)
+  );
+  inline-size: var(--toggle-dot-width);
+  block-size: var(--toggle-dot-height);
+  border-radius: var(--border-radius-circle);
+  background-color: var(--toggle-dot-background-color);
+  transition:
+    inset-inline-start 100ms ease,
+    background-color 100ms ease;
+  pointer-events: none;
+  translate: 0 -50%;
+}
+
+/* The off knob darkens with the track; the on knob keeps its on-pressed color. */
+#input:hover:not(:disabled):not(:checked) ~ .thumb {
+  background-color: var(--toggle-dot-background-color-hover);
+}
+
+#input:active:not(:disabled):not(:checked) ~ .thumb {
+  background-color: var(--toggle-dot-background-color-active);
+}
+
+#input:checked ~ .thumb {
+  inset-inline-start: calc(
+    var(--toggle-border-width) +
+    var(--toggle-dot-margin) +
+    var(--toggle-dot-transform-x)
+  );
+  background-color: var(--toggle-dot-background-color-on-pressed);
+}
+
+/* Full-width variant: keep any validation error on its own line below the row. */
+:host([inputlayout="inline-end"]) .content-wrapper {
+  flex-wrap: wrap;
+}
+
+.error {
+  flex-basis: 100%;
+}
+
+/* Forced colors strip custom control styling; keep the switch legible with
+ * system colors. */
+@media (forced-colors: active) {
+  #input {
+    border-color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  #input:checked {
+    border-color: SelectedItem;
+    background-color: SelectedItem;
+  }
+
+  .thumb {
+    background-color: ButtonText;
+  }
+
+  #input:checked ~ .thumb {
+    background-color: SelectedItemText;
+  }
+
+  #input:disabled {
+    border-color: GrayText;
+  }
+
+  #input:disabled ~ .thumb {
+    background-color: GrayText;
+  }
+
+  /* A disabled checked track is GrayText; keep the knob visible against it. */
+  #input:disabled:checked ~ .thumb {
+    background-color: ButtonFace;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumb {
+    transition: none;
+  }
+}

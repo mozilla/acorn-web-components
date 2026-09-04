@@ -1,0 +1,26 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --toggle-dot-margin: 1px;
+  --toggle-inset: -2px;
+  --toggle-background-color: transparent;
+  --toggle-border-radius: var(--border-radius-circle);
+  --toggle-border-width: var(--border-width);
+  --toggle-height: var(--size-item-small);
+  --toggle-width: var(--size-item-large);
+  --toggle-opacity-disabled: 0.7;
+  --toggle-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --toggle-background-color-active: light-dark(#b6aad9, #9687c0);
+  --toggle-border-color: var(--border-color-interactive);
+  --toggle-border-color-hover: var(--border-color-interactive-hover);
+  --toggle-border-color-active: var(--border-color-interactive-active);
+  --toggle-dot-background-color-on-pressed: var(--background-color-box);
+  --toggle-dot-height: calc(var(--toggle-height) - 2 * var(--toggle-dot-margin) - 2 * var(--toggle-border-width));
+  --toggle-dot-transform-x: calc(var(--toggle-width) - 2 * var(--toggle-dot-margin) - 2px - var(--toggle-dot-width));
+  --toggle-background-color-pressed: light-dark(#764edd, #b89cff);
+  --toggle-background-color-pressed-hover: light-dark(#5939a8, #d4c1ff);
+  --toggle-background-color-pressed-active: light-dark(#3e2976, #eaddff);
+  --toggle-dot-background-color: var(--toggle-border-color);
+  --toggle-dot-background-color-hover: var(--toggle-border-color-hover);
+  --toggle-dot-background-color-active: var(--toggle-border-color-active);
+  --toggle-dot-width: var(--toggle-dot-height);
+}
