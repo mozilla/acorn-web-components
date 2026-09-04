@@ -146,6 +146,7 @@ export class MozRadioGroup extends SelectControlBaseElement {
       this.#internals.setValidity(
         { valueMissing: true },
         'Please select an option.',
+        this.renderRoot.querySelector<HTMLElement>('fieldset') ?? undefined,
       );
     } else {
       this.#internals.setValidity({});

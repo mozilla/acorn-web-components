@@ -38,8 +38,6 @@ export class MozCheckboxAll extends MozCheckbox {
 
   protected firstUpdated(changed: PropertyValues<this>) {
     super.firstUpdated(changed);
-    // Siblings upgrade asynchronously; sync once they exist, then immediately.
-    customElements.whenDefined('moz-checkbox').then(this.#sync);
     this.#sync();
   }
 

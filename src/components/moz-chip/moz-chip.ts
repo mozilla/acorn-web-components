@@ -51,7 +51,14 @@ export class MozChip extends MozLitElement {
       cancelable: true,
     });
     this.dispatchEvent(event);
-    if (!event.defaultPrevented) this.remove();
+    if (event.defaultPrevented) return;
+    // Move focus to an adjacent chip before self-removing, so a keyboard user
+    // isn't dropped to <body> after each removal.
+    const sibling = this.nextElementSibling ?? this.previousElementSibling;
+    this.remove();
+    if (sibling instanceof MozChip) {
+      sibling.shadowRoot?.querySelector<HTMLElement>('.remove')?.focus();
+    }
   }
 
   render() {

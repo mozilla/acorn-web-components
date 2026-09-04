@@ -147,7 +147,13 @@
     background-color: GrayText;
   }
 
-  /* A disabled checked track is GrayText; keep the knob visible against it. */
+  /* Render a disabled "on" toggle in GrayText like other disabled controls so
+   * it's distinguishable from an enabled "on" one; keep the knob visible. */
+  #input:disabled:checked {
+    border-color: GrayText;
+    background-color: GrayText;
+  }
+
   #input:disabled:checked ~ .thumb {
     background-color: ButtonFace;
   }

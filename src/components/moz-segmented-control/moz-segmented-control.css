@@ -1,4 +1,3 @@
-/* Group container. */
 :host(moz-segmented-control) {
   box-sizing: border-box;
   display: inline-flex;
@@ -101,7 +100,6 @@
   cursor: not-allowed;
 }
 
-/* Group-disabled items show the not-allowed cursor. */
 :host(moz-segmented-control-item[group-disabled]) {
   cursor: not-allowed;
 }

@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
 import { labelContent } from '../../base/label-content';
 import labelContentCss from '../../base/label-content.css';
@@ -42,6 +42,27 @@ export class MozLabel extends MozLitElement {
   @property() description?: string;
 
   #slottedDescription = false;
+  #labelledControl: HTMLElement | null = null;
+
+  protected updated(changed: PropertyValues<this>) {
+    super.updated(changed);
+    if (changed.has('label')) this.#nameControl();
+  }
+
+  // Slotted light-DOM controls aren't node-tree descendants of the shadow
+  // `<label>`, so implicit association never names them. Forward `label` as an
+  // `aria-label` unless the control carries its own accessible name.
+  #nameControl = () => {
+    const control = this.#control;
+    if (!control || control.hasAttribute('aria-labelledby')) return;
+    const consumerNamed =
+      control.hasAttribute('aria-label') && control !== this.#labelledControl;
+    if (consumerNamed) return;
+    if (this.label) {
+      control.setAttribute('aria-label', this.label);
+      this.#labelledControl = control;
+    }
+  };
 
   #activate = (event: MouseEvent) => {
     const control = this.#control;
@@ -74,7 +95,7 @@ export class MozLabel extends MozLitElement {
           icon: this.labelIcon,
           required: this.required,
         })}
-        <slot></slot>
+        <slot @slotchange=${this.#nameControl}></slot>
       </label>
       <div
         part="description"

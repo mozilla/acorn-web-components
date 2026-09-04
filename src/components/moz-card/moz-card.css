@@ -22,7 +22,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Compact spacing swaps in the reduced token scale. */
 :host([spacing="compact"]) {
   --card-border-radius: var(--card-border-radius-compact);
   --card-padding: var(--card-padding-compact);
@@ -90,6 +89,14 @@
  * summary and body pad themselves. */
 :host([variant="accordion"]) .card {
   padding: 0;
+}
+
+/* The accordion card has no padding for the media to pull into, so inset it by
+ * the cover-image padding instead of the default negative margin (which would
+ * bleed the media outside the card edges). */
+:host([variant="accordion"]) .media {
+  margin-block-start: 0;
+  margin-inline: var(--card-cover-image-padding);
 }
 
 .accordion summary {

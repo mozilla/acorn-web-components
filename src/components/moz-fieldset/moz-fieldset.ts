@@ -1,5 +1,6 @@
 import { html, nothing, type PropertyValues } from 'lit';
 import { property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import fieldWidth from '../../base/field-width.css';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
@@ -43,9 +44,16 @@ export class MozFieldset extends MozLitElement {
     if (changed.has('disabled')) this.#propagateDisabled();
   }
 
+  // Controls we last propagated `disabled` onto, so we can hand their own
+  // state back when they leave the group instead of stranding them disabled.
+  #propagated = new Set<Element & { parentDisabled: boolean }>();
+
   #propagateDisabled() {
-    for (const control of this.#controls)
-      control.parentDisabled = this.disabled;
+    const current = new Set(this.#controls);
+    for (const prev of this.#propagated)
+      if (!current.has(prev)) prev.parentDisabled = false;
+    for (const control of current) control.parentDisabled = this.disabled;
+    this.#propagated = current;
   }
 
   // Any slotted control that opts into container disabling via `parentDisabled`
@@ -60,7 +68,16 @@ export class MozFieldset extends MozLitElement {
   }
 
   render() {
-    return html`<fieldset part="fieldset" ?disabled=${this.disabled}>
+    const describedBy =
+      [this.description && 'description', this.error && 'error']
+        .filter(Boolean)
+        .join(' ') || undefined;
+    return html`<fieldset
+      part="fieldset"
+      ?disabled=${this.disabled}
+      aria-describedby=${ifDefined(describedBy)}
+      aria-invalid=${ifDefined(this.error ? 'true' : undefined)}
+    >
       ${
         this.label
           ? html`<legend part="legend">${this.label}</legend>`
@@ -68,7 +85,7 @@ export class MozFieldset extends MozLitElement {
       }
       ${
         this.description
-          ? html`<p part="description" class="description">${this.description}</p>`
+          ? html`<p part="description" id="description" class="description">${this.description}</p>`
           : nothing
       }
       <div class="controls">
@@ -76,7 +93,7 @@ export class MozFieldset extends MozLitElement {
       </div>
       ${
         this.error
-          ? html`<p part="error" class="error" role="alert">${this.error}</p>`
+          ? html`<p part="error" id="error" class="error" role="alert">${this.error}</p>`
           : nothing
       }
     </fieldset>`;

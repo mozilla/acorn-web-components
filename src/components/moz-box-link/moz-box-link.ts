@@ -22,6 +22,9 @@ export class MozBoxLink extends MozBoxRow {
   /** Destination URL. */
   @property() href = '';
 
+  /** Accessible hint that the link opens a new tab; pass a localized string. */
+  @property({ attribute: 'new-tab-label' }) newTabLabel = 'Opens in a new tab';
+
   render() {
     return html`
       <a
@@ -31,7 +34,11 @@ export class MozBoxLink extends MozBoxRow {
         rel="noopener noreferrer"
       >
         ${this.renderText()}
-        <moz-icon class="nav-icon" name="external-link"></moz-icon>
+        <moz-icon
+          class="nav-icon"
+          name="external-link"
+          label=${this.newTabLabel}
+        ></moz-icon>
       </a>
     `;
   }

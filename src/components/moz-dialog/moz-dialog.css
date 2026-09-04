@@ -26,7 +26,6 @@ dialog:focus {
   outline: none;
 }
 
-/* Modal dimming + blur of the page behind the dialog. */
 dialog::backdrop {
   background-color: var(--background-color-overlay);
   backdrop-filter: blur(4px);

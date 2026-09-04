@@ -65,7 +65,8 @@
   border-color: var(--border-color-error);
 }
 
-/* On focus the error border thickens to 2px and stands in for the focus ring. */
+/* On focus the focus outline is recolored to the error color, so the error
+ * state and focus ring share one red ring. */
 :host(:state(error)) .field:focus-within {
   outline-color: var(--border-color-error);
 }

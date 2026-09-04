@@ -75,13 +75,22 @@ export class MozMessageBar extends MozLitElement {
 
   /** Remove the bar and notify listeners. */
   dismiss() {
-    this.remove();
+    const sibling = this.previousElementSibling ?? this.nextElementSibling;
+    // Fire while still connected so `bubbles`/`composed` can reach ancestor
+    // listeners — a detached node has nothing to bubble through.
     this.dispatchEvent(
       new CustomEvent('moz-message-bar:dismissed', {
         bubbles: true,
         composed: true,
       }),
     );
+    this.remove();
+    // Keep focus in the page rather than dropping it to <body>.
+    if (sibling instanceof MozMessageBar) {
+      sibling.shadowRoot?.querySelector<HTMLElement>('.close')?.focus();
+    } else if (sibling instanceof HTMLElement) {
+      sibling.focus?.();
+    }
   }
 
   render() {

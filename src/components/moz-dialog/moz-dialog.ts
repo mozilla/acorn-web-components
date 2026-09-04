@@ -46,6 +46,9 @@ export class MozDialog extends MozLitElement {
   /** Heading text; alternatively use the `heading` slot. */
   @property() heading?: string;
 
+  /** Accessible name for a modal that has no visible heading. */
+  @property() label?: string;
+
   /** Leading icon shown before the heading. */
   @property({ attribute: 'icon-start' }) iconStart?: IconName;
 
@@ -70,7 +73,6 @@ export class MozDialog extends MozLitElement {
     if (changed.has('open')) this.#syncOpen();
   }
 
-  // Drive the native dialog from the `open` property.
   #syncOpen() {
     const dialog = this.#dialog;
     if (!dialog) return;
@@ -132,7 +134,6 @@ export class MozDialog extends MozLitElement {
     previous?.focus();
   }
 
-  // Dispatch a cancelable dismiss request; close unless a listener prevents it.
   #requestClose() {
     const event = new CustomEvent('moz-dialog:dismiss', {
       bubbles: true,
@@ -159,6 +160,7 @@ export class MozDialog extends MozLitElement {
         part="dialog"
         tabindex="-1"
         aria-labelledby=${ifDefined(hasHeading ? 'heading' : undefined)}
+        aria-label=${ifDefined(!hasHeading ? this.label : undefined)}
         @cancel=${this.#onCancel}
         @close=${this.#onClose}
         @click=${this.#onClick}

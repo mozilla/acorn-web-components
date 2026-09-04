@@ -99,7 +99,6 @@ export class MozIcon extends LitElement {
   }
 
   protected updated(changed: PropertyValues<this>) {
-    // Decorative unless labeled.
     if (this.label) {
       this.setAttribute('role', 'img');
       this.setAttribute('aria-label', this.label);

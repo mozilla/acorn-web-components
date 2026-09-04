@@ -1,4 +1,3 @@
-/* Group container: a block-level nav wrapping the ordered list. */
 :host(moz-breadcrumb-group:not([hidden])) {
   display: block;
 }

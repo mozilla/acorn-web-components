@@ -66,7 +66,8 @@ export class MozPageNav extends MozLitElement {
   /**
    * Whether to highlight the item for the section in view as the user scrolls
    * (a table-of-contents nav). Items must be in-page anchors (`href="#id"`);
-   * the nav observes those targets and updates `current` silently.
+   * the nav observes those targets, updates `current`, and fires
+   * `moz-page-nav:change` as sections scroll into view.
    */
   @property({ type: Boolean, reflect: true }) scrollspy = false;
 
@@ -88,10 +89,6 @@ export class MozPageNav extends MozLitElement {
           (el): el is MozPageNavButton => el instanceof MozPageNavButton,
         ) ?? []
     );
-  }
-
-  firstUpdated() {
-    this.#setupScrollspy();
   }
 
   updated(changed: PropertyValues<this>) {
@@ -122,28 +119,30 @@ export class MozPageNav extends MozLitElement {
     this.hasHeadingSlot = slotHasContent(e.target as HTMLSlotElement);
   }
 
-  // Reflect `current` onto the items; when nothing matches, auto-select the
-  // first (unless `allowNoSelection`).
   #syncSelected() {
     const buttons = this.#buttons;
     let matched = false;
     for (const button of buttons) {
-      button.selected = button.navValue === this.current;
+      button.selected =
+        button.navValue !== undefined && button.navValue === this.current;
       matched ||= button.selected;
     }
     if (!matched && buttons.length && !this.allowNoSelection) {
       buttons[0].selected = true;
       this.current = buttons[0].navValue;
+      matched = true;
     }
+    // Roving tabindex needs exactly one tab stop; when nothing is selected
+    // (allow-no-selection) keep the first item reachable so the group can be
+    // tabbed into at all.
+    const tabStop = !matched && buttons.length ? buttons[0] : null;
+    for (const button of buttons) button.tabStop = button === tabStop;
   }
 
-  #select(value: string | undefined, opts: { focus?: boolean } = {}) {
+  #select(value: string | undefined) {
     const changed = this.current !== value;
     this.current = value;
     this.#syncSelected();
-    if (opts.focus) {
-      this.#buttons.find((b) => b.navValue === value)?.focus();
-    }
     if (changed) {
       this.dispatchEvent(
         new CustomEvent<PageNavChangeDetail>('moz-page-nav:change', {
@@ -170,7 +169,8 @@ export class MozPageNav extends MozLitElement {
     const next = rovingIndex(e.key, current, buttons.length, { rtl });
     if (next === null || next === current) return;
     e.preventDefault();
-    this.#select(buttons[next].navValue, { focus: true });
+    this.#select(buttons[next].navValue);
+    buttons[next].focus();
   }
 
   // Observe each anchor item's target section; the section occupying the top of
@@ -276,6 +276,9 @@ export class MozPageNavButton extends MozLitElement {
   /** Whether this button is the current view. Managed by `<moz-page-nav>`. */
   @property({ type: Boolean, reflect: true }) selected = false;
 
+  /** Roving tab stop when nothing is selected. Managed by `<moz-page-nav>`. */
+  @state() tabStop = false;
+
   /** Optional leading icon name. */
   @property({ attribute: 'icon-start' }) iconStart?: IconName;
 
@@ -330,7 +333,7 @@ export class MozPageNavButton extends MozLitElement {
         part="item"
         href=${this.href}
         aria-current=${ifDefined(!secondary && this.selected ? 'page' : undefined)}
-        tabindex=${ifDefined(secondary ? undefined : this.selected ? 0 : -1)}
+        tabindex=${ifDefined(secondary ? undefined : this.selected || this.tabStop ? 0 : -1)}
         @click=${secondary ? undefined : this.#activate}
         >${this.#inner()}</a
       >`;
@@ -341,7 +344,7 @@ export class MozPageNavButton extends MozLitElement {
         part="item"
         type="button"
         aria-current=${ifDefined(this.selected ? 'page' : undefined)}
-        tabindex=${this.selected ? 0 : -1}
+        tabindex=${this.selected || this.tabStop ? 0 : -1}
         @click=${this.#activate}
       >
         ${this.#inner()}

@@ -132,6 +132,9 @@ export class MozSegmentedControl extends MozLitElement {
         it.controls = panel.id;
         panel.setAttribute('role', 'tabpanel');
         panel.setAttribute('aria-labelledby', it.id);
+        // A tabpanel with only static content needs a tab stop so keyboard
+        // users can reach and scroll it (ARIA APG tabs pattern).
+        panel.setAttribute('tabindex', '0');
       } else {
         it.controls = '';
       }

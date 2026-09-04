@@ -1,4 +1,5 @@
-:host {
+/* Host display kept off [hidden] so the `hidden` attribute still hides the icon. */
+:host(:not([hidden])) {
   display: inline-flex;
   inline-size: var(--_icon-size, var(--icon-size, 16px));
   block-size: var(--_icon-size, var(--icon-size, 16px));
