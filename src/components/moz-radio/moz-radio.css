@@ -1,0 +1,109 @@
+:host {
+  --radio-size: var(--size-item-small);
+  --radio-dot-size: calc(var(--radio-size) / 2);
+
+  /* Indent the description under the label text, past the circle. */
+  --field-inline-offset: calc(var(--radio-size) + var(--space-small));
+}
+
+.circle {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+#input {
+  inline-size: var(--radio-size);
+  block-size: var(--radio-size);
+  margin: 0;
+  border: var(--border-width) solid var(--border-color-interactive);
+  border-radius: var(--border-radius-circle);
+  background-color: var(--button-background-color);
+  cursor: inherit;
+  appearance: none;
+}
+
+#input:hover:not(:disabled) {
+  border-color: var(--border-color-interactive-hover);
+  background-color: var(--button-background-color-hover);
+}
+
+#input:active:not(:disabled) {
+  border-color: var(--border-color-interactive-active);
+  background-color: var(--button-background-color-active);
+}
+
+/* The circle stays unfilled; a primary border + dot mark it. */
+#input:checked {
+  border-color: var(--button-background-color-primary);
+  background-color: var(--button-background-color);
+}
+
+#input:checked:hover:not(:disabled) {
+  border-color: var(--button-background-color-primary-hover);
+  background-color: var(--button-background-color);
+}
+
+#input:checked:active:not(:disabled) {
+  border-color: var(--button-background-color-primary-active);
+  background-color: var(--button-background-color);
+}
+
+#input:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+#input:disabled {
+  border-color: var(--border-color-interactive-disabled);
+  background-color: var(--button-background-color-disabled);
+  cursor: not-allowed;
+}
+
+/* A disabled selected circle keeps the primary border; only the dot dims, to the
+ * disabled fill (below). The circle sits inside the label, so the label's
+ * disabled opacity already dims the whole control. */
+#input:disabled:checked {
+  border-color: var(--button-background-color-primary);
+}
+
+.dot {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  display: none;
+  inline-size: var(--radio-dot-size);
+  block-size: var(--radio-dot-size);
+  border-radius: var(--border-radius-circle);
+  background-color: var(--button-background-color-primary);
+  pointer-events: none;
+  translate: -50% -50%;
+}
+
+#input:checked ~ .dot {
+  display: block;
+}
+
+#input:checked:hover:not(:disabled) ~ .dot {
+  background-color: var(--button-background-color-primary-hover);
+}
+
+#input:checked:active:not(:disabled) ~ .dot {
+  background-color: var(--button-background-color-primary-active);
+}
+
+#input:disabled:checked ~ .dot {
+  background-color: var(--button-background-color-primary-disabled);
+}
+
+/* Forced colors strip custom control styling; fall back to the native radio,
+ * which the OS renders with system colors (and hide our overlay dot). */
+@media (forced-colors: active) {
+  #input {
+    appearance: auto;
+  }
+
+  #input:checked ~ .dot {
+    display: none;
+  }
+}

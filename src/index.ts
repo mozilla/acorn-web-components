@@ -23,6 +23,8 @@ export * from './components/moz-message-bar/moz-message-bar';
 export * from './components/moz-page-header/moz-page-header';
 export * from './components/moz-page-nav/moz-page-nav';
 export * from './components/moz-provider/moz-provider';
+export * from './components/moz-radio/moz-radio';
+export * from './components/moz-radio-group/moz-radio-group';
 export * from './components/moz-segmented-control/moz-segmented-control';
 export * from './components/moz-toggle/moz-toggle';
 export * from './context/contrast-context';

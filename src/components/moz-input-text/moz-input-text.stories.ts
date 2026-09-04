@@ -344,7 +344,9 @@ export const InDisabledFieldset: Story = {
   play: async ({ canvasElement }) => {
     const input = canvasElement.querySelector('moz-input-text')!;
     await new Promise((r) => setTimeout(r, 20));
-    expect(input.disabled).toBe(true);
+    // Form-owner disabling sets isDisabled without touching the author `disabled`.
+    expect(input.disabled).toBe(false);
+    expect(input.isDisabled).toBe(true);
     expect(input.shadowRoot!.querySelector('input')!.disabled).toBe(true);
   },
 };

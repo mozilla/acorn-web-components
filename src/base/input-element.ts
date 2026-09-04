@@ -112,6 +112,13 @@ export abstract class MozBaseInputElement<
    */
   @property({ type: Boolean, state: true }) parentDisabled = false;
 
+  /**
+   * Set by the form owner (a disabled ancestor `<fieldset>`/form) via
+   * {@link formDisabledCallback}. Kept separate from `disabled` so the form's
+   * state never overwrites the author's attribute. Read {@link isDisabled}.
+   */
+  @property({ type: Boolean, state: true }) formDisabled = false;
+
   /** Whether a value is required; `"no-whitespace"` also rejects blank-only. */
   @property({ converter: requiredConverter }) required: RequiredState = false;
 
@@ -156,7 +163,7 @@ export abstract class MozBaseInputElement<
   // --- Form lifecycle ---
 
   formDisabledCallback(disabled: boolean) {
-    this.disabled = disabled;
+    this.formDisabled = disabled;
   }
 
   formResetCallback() {
@@ -193,7 +200,7 @@ export abstract class MozBaseInputElement<
 
   /** Disabled by its own `disabled` or by a disabled container. */
   get isDisabled(): boolean {
-    return this.disabled || this.parentDisabled;
+    return this.disabled || this.parentDisabled || this.formDisabled;
   }
 
   // --- Reactive lifecycle ---
@@ -217,27 +224,35 @@ export abstract class MozBaseInputElement<
     super.updated(changed);
     const activated = (this.constructor as typeof MozBaseInputElement)
       .activatedProperty;
-    // A choice control (checkbox/radio/toggle) submits its value only when
-    // activated; a text control always submits its value.
+    // A choice control submits its value only when activated; a text control
+    // always submits its. Either way a disabled control — including one soft-
+    // disabled by a container via parentDisabled — submits nothing, like native.
     // `activatedProperty` is a dynamic key the base's type doesn't know, so
     // check it against the change set as a plain map.
     const changedKeys = changed as unknown as Map<string, unknown>;
+    const disabledChanged =
+      changed.has('disabled') ||
+      changed.has('parentDisabled') ||
+      changed.has('formDisabled');
     if (activated) {
-      if (changedKeys.has('value') || changedKeys.has(activated)) {
+      if (
+        changedKeys.has('value') ||
+        changedKeys.has(activated) ||
+        disabledChanged
+      ) {
         const on = !!(this as Record<string, unknown>)[activated];
         // Second arg is the restoration state (bfcache/autofill): persist on/off
         // so formStateRestoreCallback restores the activated property.
-        this.#internals.setFormValue(on ? this.value : null, on ? 'on' : 'off');
+        this.#internals.setFormValue(
+          on && !this.isDisabled ? this.value : null,
+          on ? 'on' : 'off',
+        );
       }
-      if (
-        changedKeys.has('disabled') ||
-        changedKeys.has('parentDisabled') ||
-        changedKeys.has(activated)
-      ) {
+      if (changedKeys.has(activated) || disabledChanged) {
         this.#updateNestedElements();
       }
-    } else if (changed.has('value')) {
-      this.#internals.setFormValue(this.value);
+    } else if (changed.has('value') || disabledChanged) {
+      this.#internals.setFormValue(this.isDisabled ? null : this.value);
     }
     // Validity depends on value plus any number of constraint attributes, so
     // re-mirror it from the inner control on every update rather than enumerate.
