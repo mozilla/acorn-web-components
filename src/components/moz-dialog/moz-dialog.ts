@@ -46,6 +46,9 @@ export class MozDialog extends MozLitElement {
   /** Heading text; alternatively use the `heading` slot. */
   @property() heading?: string;
 
+  /** Accessible name for a modal that has no visible heading. */
+  @property() label?: string;
+
   /** Leading icon shown before the heading. */
   @property({ attribute: 'icon-start' }) iconStart?: IconName;
 
@@ -58,7 +61,6 @@ export class MozDialog extends MozLitElement {
   @state() private hasHeadingSlot = false;
   @state() private hasActions = false;
 
-  // Element focused before a modal opened, restored on close.
   #previouslyFocused: HTMLElement | null = null;
 
   get #dialog(): HTMLDialogElement | null {
@@ -70,7 +72,6 @@ export class MozDialog extends MozLitElement {
     if (changed.has('open')) this.#syncOpen();
   }
 
-  // Drive the native dialog from the `open` property.
   #syncOpen() {
     const dialog = this.#dialog;
     if (!dialog) return;
@@ -90,7 +91,6 @@ export class MozDialog extends MozLitElement {
     }
   }
 
-  // Move focus into the modal: honor a slotted [autofocus], else the dialog.
   #focusInitial() {
     const dialog = this.#dialog;
     if (!dialog) return;
@@ -106,8 +106,7 @@ export class MozDialog extends MozLitElement {
   }
 
   #onClick(event: MouseEvent) {
-    // A slotted control marked [data-dismiss] (e.g. a Cancel button) requests a
-    // close, regardless of variant or `dismissable`.
+    // A [data-dismiss] control closes regardless of variant or dismissable.
     const closer = event
       .composedPath()
       .find(
@@ -124,7 +123,6 @@ export class MozDialog extends MozLitElement {
     if (event.target === this.#dialog) this.#requestClose();
   }
 
-  // Native dialog closed: reflect state and restore focus.
   #onClose() {
     if (this.open) this.open = false;
     const previous = this.#previouslyFocused;
@@ -132,7 +130,6 @@ export class MozDialog extends MozLitElement {
     previous?.focus();
   }
 
-  // Dispatch a cancelable dismiss request; close unless a listener prevents it.
   #requestClose() {
     const event = new CustomEvent('moz-dialog:dismiss', {
       bubbles: true,
@@ -159,6 +156,7 @@ export class MozDialog extends MozLitElement {
         part="dialog"
         tabindex="-1"
         aria-labelledby=${ifDefined(hasHeading ? 'heading' : undefined)}
+        aria-label=${ifDefined(!hasHeading ? this.label : undefined)}
         @cancel=${this.#onCancel}
         @close=${this.#onClose}
         @click=${this.#onClick}

@@ -35,9 +35,7 @@ export class MozDetails extends MozLitElement {
   /** Whether toggling is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  // Toggling (managed open state, keyboard, disabled guard, event) is shared
-  // with moz-card's accordion via DisclosureController. <summary> still provides
-  // the disclosure role and reflects aria-expanded from the `open` attribute.
+  // Toggle behavior is shared with moz-card's accordion via DisclosureController; native <summary> still supplies the disclosure role and aria-expanded, so we don't manage them here.
   #disclosure = new DisclosureController(this, {
     get: () => this.open,
     set: (open) => {

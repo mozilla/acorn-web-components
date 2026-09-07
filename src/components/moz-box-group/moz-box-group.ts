@@ -7,9 +7,8 @@ import shared from '../../base/shared.css';
 import boxTokens from '../../generated/component-tokens/box.css';
 import styles from './moz-box-group.css';
 
-// Rows that take focus directly: buttons/links, or an item made focusable.
 const NAVIGABLE =
-  'moz-box-button, moz-box-link, moz-box-item[tabindex]:not([tabindex="-1"])';
+  'moz-box-button:not([disabled]), moz-box-link, moz-box-item[tabindex]:not([tabindex="-1"])';
 
 /**
  * Nova box group: a bordered container that stacks moz-box-item / -button /

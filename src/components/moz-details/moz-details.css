@@ -16,8 +16,6 @@ summary {
   list-style: none;
   cursor: pointer;
   user-select: none;
-
-  /* Chevron follows the summary text color. */
   --icon-color: currentColor;
 }
 
@@ -52,7 +50,6 @@ summary:focus-visible {
   pointer-events: none;
 }
 
-/* No border/background normally; add a visible border only in high contrast. */
 @media (forced-colors: active) {
   :host {
     border: var(--border-width) solid CanvasText;

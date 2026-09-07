@@ -17,8 +17,7 @@ import styles from './moz-toggle.css';
  * @csspart thumb - The sliding knob.
  */
 export class MozToggle extends MozBaseInputElement {
-  // toggleTokens own the switch's look; buttonTokens supply the disabled "on"
-  // fill the toggle set doesn't define (see moz-toggle.css).
+  // buttonTokens supply the disabled "on" fill the toggle set doesn't define (see moz-toggle.css).
   static styles = [
     ...MozBaseInputElement.styles,
     toggleTokens,
@@ -43,7 +42,6 @@ export class MozToggle extends MozBaseInputElement {
 
   #handleChange = (event: Event) => {
     this.checked = (event.target as HTMLInputElement).checked;
-    // Re-emit as a composed change (base helper handles the retarget).
     this.handleChange(event);
   };
 

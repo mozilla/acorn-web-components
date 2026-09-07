@@ -138,7 +138,7 @@ export abstract class SelectControlBaseElement extends MozLitElement {
       item.name = this.name;
       if (item.checked && this.#value === undefined) this.#value = item.value;
     }
-    // Mirror the resolved value onto the options (checked state + tab stop).
+    // Deliberate self-assignment: runs the value setter to mirror the resolved value onto the options.
     this.value = this.#value;
   }
 

@@ -28,9 +28,7 @@ export class DisclosureController implements ReactiveController {
     host.addController(this);
   }
 
-  hostConnected() {
-    // Registered for host lifecycle; no work needed yet.
-  }
+  hostConnected() {}
 
   toggle() {
     if (this.#config.isDisabled?.()) return;

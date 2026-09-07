@@ -1,4 +1,3 @@
-/* Group container. */
 :host(moz-segmented-control) {
   box-sizing: border-box;
   display: inline-flex;
@@ -16,8 +15,7 @@
   block-size: 32px;
 }
 
-/* Whole-group disable: dim + not-allowed cursor. Selection is blocked in JS, so
- * pointer-events stays on for the cursor feedback. */
+/* Selection is blocked in JS, so pointer-events stays on for the not-allowed cursor feedback. */
 :host(moz-segmented-control[disabled]) {
   opacity: var(--opacity-disabled);
   cursor: not-allowed;
@@ -27,7 +25,6 @@
   display: none;
 }
 
-/* Content deck paired with the control: children hide/show via [hidden]. */
 :host(moz-segmented-control-deck) {
   display: block;
 }
@@ -36,13 +33,11 @@
   flex: 1 1 auto;
 }
 
-/* Icon-only segments are circular (width follows the stretched height). */
 ::slotted(moz-segmented-control-item[icon-only]) {
   flex: 0 0 auto;
   aspect-ratio: 1;
 }
 
-/* Fill mode: span the container width with equally-sized segments. */
 :host(moz-segmented-control[fill]) {
   display: flex;
   inline-size: auto;
@@ -52,7 +47,6 @@
   flex-basis: 0;
 }
 
-/* Item: a ghost pill that fills to the accent color when selected. */
 :host(moz-segmented-control-item) {
   display: inline-flex;
   align-items: center;
@@ -101,12 +95,10 @@
   cursor: not-allowed;
 }
 
-/* Group-disabled items show the not-allowed cursor. */
 :host(moz-segmented-control-item[group-disabled]) {
   cursor: not-allowed;
 }
 
-/* Icon-only: a circle with the icon centered (label hidden). */
 :host(moz-segmented-control-item[icon-only]) {
   padding-inline: 0;
   border-radius: var(--border-radius-circle);
