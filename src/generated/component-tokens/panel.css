@@ -11,10 +11,10 @@
   --panel-background-color-dimmed-further: var(--background-color-dimmed-further);
   --panel-box-shadow: 0 0 var(--panel-box-shadow-margin) hsla(0, 0%, 0%, 0.2);
   --panel-separator-padding: var(--panel-separator-padding-block) var(--panel-separator-padding-inline);
-  --panel-border-color: light-dark(#efedf2, #312f33);
   --panel-border-radius: 24px;
   --panel-text-color: var(--text-color);
   --panel-background-color: light-dark(#ffffff, #252428);
+  --panel-border-color: light-dark(#d6d5da, #67666a);
 }
 @media (prefers-contrast: more) {
   :host {

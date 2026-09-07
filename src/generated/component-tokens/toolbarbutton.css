@@ -13,37 +13,23 @@
   --toolbarbutton-padding-inner-touch: 9px;
   --toolbarbutton-padding-inner-touch-narrow: 8px;
   --toolbarbutton-opacity-disabled: 0.4;
-  --toolbarbutton-background-color-hover: color-mix(in srgb, currentColor 17%, transparent);
-  --toolbarbutton-background-color-active: color-mix(in srgb, currentColor 30%, transparent);
+  --toolbarbutton-background-color: transparent;
+  --toolbarbutton-background-color-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
+  --toolbarbutton-background-color-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
   --toolbarbutton-outline-color: transparent;
-  --toolbarbutton-outline-color-hover: transparent;
-  --toolbarbutton-outline-color-active: transparent;
   --toolbarbutton-outline-offset: -1px;
   --toolbarbutton-badge-background-color: light-dark(var(--color-red-60), var(--color-red-40));
   --toolbarbutton-icon-fill: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-10));
   --toolbarbutton-icon-fill-attention-text: light-dark(var(--color-gray-20), var(--color-gray-90));
   --toolbarbutton-outline: var(--border-width) solid var(--toolbarbutton-outline-color);
-  --toolbarbutton-outline-color-selected: var(--toolbarbutton-outline-color-active);
   --toolbarbutton-icon-fill-attention: var(--color-accent-primary);
   --toolbarbutton-border-radius: 24px;
-}
-@media (prefers-contrast: more) {
-  :host {
-    --toolbarbutton-outline-color-active: currentColor;
-    --toolbarbutton-outline-color-hover: currentColor;
-  }
 }
 @media (forced-colors: active) {
   :host {
     --toolbarbutton-background-color-active: light-dark(#b6aad9, #9687c0);
     --toolbarbutton-background-color-hover: light-dark(#d2c8ec, #75669f);
     --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
-    --toolbarbutton-outline-color-active: light-dark(#764edd, #b89cff);
-    --toolbarbutton-outline-color-hover: light-dark(#764edd, #b89cff);
     --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
   }
-}
-:host([data-contrast='high']) {
-    --toolbarbutton-outline-color-active: currentColor;
-    --toolbarbutton-outline-color-hover: currentColor;
 }

@@ -105,20 +105,24 @@
   },
   "background": {
     "color": {
+      "@base": {
+        "value": {
+          "default": "transparent",
+          "forcedColors": "{button.background.color.@base}"
+        }
+      },
       "hover": {
-        "ignoreFigma": "color-mix with currentColor cannot be expressed in Figma",
         "value": {
           "default": "color-mix(in srgb, currentColor 17%, transparent)",
-          "forcedColors": "{button.background.color.hover}",
-          "nativeTheme": "{button.background.color.ghost.hover}"
+          "forcedColors": "{button.background.color.ghost.hover}",
+          "nativeTheme": "color-mix(in srgb, currentColor 17%, transparent)"
         }
       },
       "active": {
-        "ignoreFigma": "color-mix with currentColor cannot be expressed in Figma",
         "value": {
           "default": "color-mix(in srgb, currentColor 30%, transparent)",
-          "forcedColors": "{button.background.color.active}",
-          "nativeTheme": "{button.background.color.ghost.active}"
+          "forcedColors": "{button.background.color.ghost.active}",
+          "nativeTheme": "color-mix(in srgb, currentColor 30%, transparent)"
         }
       }
     }
@@ -138,14 +142,26 @@
         "value": {
           "default": "transparent",
           "prefersContrast": "currentColor",
-          "forcedColors": "SelectedItem"
+          "forcedColors": "SelectedItem",
+          "nova": {
+            "comment": "Preserve the base prefersContrast value",
+            "value": {
+              "forcedColors": "{button.border.color.hover}"
+            }
+          }
         }
       },
       "active": {
         "value": {
           "default": "transparent",
           "prefersContrast": "currentColor",
-          "forcedColors": "ButtonText"
+          "forcedColors": "ButtonText",
+          "nova": {
+            "comment": "Preserve the base prefersContrast value",
+            "value": {
+              "forcedColors": "{button.border.color.active}"
+            }
+          }
         }
       },
       "selected": {

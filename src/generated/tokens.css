@@ -295,22 +295,12 @@
   }
   @media (forced-colors: active) {
     :root {
-      --background-color-box-info: var(--background-color-canvas);
-      --background-color-box: var(--background-color-canvas);
-      --background-color-canvas: Canvas;
-      --background-color-critical: var(--background-color-canvas);
-      --background-color-information: var(--background-color-canvas);
-      --background-color-success: var(--background-color-canvas);
-      --background-color-warning: var(--background-color-canvas);
       --border-color-deemphasized: CanvasText;
-      --border-color-error: var(--border-color);
       --border-color-interactive-active: ButtonText;
       --border-color-interactive-disabled: GrayText;
       --border-color-interactive-hover: SelectedItem;
       --border-color-interactive: ButtonText;
       --border-color-selected: SelectedItem;
-      --border-color-transparent: CanvasText;
-      --border-color: CanvasText;
       --box-shadow-color-darker-layer-1: transparent;
       --box-shadow-color-darker-layer-2: transparent;
       --box-shadow-color-lighter-layer-1: transparent;
@@ -322,10 +312,6 @@
       --color-accent-primary: ButtonText;
       --focus-outline-color: var(--text-color);
       --icon-color-accent-primary-desaturated: CanvasText;
-      --icon-color-critical: var(--icon-color);
-      --icon-color-information: var(--icon-color);
-      --icon-color-success: var(--icon-color);
-      --icon-color-warning: var(--icon-color);
       --text-color-accent-primary-selected: SelectedItemText;
       --text-color-disabled: GrayText;
     }
