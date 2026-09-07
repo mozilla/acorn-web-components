@@ -148,19 +148,13 @@ export abstract class MozBaseInputElement<
 
   connectedCallback(): void {
     super.connectedCallback();
-    // Move an authored `accesskey` onto the inner control (and off the host) so
-    // the browser's access key activates the control (toggles a checkbox, focuses
-    // a text field) rather than just focusing the host. The matching label
-    // character is underlined in labelContent. (Access keys can still collide
-    // with browser/OS shortcuts — the letter choice matters.)
+    // Move an authored `accesskey` onto the inner control (and off the host) so the browser's access key activates the control rather than just focusing the host. The matching label character is underlined in labelContent.
     const accessKey = this.getAttribute('accesskey');
     if (accessKey) {
       this.#accessKey = accessKey;
       this.removeAttribute('accesskey');
     }
   }
-
-  // --- Form lifecycle ---
 
   formDisabledCallback(disabled: boolean) {
     this.formDisabled = disabled;
@@ -202,8 +196,6 @@ export abstract class MozBaseInputElement<
   get isDisabled(): boolean {
     return this.disabled || this.parentDisabled || this.formDisabled;
   }
-
-  // --- Reactive lifecycle ---
 
   protected willUpdate(changed: PropertyValues<this>): void {
     super.willUpdate?.(changed);
@@ -288,8 +280,6 @@ export abstract class MozBaseInputElement<
     else this.#internals.states.delete(key);
   }
 
-  // --- Events ---
-
   /** Wire to the inner control's `input`; updates `value` and re-emits composed. */
   protected handleInput = (event: Event) => {
     event.stopPropagation();
@@ -318,8 +308,6 @@ export abstract class MozBaseInputElement<
     this.inputEl?.focus();
     this.inputEl?.click();
   };
-
-  // --- Validation (mirrors the inner control's native validity) ---
 
   #updateValidation() {
     const input = this.inputEl;
@@ -386,8 +374,6 @@ export abstract class MozBaseInputElement<
     return this.#internals.willValidate;
   }
 
-  // --- Element refs + focus delegation ---
-
   get inputEl(): T | null {
     return this.renderRoot?.querySelector<T>('#input') ?? null;
   }
@@ -411,8 +397,6 @@ export abstract class MozBaseInputElement<
   select() {
     if (this.inputEl instanceof HTMLInputElement) this.inputEl.select();
   }
-
-  // --- Templates ---
 
   /** The ids for `aria-describedby`: the description and/or the error message. */
   protected get describedBy(): string | undefined {

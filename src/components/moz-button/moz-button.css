@@ -159,7 +159,6 @@ button[disabled] {
   padding: var(--button-padding-block-large) var(--button-padding-inline-large);
 }
 
-/* Icon-only: a compact square from the --button-size-icon scale, icon centered. */
 :host([icon-only]) button {
   min-height: 0;
   inline-size: var(--button-size-icon);

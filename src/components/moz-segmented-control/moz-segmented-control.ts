@@ -107,9 +107,6 @@ export class MozSegmentedControl extends MozLitElement {
     this.#sync();
   };
 
-  // Push selected state + roving tabindex down to the items, wire the ARIA
-  // mode, and (in tabs mode) tie each tab to its deck panel. The focusable
-  // item is the selected one, else the first enabled one.
   #sync() {
     const items = this.#items;
     let focusable = items.findIndex(
@@ -132,6 +129,9 @@ export class MozSegmentedControl extends MozLitElement {
         it.controls = panel.id;
         panel.setAttribute('role', 'tabpanel');
         panel.setAttribute('aria-labelledby', it.id);
+        // A tabpanel with only static content needs a tab stop so keyboard
+        // users can reach and scroll it (ARIA APG tabs pattern).
+        panel.setAttribute('tabindex', '0');
       } else {
         it.controls = '';
       }

@@ -9,8 +9,6 @@
   display: block;
 }
 
-/* --- Container (moz-page-nav) --- */
-
 nav {
   display: flex;
   flex-direction: column;

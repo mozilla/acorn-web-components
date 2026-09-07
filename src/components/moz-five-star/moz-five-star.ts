@@ -54,13 +54,11 @@ export class MozFiveStar extends MozLitElement {
   /** Star (1-based) previewed on hover; 0 when not hovering. */
   @state() private hoverValue = 0;
 
-  // Whole-star selection value; rounds a half rating to the nearest star.
   get #selected(): number {
     return Math.round(Math.max(0, Math.min(this.max, this.rating)));
   }
 
   #fills(): Fill[] {
-    // Hover fills whole stars up to the hovered one, previewing the selection.
     if (this.selectable && this.hoverValue > 0) {
       return Array.from({ length: this.max }, (_, i) =>
         i < this.hoverValue ? 'full' : 'empty',
@@ -108,6 +106,17 @@ export class MozFiveStar extends MozLitElement {
 
   #onKeydown(e: KeyboardEvent) {
     if (!this.selectable) return;
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      const stars = [
+        ...(this.shadowRoot?.querySelectorAll<HTMLElement>('.star') ?? []),
+      ];
+      const focused = stars.indexOf(
+        this.shadowRoot?.activeElement as HTMLElement,
+      );
+      this.#select(focused >= 0 ? focused + 1 : this.#selected || 1, true);
+      return;
+    }
     const rtl = getComputedStyle(this).direction === 'rtl';
     // Stars are a roving group of `max` items; #selected is 1-based (0 = none).
     const next = rovingIndex(e.key, this.#selected - 1, this.max, { rtl });

@@ -1,5 +1,4 @@
-/* The bordered box; the icon, input, and clear button sit inside it so the
- * border and focus ring wrap the whole field. */
+/* Wrapper so the border and focus ring surround the icon, input, and clear button together, not just the input. */
 .field {
   display: flex;
   align-items: center;
@@ -65,7 +64,7 @@
   border-color: var(--border-color-error);
 }
 
-/* On focus the error border thickens to 2px and stands in for the focus ring. */
+/* Recolor the focus-within outline to the error color so error and focus don't clash. */
 :host(:state(error)) .field:focus-within {
   outline-color: var(--border-color-error);
 }

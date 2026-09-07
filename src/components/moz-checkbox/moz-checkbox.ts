@@ -50,12 +50,10 @@ export class MozCheckbox extends MozBaseInputElement {
     const input = event.target as HTMLInputElement;
     this.checked = input.checked;
     this.indeterminate = false;
-    // Re-emit as a composed change (base helper handles the retarget).
     this.handleChange(event);
   };
 
   protected inputTemplate() {
-    // The mark overlays the box (see base/marks); `currentColor` recolors it.
     return html`<span class="box">
       <input
         id="input"

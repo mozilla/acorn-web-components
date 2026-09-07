@@ -21,8 +21,7 @@
   background-color: var(--color-accent-primary);
 }
 
-/* The mark overlays the box, centered at its intrinsic Figma size; shown per
- * state. Its color is the on-accent foreground (see base/marks). */
+/* Mark color is the on-accent foreground, for contrast against the checked box background (see base/marks). */
 .mark {
   position: absolute;
   inset-block-start: 50%;
@@ -37,8 +36,7 @@
   display: block;
 }
 
-/* Forced colors strip custom control styling; keep the box as a system-colored
- * outline with a system-colored mark. */
+/* Forced colors strips custom control styling, so fall back to system colors. */
 @media (forced-colors: active) {
   .box,
   :host([checked]) .box,

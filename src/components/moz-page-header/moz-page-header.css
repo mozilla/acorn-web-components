@@ -21,6 +21,10 @@
   flex-shrink: 0;
 }
 
+.back:dir(rtl) {
+  scale: -1 1;
+}
+
 .main {
   display: flex;
   align-items: center;
@@ -49,7 +53,6 @@
   min-width: 0;
 }
 
-/* Heading and its optional badge sit inline. */
 .heading-row {
   display: flex;
   flex-wrap: wrap;

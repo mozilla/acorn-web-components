@@ -60,9 +60,7 @@
   cursor: not-allowed;
 }
 
-/* A disabled selected circle keeps the primary border; only the dot dims, to the
- * disabled fill (below). The circle sits inside the label, so the label's
- * disabled opacity already dims the whole control. */
+/* Keep the primary border when disabled; the label's opacity already dims the whole control. */
 #input:disabled:checked {
   border-color: var(--button-background-color-primary);
 }
