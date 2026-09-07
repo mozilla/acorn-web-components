@@ -3,8 +3,6 @@
 # Split into independent, parallel jobs so a red check names itself in the PR
 # checks list (lint / typecheck / build / test / visual) instead of hiding one
 # failure inside a long serial run. Jobs share setup via .github/actions/setup.
-#
-# Keep the workflow name "CI": the deploy workflow gates on it via workflow_run.
 
 name: CI
 
