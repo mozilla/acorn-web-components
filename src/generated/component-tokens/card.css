@@ -1,6 +1,6 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
-  --card-border-color: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.04));
+  --card-border-color: light-dark(color-mix(in srgb, currentColor 10%, transparent), color-mix(in srgb, currentColor 6%, transparent));
   --card-cover-image-height-default: 160px;
   --card-cover-image-object-fit-default: cover;
   --card-cover-image-object-position-default: center;

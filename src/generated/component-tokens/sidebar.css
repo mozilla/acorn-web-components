@@ -2,5 +2,5 @@
 :host {
   --sidebar-background-color: light-dark(white, rgb(28, 27, 34));
   --sidebar-text-color: light-dark(rgb(21, 20, 26), rgb(249, 249, 250));
-  --sidebar-border-color: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.04));
+  --sidebar-border-color: light-dark(color-mix(in srgb, currentColor 10%, transparent), color-mix(in srgb, currentColor 6%, transparent));
 }

@@ -24,24 +24,32 @@
       "value": "0.4"
     }
   },
+  "background": {
+    "color": {
+      "hover": {
+        "value": {
+          "nativeTheme": "color-mix(in srgb, currentColor 17%, transparent)",
+          "light": "rgba(117, 102, 159, 0.25)",
+          "dark": "rgba(182, 170, 217, 0.25)",
+          "forcedColors": "{button.background.color.ghost.hover}"
+        }
+      },
+      "active": {
+        "value": {
+          "nativeTheme": "color-mix(in srgb, currentColor 30%, transparent)",
+          "light": "rgba(117, 102, 159, 0.4)",
+          "dark": "rgba(182, 170, 217, 0.4)",
+          "forcedColors": "{button.background.color.ghost.active}"
+        }
+      }
+    }
+  },
   "outline": {
     "color": {
       "@base": {
         "value": {
           "default": "transparent",
           "forcedColors": "{button.border.color.@base}"
-        }
-      },
-      "hover": {
-        "value": {
-          "default": "transparent",
-          "forcedColors": "{button.border.color.hover}"
-        }
-      },
-      "active": {
-        "value": {
-          "default": "transparent",
-          "forcedColors": "{button.border.color.active}"
         }
       },
       "selected": {

@@ -3,8 +3,6 @@
 # Split into independent, parallel jobs so a red check names itself in the PR
 # checks list (lint / typecheck / build / test / visual) instead of hiding one
 # failure inside a long serial run. Jobs share setup via .github/actions/setup.
-#
-# Keep the workflow name "CI": the deploy workflow gates on it via workflow_run.
 
 name: CI
 
@@ -90,13 +88,17 @@ jobs:
       - uses: ./.github/actions/setup
       - name: Visual snapshots (Chromium)
         run: npm run test:visual
-      # On a mismatch, publish the actual/diff images for inspection.
-      - name: Upload diffs on failure
+      # On a mismatch, publish the browsable HTML report (reference vs actual per
+      # snapshot). Download the artifact and open index.html.
+      - name: Upload visual report on failure
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: visual-diffs
-          path: |
-            tests/visual/**/*-actual.png
-            tests/visual/**/*-diff.png
+          name: visual-report
+          path: visual-report
           if-no-files-found: ignore
+      - name: Note the report in the run summary
+        if: failure()
+        run: |
+          echo "### 📸 Visual differences detected" >> "$GITHUB_STEP_SUMMARY"
+          echo "Download the **visual-report** artifact above and open \`index.html\` to compare reference vs actual." >> "$GITHUB_STEP_SUMMARY"
