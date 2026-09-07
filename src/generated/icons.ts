@@ -841,6 +841,9 @@ export const iconLoaders = {
   "search-in-circle-right": {
     16: () => import("./icons/search-in-circle-right-16.js"),
   },
+  "search-tabs": {
+    16: () => import("./icons/search-tabs-16.js"),
+  },
   "send-tab-to-device-left": {
     16: () => import("./icons/send-tab-to-device-left-16.js"),
     20: () => import("./icons/send-tab-to-device-left-20.js"),
