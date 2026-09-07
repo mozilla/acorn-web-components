@@ -1,7 +1,10 @@
 import { html, nothing, type PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { MozLitElement } from '../../base/moz-lit-element';
-import { rovingIndex } from '../../base/roving';
+import {
+  SelectControlBaseElement,
+  type SelectControlItem,
+} from '../../base/select-control';
 import shared from '../../base/shared.css';
 import segmentedControlTokens from '../../generated/component-tokens/segmented-control.css';
 import '../moz-icon/moz-icon';
@@ -21,21 +24,22 @@ export interface SegmentedControlChangeDetail {
  * children. Presentational only (not form-associated) — selecting an item sets
  * `value` and fires `moz-segmented-control:change`.
  *
+ * Selection, the shared `value`, the roving tab stop, and arrow-key navigation
+ * (selection follows focus, wrapping around the ends) come from
+ * {@link SelectControlBaseElement}, shared with `moz-radio-group`.
+ *
  * ARIA follows usage. On its own it's the radio-group pattern (host
  * `role=radiogroup`, items `role=radio`). When `deck` references a
  * {@link MozSegmentedControlDeck} by id it becomes the tabs pattern (host
  * `role=tablist`, items `role=tab` with `aria-controls`), and selecting an item
- * switches the deck's visible panel automatically. Either way, roving-tabindex
- * arrow-key navigation wraps and selects as focus moves.
+ * switches the deck's visible panel automatically.
  *
  * @slot - segment items (`<moz-segmented-control-item>` children).
  * @fires moz-segmented-control:change - `{ value }` when the selection changes.
  */
-export class MozSegmentedControl extends MozLitElement {
+export class MozSegmentedControl extends SelectControlBaseElement {
   static styles = [shared, segmentedControlTokens, styles];
-
-  /** Value of the currently selected item. */
-  @property({ reflect: true }) value = '';
+  static childElementName = 'moz-segmented-control-item';
 
   /** Accessible name for the group (applied as `aria-label`). */
   @property() label = '';
@@ -54,15 +58,23 @@ export class MozSegmentedControl extends MozLitElement {
    * control to the tabs ARIA pattern. */
   @property() deck?: string;
 
-  #items: MozSegmentedControlItem[] = [];
-
-  /** Segment items currently slotted into the group. */
-  get items(): MozSegmentedControlItem[] {
-    return this.#items;
+  constructor() {
+    super();
+    // Segments lay out horizontally, so the arrow-key axis follows.
+    this.orientation = 'horizontal';
   }
 
   get #tabs(): boolean {
     return !!this.deck;
+  }
+
+  get #segmentItems(): MozSegmentedControlItem[] {
+    return this.childElements as MozSegmentedControlItem[];
+  }
+
+  /** Segment items currently slotted into the group. */
+  get items(): MozSegmentedControlItem[] {
+    return this.#segmentItems;
   }
 
   get #deckEl(): MozSegmentedControlDeck | null {
@@ -71,120 +83,99 @@ export class MozSegmentedControl extends MozLitElement {
     return root.getElementById(this.deck) as MozSegmentedControlDeck | null;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.addEventListener('click', this.#onClick);
-    this.addEventListener('keydown', this.#onKeydown);
+  // Push group-owned disabled onto the options before the base resolves the
+  // selection and tab stop, so a group-disabled option is never chosen as the
+  // focusable one.
+  override syncStateToChildElements(): void {
+    for (const item of this.#segmentItems) item.groupDisabled = this.disabled;
+    super.syncStateToChildElements();
+    this.#syncModes();
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.removeEventListener('click', this.#onClick);
-    this.removeEventListener('keydown', this.#onKeydown);
-  }
-
-  updated(changed: PropertyValues<this>) {
-    super.updated(changed);
+  protected updated(changed: PropertyValues<this>): void {
+    super.updated?.(changed);
     this.setAttribute('role', this.#tabs ? 'tablist' : 'radiogroup');
-    if (changed.has('label')) {
-      if (this.label) this.setAttribute('aria-label', this.label);
-      else this.removeAttribute('aria-label');
-    }
+    if (this.label) this.setAttribute('aria-label', this.label);
+    else this.removeAttribute('aria-label');
+    if (this.disabled) this.setAttribute('aria-disabled', 'true');
+    else this.removeAttribute('aria-disabled');
     if (changed.has('disabled')) {
-      if (this.disabled) this.setAttribute('aria-disabled', 'true');
-      else this.removeAttribute('aria-disabled');
+      for (const item of this.#segmentItems) item.groupDisabled = this.disabled;
+      this.syncFocusState();
     }
-    this.#sync();
+    this.#syncModes();
   }
 
-  #onSlotChange = (e: Event) => {
-    this.#items = (e.target as HTMLSlotElement)
-      .assignedElements()
-      .filter(
-        (el): el is MozSegmentedControlItem =>
-          el instanceof MozSegmentedControlItem,
-      );
-    this.#sync();
-  };
-
-  #sync() {
-    const items = this.#items;
-    let focusable = items.findIndex(
-      (it) => it.value === this.value && !it.disabled,
-    );
-    if (focusable === -1) focusable = items.findIndex((it) => !it.disabled);
+  // Set each option's ARIA mode and, in tabs mode, wire it to its deck panel.
+  #syncModes(): void {
     const deck = this.#deckEl;
-    items.forEach((it, i) => {
-      it.mode = this.#tabs ? 'tab' : 'radio';
-      it.groupDisabled = this.disabled;
-      it.selected = it.value === this.value && !it.disabled;
-      it.itemTabIndex = i === focusable ? 0 : -1;
+    for (const item of this.#segmentItems) {
+      item.mode = this.#tabs ? 'tab' : 'radio';
       const panel =
         this.#tabs && deck
-          ? deck.querySelector<HTMLElement>(`[name="${CSS.escape(it.value)}"]`)
+          ? deck.querySelector<HTMLElement>(
+              `[name="${CSS.escape(item.value)}"]`,
+            )
           : null;
       if (panel && deck) {
-        if (!it.id) it.id = `${deck.id}-tab-${it.value}`;
-        if (!panel.id) panel.id = `${deck.id}-panel-${it.value}`;
-        it.controls = panel.id;
+        if (!item.id) item.id = `${deck.id}-tab-${item.value}`;
+        if (!panel.id) panel.id = `${deck.id}-panel-${item.value}`;
+        item.controls = panel.id;
         panel.setAttribute('role', 'tabpanel');
-        panel.setAttribute('aria-labelledby', it.id);
+        panel.setAttribute('aria-labelledby', item.id);
         // A tabpanel with only static content needs a tab stop so keyboard
         // users can reach and scroll it (ARIA APG tabs pattern).
         panel.setAttribute('tabindex', '0');
       } else {
-        it.controls = '';
+        item.controls = '';
       }
-    });
-    if (deck) deck.value = this.value;
+    }
+    if (deck) deck.value = this.value ?? '';
   }
 
-  #select(item: MozSegmentedControlItem, focus: boolean) {
-    if (this.disabled || item.disabled) return;
-    if (focus) item.focus();
-    if (item.value === this.value) return;
-    this.value = item.value;
-    this.#sync();
+  // Re-dispatch an option's selection move as the component's public change
+  // event; the base fires a plain `change` on the option for both click and
+  // arrow-key selection, so both funnel through here.
+  override handleChange = (event: Event): void => {
+    if (!this.#segmentItems.includes(event.target as MozSegmentedControlItem)) {
+      return;
+    }
+    event.stopPropagation();
     this.dispatchEvent(
       new CustomEvent<SegmentedControlChangeDetail>(
         'moz-segmented-control:change',
         {
           bubbles: true,
           composed: true,
-          detail: { value: this.value },
+          detail: { value: this.value ?? '' },
         },
       ),
     );
-  }
+  };
 
-  #onClick = (e: MouseEvent) => {
-    const item = e
+  #onClick = (event: MouseEvent): void => {
+    const item = event
       .composedPath()
       .find(
         (el): el is MozSegmentedControlItem =>
-          el instanceof MozSegmentedControlItem && this.#items.includes(el),
+          el instanceof MozSegmentedControlItem &&
+          this.#segmentItems.includes(el),
       );
-    if (item) this.#select(item, true);
-  };
-
-  #onKeydown = (e: KeyboardEvent) => {
-    const enabled = this.disabled
-      ? []
-      : this.#items.filter((it) => !it.disabled);
-    if (!enabled.length) return;
-    const rtl = getComputedStyle(this).direction === 'rtl';
-    const current = this.#items.find(
-      (it) => it.value === this.value && !it.disabled,
-    );
-    const idx = current ? enabled.indexOf(current) : 0;
-    const next = rovingIndex(e.key, idx, enabled.length, { wrap: true, rtl });
-    if (next === null) return;
-    e.preventDefault();
-    this.#select(enabled[next], true);
+    if (!item || item.isDisabled) return;
+    item.focus();
+    if (item.value === this.value) return;
+    this.value = item.value;
+    // Emit the same `change` the base fires for arrow nav so selection funnels
+    // through handleChange into the one public event.
+    item.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   };
 
   render() {
-    return html`<slot @slotchange=${this.#onSlotChange}></slot>`;
+    return html`<slot
+      @slotchange=${this.handleSlotChange}
+      @change=${this.handleChange}
+      @click=${this.#onClick}
+    ></slot>`;
   }
 }
 
@@ -197,7 +188,10 @@ export class MozSegmentedControl extends MozLitElement {
  *
  * @slot - the segment label (falls back to the `label` property).
  */
-export class MozSegmentedControlItem extends MozLitElement {
+export class MozSegmentedControlItem
+  extends MozLitElement
+  implements SelectControlItem
+{
   static styles = [shared, segmentedControlTokens, styles];
 
   /** Value emitted when this segment is selected. */
@@ -217,8 +211,13 @@ export class MozSegmentedControlItem extends MozLitElement {
   /** Whether this segment is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Whether this segment is selected; managed by the parent group. */
-  @property({ type: Boolean, reflect: true }) selected = false;
+  /**
+   * Whether this segment is selected; managed by the parent group. The
+   * select-control base drives `checked`; it reflects to the `selected`
+   * attribute the styles key off.
+   */
+  @property({ type: Boolean, reflect: true, attribute: 'selected' })
+  checked = false;
 
   /** Whether the whole group is disabled; set by the parent group. */
   @property({ type: Boolean, reflect: true, attribute: 'group-disabled' })
@@ -233,18 +232,28 @@ export class MozSegmentedControlItem extends MozLitElement {
   /** Roving tabindex value; managed by the parent group. */
   @state() itemTabIndex = -1;
 
+  /** Index within the group; managed by the parent group. */
+  @state() position = 0;
+
+  /** Part of the select-control option contract; unused here (no form name). */
+  name?: string;
+
+  get isDisabled(): boolean {
+    return this.disabled || this.groupDisabled;
+  }
+
   updated(changed: PropertyValues<this>) {
     super.updated(changed);
-    const isDisabled = this.disabled || this.groupDisabled;
+    const isDisabled = this.isDisabled;
     if (this.mode === 'tab') {
       this.setAttribute('role', 'tab');
-      this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
+      this.setAttribute('aria-selected', this.checked ? 'true' : 'false');
       this.removeAttribute('aria-checked');
       if (this.controls) this.setAttribute('aria-controls', this.controls);
       else this.removeAttribute('aria-controls');
     } else {
       this.setAttribute('role', 'radio');
-      this.setAttribute('aria-checked', this.selected ? 'true' : 'false');
+      this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
       this.removeAttribute('aria-selected');
       this.removeAttribute('aria-controls');
     }
