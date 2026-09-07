@@ -11,12 +11,9 @@
 # the repo name makes this file generic - it works unmodified in any repo.
 name: Deploy to Quick
 on:
-  # Deploy only after the CI workflow finishes on main. The job's `if` guard
-  # then requires a *successful* CI run, so a red build never deploys.
-  # (workflow_run reads this trigger from the default-branch copy of the file.)
-  workflow_run:
-    workflows: [CI]
-    types: [completed]
+  # Deploy on every merge to main. CI already ran (and had to pass) on the PR,
+  # so re-gating on it here would only delay the deploy.
+  push:
     branches: [main]
   workflow_dispatch:
     inputs:
@@ -28,14 +25,16 @@ on:
         description: Overwrite even if the site was last deployed by someone else
         type: boolean
         default: false
+# Serialize deploys so two quick merges can't race to publish the site.
+concurrency:
+  group: quick-deploy
+  cancel-in-progress: false
 permissions:
   contents: read
   id-token: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Gate on CI: run for a manual dispatch, or when the triggering CI run passed.
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     env:
       # Storybook's static build output; deploy this, not the repo root.
       DIR: storybook-static
@@ -43,11 +42,7 @@ jobs:
       # Quick project: nonprod only when the QUICK_ENV variable is 'stage'; prod otherwise.
       QUICK_PROJECT: ${{ vars.QUICK_ENV == 'stage' && 'moz-fx-quick-nonprod' || 'moz-fx-quick-prod' }}
     steps:
-      # Deploy exactly the commit CI validated (head_sha); falls back to the
-      # dispatch ref for manual runs.
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
       # Build the static Storybook that gets deployed. Node 24 with npm caching,
       # matching ci.yml. The token/icon files under src/generated are committed,
       # so no Bun/generate step is needed here.

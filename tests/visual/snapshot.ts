@@ -42,9 +42,10 @@ export async function snapshot(
   // Fonts and async-loaded icon modules affect the pixels; wait for both.
   await document.fonts.ready;
   await new Promise((r) => setTimeout(r, 100));
-  // 1% tolerance: absorbs anti-aliasing jitter between runs while still catching
-  // layout shifts, which move pixels at percent scale (a 4px gap change is ~5%).
-  await expect.element(host).toMatchScreenshot(name, {
+  // Cap the retry window: on a mismatch (e.g. an intended visual change)
+  // toMatchScreenshot otherwise retries for expect.element's 15s default before
+  // failing. A matching snapshot still passes on the first poll.
+  await expect.element(host, { timeout: 3000 }).toMatchScreenshot(name, {
     comparatorName: 'pixelmatch',
     comparatorOptions: { allowedMismatchedPixelRatio: 0 },
   });
