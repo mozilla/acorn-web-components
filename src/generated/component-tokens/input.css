@@ -3,8 +3,6 @@
   --input-text-color: light-dark(rgb(21, 20, 26), rgb(251, 251, 254));
   --input-folder-gap: var(--space-medium);
   --input-height: var(--size-item-small);
-  --input-text-background-color: light-dark(var(--color-white), #42414d);
-  --input-text-border-color: var(--border-color);
   --input-text-border: var(--border-width) solid var(--input-text-border-color);
   --input-text-border-radius: var(--border-radius-medium);
   --input-text-color-disabled: var(--input-text-color);
@@ -12,10 +10,13 @@
   --input-search-border-radius: var(--border-radius-circle);
   --input-width: var(--size-item-small);
   --input-border-color: var(--border-color-interactive);
-  --input-text-background-color-disabled: transparent;
+  --input-text-background-color: var(--background-color-box);
+  --input-text-border-color: var(--border-color);
   --input-text-border-color-disabled: var(--border-color-interactive-disabled);
   --input-text-icon-size: var(--icon-size-xsmall);
   --input-text-min-height: 32px;
+  --input-search-icon-size: var(--icon-size-small);
+  --input-text-background-color-disabled: transparent;
 }
 @media (forced-colors: active) {
   :host {

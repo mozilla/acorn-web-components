@@ -7,6 +7,7 @@
   --toolbox-background-gradient: linear-gradient(96deg, color-mix(var(--toolbox-background-color-gradient-leading) 50%, transparent) 39.84%, color-mix(var(--toolbox-background-color-gradient-trailing) 50%, transparent) 101.72%); /** This gradient is only used for Nova */
   --toolbox-text-color: var(--text-color);
   --toolbox-text-color-inactive: var(--toolbox-text-color);
+  --toolbox-text-color-current: var(--toolbox-text-color); /** Figma aliases this to toolbox/text/color so designers see a real color, but CSS must use currentColor: the tab inherits --lwt-text-color under an lwtheme and --toolbox-text-color-inactive in a background window, neither of which --toolbox-text-color tracks. Listed in figma-import.mjs's FIGMA_IGNORES so the alias doesn't overwrite this. */
 }
 @media (forced-colors: active) {
   :host {

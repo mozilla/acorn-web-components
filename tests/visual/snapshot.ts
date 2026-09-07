@@ -42,10 +42,11 @@ export async function snapshot(
   // Fonts and async-loaded icon modules affect the pixels; wait for both.
   await document.fonts.ready;
   await new Promise((r) => setTimeout(r, 100));
-  // Cap the retry window: on a mismatch (e.g. an intended visual change)
-  // toMatchScreenshot otherwise retries for expect.element's 15s default before
-  // failing. A matching snapshot still passes on the first poll.
-  await expect.element(host, { timeout: 3000 }).toMatchScreenshot(name, {
+  // Assert once (plain expect, not the retrying expect.element): the render has
+  // already settled above, so a mismatch fails immediately instead of retrying
+  // screenshots until a timeout — and still writes the reference/actual
+  // attachments the HTML report renders.
+  await expect(host).toMatchScreenshot(name, {
     comparatorName: 'pixelmatch',
     comparatorOptions: { allowedMismatchedPixelRatio: 0 },
   });

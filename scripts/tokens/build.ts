@@ -485,6 +485,19 @@ if (foundationInject) {
   writeFileSync(cssFile, css.replace(/\n\}\s*$/, `\n${foundationInject}}\n`));
 }
 
+// Extra overrides for the app-driven [data-contrast='high'] block ONLY (not the
+// @media prefers-contrast path). Under real OS forced-colors the browser remaps
+// --color-accent-primary to a system colour, so accent-derived borders stay
+// visible; acorn's app-driven toggle can't remap system colours, so those
+// borders lose contrast. Upstream dropped the Nova prefers-contrast override
+// that used to point the button border at the text colour (Firefox Bug
+// 2050245/2051263) — correct for its forced-colors path, but a regression for
+// our toggle. Re-assert it here, keyed by component namespace; refs are guarded
+// against dangling vars below.
+const DATA_CONTRAST_ONLY: Record<string, string[]> = {
+  button: ['--button-border-color: var(--button-text-color)'],
+};
+
 // Component (:host) a11y layers, appended to each component's token CSS so
 // e.g. --button-* colours also flip in high-contrast / forced-colors modes.
 let componentsWithA11y = 0;
@@ -498,13 +511,19 @@ for (const ns of COMPONENT_NS) {
   const only = (n: string) => n === ns;
   const cContrast = overrideLines('contrast', only, componentDefined, '    ');
   const cForced = overrideLines('forced', only, componentDefined, '    ');
+  const dataContrastOnly = (DATA_CONTRAST_ONLY[ns] ?? [])
+    .filter((line) =>
+      [...line.matchAll(/var\((--[\w-]+)/g)].every((m) =>
+        componentDefined.has(m[1]),
+      ),
+    )
+    .map((line) => `    ${line};`);
   const blocks =
     mediaBlocks(':host', '', cContrast, cForced) +
-    selectorBlock(
-      ":host([data-contrast='high'])",
-      '',
-      toTrueBlackWhite(cContrast),
-    );
+    selectorBlock(":host([data-contrast='high'])", '', [
+      ...toTrueBlackWhite(cContrast),
+      ...dataContrastOnly,
+    ]);
   if (blocks) {
     src = `${src.trimEnd()}\n${blocks}`;
     componentsWithA11y++;

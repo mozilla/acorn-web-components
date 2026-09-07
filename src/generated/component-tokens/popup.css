@@ -1,12 +1,7 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
-  --popup-border-color: light-dark(var(--color-gray-10), var(--color-gray-65));
   --popup-border-radius: var(--border-radius-xlarge);
   --popup-background-color: var(--background-color-box);
+  --popup-border-color: var(--border-color-deemphasized);
   --popup-box-shadow: var(--box-shadow-level-3);
-}
-@media (forced-colors: active) {
-  :host {
-    --popup-border-color: var(--border-color);
-  }
 }

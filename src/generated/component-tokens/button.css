@@ -1,7 +1,6 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
   --button-background-color: transparent; /** TODO Bug 1821203 - Gray use needs to be consolidated */
-  --button-background-color-toolbar: transparent;
   --button-badge-size: 6px;
   --button-border-color-ghost: transparent;
   --button-border-width-split: 0;
@@ -11,10 +10,9 @@
   --button-min-height-large: 40px;
   --button-opacity-disabled: 0.7;
   --button-padding-icon: 0;
-  --button-text-color-toolbar: inherit;
-  --button-text-color-toolbar-active: inherit;
-  --button-text-color-toolbar-disabled: inherit;
-  --button-text-color-toolbar-hover: inherit;
+  --button-text-color-toolbar: currentColor;
+  --button-text-color-toolbar-hover: currentColor;
+  --button-text-color-toolbar-active: currentColor;
   --button-background-color-hover: light-dark(var(--color-violet-desaturated-20), var(--color-violet-desaturated-50));
   --button-background-color-active: light-dark(var(--color-violet-desaturated-30), var(--color-violet-desaturated-40));
   --button-background-color-disabled: var(--button-background-color);
@@ -26,8 +24,10 @@
   --button-background-color-muted: light-dark(var(--color-gray-20), var(--color-gray-55));
   --button-background-color-muted-active: light-dark(var(--color-gray-40), var(--color-gray-35));
   --button-background-color-muted-hover: light-dark(var(--color-gray-30), var(--color-gray-45));
-  --button-background-color-toolbar-active: color-mix(in srgb, currentColor 30%, transparent);
-  --button-background-color-toolbar-hover: color-mix(in srgb, currentColor 17%, transparent);
+  --button-background-color-toolbar: transparent;
+  --button-background-color-toolbar-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
+  --button-background-color-toolbar-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
+  --button-background-color-toolbar-disabled: transparent;
   --button-border: var(--border-width) solid var(--button-border-color);
   --button-border-color-destructive: var(--button-border-color-ghost);
   --button-border-color-ghost-active: var(--button-border-color-ghost);
@@ -37,6 +37,7 @@
   --button-border-color-menu: var(--button-border-color-ghost);
   --button-border-color-muted: var(--button-border-color-ghost);
   --button-border-color-primary: var(--button-border-color-ghost);
+  --button-border-color-toolbar: transparent;
   --button-border-radius: var(--border-radius-xlarge);
   --button-font-size: var(--font-size-root);
   --button-font-size-small: var(--font-size-small);
@@ -66,7 +67,6 @@
   --button-background-color-muted-selected: var(--button-background-color-muted-active);
   --button-background-color-menu: var(--button-background-color-ghost);
   --button-background-color-selected: var(--button-background-color-active);
-  --button-background-color-toolbar-disabled: var(--button-background-color-ghost);
   --button-badge-background-color: var(--color-accent-attention);
   --button-border-color: var(--color-accent-primary);
   --button-border-color-destructive-active: var(--button-border-color-destructive);
@@ -94,9 +94,11 @@
   --button-text-color-destructive-hover: var(--button-text-color-destructive);
   --button-text-color-destructive-selected: light-dark(var(--button-text-color-destructive), var(--button-text-color-destructive-active));
   --button-text-color-disabled: var(--button-text-color);
-  --button-text-color-ghost: var(--button-text-color);
   --button-text-color-muted: var(--button-text-color);
   --button-text-color-hover: var(--button-text-color);
+  --button-text-color-menu-active: light-dark(var(--button-text-color-ghost-active), var(--button-text-color-active));
+  --button-text-color-menu-disabled: light-dark(var(--button-text-color-ghost-disabled), var(--button-text-color-disabled));
+  --button-text-color-menu-hover: light-dark(var(--button-text-color-ghost-hover), var(--button-text-color-hover));
   --button-text-color-primary-active: var(--button-text-color-primary);
   --button-text-color-primary-disabled: var(--button-text-color-primary);
   --button-text-color-primary-hover: var(--button-text-color-primary);
@@ -111,36 +113,20 @@
   --button-border-color-menu-selected: var(--button-border-color-menu-active);
   --button-border-color-hover: var(--button-border-color);
   --button-border-color-selected: var(--button-border-color);
-  --button-border-color-toolbar: var(--button-border-color);
   --button-split-separator-background-color: var(--button-border-color);
-  --button-text-color-ghost-active: var(--button-text-color-ghost);
-  --button-text-color-ghost-disabled: var(--button-text-color-ghost);
-  --button-text-color-ghost-hover: var(--button-text-color-ghost);
   --button-text-color-muted-active: var(--button-text-color-muted);
   --button-text-color-muted-hover: var(--button-text-color-muted);
   --button-text-color-muted-disabled: var(--button-text-color-muted);
-  --button-text-color-menu: var(--button-text-color-ghost);
-  --button-text-color-primary-selected: var(--button-text-color-primary-active);
-  --button-background-color-menu-selected: var(--button-background-color-ghost-selected);
-  --button-border-color-toolbar-active: var(--button-border-color-active);
-  --button-border-color-toolbar-disabled: var(--button-border-color-disabled);
-  --button-border-color-toolbar-hover: var(--button-border-color-hover);
-  --button-text-color-ghost-selected: var(--button-text-color-ghost-active);
-  --button-text-color-muted-selected: var(--button-text-color-muted-active);
-  --button-text-color-menu-active: light-dark(var(--button-text-color-ghost-active), var(--button-text-color-active));
-  --button-text-color-menu-disabled: light-dark(var(--button-text-color-ghost-disabled), var(--button-text-color-disabled));
-  --button-text-color-menu-hover: light-dark(var(--button-text-color-ghost-hover), var(--button-text-color-hover));
-  --button-text-color-toolbar-selected: var(--button-text-color-ghost-active);
   --button-text-color-menu-selected: light-dark(var(--button-text-color-ghost-selected), var(--button-text-color-selected));
+  --button-text-color-primary-selected: var(--button-text-color-primary-active);
+  --button-text-color-toolbar-disabled: var(--button-text-color-disabled);
+  --button-background-color-menu-selected: var(--button-background-color-ghost-selected);
+  --button-border-color-toolbar-disabled: var(--button-border-color-disabled);
+  --button-text-color-muted-selected: var(--button-text-color-muted-active);
 }
 @media (prefers-contrast: more) {
   :host {
     --button-border-color-ghost: var(--button-border-color);
-    --button-border-color: var(--button-text-color);
-    --button-text-color-ghost-active: var(--button-text-color-active);
-    --button-text-color-ghost-hover: var(--button-text-color-hover);
-    --button-text-color-toolbar-active: var(--button-text-color-active);
-    --button-text-color-toolbar-hover: var(--button-text-color-hover);
   }
 }
 @media (forced-colors: active) {
@@ -150,7 +136,6 @@
     --button-background-color-destructive-disabled: var(--button-background-color-primary-disabled);
     --button-background-color-destructive-hover: var(--button-background-color-primary-hover);
     --button-background-color-destructive: var(--button-background-color-primary);
-    --button-background-color-ghost-disabled: var(--button-background-color-disabled);
     --button-background-color-ghost: ButtonFace;
     --button-background-color-hover: SelectedItemText;
     --button-background-color-menu-selected: var(--button-background-color-primary-selected);
@@ -162,6 +147,7 @@
     --button-background-color-muted: var(--button-background-color);
     --button-background-color-primary-disabled: GrayText;
     --button-background-color-selected: SelectedItem;
+    --button-background-color-toolbar-disabled: var(--button-background-color-disabled);
     --button-background-color: ButtonFace;
     --button-border-color-active: var(--border-color-interactive-active);
     --button-border-color-destructive-active: var(--button-border-color-primary-active);
@@ -186,7 +172,6 @@
     --button-border-color-primary-selected: var(--button-border-color-primary-active);
     --button-border-color-primary: ButtonFace;
     --button-border-color-selected: var(--button-border-color-active);
-    --button-border-color: var(--border-color-interactive);
     --button-opacity-disabled: 1;
     --button-text-color-active: SelectedItem;
     --button-text-color-destructive-active: var(--button-text-color-primary-active);
@@ -195,10 +180,6 @@
     --button-text-color-destructive-selected: var(--button-text-color-destructive-active);
     --button-text-color-destructive: var(--button-text-color-primary);
     --button-text-color-disabled: GrayText;
-    --button-text-color-ghost-active: var(--button-text-color-active);
-    --button-text-color-ghost-disabled: GrayText;
-    --button-text-color-ghost-hover: var(--button-text-color-ghost-active);
-    --button-text-color-ghost: ButtonText;
     --button-text-color-hover: SelectedItem;
     --button-text-color-menu-active: ButtonFace;
     --button-text-color-menu-disabled: var(--button-text-color-disabled);
@@ -206,8 +187,6 @@
     --button-text-color-menu-selected: var(--button-text-color-primary-selected);
     --button-text-color-muted-active: var(--button-text-color-active);
     --button-text-color-muted-disabled: GrayText;
-    --button-text-color-muted-hover: var(--button-text-color-ghost-active);
-    --button-text-color-muted-selected: var(--button-text-color-ghost-active);
     --button-text-color-muted: ButtonText;
     --button-text-color-primary-active: var(--button-text-color-primary-hover);
     --button-text-color-primary-hover: SelectedItemText;
@@ -215,14 +194,11 @@
     --button-text-color-selected: SelectedItemText;
     --button-text-color-toolbar-active: var(--button-text-color-active);
     --button-text-color-toolbar-hover: var(--button-text-color-hover);
+    --button-text-color-toolbar: var(--button-text-color);
     --button-text-color: ButtonText;
   }
 }
 :host([data-contrast='high']) {
     --button-border-color-ghost: var(--button-border-color);
     --button-border-color: var(--button-text-color);
-    --button-text-color-ghost-active: var(--button-text-color-active);
-    --button-text-color-ghost-hover: var(--button-text-color-hover);
-    --button-text-color-toolbar-active: var(--button-text-color-active);
-    --button-text-color-toolbar-hover: var(--button-text-color-hover);
 }
