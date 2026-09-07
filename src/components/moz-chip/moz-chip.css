@@ -16,7 +16,6 @@
   display: inline-flex;
 }
 
-/* Nova sizes: default 32px tall, small 22px. Widths hug their content. */
 :host([size="small"]) {
   block-size: 22px;
 }
@@ -46,7 +45,6 @@
   flex-shrink: 0;
 }
 
-/* Negative end margin tucks the dismiss button to the trailing edge. */
 .remove {
   --icon-size: var(--icon-size-small);
   display: inline-flex;

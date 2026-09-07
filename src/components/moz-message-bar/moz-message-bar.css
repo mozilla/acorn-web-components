@@ -17,7 +17,7 @@
 .container {
   display: flex;
 
-  /* Icon rail fills the height; content/close opt out below. */
+  /* Stretch so the colored icon rail fills the full height. */
   align-items: stretch;
   gap: var(--message-bar-container-gap);
 
@@ -67,7 +67,6 @@
   border-start-start-radius: var(--message-bar-border-radius);
 }
 
-/* Content centered; close pinned to the top. */
 .content {
   align-self: center;
 }

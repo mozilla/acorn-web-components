@@ -29,6 +29,11 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export class MozButton extends MozLitElement {
   static styles = [buttonTokens, styles];
 
+  static shadowRootOptions = {
+    ...super.shadowRootOptions,
+    delegatesFocus: true,
+  };
+
   static formAssociated = true;
 
   #internals = this.attachInternals();

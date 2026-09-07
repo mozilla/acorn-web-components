@@ -51,7 +51,6 @@ export class MozRadioGroup extends SelectControlBaseElement {
   fullWidth = false;
 
   #internals = this.attachInternals();
-  // The initial selection, restored on form reset.
   #defaultValue?: string;
   // Form-owner disabled (a disabled ancestor fieldset), kept separate from the
   // author's `disabled` so the form's state never overwrites the attribute.
@@ -91,9 +90,7 @@ export class MozRadioGroup extends SelectControlBaseElement {
     }
   }
 
-  // Runs on connect and slot changes (via the base). Push the group's disabled
-  // state to the options and warn about duplicate values before the base wires
-  // up name/position/selection.
+  // Runs on connect and slot changes (via the base), before super wires up name/position/selection.
   override syncStateToChildElements(): void {
     const current = new Set(this.#radios);
     // Hand container-owned state back to any option that left the group, so it
@@ -134,9 +131,7 @@ export class MozRadioGroup extends SelectControlBaseElement {
     this.requestUpdate();
   }
 
-  // Radios in separate shadow roots can't do native radiogroup validation, so
-  // the group owns it: required is satisfied by any selection. A disabled group
-  // is barred from validation, matching native.
+  // Radios in separate shadow roots can't do native radiogroup validation, so the group owns it; a disabled group is barred from validation, matching native.
   #updateValidity(): void {
     if (
       !this.#isDisabled &&
@@ -146,6 +141,7 @@ export class MozRadioGroup extends SelectControlBaseElement {
       this.#internals.setValidity(
         { valueMissing: true },
         'Please select an option.',
+        this.renderRoot.querySelector<HTMLElement>('fieldset') ?? undefined,
       );
     } else {
       this.#internals.setValidity({});

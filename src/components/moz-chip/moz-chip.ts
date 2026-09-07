@@ -38,7 +38,7 @@ export class MozChip extends MozLitElement {
 
   protected updated(changed: PropertyValues<this>) {
     super.updated(changed);
-    // Expose disabled to AT; also exempts the dimmed label from axe contrast.
+    // aria-disabled also exempts the dimmed label from axe contrast checks.
     if (this.disabled) this.setAttribute('aria-disabled', 'true');
     else this.removeAttribute('aria-disabled');
   }
@@ -51,7 +51,14 @@ export class MozChip extends MozLitElement {
       cancelable: true,
     });
     this.dispatchEvent(event);
-    if (!event.defaultPrevented) this.remove();
+    if (event.defaultPrevented) return;
+    // Move focus to an adjacent chip before self-removing, so a keyboard user
+    // isn't dropped to <body> after each removal.
+    const sibling = this.nextElementSibling ?? this.previousElementSibling;
+    this.remove();
+    if (sibling instanceof MozChip) {
+      sibling.shadowRoot?.querySelector<HTMLElement>('.remove')?.focus();
+    }
   }
 
   render() {

@@ -1,4 +1,3 @@
-/* Group container: a block-level nav wrapping the ordered list. */
 :host(moz-breadcrumb-group:not([hidden])) {
   display: block;
 }
@@ -23,7 +22,6 @@ li {
   gap: var(--breadcrumb-gap);
 }
 
-/* Forward arrow between crumbs; xsmall, de-emphasized, flips in RTL. */
 .separator {
   --icon-size: var(--breadcrumb-icon-size);
   --icon-color: var(--text-color-deemphasized);
@@ -34,7 +32,6 @@ li {
   transform: scaleX(-1);
 }
 
-/* A single crumb (also usable standalone). */
 :host(moz-breadcrumb) {
   display: inline;
   font-size: var(--font-size-small);
@@ -45,7 +42,6 @@ li {
   white-space: nowrap;
 }
 
-/* Links use the breadcrumb link tokens (light/dark baked in). */
 a.crumb {
   color: var(--breadcrumb-link-color);
 }
@@ -62,7 +58,6 @@ a.crumb:hover:active {
   color: var(--breadcrumb-link-color-active);
 }
 
-/* Current page: plain body text, no link affordance. */
 .crumb[aria-current="page"] {
   color: var(--text-color);
 }
