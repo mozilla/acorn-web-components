@@ -200,4 +200,5 @@
 }
 :host([data-contrast='high']) {
     --button-border-color-ghost: var(--button-border-color);
+    --button-border-color: var(--button-text-color);
 }
