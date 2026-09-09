@@ -30,8 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Require a prerelease version
+        env:
+          VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
         run: |
-          VERSION="${{ github.event.inputs.version || github.event.release.tag_name }}"
           if [[ "${VERSION#v}" != *-* ]]; then
             echo "::error::publish-alpha publishes prereleases only (need a '-' identifier, e.g. 0.0.0-alpha.1); got '${VERSION#v}'." >&2
             exit 1
@@ -52,9 +53,9 @@ jobs:
       # Stamp the release/input version into package.json for this run only
       # (not committed). --allow-same-version so re-running a release is not fatal.
       - name: Set version
-        run: |
-          VERSION="${{ github.event.inputs.version || github.event.release.tag_name }}"
-          npm version "${VERSION#v}" --no-git-tag-version --allow-same-version
+        env:
+          VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
+        run: npm version "${VERSION#v}" --no-git-tag-version --allow-same-version
       # dist is already built above, so skip the prepack/prepare rebuild.
       - name: Publish
         run: npm publish --ignore-scripts --tag alpha
