@@ -2,11 +2,11 @@
 # alpha. Consumers install it as a scoped registry dependency
 # (`@mozilla/acorn-web-components`).
 #
-# Trigger it manually (Actions → Publish → Run workflow, giving a version) or by
-# publishing a GitHub Release whose tag is the version. Versions are published
-# under the `alpha` dist-tag so `@mozilla/acorn-web-components@alpha` tracks the
-# latest alpha and `latest` is never pinned to a prerelease.
-name: Publish
+# Trigger it manually (Actions → Publish alpha → Run workflow, giving a version)
+# or by publishing a GitHub Release whose tag is the version. Versions are
+# published under the `alpha` dist-tag so `@mozilla/acorn-web-components@alpha`
+# tracks the latest alpha and `latest` is never pinned to a prerelease.
+name: Publish alpha
 
 on:
   release:
@@ -18,7 +18,7 @@ on:
         required: true
 
 concurrency:
-  group: publish
+  group: publish-alpha
   cancel-in-progress: false
 
 permissions:
@@ -29,6 +29,13 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Require a prerelease version
+        run: |
+          VERSION="${{ github.event.inputs.version || github.event.release.tag_name }}"
+          if [[ "${VERSION#v}" != *-* ]]; then
+            echo "::error::publish-alpha publishes prereleases only (need a '-' identifier, e.g. 0.0.0-alpha.1); got '${VERSION#v}'." >&2
+            exit 1
+          fi
       - uses: actions/checkout@v7
       # Not the shared composite: publishing needs the registry + scope wired
       # into the npmrc so `npm publish` authenticates to GitHub Packages.

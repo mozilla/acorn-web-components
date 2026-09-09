@@ -33,10 +33,10 @@ Add to an `.npmrc` (in the project, or `~/.npmrc`):
 `GITHUB_TOKEN` must be a [classic personal access token](https://github.com/settings/tokens/new?scopes=read:packages) with the `read:packages` scope; fine-grained tokens don't work with the npm registry. Keep it in the environment rather than committing it. Then:
 
 ```sh
-npm install @mozilla/acorn-web-components
+npm install @mozilla/acorn-web-components@alpha
 ```
 
-While acorn is in alpha, releases publish under the `alpha` dist-tag, so `@mozilla/acorn-web-components@alpha` tracks the latest.
+Releases publish only under the `alpha` dist-tag (never `latest`), so the `@alpha` qualifier is required — a bare install would resolve the nonexistent `latest` and fail.
 
 `lit` and `@lit/context` are dependencies and install automatically. `react` and `react-dom` are optional peer dependencies, needed only if you use the `@mozilla/acorn-web-components/react` entry.
 
