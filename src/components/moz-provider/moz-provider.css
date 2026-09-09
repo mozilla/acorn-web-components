@@ -1,3 +1,4 @@
 :host {
   display: contents;
+  color: var(--text-color, CanvasText);
 }
