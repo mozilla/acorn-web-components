@@ -3,7 +3,7 @@
 Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.dev). The design tokens and icons are compiled from Firefox's [Nova design system](https://searchfox.org/firefox-main/source/toolkit/themes/shared/design-system), so the components match Firefox and can be kept up to date with it.
 
 > Status: early proof of concept (see [AMOENG-2723](https://mozilla-hub.atlassian.net/browse/AMOENG-2723)).
-> Not yet published to npm. The API may change.
+> Published to GitHub Packages under the `alpha` dist-tag; the API may change.
 
 ## What's inside
 
@@ -21,13 +21,24 @@ These are standard custom elements, so they work in plain HTML and in any framew
 
 ## Installation
 
-Not on npm yet, so install from git:
+Published to [GitHub Packages](https://github.com/mozilla/acorn-web-components/packages) under the `@mozilla` scope. GitHub Packages requires a token for every install, [public packages included](https://github.com/orgs/community/discussions/33875), so point the `@mozilla` scope at the GitHub npm registry and authenticate.
 
-```sh
-npm install <git-url-of-this-repo>
+Add to an `.npmrc` (in the project, or `~/.npmrc`):
+
+```
+@mozilla:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-`lit` and `@lit/context` are dependencies and install automatically. `react` and `react-dom` are optional peer dependencies, needed only if you use the `acorn-web-components/react` entry.
+`GITHUB_TOKEN` must be a [classic personal access token](https://github.com/settings/tokens/new?scopes=read:packages) with the `read:packages` scope; fine-grained tokens don't work with the npm registry. Keep it in the environment rather than committing it. Then:
+
+```sh
+npm install @mozilla/acorn-web-components
+```
+
+While acorn is in alpha, releases publish under the `alpha` dist-tag, so `@mozilla/acorn-web-components@alpha` tracks the latest.
+
+`lit` and `@lit/context` are dependencies and install automatically. `react` and `react-dom` are optional peer dependencies, needed only if you use the `@mozilla/acorn-web-components/react` entry.
 
 ## Quick start
 
@@ -35,11 +46,11 @@ Load the token layer once at your app root, then import and use the components.
 
 ```js
 // Once, at the app entry: the foundation (tokens + document defaults).
-import 'acorn-web-components/foundation.css';
+import '@mozilla/acorn-web-components/foundation.css';
 
 // Import the components you use (they self-register):
-import 'acorn-web-components/components/moz-button';
-import 'acorn-web-components/components/moz-icon';
+import '@mozilla/acorn-web-components/components/moz-button';
+import '@mozilla/acorn-web-components/components/moz-icon';
 ```
 
 `foundation.css` is everything you need, but you can also import style sheets individually if you need finer control over load order.
@@ -49,7 +60,7 @@ import 'acorn-web-components/components/moz-icon';
 <moz-icon name="settings" size="large" label="Settings"></moz-icon>
 ```
 
-Importing from the package root (`import 'acorn-web-components'`) registers every component. Importing a per-component subpath pulls in only what you use.
+Importing from the package root (`import '@mozilla/acorn-web-components'`) registers every component. Importing a per-component subpath pulls in only what you use.
 
 ## Theming and ambient state
 
@@ -72,8 +83,8 @@ Per-component appearance is set through the token scales rather than arbitrary v
 The React entry provides typed wrappers so props and events follow React conventions:
 
 ```jsx
-import { MozButton, MozProvider } from 'acorn-web-components/react';
-import 'acorn-web-components/foundation.css';
+import { MozButton, MozProvider } from '@mozilla/acorn-web-components/react';
+import '@mozilla/acorn-web-components/foundation.css';
 
 export function App() {
   return (
@@ -89,7 +100,7 @@ export function App() {
 The tokens ship as CSS custom properties in `tokens.css` (foundation, on `:root`), and also as a typed map:
 
 ```js
-import { tokens, type TokenName } from 'acorn-web-components/tokens';
+import { tokens, type TokenName } from '@mozilla/acorn-web-components/tokens';
 // tokens['--color-accent-primary'] === 'light-dark(var(--color-violet-50), var(--color-violet-30))'
 ```
 
@@ -99,14 +110,14 @@ Component-specific tokens (`--button-*`, and so on) are scoped to each component
 
 | Entry | Contents |
 | --- | --- |
-| `acorn-web-components` | All components + tokens/option maps + types |
-| `acorn-web-components/components/<name>` | A single component (e.g. `moz-button`) |
-| `acorn-web-components/foundation.css` | Tokens + base defaults (one import) |
-| `acorn-web-components/tokens.css` | Foundation tokens as CSS custom properties |
-| `acorn-web-components/base.css` | Document defaults (font family/size, color-scheme) |
-| `acorn-web-components/tokens/<name>.css` | Raw per-component `:host` token CSS (advanced; components already bundle these) |
-| `acorn-web-components/tokens` | Typed token map + `TokenName` |
-| `acorn-web-components/react` | Typed React wrappers |
+| `@mozilla/acorn-web-components` | All components + tokens/option maps + types |
+| `@mozilla/acorn-web-components/components/<name>` | A single component (e.g. `moz-button`) |
+| `@mozilla/acorn-web-components/foundation.css` | Tokens + base defaults (one import) |
+| `@mozilla/acorn-web-components/tokens.css` | Foundation tokens as CSS custom properties |
+| `@mozilla/acorn-web-components/base.css` | Document defaults (font family/size, color-scheme) |
+| `@mozilla/acorn-web-components/tokens/<name>.css` | Raw per-component `:host` token CSS (advanced; components already bundle these) |
+| `@mozilla/acorn-web-components/tokens` | Typed token map + `TokenName` |
+| `@mozilla/acorn-web-components/react` | Typed React wrappers |
 
 A [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-manifest) (`custom-elements.json`) ships for editor autocomplete and tooling.
 
