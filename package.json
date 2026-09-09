@@ -1,9 +1,16 @@
 {
-  "name": "acorn-web-components",
+  "name": "@mozilla/acorn-web-components",
   "version": "0.0.0-alpha",
   "description": "Nova-styled web components; TypeScript with Lit.",
   "license": "MPL-2.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozilla/acorn-web-components.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "files": [
     "dist"
   ],

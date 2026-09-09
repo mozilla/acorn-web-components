@@ -1,0 +1,55 @@
+# Publishes the built library to GitHub Packages (npm registry) while acorn is in
+# alpha. Consumers install it as a scoped registry dependency
+# (`@mozilla/acorn-web-components`).
+#
+# Trigger it manually (Actions → Publish → Run workflow, giving a version) or by
+# publishing a GitHub Release whose tag is the version. Versions are published
+# under the `alpha` dist-tag so `@mozilla/acorn-web-components@alpha` tracks the
+# latest alpha and `latest` is never pinned to a prerelease.
+name: Publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, e.g. 0.0.0-alpha.1'
+        required: true
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Not the shared composite: publishing needs the registry + scope wired
+      # into the npmrc so `npm publish` authenticates to GitHub Packages.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: '@mozilla'
+      - run: npm ci
+      # Bun powers the copy-assets step inside `npm run build`.
+      - uses: oven-sh/setup-bun@v2
+      - run: npm run build
+      # Stamp the release/input version into package.json for this run only
+      # (not committed). --allow-same-version so re-running a release is not fatal.
+      - name: Set version
+        run: |
+          VERSION="${{ github.event.inputs.version || github.event.release.tag_name }}"
+          npm version "${VERSION#v}" --no-git-tag-version --allow-same-version
+      # dist is already built above, so skip the prepack/prepare rebuild.
+      - name: Publish
+        run: npm publish --ignore-scripts --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
