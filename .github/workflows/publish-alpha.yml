@@ -50,8 +50,10 @@ jobs:
       # Bun powers the copy-assets step inside `npm run build`.
       - uses: oven-sh/setup-bun@v2
       - run: npm run build
-      # Stamp the release/input version into package.json for this run only
-      # (not committed). --allow-same-version so re-running a release is not fatal.
+      # Stamp the release/input version into package.json for this run only (not
+      # committed). --allow-same-version only avoids a local error when re-stamping
+      # the same version; it does not make publish reruns safe (the registry
+      # rejects an already-published version).
       - name: Set version
         env:
           VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
