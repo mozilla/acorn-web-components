@@ -6,7 +6,7 @@
   --input-text-border: var(--border-width) solid var(--input-text-border-color);
   --input-text-border-radius: var(--border-radius-medium);
   --input-text-color-disabled: var(--input-text-color);
-  --input-text-opacity-disabled: 0.7;
+  --input-text-opacity-disabled: 0.5;
   --input-search-border-radius: var(--border-radius-circle);
   --input-width: var(--size-item-small);
   --input-border-color: var(--border-color-interactive);
