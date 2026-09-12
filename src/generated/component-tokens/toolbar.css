@@ -1,19 +1,19 @@
 /* Generated from vendored Firefox Nova tokens. Do not edit. */
 :host {
   --toolbar-padding-inline: 6px;
+  --toolbar-background-color: light-dark(rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.2));
   --toolbar-field-border-color: light-dark(var(--color-gray-20), var(--color-gray-60));
+  --toolbar-field-background-color: var(--toolbar-background-color);
   --toolbar-field-text-color: light-dark(var(--color-violet-desaturated-70), var(--color-violet-desaturated-10));
   --toolbar-text-color: light-dark(var(--color-gray-100), var(--color-gray-0));
   --toolbar-field-background-color-focus: var(--background-color-box);
   --toolbar-field-text-color-focus: var(--toolbar-field-text-color);
-  --toolbar-background-color: var(--background-color-box);
   --toolbar-field-border-color-focus: var(--focus-outline-color);
-  --toolbar-field-background-color: var(--toolbar-background-color);
 }
 @media (prefers-contrast: more) {
   :host {
     --toolbar-field-background-color: Field;
-    --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
+    --toolbar-field-border-color: light-dark(#817f84, #949297);
     --toolbar-field-text-color: FieldText;
   }
 }
@@ -26,6 +26,6 @@
 }
 :host([data-contrast='high']) {
     --toolbar-field-background-color: Field;
-    --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
+    --toolbar-field-border-color: light-dark(#817f84, #949297);
     --toolbar-field-text-color: FieldText;
 }

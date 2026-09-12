@@ -225,8 +225,8 @@
   --background-color-overlay: var(--color-black-alpha-50);
   --border-color: light-dark(var(--color-gray-30), var(--color-gray-40));
   --border-color-deemphasized: light-dark(var(--color-gray-20), var(--color-gray-50));
-  --border-color-interactive: light-dark(var(--color-gray-35), var(--color-gray-40));
-  --border-color-interactive-hover: light-dark(var(--color-gray-45), var(--color-gray-20));
+  --border-color-interactive: light-dark(var(--color-gray-45), var(--color-gray-40));
+  --border-color-interactive-hover: light-dark(var(--color-gray-50), var(--color-gray-20));
   --border-color-interactive-active: light-dark(var(--color-gray-50), var(--color-gray-15));
   --border-color-interactive-disabled: light-dark(var(--color-gray-25), var(--color-gray-55));
   --border-color-error: light-dark(var(--color-red-50), var(--color-red-20));

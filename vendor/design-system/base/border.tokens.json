@@ -69,7 +69,7 @@
             "comment": "Maintain the brand/platform split",
             "value": {
               "brand": {
-                "light": "{color.gray.35}",
+                "light": "{color.gray.45}",
                 "dark": "{color.gray.40}"
               }
             }
