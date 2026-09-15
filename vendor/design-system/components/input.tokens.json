@@ -48,6 +48,9 @@
     "color": {
       "@base": {
         "value": {
+          "brand": {
+            "default": "{text.color.@base}"
+          },
           "nativeTheme": "FieldText",
           "platform": {
             "light": "rgb(21, 20, 26)",

@@ -23,6 +23,9 @@
   --page-nav-button-text-color-selected: light-dark(#ffffff, #252428);
   --page-nav-heading-logo-size: var(--icon-size-large);
   --page-nav-hr-background-color: var(--border-color-deemphasized);
+  --page-nav-button-text-color: light-dark(#161423, #fcfbff);
+  --page-nav-button-text-color-hover: light-dark(#161423, #fcfbff);
+  --page-nav-button-text-color-active: light-dark(#161423, #fcfbff);
 }
 @media (forced-colors: active) {
   :host {
