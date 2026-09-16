@@ -18,7 +18,6 @@ type Story = StoryObj;
 // token stylesheet is loaded, so these behavior stories also pass the a11y run.
 const surface = `
   background-color: var(--background-color-canvas, Canvas);
-  color: var(--text-color, CanvasText);
   padding: 1rem;
   border-radius: var(--border-radius-medium, 8px);
 `;
