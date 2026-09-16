@@ -8,7 +8,7 @@ import checkboxTokens from '../../generated/component-tokens/checkbox.css';
 import styles from './moz-checkbox.css';
 
 /**
- * Checkbox built on {@link MozBaseInputElement}: an inline control with a label,
+ * Checkbox built on `MozBaseInputElement`: an inline control with a label,
  * plus the shared description / error / validation. Supports an indeterminate
  * ("mixed") state and a `nested` slot of sub-options that disable while the box
  * is unchecked or disabled.

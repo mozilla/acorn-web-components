@@ -3,7 +3,7 @@ import { MozCheckbox } from '../moz-checkbox/moz-checkbox';
 import styles from './moz-checkbox-all.css';
 
 /**
- * A "select all" checkbox that governs the sibling {@link MozCheckbox}es in its
+ * A "select all" checkbox that governs the sibling `MozCheckbox`es in its
  * container (a `moz-fieldset`, or any parent). It reflects their combined
  * state — checked when all are checked, `indeterminate` when only some are,
  * unchecked when none are — and toggling it drives them all to match.

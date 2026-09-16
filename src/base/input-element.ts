@@ -1,5 +1,5 @@
 import { html, nothing, type PropertyValues, type TemplateResult } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import '../components/moz-icon/moz-icon';
 import type { IconName } from '../generated/icons';
 import inputCommon from './input-common.css';
@@ -80,7 +80,7 @@ export abstract class MozBaseInputElement<
   #hasNested = false;
   #accessKey?: string;
 
-  /** Access key forwarded to the inner control (see {@link connectedCallback}). */
+  /** Access key forwarded to the inner control (see `connectedCallback`). */
   protected get controlAccessKey(): string | undefined {
     return this.#accessKey;
   }
@@ -108,16 +108,16 @@ export abstract class MozBaseInputElement<
   /**
    * Set by a container (e.g. `moz-fieldset`) to disable this control without
    * touching its own `disabled`, so the container's state can be lifted later
-   * and each control returns to whatever it was. Read {@link isDisabled}.
+   * and each control returns to whatever it was. Read `isDisabled`.
    */
-  @property({ type: Boolean, state: true }) parentDisabled = false;
+  @state() parentDisabled = false;
 
   /**
    * Set by the form owner (a disabled ancestor `<fieldset>`/form) via
-   * {@link formDisabledCallback}. Kept separate from `disabled` so the form's
-   * state never overwrites the author's attribute. Read {@link isDisabled}.
+   * `formDisabledCallback`. Kept separate from `disabled` so the form's
+   * state never overwrites the author's attribute. Read `isDisabled`.
    */
-  @property({ type: Boolean, state: true }) formDisabled = false;
+  @state() formDisabled = false;
 
   /** Whether a value is required; `"no-whitespace"` also rejects blank-only. */
   @property({ converter: requiredConverter }) required: RequiredState = false;
@@ -132,7 +132,7 @@ export abstract class MozBaseInputElement<
   @property({ attribute: 'label-icon' }) labelIcon?: IconName;
 
   /** Label/control arrangement. */
-  @property({ reflect: true, attribute: 'inputlayout' })
+  @property({ reflect: true, attribute: 'input-layout' })
   inputLayout: InputLayout;
 
   /** Accessible name forwarded to the control when there is no visible label. */
@@ -351,7 +351,7 @@ export abstract class MozBaseInputElement<
     return this.#internals.checkValidity();
   }
 
-  /** Like {@link checkValidity}, but also shows the platform validity UI. */
+  /** Like `checkValidity`, but also shows the platform validity UI. */
   reportValidity(): boolean {
     return this.#internals.reportValidity();
   }
@@ -408,8 +408,8 @@ export abstract class MozBaseInputElement<
 
   /**
    * Subclass hook: return the control element, giving it `id="input"` and
-   * `part="input"` and wiring `@input`/`@change` to {@link handleInput} /
-   * {@link handleChange}.
+   * `part="input"` and wiring `@input`/`@change` to `handleInput` /
+   * `handleChange`.
    */
   protected abstract inputTemplate(): TemplateResult;
 

@@ -20,17 +20,17 @@ export interface SegmentedControlChangeDetail {
 }
 
 /**
- * Nova segmented control: a single-select group of {@link MozSegmentedControlItem}
+ * Nova segmented control: a single-select group of `MozSegmentedControlItem`
  * children. Presentational only (not form-associated) — selecting an item sets
  * `value` and fires `moz-segmented-control:change`.
  *
  * Selection, the shared `value`, the roving tab stop, and arrow-key navigation
  * (selection follows focus, wrapping around the ends) come from
- * {@link SelectControlBaseElement}, shared with `moz-radio-group`.
+ * `SelectControlBaseElement`, shared with `moz-radio-group`.
  *
  * ARIA follows usage. On its own it's the radio-group pattern (host
  * `role=radiogroup`, items `role=radio`). When `deck` references a
- * {@link MozSegmentedControlDeck} by id it becomes the tabs pattern (host
+ * `MozSegmentedControlDeck` by id it becomes the tabs pattern (host
  * `role=tablist`, items `role=tab` with `aria-controls`), and selecting an item
  * switches the deck's visible panel automatically.
  *
@@ -180,7 +180,7 @@ export class MozSegmentedControl extends SelectControlBaseElement {
 }
 
 /**
- * A single segment inside {@link MozSegmentedControl}. Its ARIA role
+ * A single segment inside `MozSegmentedControl`. Its ARIA role
  * (`radio`/`tab`), selection state, roving tabindex, and disabled propagation
  * are driven by the parent group. Label comes from `label` or the default slot;
  * `icon-start` adds a leading icon, and `icon-only` renders it as a circle (the
@@ -275,7 +275,7 @@ export class MozSegmentedControlItem
 }
 
 /**
- * A content deck paired with a {@link MozSegmentedControl}: shows only the child
+ * A content deck paired with a `MozSegmentedControl`: shows only the child
  * panel whose `name` matches `value`, hiding the rest. Give it an `id` and point
  * the control's `deck` attribute at it; the control then drives `value` and
  * wires the tab/tabpanel ARIA.

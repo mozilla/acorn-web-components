@@ -63,7 +63,7 @@
 /* Semantics come from the tag; the visual size is constant across levels. */
 .heading {
   margin: 0;
-  font-size: var(--font-size-heading-large);
+  font-size: var(--font-size-heading-xlarge);
   font-weight: var(--font-weight-heading);
   line-height: 1.2;
 }
