@@ -1,0 +1,84 @@
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+
+  --status-badge-color: var(--text-color);
+  --status-badge-background-color: transparent;
+}
+
+.badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xxsmall);
+  inline-size: fit-content;
+  min-block-size: 22px;
+  padding-inline: var(--space-xsmall);
+
+  /* Faint inset ring on every type; --badge-border-color is the shared 40%
+   * neutral. box-sizing keeps the height at 22px with the border included. */
+  border: 1px solid var(--badge-border-color);
+  border-radius: var(--border-radius-circle);
+  color: var(--status-badge-color);
+
+  /* The type scale has no xsmall step, so drop just below --font-size-small. */
+  font-size: 0.733rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.1;
+  background-color: var(--status-badge-background-color);
+
+  --icon-color: currentColor;
+}
+
+.icon {
+  --icon-size: var(--icon-size-xsmall);
+  flex-shrink: 0;
+}
+
+:host([type="ghost"]) {
+  --status-badge-color: var(--button-text-color);
+}
+
+:host([type="ghost"]) .badge {
+  border-color: transparent;
+  font-size: var(--font-size-small);
+}
+
+/* Status text uses a darker same-hue shade than --icon-color-* so the label
+ * clears WCAG AA on the light tint (the mid icon shade only reaches ~3.6:1);
+ * the shades invert for dark mode, where the tint is the dark X-70. */
+:host([type="success"]) {
+  --status-badge-color: light-dark(
+    var(--color-green-60),
+    var(--color-green-20)
+  );
+  --status-badge-background-color: var(--background-color-success);
+}
+
+:host([type="warning"]) {
+  --status-badge-color: light-dark(
+    var(--color-yellow-60),
+    var(--color-yellow-20)
+  );
+  --status-badge-background-color: var(--background-color-warning);
+}
+
+:host([type="critical"]) {
+  --status-badge-color: light-dark(var(--color-red-60), var(--color-red-20));
+  --status-badge-background-color: var(--background-color-critical);
+}
+
+:host([type="information"]) {
+  --status-badge-color: light-dark(
+    var(--color-violet-60),
+    var(--color-violet-20)
+  );
+  --status-badge-background-color: var(--background-color-information);
+}
+
+/* Faint borders can drop under forced colors, so pin a visible one. */
+@media (forced-colors: active) {
+  .badge {
+    border-color: CanvasText;
+  }
+}

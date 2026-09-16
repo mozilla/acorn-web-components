@@ -26,6 +26,8 @@ export * from './components/moz-provider/moz-provider';
 export * from './components/moz-radio/moz-radio';
 export * from './components/moz-radio-group/moz-radio-group';
 export * from './components/moz-segmented-control/moz-segmented-control';
+export * from './components/moz-status-badge/moz-status-badge';
+export * from './components/moz-status-dot/moz-status-dot';
 export * from './components/moz-toggle/moz-toggle';
 export * from './context/contrast-context';
 export * from './context/locale-context';
