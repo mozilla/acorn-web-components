@@ -65,7 +65,7 @@
 /* Inline (default) renders the switch inside the label, so the label's disabled
  * opacity already dims it; the full-width variant renders it outside the label,
  * so dim it here instead. */
-:host([inputlayout="inline-end"]:state(disabled)) .track {
+:host([input-layout="inline-end"]:state(disabled)) .track {
   opacity: var(--toggle-opacity-disabled);
 }
 
@@ -108,7 +108,7 @@
 }
 
 /* Full-width variant: keep any validation error on its own line below the row. */
-:host([inputlayout="inline-end"]) .content-wrapper {
+:host([input-layout="inline-end"]) .content-wrapper {
   flex-wrap: wrap;
 }
 
