@@ -17,6 +17,7 @@ export * from './components/moz-dialog/moz-dialog';
 export * from './components/moz-fieldset/moz-fieldset';
 export * from './components/moz-five-star/moz-five-star';
 export * from './components/moz-icon/moz-icon';
+export * from './components/moz-input-search/moz-input-search';
 export * from './components/moz-input-text/moz-input-text';
 export * from './components/moz-label/moz-label';
 export * from './components/moz-message-bar/moz-message-bar';

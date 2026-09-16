@@ -63,6 +63,11 @@ export class MozInputText extends MozBaseInputElement {
     return this.clearable && !!this.value && !this.isDisabled && !this.readonly;
   }
 
+  /** Native input `type`; overridden by subclasses (e.g. moz-input-search). */
+  protected get inputType(): string {
+    return this.type;
+  }
+
   #clear = () => {
     this.value = '';
     this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
@@ -84,7 +89,7 @@ export class MozInputText extends MozBaseInputElement {
       <input
         id="input"
         part="input"
-        type=${this.type}
+        type=${this.inputType}
         name=${ifDefined(this.name)}
         .value=${this.value}
         placeholder=${ifDefined(this.placeholder)}

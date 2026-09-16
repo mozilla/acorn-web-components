@@ -20,6 +20,7 @@ import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dial
 import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/moz-fieldset';
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
+import { MozInputSearch as MozInputSearchElement } from '../components/moz-input-search/moz-input-search';
 import { MozInputText as MozInputTextElement } from '../components/moz-input-text/moz-input-text';
 import { MozLabel as MozLabelElement } from '../components/moz-label/moz-label';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
@@ -173,6 +174,17 @@ export const MozIcon = createComponent({
   tagName: 'moz-icon',
   elementClass: MozIconElement,
   react: React,
+});
+
+export const MozInputSearch = createComponent({
+  tagName: 'moz-input-search',
+  elementClass: MozInputSearchElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+    onSearch: 'moz-input-search:search',
+  },
 });
 
 export const MozInputText = createComponent({
