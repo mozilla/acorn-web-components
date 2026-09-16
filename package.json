@@ -53,7 +53,7 @@
     "build:types": "tsc -p tsconfig.build.json",
     "build:assets": "bun scripts/copy-assets.ts",
     "analyze": "cem analyze --litelement",
-    "build": "npm run clean && npm run build:lib && npm run build:react && npm run build:types && npm run build:assets && npm run analyze",
+    "build": "npm run clean && npm run build:lib && npm run build:react && npm run build:types && npm run build:assets && npm run analyze && bun scripts/inject-dts-attrs.ts",
     "prepare": "npm run build:lib && npm run build:react && npm run build:types && node scripts/copy-assets.ts && npm run analyze",
     "typecheck": "tsc --noEmit",
     "test": "vitest",

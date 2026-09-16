@@ -96,7 +96,7 @@ export const FullWidth: Story = {
   render: (args) => html`
     <div style="inline-size:320px;">
       <moz-toggle
-        inputlayout="inline-end"
+        input-layout="inline-end"
         label=${args.label}
         description=${ifDefined(args.description)}
         ?checked=${args.checked}

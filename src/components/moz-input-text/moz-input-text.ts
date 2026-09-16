@@ -17,7 +17,7 @@ import styles from './moz-input-text.css';
 export type InputType = 'text' | 'email' | 'url' | 'tel';
 
 /**
- * Single-line text input. Built on {@link MozBaseInputElement}, so it carries
+ * Single-line text input. Built on `MozBaseInputElement`, so it carries
  * the shared label, description, and form/validation wiring; this class adds
  * the text-specific attributes, an optional in-field leading icon (`icon-start`,
  * distinct from the label's `label-icon`), and an optional clear button.

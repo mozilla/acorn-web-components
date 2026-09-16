@@ -7,8 +7,8 @@ import toggleTokens from '../../generated/component-tokens/toggle.css';
 import styles from './moz-toggle.css';
 
 /**
- * A switch built on {@link MozBaseInputElement}: by default the switch sits first
- * with the label after it; set `inputlayout="inline-end"` for the full-width
+ * A switch built on `MozBaseInputElement`: by default the switch sits first
+ * with the label after it; set `input-layout="inline-end"` for the full-width
  * variant with the label first and the switch pushed to the end. Adds the shared
  * description / error / validation. It's a checkbox under the hood
  * (`role="switch"`), so it participates in forms and fires a composed `change`.

@@ -1,5 +1,5 @@
 import { html, nothing, type PropertyValues } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import fieldWidth from '../../base/field-width.css';
 import { SelectControlBaseElement } from '../../base/select-control';
@@ -9,7 +9,7 @@ import styles from './moz-radio-group.css';
 
 /**
  * Groups `moz-radio` options into a single-selection set, built on
- * {@link SelectControlBaseElement}: one shared `name`, one `value`, one tab stop,
+ * `SelectControlBaseElement`: one shared `name`, one `value`, one tab stop,
  * and arrow-key navigation (selection follows focus). Adds a form-level identity
  * — a `<fieldset role="radiogroup">` with a `<legend>`, optional description, a
  * group-level error, and group-owned `required` validation (native radiogroup
@@ -44,7 +44,7 @@ export class MozRadioGroup extends SelectControlBaseElement {
    * Set by a container (e.g. a disabled `moz-fieldset`) to disable the group
    * without touching its own `disabled`, matching `MozBaseInputElement`.
    */
-  @property({ type: Boolean, state: true }) parentDisabled = false;
+  @state() parentDisabled = false;
 
   /** Fill the container instead of the default width. */
   @property({ type: Boolean, reflect: true, attribute: 'full-width' })
@@ -153,7 +153,7 @@ export class MozRadioGroup extends SelectControlBaseElement {
     return this.#internals.checkValidity();
   }
 
-  /** Like {@link checkValidity}, but also shows the platform validity UI. */
+  /** Like `checkValidity`, but also shows the platform validity UI. */
   reportValidity(): boolean {
     return this.#internals.reportValidity();
   }

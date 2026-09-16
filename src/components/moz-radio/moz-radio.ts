@@ -7,8 +7,8 @@ import buttonTokens from '../../generated/component-tokens/button.css';
 import styles from './moz-radio.css';
 
 /**
- * A single radio option: {@link MozBaseInputElement} for the label / description
- * / validation, plus {@link SelectControlItemMixin} for the select-control
+ * A single radio option: `MozBaseInputElement` for the label / description
+ * / validation, plus `SelectControlItemMixin` for the select-control
  * behavior. Its `moz-radio-group` owns single-selection, the shared name, and
  * arrow-key navigation; selecting it (however that happens) updates the group.
  *

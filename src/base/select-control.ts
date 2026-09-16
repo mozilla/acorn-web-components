@@ -3,8 +3,8 @@ import { state } from 'lit/decorators.js';
 import { MozLitElement } from './moz-lit-element';
 
 /**
- * The contract a {@link SelectControlBaseElement} needs from its options. Item
- * classes provide these (see {@link SelectControlItemMixin}).
+ * The contract a `SelectControlBaseElement` needs from its options. Item
+ * classes provide these (see `SelectControlItemMixin`).
  */
 export interface SelectControlItem extends HTMLElement {
   value: string;
@@ -25,9 +25,9 @@ export interface SelectControlItem extends HTMLElement {
  * with arrow-key navigation (selection follows focus, wrapping around the ends).
  *
  * Ported from Firefox's `lit-select-control`. Subclasses set
- * {@link childElementName}, render a default `<slot>` wired to
- * {@link handleSlotChange} / {@link handleChange}, and pair with options that use
- * {@link SelectControlItemMixin}.
+ * `childElementName`, render a default `<slot>` wired to
+ * `handleSlotChange` / `handleChange`, and pair with options that use
+ * `SelectControlItemMixin`.
  */
 export abstract class SelectControlBaseElement extends MozLitElement {
   /** Tag name of the option element (e.g. `moz-radio`). */
@@ -219,7 +219,7 @@ export abstract class SelectControlBaseElement extends MozLitElement {
 type Constructor<T> = abstract new (...args: any[]) => T;
 
 /**
- * Public surface {@link SelectControlItemMixin} adds. The return type names this
+ * Public surface `SelectControlItemMixin` adds. The return type names this
  * interface rather than the inner class so declaration emit doesn't leak the
  * superclass's protected members into an anonymous type (TS4094).
  */

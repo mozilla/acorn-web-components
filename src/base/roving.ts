@@ -1,4 +1,4 @@
-/** Options for {@link rovingIndex}. */
+/** Options for `rovingIndex`. */
 export interface RovingOptions {
   /** Wrap around the ends instead of clamping (default: clamp). */
   wrap?: boolean;

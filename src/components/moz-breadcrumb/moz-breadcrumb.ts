@@ -7,7 +7,7 @@ import breadcrumbTokens from '../../generated/component-tokens/breadcrumb.css';
 import '../moz-icon/moz-icon';
 import styles from './moz-breadcrumb.css';
 
-/** `detail` of the {@link MozBreadcrumb} `moz-breadcrumb:select` event. */
+/** `detail` of the `MozBreadcrumb` `moz-breadcrumb:select` event. */
 export interface BreadcrumbSelectDetail {
   href?: string;
 }
@@ -15,7 +15,7 @@ export interface BreadcrumbSelectDetail {
 /**
  * A single breadcrumb. Renders a link when `href` is set, or plain text when it
  * has no href or is the current page. Use it on its own, or nest several inside
- * a {@link MozBreadcrumbGroup} (which marks the last one current). The label is
+ * a `MozBreadcrumbGroup` (which marks the last one current). The label is
  * the default slot.
  *
  * @slot - the crumb label.
