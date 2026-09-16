@@ -123,6 +123,8 @@ A [Custom Elements Manifest](https://github.com/webcomponents/custom-elements-ma
 
 ## Examples
 
+A live example of the components in action can be found in the [pinguino DevHub AMO rebuild](https://github.com/mozilla/addons-server/blob/master/src/pinguino). Please note this is currently a work in progress.
+
 Runnable usage examples live in [`examples/`](./examples), served against the library source (no build step):
 
 ```sh
