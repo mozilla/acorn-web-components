@@ -10,7 +10,7 @@
 
 /* Inline controls (checkbox, radio, toggle) shrink-wrap and sit inline; block
  * controls (text inputs, select) get their own line (width via field-width.css). */
-:host([inputlayout="inline"]:not([hidden])) {
+:host([input-layout="inline"]:not([hidden])) {
   display: inline-block;
 }
 
@@ -32,15 +32,15 @@ label {
 }
 
 /* Inline: the control sits inside the label, before the text. */
-:host([inputlayout="inline"]) label,
-:host([inputlayout="inline-end"]) label {
+:host([input-layout="inline"]) label,
+:host([input-layout="inline-end"]) label {
   display: flex;
   align-items: center;
   gap: var(--space-small);
 }
 
 /* Inline-end: label text first, control pushed to the far edge. */
-:host([inputlayout="inline-end"]) .content-wrapper {
+:host([input-layout="inline-end"]) .content-wrapper {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -48,7 +48,7 @@ label {
 
 /* For inline controls, align the description under the label text (past the
  * control). Each inline control sets --field-inline-offset to its box + gap. */
-:host([inputlayout="inline"]) .description {
+:host([input-layout="inline"]) .description {
   margin-inline-start: var(--field-inline-offset, 0);
 }
 

@@ -19,7 +19,7 @@ const toggles = html`<div
   <moz-toggle label="Disabled on" checked disabled></moz-toggle>
   <moz-toggle label="Disabled off" disabled></moz-toggle>
   <moz-toggle
-    inputlayout="inline-end"
+    input-layout="inline-end"
     label="Full width"
     description="Label first, switch at the end."
     checked
