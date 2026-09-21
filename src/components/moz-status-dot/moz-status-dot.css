@@ -1,0 +1,57 @@
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+
+  /* --status-dot-color is the saturated color (solid dot + icon glyph);
+   * --status-dot-tint is the light disc behind the icon (message-bar style). */
+  --status-dot-color: var(--icon-color-information);
+  --status-dot-tint: var(--background-color-information);
+}
+
+:host([type="success"]) {
+  --status-dot-color: var(--icon-color-success);
+  --status-dot-tint: var(--background-color-success);
+}
+
+:host([type="warning"]) {
+  --status-dot-color: var(--icon-color-warning);
+  --status-dot-tint: var(--background-color-warning);
+}
+
+:host([type="critical"]) {
+  --status-dot-color: var(--icon-color-critical);
+  --status-dot-tint: var(--background-color-critical);
+}
+
+.dot {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: var(--border-radius-circle);
+
+  /* No icon: a solid colored dot. */
+  background-color: var(--status-dot-color);
+
+  --icon-color: currentColor;
+}
+
+/* With an icon: the message-bar icon part — a tinted disc + saturated glyph. */
+:host([icon]) .dot {
+  color: var(--status-dot-color);
+  background-color: var(--status-dot-tint);
+}
+
+.icon {
+  --icon-size: var(--icon-size-small);
+  flex-shrink: 0;
+}
+
+/* Keep the circle visible when the fill drops out under forced colors. */
+@media (forced-colors: active) {
+  .dot {
+    outline: 1px solid CanvasText;
+  }
+}

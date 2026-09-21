@@ -36,6 +36,8 @@ import {
   MozSegmentedControl as MozSegmentedControlElement,
   MozSegmentedControlItem as MozSegmentedControlItemElement,
 } from '../components/moz-segmented-control/moz-segmented-control';
+import { MozStatusBadge as MozStatusBadgeElement } from '../components/moz-status-badge/moz-status-badge';
+import { MozStatusDot as MozStatusDotElement } from '../components/moz-status-dot/moz-status-dot';
 import { MozToggle as MozToggleElement } from '../components/moz-toggle/moz-toggle';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
@@ -246,6 +248,18 @@ export const MozSegmentedControlItem = createComponent({
 export const MozSegmentedControlDeck = createComponent({
   tagName: 'moz-segmented-control-deck',
   elementClass: MozSegmentedControlDeckElement,
+  react: React,
+});
+
+export const MozStatusBadge = createComponent({
+  tagName: 'moz-status-badge',
+  elementClass: MozStatusBadgeElement,
+  react: React,
+});
+
+export const MozStatusDot = createComponent({
+  tagName: 'moz-status-dot',
+  elementClass: MozStatusDotElement,
   react: React,
 });
 
