@@ -3,6 +3,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
 import './moz-icon';
+import '../moz-input-search/moz-input-search';
 import {
   type IconColor,
   type IconSize,
@@ -10,6 +11,7 @@ import {
   iconSizes,
 } from '../../generated/icon-options';
 import { type IconName, iconNames } from '../../generated/icons';
+import { iconKeywords } from './icon-keywords';
 
 interface IconArgs {
   name: IconName;
@@ -149,6 +151,30 @@ export const Colors: Story = {
   `,
 };
 
+const searchText = (n: IconName): string =>
+  [n, ...(iconKeywords[n] ?? [])].join(' ').toLowerCase();
+
+const filterGallery = (e: Event) => {
+  const search = e.currentTarget as HTMLElement;
+  const root = search.closest('[data-icon-gallery]');
+  if (!root) return;
+  const query =
+    (e as CustomEvent<{ query: string }>).detail?.query ??
+    (search as HTMLInputElement).value ??
+    '';
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  let matches = 0;
+  for (const cell of root.querySelectorAll<HTMLElement>('[data-search]')) {
+    const haystack = cell.dataset.search ?? '';
+    const hit = terms.every((t) => haystack.includes(t));
+    // The cell's inline display:flex overrides [hidden], so toggle it directly.
+    cell.style.display = hit ? 'flex' : 'none';
+    if (hit) matches++;
+  }
+  const count = root.querySelector('[data-icon-count]');
+  if (count) count.textContent = `${matches} of ${iconNames.length} icons`;
+};
+
 export const Gallery: Story = {
   args: {
     size: 'medium',
@@ -158,22 +184,41 @@ export const Gallery: Story = {
     label: { control: { disable: true } },
   },
   render: (args) => html`
-    <div
-      style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;"
-    >
-      ${iconNames.map(
-        (n) => html`
-          <div
-            style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;border:1px solid var(--border-color-interactive, #ccc);border-radius:var(--border-radius-small, 4px);"
-          >
-            <moz-icon name=${n} size=${ifDefined(args.size)} color=${ifDefined(args.color)}></moz-icon>
-            <span
-              style="font-size:11px;font-family:monospace;background-color:black;color:white;padding:1px 5px;line-height:1.3;text-align:center;word-break:break-word;opacity:0.75;"
-              >${n}</span
+    <div data-icon-gallery>
+      <div
+        style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;"
+      >
+        <moz-input-search
+          debounce="100"
+          placeholder="Search icons by name or keyword…"
+          style="flex:1;min-width:220px;"
+          @moz-input-search:search=${filterGallery}
+          @input=${filterGallery}
+        ></moz-input-search>
+        <span
+          data-icon-count
+          style="font-size:12px;font-family:monospace;opacity:0.7;white-space:nowrap;"
+          >${iconNames.length} of ${iconNames.length} icons</span
+        >
+      </div>
+      <div
+        style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;"
+      >
+        ${iconNames.map(
+          (n) => html`
+            <div
+              data-search=${searchText(n)}
+              style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;border:1px solid var(--border-color-interactive, #ccc);border-radius:var(--border-radius-small, 4px);"
             >
-          </div>
-        `,
-      )}
+              <moz-icon name=${n} size=${ifDefined(args.size)} color=${ifDefined(args.color)}></moz-icon>
+              <span
+                style="font-size:11px;font-family:monospace;background-color:black;color:white;padding:1px 5px;line-height:1.3;text-align:center;word-break:break-word;opacity:0.75;"
+                >${n}</span
+              >
+            </div>
+          `,
+        )}
+      </div>
     </div>
   `,
 };
