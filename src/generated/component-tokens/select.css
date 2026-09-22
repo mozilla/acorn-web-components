@@ -1,0 +1,27 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --select-background-color: transparent;
+  --select-border: var(--border-width) solid var(--select-border-color);
+  --select-font-size: var(--font-size-root);
+  --select-font-size-small: var(--font-size-small);
+  --select-icon-fill: currentColor;
+  --select-opacity-disabled: 0.7;
+  --select-option-font-weight: var(--font-weight);
+  --select-space-inline-small: var(--space-medium);
+  --select-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --select-background-color-disabled: transparent;
+  --select-border-color: var(--border-color-interactive);
+  --select-border-color-hover: var(--border-color-interactive-hover);
+  --select-border-color-disabled: var(--border-color-interactive-disabled);
+  --select-border-radius: 24px;
+  --select-font-weight: 600;
+  --select-min-height: 32px;
+  --select-min-height-small: 24px;
+  --select-option-text-color: var(--text-color);
+  --select-padding-block: 0.25rem;
+  --select-space-inline: 1rem;
+  --select-text-color: light-dark(#161423, #fcfbff);
+  --select-padding-icon: var(--icon-size);
+  --select-text-color-hover: light-dark(#161423, #fcfbff);
+  --select-text-color-disabled: light-dark(#161423, #fcfbff);
+}

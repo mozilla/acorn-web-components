@@ -633,6 +633,11 @@ export const iconLoaders = {
   "midi": {
     16: () => import("./icons/midi-16.js"),
   },
+  "mini-window": {
+    12: () => import("./icons/mini-window-12.js"),
+    16: () => import("./icons/mini-window-16.js"),
+    20: () => import("./icons/mini-window-20.js"),
+  },
   "moon": {
     16: () => import("./icons/moon-16.js"),
   },
@@ -725,6 +730,7 @@ export const iconLoaders = {
   },
   "permission": {
     16: () => import("./icons/permission-16.js"),
+    20: () => import("./icons/permission-20.js"),
   },
   "picture-in-picture-closed": {
     16: () => import("./icons/picture-in-picture-closed-16.js"),
@@ -1113,6 +1119,10 @@ export const iconLoaders = {
   },
   "vpn-on-off-site": {
     12: () => import("./icons/vpn-on-off-site-12.js"),
+  },
+  "vpn-rules": {
+    16: () => import("./icons/vpn-rules-16.js"),
+    20: () => import("./icons/vpn-rules-20.js"),
   },
   "warning": {
     16: () => import("./icons/warning-16.js"),

@@ -1,0 +1,1069 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+/* Foundation + every component's tokens, all at :root and in @layer
+   acorn.tokens. Opt-in: much larger than tokens.css (which ships only the
+   foundation surface). Use when you need component-level custom properties
+   (e.g. --button-*, --badge-*) in your own app, outside the components. */
+@layer acorn.tokens {
+  :root {
+  --background-color-dimmed: light-dark(color-mix(in srgb, currentColor 12%, transparent), color-mix(in srgb, currentColor 17%, transparent));
+  --background-color-dimmed-further: light-dark(color-mix(in srgb, currentColor 20%, transparent), color-mix(in srgb, currentColor 14%, transparent));
+  --border-color-transparent: transparent;
+  --border-radius-circle: 9999px;
+  --border-radius-xsmall: 4px;
+  --border-radius-small: 8px;
+  --border-radius-medium: 12px;
+  --border-radius-large: 16px;
+  --border-radius-xlarge: 24px;
+  --border-radius-xxlarge: 0;
+  --border-width: 1px;
+  --box-shadow-color-darker-layer-1: light-dark(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.2));
+  --box-shadow-color-darker-layer-2: light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+  --box-shadow-color-lighter-layer-1: light-dark(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06));
+  --box-shadow-color-lighter-layer-2: light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.12));
+  --color-gray-0: #fcfbff;
+  --color-gray-10: #efedf2;
+  --color-gray-15: #e3e2e7;
+  --color-gray-20: #d6d5da;
+  --color-gray-25: #c7c6cb;
+  --color-gray-30: #b7b6ba;
+  --color-gray-35: #a6a4a9;
+  --color-gray-40: #949297;
+  --color-gray-45: #817f84;
+  --color-gray-50: #67666a;
+  --color-gray-55: #515054;
+  --color-gray-60: #3f3e42;
+  --color-gray-65: #312f33;
+  --color-gray-70: #252428;
+  --color-gray-75: #1d1b1f;
+  --color-gray-80: #171519;
+  --color-gray-85: #131215;
+  --color-gray-90: #121114;
+  --color-gray-100: #15141a;
+  --color-gray-05: #f7f6fb;
+  --color-red-0: #fcf2f3;
+  --color-red-10: #ffd9df;
+  --color-red-20: #ffb6bf;
+  --color-red-30: #ff8998;
+  --color-red-40: #ed566e;
+  --color-red-50: #c52d4f;
+  --color-red-60: #961e3d;
+  --color-red-70: #69172d;
+  --color-red-80: #42121f;
+  --color-red-90: #211014;
+  --color-red-100: oklch(27% 0.1 15);
+  --color-red-110: oklch(20% 0.05 15);
+  --color-orange-0: #f8f0ec;
+  --color-orange-10: #ffdbc5;
+  --color-orange-20: #febd99;
+  --color-orange-30: #ff9565;
+  --color-orange-40: #f4682c;
+  --color-orange-50: #cd4208;
+  --color-orange-60: #9c2c05;
+  --color-orange-70: #701c07;
+  --color-orange-80: #461209;
+  --color-orange-90: #250e0b;
+  --color-orange-100: oklch(27% 0.10 50);
+  --color-orange-110: oklch(20% 0.05 50);
+  --color-yellow-0: #f9f5e6;
+  --color-yellow-10: #fde8b5;
+  --color-yellow-20: #fbcc77;
+  --color-yellow-30: #f3a81e;
+  --color-yellow-40: #db820e;
+  --color-yellow-50: #b26100;
+  --color-yellow-60: #854800;
+  --color-yellow-70: #5f3100;
+  --color-yellow-80: #3e1d00;
+  --color-yellow-90: #270f00;
+  --color-yellow-100: oklch(27% 0.13 90);
+  --color-yellow-110: oklch(20% 0.08 90);
+  --color-green-0: #ecf4f1;
+  --color-green-10: #c4f1e0;
+  --color-green-20: #90e3c6;
+  --color-green-30: #4acca6;
+  --color-green-40: #11ae84;
+  --color-green-50: #008865;
+  --color-green-60: #06674b;
+  --color-green-70: #004933;
+  --color-green-80: #003020;
+  --color-green-90: #001e12;
+  --color-green-100: oklch(27% 0.1 145);
+  --color-green-110: oklch(20% 0.05 145);
+  --color-cyan-0: #ebf4f5;
+  --color-cyan-10: #c3eef8;
+  --color-cyan-20: #8fddf0;
+  --color-cyan-30: #4cc4e1;
+  --color-cyan-40: #10a4ca;
+  --color-cyan-50: #0a809f;
+  --color-cyan-60: #066077;
+  --color-cyan-70: #034554;
+  --color-cyan-80: #002d38;
+  --color-cyan-90: #011c23;
+  --color-cyan-100: oklch(27% 0.1 205);
+  --color-cyan-110: oklch(20% 0.05 205);
+  --color-blue-0: #ecf3f8;
+  --color-blue-10: #c5eafe;
+  --color-blue-20: #a2d3ff;
+  --color-blue-30: #7bb2ff;
+  --color-blue-40: #5a87fd;
+  --color-blue-50: #455fe7;
+  --color-blue-60: #3246b0;
+  --color-blue-70: #23327b;
+  --color-blue-80: #17214c;
+  --color-blue-90: #111524;
+  --color-blue-100: oklch(27% 0.1 260);
+  --color-blue-110: oklch(20% 0.05 260);
+  --color-violet-0: #f5ecff;
+  --color-violet-10: #eaddff;
+  --color-violet-20: #d4c1ff;
+  --color-violet-30: #b89cff;
+  --color-violet-40: #9871ff;
+  --color-violet-50: #764edd;
+  --color-violet-60: #5939a8;
+  --color-violet-70: #3e2976;
+  --color-violet-80: #271c48;
+  --color-violet-90: #161423;
+  --color-violet-100: oklch(27% 0.1 290);
+  --color-violet-110: oklch(20% 0.05 290);
+  --color-purple-0: #faebff;
+  --color-purple-10: #f6d7ff;
+  --color-purple-20: #e8b7ff;
+  --color-purple-30: #d490ff;
+  --color-purple-40: #b864ee;
+  --color-purple-50: #9540c8;
+  --color-purple-60: #702e98;
+  --color-purple-70: #4f216b;
+  --color-purple-80: #311842;
+  --color-purple-90: #1a1220;
+  --color-purple-100: oklch(27% 0.1 315);
+  --color-purple-110: oklch(20% 0.05 315);
+  --color-pink-0: #f7eff3;
+  --color-pink-10: #ffd5ee;
+  --color-pink-20: #ffb0e2;
+  --color-pink-30: #f585d3;
+  --color-pink-40: #db54bf;
+  --color-pink-50: #b32e9f;
+  --color-pink-60: #882078;
+  --color-pink-70: #5f1854;
+  --color-pink-80: #3c1334;
+  --color-pink-90: #1e111b;
+  --color-pink-100: oklch(27% 0.1 360);
+  --color-pink-110: oklch(20% 0.05 360);
+  --color-white: #ffffff;
+  --color-white-alpha-10: oklch(1 0 0 / 10%);
+  --color-white-alpha-20: oklch(1 0 0 / 20%);
+  --color-white-alpha-30: oklch(1 0 0 / 30%);
+  --color-white-alpha-40: oklch(1 0 0 / 40%);
+  --color-white-alpha-50: oklch(1 0 0 / 50%);
+  --color-white-alpha-60: oklch(1 0 0 / 60%);
+  --color-white-alpha-70: oklch(1 0 0 / 70%);
+  --color-white-alpha-80: oklch(1 0 0 / 80%);
+  --color-white-alpha-90: oklch(1 0 0 / 90%);
+  --color-black: #000000;
+  --color-black-alpha-10: oklch(0 0 0 / 10%);
+  --color-black-alpha-20: oklch(0 0 0 / 20%);
+  --color-black-alpha-30: oklch(0 0 0 / 30%);
+  --color-black-alpha-40: oklch(0 0 0 / 40%);
+  --color-black-alpha-50: oklch(0 0 0 / 50%);
+  --color-black-alpha-60: oklch(0 0 0 / 60%);
+  --color-black-alpha-70: oklch(0 0 0 / 70%);
+  --color-black-alpha-80: oklch(0 0 0 / 80%);
+  --color-black-alpha-90: oklch(0 0 0 / 90%);
+  --color-violet-desaturated-0: #f2f0f8;
+  --color-violet-desaturated-10: #e7e1f8;
+  --color-violet-desaturated-20: #d2c8ec;
+  --color-violet-desaturated-30: #b6aad9;
+  --color-violet-desaturated-40: #9687c0;
+  --color-violet-desaturated-50: #75669f;
+  --color-violet-desaturated-60: #584a7d;
+  --color-violet-desaturated-70: #3e315f;
+  --color-violet-desaturated-80: #281d44;
+  --color-violet-desaturated-90: #180e30;
+  --focus-outline-offset: 2px;
+  --focus-outline-width: 2px;
+  --font-size-root: 15px;
+  --font-size-small: 0.867rem; /** 13px in-content, unset in platform (we want to avoid going too small when the root font size is already quite small) */
+  --font-size-large: 1.133rem; /** 17px (in-content) */
+  --font-size-xlarge: 1.467rem; /** 22px (in-content) */
+  --font-size-xxlarge: 1.6rem; /** 24px (in-content) */
+  --font-size-xxxlarge: 2.2rem; /** 33px (in-content) */
+  --font-weight: normal;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --size-image-xsmall: 40px;
+  --size-image-small: 48px;
+  --size-image-medium: 56px;
+  --size-image-large: 64px;
+  --size-image-xlarge: 80px;
+  --size-image-xxlarge: 96px;
+  --size-item-xsmall: 12px;
+  --size-item-small: 16px;
+  --size-item-medium: 24px;
+  --size-item-large: 32px;
+  --size-item-xlarge: 48px;
+  --size-layout-xsmall: 100px;
+  --size-layout-small: 200px;
+  --size-layout-medium: 300px;
+  --size-layout-large: 400px;
+  --size-layout-xlarge: 500px;
+  --size-sidebar: 280px;
+  --size-sidebar-narrow: 118px;
+  --space-xxsmall: 0.125rem;
+  --space-xsmall: 0.25rem;
+  --space-small: 0.5rem;
+  --space-medium: 0.75rem;
+  --space-large: 1rem;
+  --space-xlarge: 1.5rem;
+  --space-xxlarge: 2rem;
+  --text-color-deemphasized: color-mix(in srgb, currentColor 69%, transparent);
+  --text-color-disabled: color-mix(in srgb, currentColor 40%, transparent);
+  --icon-size-medium: 20px;
+  --opacity-deemphasized-strong: 0.6;
+  --opacity-deemphasized: 0.8;
+  --background-color-box: light-dark(var(--color-white), var(--color-gray-70));
+  --background-color-box-info: light-dark(var(--color-gray-15), var(--color-gray-65));
+  --background-color-canvas: light-dark(var(--color-gray-05), var(--color-gray-85));
+  --background-color-critical: light-dark(var(--color-red-10), var(--color-red-70));
+  --background-color-information: light-dark(var(--color-violet-10), var(--color-violet-70));
+  --background-color-success: light-dark(var(--color-green-10), var(--color-green-70));
+  --background-color-warning: light-dark(var(--color-yellow-10), var(--color-yellow-70));
+  --background-color-overlay: var(--color-black-alpha-50);
+  --border-color: light-dark(var(--color-gray-30), var(--color-gray-40));
+  --border-color-deemphasized: light-dark(var(--color-gray-20), var(--color-gray-50));
+  --border-color-interactive: light-dark(var(--color-gray-35), var(--color-gray-40));
+  --border-color-interactive-hover: light-dark(var(--color-gray-45), var(--color-gray-20));
+  --border-color-interactive-active: light-dark(var(--color-gray-50), var(--color-gray-15));
+  --border-color-interactive-disabled: light-dark(var(--color-gray-25), var(--color-gray-55));
+  --border-color-error: light-dark(var(--color-red-50), var(--color-red-20));
+  --box-shadow-level-1: 0 0 1px var(--box-shadow-color-darker-layer-1), 0 1px 2px var(--box-shadow-color-darker-layer-2);
+  --box-shadow-level-2: 0 0.25px 0.75px var(--box-shadow-color-lighter-layer-1), 0 2px 6px var(--box-shadow-color-lighter-layer-2);
+  --box-shadow-level-3: 0 0.375px 1.5px var(--box-shadow-color-lighter-layer-1), 0 3px 12px var(--box-shadow-color-lighter-layer-2);
+  --box-shadow-level-4: 0 0.5px 2px var(--box-shadow-color-lighter-layer-1), 0 4px 16px var(--box-shadow-color-lighter-layer-2);
+  --color-accent-primary: light-dark(var(--color-violet-50), var(--color-violet-30));
+  --color-accent-primary-hover: light-dark(var(--color-violet-60), var(--color-violet-20));
+  --color-accent-primary-active: light-dark(var(--color-violet-70), var(--color-violet-10));
+  --color-accent-attention: light-dark(var(--color-green-40), var(--color-green-30));
+  --focus-outline-inset: calc(-1 * var(--focus-outline-width));
+  --font-size-heading-large: var(--font-size-xlarge);
+  --font-size-heading-medium: var(--font-size-large);
+  --text-color-accent-primary-selected: light-dark(var(--color-white), var(--color-gray-55));
+  --icon-size-xsmall: var(--size-item-xsmall);
+  --icon-size-small: var(--size-item-small);
+  --icon-size-xlarge: var(--size-item-large);
+  --icon-size-xxlarge: var(--size-item-xlarge);
+  --focus-outline-color: var(--color-accent-primary);
+  --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
+  --font-size-heading-xlarge: var(--font-size-xxlarge);
+  --font-weight-heading: var(--font-weight-semibold);
+  --text-color: light-dark(var(--color-violet-desaturated-90), var(--color-violet-desaturated-0));
+  --text-color-error: light-dark(var(--color-red-50), var(--color-red-20));
+  --icon-color-accent-primary-desaturated: light-dark(var(--color-violet-desaturated-60), var(--color-violet-desaturated-40));
+  --icon-color-information: light-dark(var(--color-violet-50), var(--color-violet-20));
+  --icon-color-success: light-dark(var(--color-green-50), var(--color-green-20));
+  --icon-color-warning: light-dark(var(--color-yellow-50), var(--color-yellow-20));
+  --icon-color-critical: light-dark(var(--color-red-50), var(--color-red-20));
+  --icon-size-large: var(--size-item-medium);
+  --background-color-list-item-hover: color-mix(in srgb, var(--color-accent-primary) 20%, transparent);
+  --border-color-selected: var(--color-accent-primary);
+  --text-color-list-item-hover: var(--text-color);
+  --icon-color: var(--text-color);
+  --icon-size: var(--icon-size-small);
+  --color-accent-primary-selected: var(--button-background-color-primary-active);
+  }
+  @media (prefers-contrast: more) {
+    :root {
+      --background-color-box-info: var(--background-color-canvas);
+      --background-color-box: var(--background-color-canvas);
+      --background-color-canvas: Canvas;
+      --background-color-critical: var(--background-color-canvas);
+      --background-color-information: var(--background-color-canvas);
+      --background-color-list-item-hover: SelectedItem;
+      --background-color-success: var(--background-color-canvas);
+      --background-color-warning: var(--background-color-canvas);
+      --border-color-deemphasized: currentColor;
+      --border-color-error: var(--border-color);
+      --border-color-interactive: var(--text-color);
+      --border-color-transparent: CanvasText;
+      --border-color: CanvasText;
+      --color-accent-attention: AccentColor;
+      --icon-color-critical: var(--icon-color);
+      --icon-color-information: var(--icon-color);
+      --icon-color-success: var(--icon-color);
+      --icon-color-warning: var(--icon-color);
+      --opacity-deemphasized-strong: 1;
+      --opacity-deemphasized: 1;
+      --text-color-deemphasized: inherit;
+      --text-color-error: inherit;
+      --text-color-list-item-hover: SelectedItemText;
+      --text-color: CanvasText;
+    }
+  }
+  @media (forced-colors: active) {
+    :root {
+      --border-color-deemphasized: CanvasText;
+      --border-color-interactive-active: ButtonText;
+      --border-color-interactive-disabled: GrayText;
+      --border-color-interactive-hover: SelectedItem;
+      --border-color-interactive: ButtonText;
+      --border-color-selected: SelectedItem;
+      --box-shadow-color-darker-layer-1: transparent;
+      --box-shadow-color-darker-layer-2: transparent;
+      --box-shadow-color-lighter-layer-1: transparent;
+      --box-shadow-color-lighter-layer-2: transparent;
+      --color-accent-attention: AccentColor;
+      --color-accent-primary-active: var(--color-accent-primary-hover);
+      --color-accent-primary-hover: SelectedItem;
+      --color-accent-primary-selected: SelectedItem;
+      --color-accent-primary: ButtonText;
+      --focus-outline-color: var(--text-color);
+      --icon-color-accent-primary-desaturated: CanvasText;
+      --text-color-accent-primary-selected: SelectedItemText;
+      --text-color-disabled: GrayText;
+    }
+  }
+  [data-contrast='high'] {
+      --background-color-box-info: var(--background-color-canvas);
+      --background-color-box: var(--background-color-canvas);
+      --background-color-canvas: light-dark(#fff, #000);
+      --background-color-critical: var(--background-color-canvas);
+      --background-color-information: var(--background-color-canvas);
+      --background-color-list-item-hover: SelectedItem;
+      --background-color-success: var(--background-color-canvas);
+      --background-color-warning: var(--background-color-canvas);
+      --border-color-deemphasized: currentColor;
+      --border-color-error: var(--border-color);
+      --border-color-interactive: var(--text-color);
+      --border-color-transparent: light-dark(#000, #fff);
+      --border-color: light-dark(#000, #fff);
+      --color-accent-attention: AccentColor;
+      --icon-color-critical: var(--icon-color);
+      --icon-color-information: var(--icon-color);
+      --icon-color-success: var(--icon-color);
+      --icon-color-warning: var(--icon-color);
+      --opacity-deemphasized-strong: 1;
+      --opacity-deemphasized: 1;
+      --text-color-deemphasized: inherit;
+      --text-color-error: inherit;
+      --text-color-list-item-hover: SelectedItemText;
+      --text-color: light-dark(#000, #fff);
+  }
+}
+@layer acorn.tokens {
+:root {
+  --badge-background-color: transparent;
+  --badge-border-color: light-dark(rgba(21, 20, 26, 0.4), rgba(251, 251, 254, 0.4));
+  --badge-border-color-filled: light-dark(rgba(251, 251, 254, 0.4), rgba(21, 20, 26, 0.4));
+  --badge-border-width: 1px;
+  --badge-padding-block: 1px;
+  --badge-background-color-filled: light-dark(var(--color-green-50), var(--color-green-20));
+  --badge-border-radius: var(--border-radius-circle);
+  --badge-font-weight: var(--font-weight-semibold);
+  --badge-padding-inline: calc(var(--space-xsmall) + var(--space-xxsmall));
+  --badge-text-color: var(--text-color);
+  --badge-text-color-filled: light-dark(#ffffff, #252428);
+}
+@media (forced-colors: active) {
+  :root {
+    --badge-background-color-filled: AccentColor;
+    --badge-background-color: Canvas;
+    --badge-border-color-filled: CanvasText;
+    --badge-border-color: CanvasText;
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --box-border-width: var(--border-width);
+  --box-border-radius: var(--border-radius-medium);
+  --box-padding: var(--space-large);
+  --box-border-color: var(--border-color);
+  --box-border: var(--box-border-width) solid var(--box-border-color);
+  --box-border-radius-inner: calc(var(--box-border-radius) - var(--box-border-width));
+  --box-button-background-color: transparent;
+  --box-button-text-color-hover: light-dark(unset, light-dark(#161423, #fcfbff));
+  --box-button-text-color-active: light-dark(unset, light-dark(#161423, #fcfbff));
+  --box-button-text-color-disabled: light-dark(unset, light-dark(#161423, #fcfbff));
+  --box-icon-size: var(--icon-size);
+  --box-icon-fill: var(--icon-color);
+  --box-button-background-color-disabled: transparent;
+  --box-icon-stroke: var(--box-icon-fill);
+}
+}
+@layer acorn.tokens {
+:root {
+  --breadcrumb-gap: var(--space-small);
+  --breadcrumb-icon-size: var(--icon-size-xsmall);
+  --breadcrumb-link-color: light-dark(#764edd, #b89cff);
+  --breadcrumb-link-color-hover: light-dark(#5939a8, #d4c1ff);
+  --breadcrumb-link-color-active: light-dark(#3e2976, #eaddff);
+  --breadcrumb-link-color-visited: light-dark(#764edd, #b89cff);
+}
+}
+@layer acorn.tokens {
+:root {
+  --button-background-color: transparent; /** TODO Bug 1821203 - Gray use needs to be consolidated */
+  --button-badge-size: 6px;
+  --button-border-color-ghost: transparent;
+  --button-border-width-split: 0;
+  --button-content-alignment: center;
+  --button-gap-split: 0;
+  --button-icon-fill: currentColor;
+  --button-min-height-large: 40px;
+  --button-opacity-disabled: 0.7;
+  --button-padding-icon: 0;
+  --button-text-color-toolbar: currentColor;
+  --button-text-color-toolbar-hover: currentColor;
+  --button-text-color-toolbar-active: currentColor;
+  --button-background-color-hover: light-dark(var(--color-violet-desaturated-20), var(--color-violet-desaturated-50));
+  --button-background-color-active: light-dark(var(--color-violet-desaturated-30), var(--color-violet-desaturated-40));
+  --button-background-color-disabled: var(--button-background-color);
+  --button-background-color-primary-disabled: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-40));
+  --button-background-color-destructive: light-dark(var(--color-red-50), var(--color-red-30));
+  --button-background-color-destructive-active: light-dark(var(--color-red-70), var(--color-red-10));
+  --button-background-color-destructive-hover: light-dark(var(--color-red-60), var(--color-red-20));
+  --button-background-color-ghost: var(--button-background-color);
+  --button-background-color-muted: light-dark(var(--color-gray-20), var(--color-gray-55));
+  --button-background-color-muted-active: light-dark(var(--color-gray-40), var(--color-gray-35));
+  --button-background-color-muted-hover: light-dark(var(--color-gray-30), var(--color-gray-45));
+  --button-background-color-toolbar: transparent;
+  --button-background-color-toolbar-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
+  --button-background-color-toolbar-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
+  --button-background-color-toolbar-disabled: transparent;
+  --button-border: var(--border-width) solid var(--button-border-color);
+  --button-border-color-destructive: var(--button-border-color-ghost);
+  --button-border-color-ghost-active: var(--button-border-color-ghost);
+  --button-border-color-ghost-disabled: var(--button-border-color-ghost);
+  --button-border-color-ghost-hover: var(--button-border-color-ghost);
+  --button-border-color-ghost-selected: var(--button-border-color-ghost);
+  --button-border-color-menu: var(--button-border-color-ghost);
+  --button-border-color-muted: var(--button-border-color-ghost);
+  --button-border-color-primary: var(--button-border-color-ghost);
+  --button-border-color-toolbar: transparent;
+  --button-border-radius: var(--border-radius-xlarge);
+  --button-font-size: var(--font-size-root);
+  --button-font-size-small: var(--font-size-small);
+  --button-font-weight: var(--font-weight-semibold);
+  --button-icon-stroke: var(--button-icon-fill);
+  --button-min-height: var(--size-item-large);
+  --button-min-height-small: var(--size-item-medium);
+  --button-padding-block: var(--space-xsmall);
+  --button-padding-block-large: var(--space-small);
+  --button-padding-block-small: var(--space-xxsmall);
+  --button-padding-inline: var(--space-large);
+  --button-padding-inline-large: var(--space-xlarge);
+  --button-padding-inline-small: var(--space-medium);
+  --button-size-icon-large: var(--button-min-height-large);
+  --button-text-color: light-dark(var(--color-violet-90), var(--color-gray-0));
+  --button-text-color-primary: light-dark(var(--color-white), var(--color-gray-70));
+  --button-text-color-destructive: light-dark(var(--color-white), var(--button-text-color-primary));
+  --button-background-color-primary: var(--color-accent-primary);
+  --button-background-color-primary-hover: var(--color-accent-primary-hover);
+  --button-background-color-primary-active: var(--color-accent-primary-active);
+  --button-background-color-destructive-disabled: var(--button-background-color-destructive);
+  --button-background-color-destructive-selected: var(--button-background-color-destructive-active);
+  --button-background-color-ghost-active: var(--button-background-color-active);
+  --button-background-color-ghost-disabled: var(--button-background-color-ghost);
+  --button-background-color-ghost-hover: var(--button-background-color-hover);
+  --button-background-color-muted-disabled: var(--button-background-color-muted);
+  --button-background-color-muted-selected: var(--button-background-color-muted-active);
+  --button-background-color-menu: var(--button-background-color-ghost);
+  --button-background-color-selected: var(--button-background-color-active);
+  --button-badge-background-color: var(--color-accent-attention);
+  --button-border-color: var(--color-accent-primary);
+  --button-border-color-destructive-active: var(--button-border-color-destructive);
+  --button-border-color-destructive-disabled: var(--button-border-color-destructive);
+  --button-border-color-destructive-hover: var(--button-border-color-destructive);
+  --button-border-color-destructive-selected: var(--button-border-color-destructive);
+  --button-border-color-menu-active: var(--button-border-color-ghost-active);
+  --button-border-color-menu-disabled: var(--button-border-color-ghost-disabled);
+  --button-border-color-menu-hover: var(--button-border-color-ghost-hover);
+  --button-border-color-muted-active: var(--button-border-color-muted);
+  --button-border-color-muted-hover: var(--button-border-color-muted);
+  --button-border-color-muted-disabled: var(--button-border-color-muted);
+  --button-border-color-muted-selected: var(--button-border-color-muted);
+  --button-border-color-primary-active: var(--button-border-color-primary);
+  --button-border-color-primary-disabled: var(--button-border-color-primary);
+  --button-border-color-primary-hover: var(--button-border-color-primary);
+  --button-border-color-primary-selected: var(--button-border-color-primary);
+  --button-border-color-toolbar-selected: var(--button-border-color-ghost-active);
+  --button-padding: var(--button-padding-block) var(--button-padding-inline);
+  --button-size-icon: var(--button-min-height);
+  --button-size-icon-small: var(--button-min-height-small);
+  --button-text-color-active: var(--button-text-color);
+  --button-text-color-destructive-active: var(--button-text-color-destructive);
+  --button-text-color-destructive-disabled: var(--button-text-color-destructive);
+  --button-text-color-destructive-hover: var(--button-text-color-destructive);
+  --button-text-color-destructive-selected: light-dark(var(--button-text-color-destructive), var(--button-text-color-destructive-active));
+  --button-text-color-disabled: var(--button-text-color);
+  --button-text-color-muted: var(--button-text-color);
+  --button-text-color-hover: var(--button-text-color);
+  --button-text-color-menu-active: light-dark(var(--button-text-color-ghost-active), var(--button-text-color-active));
+  --button-text-color-menu-disabled: light-dark(var(--button-text-color-ghost-disabled), var(--button-text-color-disabled));
+  --button-text-color-menu-hover: light-dark(var(--button-text-color-ghost-hover), var(--button-text-color-hover));
+  --button-text-color-primary-active: var(--button-text-color-primary);
+  --button-text-color-primary-disabled: var(--button-text-color-primary);
+  --button-text-color-primary-hover: var(--button-text-color-primary);
+  --button-text-color-selected: var(--button-text-color);
+  --button-attention-dot-color: var(--color-accent-attention);
+  --button-background-color-primary-selected: var(--button-background-color-primary-active);
+  --button-background-color-ghost-selected: var(--button-background-color-selected);
+  --button-background-color-menu-disabled: var(--button-background-color-ghost-disabled);
+  --button-background-color-toolbar-selected: var(--button-background-color-ghost-active);
+  --button-border-color-active: var(--button-border-color);
+  --button-border-color-disabled: var(--button-border-color);
+  --button-border-color-menu-selected: var(--button-border-color-menu-active);
+  --button-border-color-hover: var(--button-border-color);
+  --button-border-color-selected: var(--button-border-color);
+  --button-split-separator-background-color: var(--button-border-color);
+  --button-text-color-muted-active: var(--button-text-color-muted);
+  --button-text-color-muted-hover: var(--button-text-color-muted);
+  --button-text-color-muted-disabled: var(--button-text-color-muted);
+  --button-text-color-menu-selected: light-dark(var(--button-text-color-ghost-selected), var(--button-text-color-selected));
+  --button-text-color-primary-selected: var(--button-text-color-primary-active);
+  --button-text-color-toolbar-disabled: var(--button-text-color-disabled);
+  --button-background-color-menu-selected: var(--button-background-color-ghost-selected);
+  --button-border-color-toolbar-disabled: var(--button-border-color-disabled);
+  --button-text-color-muted-selected: var(--button-text-color-muted-active);
+}
+@media (prefers-contrast: more) {
+  :root {
+    --button-border-color-ghost: var(--button-border-color);
+  }
+}
+@media (forced-colors: active) {
+  :root {
+    --button-background-color-active: SelectedItemText;
+    --button-background-color-destructive-active: var(--button-background-color-primary-active);
+    --button-background-color-destructive-disabled: var(--button-background-color-primary-disabled);
+    --button-background-color-destructive-hover: var(--button-background-color-primary-hover);
+    --button-background-color-destructive: var(--button-background-color-primary);
+    --button-background-color-ghost: ButtonFace;
+    --button-background-color-hover: SelectedItemText;
+    --button-background-color-menu-selected: var(--button-background-color-primary-selected);
+    --button-background-color-menu: var(--button-background-color);
+    --button-background-color-muted-active: var(--button-background-color-active);
+    --button-background-color-muted-disabled: var(--button-background-color);
+    --button-background-color-muted-hover: var(--button-background-color-hover);
+    --button-background-color-muted-selected: var(--button-background-color-ghost-active);
+    --button-background-color-muted: var(--button-background-color);
+    --button-background-color-primary-disabled: GrayText;
+    --button-background-color-selected: SelectedItem;
+    --button-background-color-toolbar-disabled: var(--button-background-color-disabled);
+    --button-background-color: ButtonFace;
+    --button-border-color-active: var(--border-color-interactive-active);
+    --button-border-color-destructive-active: var(--button-border-color-primary-active);
+    --button-border-color-destructive-disabled: var(--button-border-color-primary-disabled);
+    --button-border-color-destructive-hover: var(--button-border-color-primary-hover);
+    --button-border-color-destructive-selected: var(--button-border-color-destructive-active);
+    --button-border-color-destructive: var(--button-border-color-primary);
+    --button-border-color-disabled: var(--border-color-interactive-disabled);
+    --button-border-color-ghost-active: var(--button-border-color-active);
+    --button-border-color-ghost-disabled: var(--button-border-color-disabled);
+    --button-border-color-ghost-hover: var(--button-border-color-hover);
+    --button-border-color-ghost-selected: var(--button-border-color-ghost-active);
+    --button-border-color-ghost: var(--button-border-color);
+    --button-border-color-hover: var(--border-color-interactive-hover);
+    --button-border-color-muted-active: var(--button-border-color-active);
+    --button-border-color-muted-disabled: var(--button-border-color-disabled);
+    --button-border-color-muted-hover: var(--button-border-color-hover);
+    --button-border-color-muted-selected: var(--button-border-color-ghost-active);
+    --button-border-color-muted: var(--button-border-color);
+    --button-border-color-primary-active: ButtonText;
+    --button-border-color-primary-hover: SelectedItemText;
+    --button-border-color-primary-selected: var(--button-border-color-primary-active);
+    --button-border-color-primary: ButtonFace;
+    --button-border-color-selected: var(--button-border-color-active);
+    --button-opacity-disabled: 1;
+    --button-text-color-active: SelectedItem;
+    --button-text-color-destructive-active: var(--button-text-color-primary-active);
+    --button-text-color-destructive-disabled: var(--button-text-color-primary);
+    --button-text-color-destructive-hover: var(--button-text-color-primary-hover);
+    --button-text-color-destructive-selected: var(--button-text-color-destructive-active);
+    --button-text-color-destructive: var(--button-text-color-primary);
+    --button-text-color-disabled: GrayText;
+    --button-text-color-hover: SelectedItem;
+    --button-text-color-menu-active: ButtonFace;
+    --button-text-color-menu-disabled: var(--button-text-color-disabled);
+    --button-text-color-menu-hover: ButtonFace;
+    --button-text-color-menu-selected: var(--button-text-color-primary-selected);
+    --button-text-color-muted-active: var(--button-text-color-active);
+    --button-text-color-muted-disabled: GrayText;
+    --button-text-color-muted: ButtonText;
+    --button-text-color-primary-active: var(--button-text-color-primary-hover);
+    --button-text-color-primary-hover: SelectedItemText;
+    --button-text-color-primary: ButtonFace;
+    --button-text-color-selected: SelectedItemText;
+    --button-text-color-toolbar-active: var(--button-text-color-active);
+    --button-text-color-toolbar-hover: var(--button-text-color-hover);
+    --button-text-color-toolbar: var(--button-text-color);
+    --button-text-color: ButtonText;
+  }
+}
+[data-contrast='high'] {
+    --button-border-color-ghost: var(--button-border-color);
+    --button-border-color: var(--button-text-color);
+}
+}
+@layer acorn.tokens {
+:root {
+  --card-border-color: light-dark(color-mix(in srgb, currentColor 10%, transparent), color-mix(in srgb, currentColor 6%, transparent));
+  --card-cover-image-height-default: 160px;
+  --card-cover-image-object-fit-default: cover;
+  --card-cover-image-object-position-default: center;
+  --card-header-border-color: transparent;
+  --card-header-border-color-hover: transparent;
+  --card-header-border-color-active: transparent;
+  --card-border-width: var(--border-width);
+  --card-border-radius: var(--border-radius-large);
+  --card-border-radius-compact: var(--border-radius-medium);
+  --card-cover-image-border-radius: var(--border-radius-medium);
+  --card-cover-image-padding: var(--space-small);
+  --card-cover-image-padding-compact: var(--space-xsmall);
+  --card-font-size: var(--font-size-root);
+  --card-font-size-compact: var(--font-size-small);
+  --card-padding: var(--space-large);
+  --card-padding-compact: var(--space-small);
+  --card-gap: var(--space-medium);
+  --card-gap-compact: var(--space-small);
+  --card-gap-article: var(--space-small);
+  --card-header-background-color: transparent;
+  --card-background-color: var(--background-color-box); /** TODO Bug 2030793 - Move card tokens to be used by moz-card rather than globally */
+  --card-border: var(--card-border-width) solid var(--card-border-color);
+  --card-box-shadow: var(--box-shadow-level-2);
+  --card-box-shadow-hover: var(--box-shadow-level-4);
+  --card-focus-outline: var(--focus-outline);
+  --card-header-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --card-header-background-color-active: light-dark(#b6aad9, #9687c0);
+  --card-header-text-color: light-dark(#161423, #fcfbff);
+  --card-header-text-color-hover: light-dark(#161423, #fcfbff);
+  --card-header-text-color-active: light-dark(#161423, #fcfbff);
+}
+@media (prefers-contrast: more) {
+  :root {
+    --card-border-color: color-mix(in srgb, currentColor 41%, transparent);
+    --card-header-border-color: light-dark(#764edd, #b89cff);
+  }
+}
+@media (forced-colors: active) {
+  :root {
+    --card-border-color: CanvasText;
+    --card-header-border-color-active: light-dark(#764edd, #b89cff);
+    --card-header-border-color-hover: light-dark(#764edd, #b89cff);
+    --card-header-border-color: light-dark(#764edd, #b89cff);
+  }
+}
+[data-contrast='high'] {
+    --card-border-color: color-mix(in srgb, currentColor 41%, transparent);
+    --card-header-border-color: light-dark(#764edd, #b89cff);
+}
+}
+@layer acorn.tokens {
+:root {
+  --checkbox-margin-inline: var(--space-small);
+  --checkbox-size: var(--size-item-small); /** TODO Bug 1876537: Make this em-based, probably? */
+}
+}
+@layer acorn.tokens {
+:root {
+  --info-bar-margin-block-start: 4px;
+  --info-bar-margin-block-end: 0;
+  --info-bar-margin-inline: 4px;
+  --info-bar-border-color: light-dark(var(--color-violet-desaturated-20), var(--color-gray-60));
+}
+@media (prefers-contrast: more) {
+  :root {
+    --info-bar-border-color: CanvasText;
+  }
+}
+[data-contrast='high'] {
+    --info-bar-border-color: light-dark(#000, #fff);
+}
+}
+@layer acorn.tokens {
+:root {
+  --input-text-color: light-dark(rgb(21, 20, 26), rgb(251, 251, 254));
+  --input-folder-gap: var(--space-medium);
+  --input-height: var(--size-item-small);
+  --input-text-border: var(--border-width) solid var(--input-text-border-color);
+  --input-text-border-radius: var(--border-radius-medium);
+  --input-text-color-disabled: var(--input-text-color);
+  --input-text-opacity-disabled: 0.7;
+  --input-search-border-radius: var(--border-radius-circle);
+  --input-width: var(--size-item-small);
+  --input-border-color: var(--border-color-interactive);
+  --input-text-background-color: var(--background-color-box);
+  --input-text-border-color: var(--border-color);
+  --input-text-border-color-disabled: var(--border-color-interactive-disabled);
+  --input-text-icon-size: var(--icon-size-xsmall);
+  --input-text-min-height: 32px;
+  --input-search-icon-size: var(--icon-size-small);
+  --input-text-background-color-disabled: transparent;
+}
+@media (forced-colors: active) {
+  :root {
+    --input-text-color-disabled: GrayText;
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --link-focus-outline-offset: 1px; /** Not using --force-outline-offset for links because that's intended for elements with a background, and we only want a slight offset here while not overlapping adjacent text */
+  --link-color: var(--color-accent-primary);
+  --link-color-hover: var(--color-accent-primary-hover);
+  --link-color-active: var(--color-accent-primary-active);
+  --link-color-visited: var(--link-color);
+}
+@media (forced-colors: active) {
+  :root {
+    --link-color-active: ActiveText;
+    --link-color-hover: LinkText;
+    --link-color-visited: VisitedText;
+    --link-color: LinkText;
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --message-bar-container-padding-inline: 8px;
+  --message-bar-icon-container-border-color: transparent;
+  --message-bar-icon-container-margin-block-start: 0px;
+  --message-bar-icon-container-margin-block-start-offset: 0px;
+  --message-bar-icon-container-padding-offset: 1px;
+  --message-bar-text-container-padding-block: 0;
+  --message-bar-actions-button-padding: var(--space-xsmall) var(--space-large);
+  --message-bar-actions-gap: var(--space-small);
+  --message-bar-border-radius: var(--border-radius-medium);
+  --message-bar-border-width: var(--border-width);
+  --message-bar-container-gap: var(--space-small);
+  --message-bar-container-min-height: var(--size-item-large);
+  --message-bar-container-padding-block: var(--space-small);
+  --message-bar-content-gap: var(--space-small) var(--space-medium);
+  --message-bar-icon-container-border: 1px solid var(--message-bar-icon-container-border-color);
+  --message-bar-icon-container-border-radius: var(--border-radius-circle);
+  --message-bar-icon-container-padding: var(--space-small);
+  --message-bar-message-margin-inline-end: var(--space-xsmall);
+  --message-bar-text-container-gap: var(--space-xsmall) var(--space-small);
+  --message-bar-text-content-gap: var(--space-xsmall) var(--space-small);
+  --message-bar-background-color: var(--background-color-box);
+  --message-bar-icon-background-color: var(--background-color-information);
+  --message-bar-icon-background-color-warning: var(--background-color-warning);
+  --message-bar-icon-background-color-success: var(--background-color-success);
+  --message-bar-icon-background-color-critical: var(--background-color-critical);
+  --message-bar-icon-color: var(--icon-color-information);
+  --message-bar-text-color: var(--text-color);
+  --message-bar-background-color-warning: var(--message-bar-background-color);
+  --message-bar-background-color-success: var(--message-bar-background-color);
+  --message-bar-background-color-critical: var(--message-bar-background-color);
+  --message-bar-border-color: oklch(from var(--message-bar-icon-color) l c h / 20%);
+  --message-bar-icon-size: var(--icon-size);
+  --message-bar-icon-container-height: var(--message-bar-icon-size);
+}
+@media (prefers-contrast: more) {
+  :root {
+    --message-bar-border-color: var(--border-color);
+  }
+}
+@media (forced-colors: active) {
+  :root {
+    --message-bar-icon-container-border-color: var(--message-bar-icon-color);
+  }
+}
+[data-contrast='high'] {
+    --message-bar-border-color: var(--border-color);
+}
+}
+@layer acorn.tokens {
+:root {
+  --page-main-content-width: 664px;
+  --page-space-block-start: 64px;
+}
+}
+@layer acorn.tokens {
+:root {
+  --page-nav-button-indicator-background-color: transparent;
+  --page-nav-button-indicator-width: 0;
+  --page-nav-margin-inline-start: 40px;
+  --page-nav-border-color: var(--border-color-transparent);
+  --page-nav-button-border-color: var(--border-color-transparent);
+  --page-nav-button-border-radius: var(--border-radius-circle);
+  --page-nav-button-border-radius-focused: var(--border-radius-circle);
+  --page-nav-button-gap: var(--space-xsmall);
+  --page-nav-button-padding: var(--space-medium);
+  --page-nav-button-padding-small: var(--space-medium);
+  --page-nav-focus-outline-offset: var(--focus-outline-offset);
+  --page-nav-focus-padding: calc(var(--focus-outline-offset) + var(--focus-outline-width));
+  --page-nav-gap: var(--space-large);
+  --page-nav-margin-block-start: 64px;
+  --page-nav-button-background-color: transparent;
+  --page-nav-button-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --page-nav-button-background-color-active: light-dark(#b6aad9, #9687c0);
+  --page-nav-button-background-color-selected: var(--color-accent-primary);
+  --page-nav-button-border-color-hover: transparent;
+  --page-nav-button-border-color-active: transparent;
+  --page-nav-button-text-color-selected: light-dark(#ffffff, #252428);
+  --page-nav-heading-logo-size: var(--icon-size-large);
+  --page-nav-hr-background-color: var(--border-color-deemphasized);
+}
+@media (forced-colors: active) {
+  :root {
+    --page-nav-button-border-color: ButtonText;
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --panel-box-shadow-margin: 4px;
+  --panel-padding: 16px;
+  --panel-padding-block: 4px;
+  --panel-separator-color: color-mix(in srgb, currentColor 25%, transparent);
+  --panel-separator-padding-block: 4px;
+  --panel-separator-padding-inline: 8px;
+  --panel-width: initial;
+  --panel-background-color-dimmed: var(--background-color-dimmed);
+  --panel-background-color-dimmed-further: var(--background-color-dimmed-further);
+  --panel-box-shadow: 0 0 var(--panel-box-shadow-margin) hsla(0, 0%, 0%, 0.2);
+  --panel-separator-padding: var(--panel-separator-padding-block) var(--panel-separator-padding-inline);
+  --panel-border-radius: 24px;
+  --panel-text-color: var(--text-color);
+  --panel-background-color: light-dark(#ffffff, #252428);
+  --panel-border-color: light-dark(#d6d5da, #67666a);
+}
+@media (prefers-contrast: more) {
+  :root {
+    --panel-separator-color: currentColor;
+  }
+}
+@media (forced-colors: active) {
+  :root {
+    --panel-background-color: Menu;
+    --panel-separator-color: var(--border-color);
+    --panel-text-color: MenuText;
+  }
+}
+[data-contrast='high'] {
+    --panel-separator-color: currentColor;
+}
+}
+@layer acorn.tokens {
+:root {
+  --panel-menuitem-margin-block: 0;
+  --panel-menuitem-margin-inline: 8px;
+  --panel-menuitem-padding-block: 8px;
+  --panel-menuitem-padding-inline: 8px;
+  --panel-menuitem-border-radius: var(--border-radius-large);
+  --panel-menuitem-margin: var(--panel-menuitem-margin-block) var(--panel-menuitem-margin-inline);
+  --panel-menuitem-padding: var(--panel-menuitem-padding-block) var(--panel-menuitem-padding-inline);
+}
+}
+@layer acorn.tokens {
+:root {
+  --popup-border-radius: var(--border-radius-xlarge);
+  --popup-background-color: var(--background-color-box);
+  --popup-border-color: var(--border-color-deemphasized);
+  --popup-box-shadow: var(--box-shadow-level-3);
+}
+}
+@layer acorn.tokens {
+:root {
+  --promo-border-color: color-mix(in lch, currentColor 12%, transparent);
+  --promo-background-color-vibrant: light-dark(var(--color-violet-desaturated-10), var(--color-violet-desaturated-70));
+  --promo-border-color-vibrant: var(--promo-border-color);
+  --promo-border-width: var(--border-width);
+  --promo-border-radius: var(--border-radius-medium);
+  --promo-image-size: var(--size-image-xlarge);
+  --promo-image-size-large: calc(2 * var(--size-image-xlarge));
+  --promo-message-text-color-vibrant: light-dark(var(--color-violet-80), var(--color-violet-0));
+  --promo-padding: var(--space-medium);
+  --promo-background-color: var(--background-color-box-info);
+  --promo-border: var(--promo-border-width) solid var(--promo-border-color);
+  --promo-message-text-color: var(--text-color);
+  --promo-heading-text-color: var(--promo-message-text-color);
+  --promo-heading-text-color-vibrant: var(--promo-message-text-color);
+}
+@media (forced-colors: active) {
+  :root {
+    --promo-background-color-vibrant: Canvas;
+    --promo-border-color: CanvasText;
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --segmented-control-border-color: var(--border-color-interactive);
+  --segmented-control-border: var(--border-width) solid var(--segmented-control-border-color);
+  --segmented-control-padding: var(--space-xsmall);
+  --segmented-control-border-radius: calc(24px + var(--focus-outline-width) + var(--focus-outline-offset) + var(--border-width));
+}
+}
+@layer acorn.tokens {
+:root {
+  --select-background-color: transparent;
+  --select-border: var(--border-width) solid var(--select-border-color);
+  --select-font-size: var(--font-size-root);
+  --select-font-size-small: var(--font-size-small);
+  --select-icon-fill: currentColor;
+  --select-opacity-disabled: 0.7;
+  --select-option-font-weight: var(--font-weight);
+  --select-space-inline-small: var(--space-medium);
+  --select-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --select-background-color-disabled: transparent;
+  --select-border-color: var(--border-color-interactive);
+  --select-border-color-hover: var(--border-color-interactive-hover);
+  --select-border-color-disabled: var(--border-color-interactive-disabled);
+  --select-border-radius: 24px;
+  --select-font-weight: 600;
+  --select-min-height: 32px;
+  --select-min-height-small: 24px;
+  --select-option-text-color: var(--text-color);
+  --select-padding-block: 0.25rem;
+  --select-space-inline: 1rem;
+  --select-text-color: light-dark(#161423, #fcfbff);
+  --select-padding-icon: var(--icon-size);
+  --select-text-color-hover: light-dark(#161423, #fcfbff);
+  --select-text-color-disabled: light-dark(#161423, #fcfbff);
+}
+}
+@layer acorn.tokens {
+:root {
+  --sidebar-background-color: light-dark(white, rgb(28, 27, 34));
+  --sidebar-text-color: light-dark(rgb(21, 20, 26), rgb(249, 249, 250));
+  --sidebar-border-color: light-dark(color-mix(in srgb, currentColor 10%, transparent), color-mix(in srgb, currentColor 6%, transparent));
+}
+}
+@layer acorn.tokens {
+:root {
+  --table-background-color: light-dark(#f8f8fa, rgb(35, 34, 43));
+  --table-border-color: color-mix(in srgb, currentColor 41%, transparent);
+  --table-header-text-color: light-dark(var(--color-white), var(--color-gray-100));
+  --table-row-background-color-alternate: light-dark(var(--color-gray-20), var(--color-gray-65)); /** TODO Bug 1821203 - Gray use needs to be consolidated */
+  --table-header-background-color: var(--color-accent-primary);
+  --table-row-background-color: var(--background-color-canvas);
+}
+@media (forced-colors: active) {
+  :root {
+    --table-background-color: Canvas;
+    --table-border-color: CanvasText;
+    --table-header-background-color: AccentColor;
+    --table-header-text-color: AccentColorText;
+    --table-row-background-color-alternate: var(--background-color-canvas);
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --toggle-dot-margin: 1px;
+  --toggle-inset: -2px;
+  --toggle-background-color: transparent;
+  --toggle-border-radius: var(--border-radius-circle);
+  --toggle-border-width: var(--border-width);
+  --toggle-height: var(--size-item-small);
+  --toggle-width: var(--size-item-large);
+  --toggle-opacity-disabled: 0.7;
+  --toggle-background-color-hover: light-dark(#d2c8ec, #75669f);
+  --toggle-background-color-active: light-dark(#b6aad9, #9687c0);
+  --toggle-border-color: var(--border-color-interactive);
+  --toggle-border-color-hover: var(--border-color-interactive-hover);
+  --toggle-border-color-active: var(--border-color-interactive-active);
+  --toggle-dot-background-color-on-pressed: var(--background-color-box);
+  --toggle-dot-height: calc(var(--toggle-height) - 2 * var(--toggle-dot-margin) - 2 * var(--toggle-border-width));
+  --toggle-dot-transform-x: calc(var(--toggle-width) - 2 * var(--toggle-dot-margin) - 2px - var(--toggle-dot-width));
+  --toggle-background-color-pressed: light-dark(#764edd, #b89cff);
+  --toggle-background-color-pressed-hover: light-dark(#5939a8, #d4c1ff);
+  --toggle-background-color-pressed-active: light-dark(#3e2976, #eaddff);
+  --toggle-dot-background-color: var(--toggle-border-color);
+  --toggle-dot-background-color-hover: var(--toggle-border-color-hover);
+  --toggle-dot-background-color-active: var(--toggle-border-color-active);
+  --toggle-dot-width: var(--toggle-dot-height);
+}
+}
+@layer acorn.tokens {
+:root {
+  --toolbar-padding-inline: 6px;
+  --toolbar-field-border-color: light-dark(var(--color-gray-20), var(--color-gray-60));
+  --toolbar-field-text-color: light-dark(var(--color-violet-desaturated-70), var(--color-violet-desaturated-10));
+  --toolbar-text-color: light-dark(var(--color-gray-100), var(--color-gray-0));
+  --toolbar-field-background-color-focus: var(--background-color-box);
+  --toolbar-field-text-color-focus: var(--toolbar-field-text-color);
+  --toolbar-background-color: var(--background-color-box);
+  --toolbar-field-border-color-focus: var(--focus-outline-color);
+  --toolbar-field-background-color: var(--toolbar-background-color);
+}
+@media (prefers-contrast: more) {
+  :root {
+    --toolbar-field-background-color: Field;
+    --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
+    --toolbar-field-text-color: FieldText;
+  }
+}
+@media (forced-colors: active) {
+  :root {
+    --toolbar-background-color: Canvas;
+    --toolbar-field-border-color: ButtonText;
+    --toolbar-field-text-color: var(--text-color);
+  }
+}
+[data-contrast='high'] {
+    --toolbar-field-background-color: Field;
+    --toolbar-field-border-color: light-dark(#a6a4a9, #949297);
+    --toolbar-field-text-color: FieldText;
+}
+}
+@layer acorn.tokens {
+:root {
+  --toolbarbutton-badge-font-size: 10px;
+  --toolbarbutton-badge-min-width: 14px;
+  --toolbarbutton-badge-max-width: 20px;
+  --toolbarbutton-badge-padding-inline: 2px;
+  --toolbarbutton-badge-padding-block-end: 1px;
+  --toolbarbutton-padding-outer: 2px;
+  --toolbarbutton-padding-outer-narrow: 1px;
+  --toolbarbutton-padding-inner: 8px;
+  --toolbarbutton-padding-inner-narrow: 7px;
+  --toolbarbutton-padding-inner-compact: 6px;
+  --toolbarbutton-padding-inner-touch: 9px;
+  --toolbarbutton-padding-inner-touch-narrow: 8px;
+  --toolbarbutton-opacity-disabled: 0.4;
+  --toolbarbutton-background-color: transparent;
+  --toolbarbutton-background-color-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
+  --toolbarbutton-background-color-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
+  --toolbarbutton-outline-color: transparent;
+  --toolbarbutton-outline-offset: -1px;
+  --toolbarbutton-badge-background-color: light-dark(var(--color-red-60), var(--color-red-40));
+  --toolbarbutton-icon-fill: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-10));
+  --toolbarbutton-icon-fill-attention-text: light-dark(var(--color-gray-20), var(--color-gray-90));
+  --toolbarbutton-outline: var(--border-width) solid var(--toolbarbutton-outline-color);
+  --toolbarbutton-icon-fill-attention: var(--color-accent-primary);
+  --toolbarbutton-border-radius: 24px;
+}
+@media (forced-colors: active) {
+  :root {
+    --toolbarbutton-background-color-active: light-dark(#b6aad9, #9687c0);
+    --toolbarbutton-background-color-hover: light-dark(#d2c8ec, #75669f);
+    --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
+    --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
+  }
+}
+}
+@layer acorn.tokens {
+:root {
+  --toolbarseparator-color: var(--text-color-deemphasized);
+}
+}
+@layer acorn.tokens {
+:root {
+  --toolbox-background-color-inactive: transparent;
+  --toolbox-background-color: light-dark(rgb(234, 234, 237), var(--color-gray-90));
+  --toolbox-background-color-gradient-leading: light-dark(var(--color-violet-10), var(--color-violet-desaturated-70));
+  --toolbox-background-color-gradient-trailing: light-dark(var(--color-orange-10), var(--color-orange-70));
+  --toolbox-background-gradient: linear-gradient(96deg, color-mix(var(--toolbox-background-color-gradient-leading) 50%, transparent) 39.84%, color-mix(var(--toolbox-background-color-gradient-trailing) 50%, transparent) 101.72%); /** This gradient is only used for Nova */
+  --toolbox-text-color: var(--text-color);
+  --toolbox-text-color-inactive: var(--toolbox-text-color);
+  --toolbox-text-color-current: var(--toolbox-text-color); /** Figma aliases this to toolbox/text/color so designers see a real color, but CSS must use currentColor: the tab inherits --lwt-text-color under an lwtheme and --toolbox-text-color-inactive in a background window, neither of which --toolbox-text-color tracks. Listed in figma-import.mjs's FIGMA_IGNORES so the alias doesn't overwrite this. */
+}
+@media (forced-colors: active) {
+  :root {
+    --toolbox-background-color-gradient-leading: Canvas;
+    --toolbox-background-color-gradient-trailing: Canvas;
+    --toolbox-background-gradient: image(transparent);
+  }
+}
+}

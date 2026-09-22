@@ -12,6 +12,7 @@ import { dirname, join } from 'node:path';
 // dist so the ./tokens.css and ./base.css package exports resolve.
 const copies: Array<[string, string]> = [
   ['src/generated/tokens.css', 'dist/tokens/tokens.css'],
+  ['src/generated/all-tokens.css', 'dist/all-tokens.css'],
   ['src/base.css', 'dist/base.css'],
 ];
 
