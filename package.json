@@ -21,6 +21,7 @@
     },
     "./foundation.css": "./dist/foundation.css",
     "./tokens.css": "./dist/tokens/tokens.css",
+    "./all-tokens.css": "./dist/all-tokens.css",
     "./base.css": "./dist/base.css",
     "./tokens/*.css": "./dist/tokens/*.css",
     "./tokens": {

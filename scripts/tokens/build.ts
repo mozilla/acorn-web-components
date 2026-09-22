@@ -17,6 +17,10 @@ import { formattedVariables } from 'style-dictionary/utils';
 //   tokens.ts                - typed foundation token map + union.
 //   component-tokens/<c>.ts  - one Lit CSSResult per component, scoped to :host
 //                              and added to that component's static styles.
+//   all-tokens.css           - opt-in aggregate: foundation + every component's
+//                              tokens, re-scoped from :host to :root so a
+//                              consumer gets the whole custom-property surface
+//                              document-wide. Larger than tokens.css.
 //
 // The essentials of Firefox's own Style Dictionary config are replicated:
 //   1. A parser namespaces tokens by filename (`{color.gray.70}` refs resolve).
@@ -536,6 +540,37 @@ for (const ns of COMPONENT_NS) {
 
 rmSync(join(OUT, '.resolved.css'), { force: true });
 
+// Opt-in aggregate. Component tokens are authored at :host (shadow scope), so
+// importing them into a plain document is a no-op; re-scope to :root here so the
+// whole surface applies document-wide. The a11y selectors re-scope too:
+// :host([data-contrast='high']) -> [data-contrast='high'], :host -> :root.
+const stripHeader = (s: string) => s.replace(/^\/\*[^*]*\*\/\s*/, '');
+const rescopeToRoot = (s: string) =>
+  s
+    .replace(/:host\(\[data-contrast='high'\]\)/g, "[data-contrast='high']")
+    .replace(/:host\b/g, ':root');
+
+const foundationCss = stripHeader(readFileSync(cssFile, 'utf8')).trimEnd();
+const componentCss = COMPONENT_NS.map((ns) => {
+  const body = stripHeader(
+    readFileSync(join(OUT, 'component-tokens', `${ns}.css`), 'utf8'),
+  ).trim();
+  // Reopen the same layer per component so overriding behaves like tokens.css.
+  return `@layer acorn.tokens {\n${rescopeToRoot(body)}\n}`;
+}).join('\n');
+
+writeFileSync(
+  join(OUT, 'all-tokens.css'),
+  `${HEADER}
+/* Foundation + every component's tokens, all at :root and in @layer
+   acorn.tokens. Opt-in: much larger than tokens.css (which ships only the
+   foundation surface). Use when you need component-level custom properties
+   (e.g. --button-*, --badge-*) in your own app, outside the components. */
+${foundationCss}
+${componentCss}
+`,
+);
+
 console.log(
-  `tokens built -> ${OUT}/tokens.{css,ts} (foundation + a11y) + ${COMPONENT_NS.length} component files (${componentsWithA11y} with a11y layers)`,
+  `tokens built -> ${OUT}/tokens.{css,ts} (foundation + a11y) + ${COMPONENT_NS.length} component files (${componentsWithA11y} with a11y layers) + all-tokens.css`,
 );

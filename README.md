@@ -1,6 +1,6 @@
 # acorn-web-components
 
-Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.dev). The design tokens and icons are compiled from Firefox's [Nova design system](https://searchfox.org/firefox-main/source/toolkit/themes/shared/design-system), so the components match Firefox and can be kept up to date with it.
+Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.dev). The design tokens are compiled from Firefox's [Nova design system](https://searchfox.org/firefox-main/source/toolkit/themes/shared/design-system), and the icons and illustrations from [FirefoxUX/acorn-icons](https://github.com/FirefoxUX/acorn-icons), so the components match Firefox and can be kept up to date with it.
 
 > Status: early proof of concept (see [AMOENG-2723](https://mozilla-hub.atlassian.net/browse/AMOENG-2723)).
 > Published to GitHub Packages under the `alpha` dist-tag; the API may change.
@@ -13,9 +13,9 @@ Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.
   - Actions: `<moz-button>` (default / primary / destructive / ghost / muted, plus icon-only), `<moz-chip>`.
   - Surfaces & layout: `<moz-card>`, `<moz-details>`, `<moz-dialog>`, `<moz-box-group>` with `<moz-box-item>` / `<moz-box-button>` / `<moz-box-link>`.
   - Navigation & structure: `<moz-page-nav>`, `<moz-breadcrumb>`, `<moz-segmented-control>`, `<moz-page-header>`.
-  - Forms: `<moz-input-text>` (text / email / url / tel), `<moz-checkbox>`, `<moz-label>`, `<moz-fieldset>` — form-associated, with built-in labelling, description, and validation.
-  - Status & feedback: `<moz-message-bar>`, `<moz-badge>`, `<moz-five-star>` (a read-only or selectable star rating).
-  - Primitive: `<moz-icon>` renders a named icon from the Nova set.
+  - Forms: `<moz-input-text>` (text / email / url / tel), `<moz-input-search>` (debounced search field), `<moz-checkbox>` (with `<moz-checkbox-all>` for select-all and `<moz-checkbox-visual>` for display-only), `<moz-radio-group>` with `<moz-radio>`, `<moz-toggle>` (a switch), `<moz-label>`, `<moz-fieldset>` — form-associated, with built-in labelling, description, and validation.
+  - Status & feedback: `<moz-message-bar>`, `<moz-badge>`, `<moz-status-badge>` (a status-colored pill), `<moz-status-dot>` (a status dot), `<moz-five-star>` (a read-only or selectable star rating).
+  - Primitives: `<moz-icon>` renders a named icon from the Nova set; `<moz-illustration>` renders a named illustration (kit pieces and pictograms), following the ambient theme for its light/dark variants.
 
 These are standard custom elements, so they work in plain HTML and in any framework (React, Vue, Svelte, and so on). Typed React wrappers are included for a more idiomatic React API.
 
@@ -104,7 +104,16 @@ import { tokens, type TokenName } from '@mozilla/acorn-web-components/tokens';
 // tokens['--color-accent-primary'] === 'light-dark(var(--color-violet-50), var(--color-violet-30))'
 ```
 
-Component-specific tokens (`--button-*`, and so on) are scoped to each component's shadow root, so they cannot be used elsewhere by mistake.
+Component-specific tokens (`--button-*`, and so on) are scoped to each component's shadow root, so they don't leak into the global surface by default.
+
+### all-tokens.css
+If, for example, you have an exisiting app in a previous design system, and want to attempt a blanket update without consuming these components. `all-tokens.css` re-exports the full set of tokens — foundation plus every component's tokens — on `:root`:
+
+```js
+import '@mozilla/acorn-web-components/all-tokens.css';
+```
+
+It's larger than `tokens.css` and everything sits in the `@layer acorn.tokens` cascade layer, so your own unlayered CSS overrides it without a specificity fight. Set `color-scheme` on `:root` (or use `<moz-provider>`) so the `light-dark()` values resolve.
 
 ## Package exports
 
@@ -114,6 +123,7 @@ Component-specific tokens (`--button-*`, and so on) are scoped to each component
 | `@mozilla/acorn-web-components/components/<name>` | A single component (e.g. `moz-button`) |
 | `@mozilla/acorn-web-components/foundation.css` | Tokens + base defaults (one import) |
 | `@mozilla/acorn-web-components/tokens.css` | Foundation tokens as CSS custom properties |
+| `@mozilla/acorn-web-components/all-tokens.css` | Every token (foundation + all component tokens) on `:root` (opt-in; larger than `tokens.css`) |
 | `@mozilla/acorn-web-components/base.css` | Document defaults (font family/size, color-scheme) |
 | `@mozilla/acorn-web-components/tokens/<name>.css` | Raw per-component `:host` token CSS (advanced; components already bundle these) |
 | `@mozilla/acorn-web-components/tokens` | Typed token map + `TokenName` |
