@@ -26,10 +26,10 @@
   min-height: calc(
     var(--message-bar-container-min-height) +
     2 *
-    var(--message-bar-container-padding-block)
+    var(--message-bar-content-padding-block)
   );
-  padding-block: var(--message-bar-container-padding-block);
-  padding-inline: var(--message-bar-container-padding-inline);
+  padding-block: var(--message-bar-content-padding-block);
+  padding-inline: var(--message-bar-content-padding-inline);
 }
 
 .content {
@@ -57,8 +57,8 @@
   align-self: stretch;
   justify-content: center;
   inline-size: 40px;
-  margin-block: calc(-1 * var(--message-bar-container-padding-block));
-  margin-inline-start: calc(-1 * var(--message-bar-container-padding-inline));
+  margin-block: calc(-1 * var(--message-bar-content-padding-block));
+  margin-inline-start: calc(-1 * var(--message-bar-content-padding-inline));
   padding: var(--message-bar-icon-container-padding);
   border: var(--message-bar-icon-container-border);
   color: var(--message-bar-icon-color);

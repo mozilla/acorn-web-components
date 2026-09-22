@@ -4,6 +4,7 @@
   --background-color-dimmed: light-dark(color-mix(in srgb, currentColor 12%, transparent), color-mix(in srgb, currentColor 17%, transparent));
   --background-color-dimmed-further: light-dark(color-mix(in srgb, currentColor 20%, transparent), color-mix(in srgb, currentColor 14%, transparent));
   --border-color-transparent: transparent;
+  --border-color-deemphasized: color-mix(in srgb, currentColor 24%, transparent);
   --border-radius-circle: 9999px;
   --border-radius-xsmall: 4px;
   --border-radius-small: 8px;
@@ -224,9 +225,8 @@
   --background-color-warning: light-dark(var(--color-yellow-10), var(--color-yellow-70));
   --background-color-overlay: var(--color-black-alpha-50);
   --border-color: light-dark(var(--color-gray-30), var(--color-gray-40));
-  --border-color-deemphasized: light-dark(var(--color-gray-20), var(--color-gray-50));
-  --border-color-interactive: light-dark(var(--color-gray-35), var(--color-gray-40));
-  --border-color-interactive-hover: light-dark(var(--color-gray-45), var(--color-gray-20));
+  --border-color-interactive: light-dark(var(--color-gray-45), var(--color-gray-40));
+  --border-color-interactive-hover: light-dark(var(--color-gray-50), var(--color-gray-20));
   --border-color-interactive-active: light-dark(var(--color-gray-50), var(--color-gray-15));
   --border-color-interactive-disabled: light-dark(var(--color-gray-25), var(--color-gray-55));
   --border-color-error: light-dark(var(--color-red-50), var(--color-red-20));
@@ -237,7 +237,7 @@
   --color-accent-primary: light-dark(var(--color-violet-50), var(--color-violet-30));
   --color-accent-primary-hover: light-dark(var(--color-violet-60), var(--color-violet-20));
   --color-accent-primary-active: light-dark(var(--color-violet-70), var(--color-violet-10));
-  --color-accent-attention: light-dark(var(--color-green-40), var(--color-green-30));
+  --color-accent-attention: light-dark(var(--color-green-50), var(--color-green-20));
   --focus-outline-inset: calc(-1 * var(--focus-outline-width));
   --font-size-heading-large: var(--font-size-xlarge);
   --font-size-heading-medium: var(--font-size-large);
@@ -275,7 +275,6 @@
       --background-color-list-item-hover: SelectedItem;
       --background-color-success: var(--background-color-canvas);
       --background-color-warning: var(--background-color-canvas);
-      --border-color-deemphasized: currentColor;
       --border-color-error: var(--border-color);
       --border-color-interactive: var(--text-color);
       --border-color-transparent: CanvasText;
@@ -325,7 +324,6 @@
       --background-color-list-item-hover: SelectedItem;
       --background-color-success: var(--background-color-canvas);
       --background-color-warning: var(--background-color-canvas);
-      --border-color-deemphasized: currentColor;
       --border-color-error: var(--border-color);
       --border-color-interactive: var(--text-color);
       --border-color-transparent: light-dark(#000, #fff);
