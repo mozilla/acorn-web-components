@@ -1,5 +1,6 @@
-# Icons sync: bump the vendored icon catalogue when FirefoxUX/acorn-icons cuts a
-# new release. Icons are pinned to a tag (vendor/icons/VENDOR.json), separate
+# Icons sync: bump the vendored icon + illustration catalogues when
+# FirefoxUX/acorn-icons cuts a new release. Both are pinned to a tag
+# (vendor/icons/VENDOR.json is the source of truth for the compare), separate
 # from the Firefox token sync (upstream-sync.yml). When the latest release is
 # newer than the pinned tag, re-vendor at that tag, regenerate, and open/update a
 # dedicated `chore/icons-sync` PR for review.
@@ -54,13 +55,15 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         if: steps.check.outputs.up_to_date == 'false'
 
-      # Re-vendor at the latest tag and regenerate. VENDOR.json records the tag.
+      # Re-vendor icons + illustrations (same repo/release) at the latest tag and
+      # regenerate. Each VENDOR.json records the tag.
       - name: Vendor + regenerate
         if: steps.check.outputs.up_to_date == 'false'
         env:
           ACORN_ICONS_REF: ${{ steps.check.outputs.latest }}
         run: |
           npm run vendor:icons
+          npm run vendor:illustrations
           npm run generate
 
       - name: Commit + open PR
@@ -70,20 +73,20 @@ jobs:
           LATEST: ${{ steps.check.outputs.latest }}
         run: |
           set -euo pipefail
-          git add vendor/icons src/generated
+          git add vendor/icons vendor/illustrations src/generated
           # Re-vendoring always rewrites VENDOR.json (it records the tag), so
-          # ignore a lone ref bump: only sync when the icons or generated output
-          # actually changed.
-          if git diff --cached --quiet -- vendor/icons src/generated ':(exclude)vendor/icons/VENDOR.json'; then
+          # ignore a lone ref bump: only sync when the vendored SVGs or generated
+          # output actually changed.
+          if git diff --cached --quiet -- vendor/icons vendor/illustrations src/generated ':(exclude)vendor/icons/VENDOR.json' ':(exclude)vendor/illustrations/VENDOR.json'; then
             echo "Tag advanced but produced no output change; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: sync icons from acorn-icons ${LATEST}"
+          git commit -m "chore: sync icons + illustrations from acorn-icons ${LATEST}"
           git branch -f chore/icons-sync
           git push --force origin chore/icons-sync
-          BODY="Automated sync of the vendored icons to [acorn-icons \`${LATEST}\`](https://github.com/FirefoxUX/acorn-icons/releases/tag/${LATEST}), with regenerated output.
+          BODY="Automated sync of the vendored icons and illustrations to [acorn-icons \`${LATEST}\`](https://github.com/FirefoxUX/acorn-icons/releases/tag/${LATEST}), with regenerated output.
 
           Review the diffs, check Storybook, and let tests run before merging."
           if [ -z "$(gh pr list --head chore/icons-sync --state open --json number --jq '.[].number')" ]; then
