@@ -1,8 +1,15 @@
+import { setCustomElementsManifest } from '@storybook/web-components';
 import type { Preview } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import '../src/generated/tokens.css';
 import '../src/base.css';
 import '../src/components/moz-provider/moz-provider';
+// The manifest (JSDoc descriptions, attributes, slots, CSS parts) drives the
+// autodocs pages. `cem analyze` writes it to dist/ and the pre*/analyze scripts
+// regenerate it before Storybook starts, so it's always current.
+import customElements from '../dist/custom-elements.json';
+
+setCustomElementsManifest(customElements);
 
 const preview: Preview = {
   initialGlobals: {

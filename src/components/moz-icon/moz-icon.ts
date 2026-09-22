@@ -39,6 +39,8 @@ function pickOpticalSize(available: number[], target: number): number {
  * Renders a Firefox (Nova) icon by name. Decorative by default; pass `label` to
  * expose it to assistive tech. Each icon is a separate module loaded on demand,
  * so a consumer only bundles the icons it actually renders.
+ *
+ * Icons are vendored from [FirefoxUX/acorn-icons](https://github.com/FirefoxUX/acorn-icons).
  */
 export class MozIcon extends LitElement {
   static styles = styles;
