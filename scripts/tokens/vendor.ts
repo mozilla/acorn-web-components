@@ -20,6 +20,8 @@ const WIDGET_TOKEN_COMPONENTS: WidgetTokenComponent[] = [
   'page-nav',
   'segmented-control',
   'toggle',
+  'select',
+  'promo',
   // moz-breadcrumb ships under the moz-breadcrumb-group widget dir.
   { name: 'breadcrumb', dir: 'moz-breadcrumb-group' },
   // moz-box's tokens sit directly in the widgets root, not a moz-box/ subdir.

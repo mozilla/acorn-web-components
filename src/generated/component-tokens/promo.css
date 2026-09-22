@@ -1,0 +1,23 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --promo-border-color: color-mix(in lch, currentColor 12%, transparent);
+  --promo-background-color-vibrant: light-dark(var(--color-violet-desaturated-10), var(--color-violet-desaturated-70));
+  --promo-border-color-vibrant: var(--promo-border-color);
+  --promo-border-width: var(--border-width);
+  --promo-border-radius: var(--border-radius-medium);
+  --promo-image-size: var(--size-image-xlarge);
+  --promo-image-size-large: calc(2 * var(--size-image-xlarge));
+  --promo-message-text-color-vibrant: light-dark(var(--color-violet-80), var(--color-violet-0));
+  --promo-padding: var(--space-medium);
+  --promo-background-color: var(--background-color-box-info);
+  --promo-border: var(--promo-border-width) solid var(--promo-border-color);
+  --promo-message-text-color: var(--text-color);
+  --promo-heading-text-color: var(--promo-message-text-color);
+  --promo-heading-text-color-vibrant: var(--promo-message-text-color);
+}
+@media (forced-colors: active) {
+  :host {
+    --promo-background-color-vibrant: Canvas;
+    --promo-border-color: CanvasText;
+  }
+}
