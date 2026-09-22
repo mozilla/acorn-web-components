@@ -20,6 +20,7 @@ import { MozDialog as MozDialogElement } from '../components/moz-dialog/moz-dial
 import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/moz-fieldset';
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
+import { MozInputSearch as MozInputSearchElement } from '../components/moz-input-search/moz-input-search';
 import { MozInputText as MozInputTextElement } from '../components/moz-input-text/moz-input-text';
 import { MozLabel as MozLabelElement } from '../components/moz-label/moz-label';
 import { MozMessageBar as MozMessageBarElement } from '../components/moz-message-bar/moz-message-bar';
@@ -36,6 +37,8 @@ import {
   MozSegmentedControl as MozSegmentedControlElement,
   MozSegmentedControlItem as MozSegmentedControlItemElement,
 } from '../components/moz-segmented-control/moz-segmented-control';
+import { MozStatusBadge as MozStatusBadgeElement } from '../components/moz-status-badge/moz-status-badge';
+import { MozStatusDot as MozStatusDotElement } from '../components/moz-status-dot/moz-status-dot';
 import { MozToggle as MozToggleElement } from '../components/moz-toggle/moz-toggle';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
@@ -175,6 +178,17 @@ export const MozIcon = createComponent({
   react: React,
 });
 
+export const MozInputSearch = createComponent({
+  tagName: 'moz-input-search',
+  elementClass: MozInputSearchElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+    onSearch: 'moz-input-search:search',
+  },
+});
+
 export const MozInputText = createComponent({
   tagName: 'moz-input-text',
   elementClass: MozInputTextElement,
@@ -246,6 +260,18 @@ export const MozSegmentedControlItem = createComponent({
 export const MozSegmentedControlDeck = createComponent({
   tagName: 'moz-segmented-control-deck',
   elementClass: MozSegmentedControlDeckElement,
+  react: React,
+});
+
+export const MozStatusBadge = createComponent({
+  tagName: 'moz-status-badge',
+  elementClass: MozStatusBadgeElement,
+  react: React,
+});
+
+export const MozStatusDot = createComponent({
+  tagName: 'moz-status-dot',
+  elementClass: MozStatusDotElement,
   react: React,
 });
 

@@ -168,3 +168,40 @@ export const Sizes: Story = {
     </div>
   `,
 };
+
+// With href it's a real link, styled as a button.
+export const Link: Story = {
+  render: () => html`
+    <moz-button variant="primary" href="https://example.com" target="_blank"
+      >Open docs</moz-button
+    >
+  `,
+};
+
+// href renders an <a> (with rel defaulted for _blank); disabled keeps a <button>.
+export const LinkRenders: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-button id="link" href="/docs" target="_blank">Docs</moz-button>
+    <moz-button id="disabled" href="/docs" disabled>Docs</moz-button>
+  `,
+  play: async ({ canvasElement }) => {
+    const link = canvasElement.querySelector<HTMLElement>('#link')!;
+    const disabled = canvasElement.querySelector<HTMLElement>('#disabled')!;
+    await (link as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+    await (disabled as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+
+    const anchor = link.shadowRoot!.querySelector('a')!;
+    expect(anchor).toBeTruthy();
+    expect(anchor.getAttribute('href')).toBe('/docs');
+    expect(anchor.getAttribute('target')).toBe('_blank');
+    expect(anchor.getAttribute('rel')).toBe('noopener');
+    expect(link.shadowRoot!.querySelector('button')).toBeNull();
+
+    // Disabled + href stays a <button> (a disabled link isn't a real state).
+    expect(disabled.shadowRoot!.querySelector('a')).toBeNull();
+    expect(disabled.shadowRoot!.querySelector('button')?.disabled).toBe(true);
+  },
+};

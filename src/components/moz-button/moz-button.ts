@@ -1,5 +1,6 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
 import buttonTokens from '../../generated/component-tokens/button.css';
 import '../moz-icon/moz-icon';
@@ -23,8 +24,12 @@ export type ButtonSize = 'small' | 'medium' | 'large';
  * associated light-DOM form, even though the real `<button>` lives in the shadow
  * tree.
  *
+ * With `href` set it renders a real `<a>` (styled identically) so it gets link
+ * semantics — new-tab, context menu, screen-reader "link". A disabled button
+ * with `href` stays a `<button>`, since a disabled link isn't a real state.
+ *
  * @slot - button label.
- * @csspart button - the native `<button>` element.
+ * @csspart button - the `<button>` (or `<a>` in link mode).
  */
 export class MozButton extends MozLitElement {
   static styles = [buttonTokens, styles];
@@ -64,6 +69,15 @@ export class MozButton extends MozLitElement {
   /** Icon rendered after the label. */
   @property({ attribute: 'icon-end' }) iconEnd?: IconName;
 
+  /** If set, render as a link (`<a href>`) styled as a button. */
+  @property() href?: string;
+
+  /** Link target (link mode only), e.g. `_blank`. */
+  @property() target?: string;
+
+  /** Link `rel` (link mode only); defaults to `noopener` when `target="_blank"`. */
+  @property() rel?: string;
+
   #handleClick() {
     if (this.disabled) return;
     // The shadow-DOM <button> can't reach the light-DOM form, so forward it.
@@ -71,7 +85,34 @@ export class MozButton extends MozLitElement {
     else if (this.type === 'reset') this.#internals.form?.reset();
   }
 
+  #content() {
+    return html`
+      ${
+        this.iconStart
+          ? html`<moz-icon name=${this.iconStart}></moz-icon>`
+          : nothing
+      }
+      <slot></slot>
+      ${this.iconEnd ? html`<moz-icon name=${this.iconEnd}></moz-icon>` : nothing}
+    `;
+  }
+
   render() {
+    // A disabled link isn't a real state, so keep the <button> for that case.
+    if (this.href && !this.disabled) {
+      const rel =
+        this.rel ?? (this.target === '_blank' ? 'noopener' : undefined);
+      return html`
+        <a
+          part="button"
+          href=${this.href}
+          target=${ifDefined(this.target)}
+          rel=${ifDefined(rel)}
+        >
+          ${this.#content()}
+        </a>
+      `;
+    }
     return html`
       <button
         part="button"
@@ -79,17 +120,7 @@ export class MozButton extends MozLitElement {
         ?disabled=${this.disabled}
         @click=${this.#handleClick}
       >
-        ${
-          this.iconStart
-            ? html`<moz-icon name=${this.iconStart}></moz-icon>`
-            : nothing
-        }
-        <slot></slot>
-        ${
-          this.iconEnd
-            ? html`<moz-icon name=${this.iconEnd}></moz-icon>`
-            : nothing
-        }
+        ${this.#content()}
       </button>
     `;
   }
