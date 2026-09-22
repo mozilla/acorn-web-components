@@ -3,7 +3,7 @@
     "interactive": {
       "hover": {
         "value": {
-          "light": "{color.gray.45}",
+          "light": "{color.gray.50}",
           "dark": "{color.gray.20}",
           "forcedColors": "SelectedItem"
         }

@@ -7,7 +7,7 @@
   --toggle-border-width: var(--border-width);
   --toggle-height: var(--size-item-small);
   --toggle-width: var(--size-item-large);
-  --toggle-opacity-disabled: 0.7;
+  --toggle-opacity-disabled: 0.5;
   --toggle-background-color-hover: light-dark(#d2c8ec, #75669f);
   --toggle-background-color-active: light-dark(#b6aad9, #9687c0);
   --toggle-border-color: var(--border-color-interactive);
