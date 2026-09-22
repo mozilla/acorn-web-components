@@ -1,0 +1,13 @@
+/* Host display kept off [hidden] so the `hidden` attribute still hides it. */
+:host(:not([hidden])) {
+  display: inline-block;
+  max-inline-size: 100%;
+}
+
+/* The SVG keeps its intrinsic width/height, so the host sizes to the artwork by
+   default; setting a width/height on the host scales it, aspect kept via viewBox. */
+svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
