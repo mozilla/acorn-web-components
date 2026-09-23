@@ -5,7 +5,7 @@
   --select-font-size: var(--font-size-root);
   --select-font-size-small: var(--font-size-small);
   --select-icon-fill: currentColor;
-  --select-opacity-disabled: 0.7;
+  --select-opacity-disabled: 0.5;
   --select-option-font-weight: var(--font-weight);
   --select-space-inline-small: var(--space-medium);
   --select-background-color-hover: light-dark(#d2c8ec, #75669f);
