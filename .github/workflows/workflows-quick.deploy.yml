@@ -42,21 +42,23 @@ jobs:
       # Quick project: nonprod only when the QUICK_ENV variable is 'stage'; prod otherwise.
       QUICK_PROJECT: ${{ vars.QUICK_ENV == 'stage' && 'moz-fx-quick-nonprod' || 'moz-fx-quick-prod' }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       # Build the static Storybook that gets deployed. Node 24 with npm caching,
       # matching ci.yml. The token/icon files under src/generated are committed,
       # so no Bun/generate step is needed here.
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
       - run: npm ci
       - run: npm run build-storybook
-      - uses: google-github-actions/auth@v2
+      - uses: google-github-actions/auth@c200f3691d83b41bf9bbd8638997a462592937ed # v2.1.13
         with:
           workload_identity_provider: ${{ vars.GCPV2_GITHUB_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: quick-gha-deploy@${{ env.QUICK_PROJECT }}.iam.gserviceaccount.com
-      - uses: google-github-actions/setup-gcloud@v2
+      - uses: google-github-actions/setup-gcloud@e427ad8a34f8676edf47cf7d7925499adf3eb74f # v2.2.1
       - name: Deploy to Quick
         env:
           SITE: ${{ inputs.site || vars.QUICK_SITE || github.event.repository.name }}
