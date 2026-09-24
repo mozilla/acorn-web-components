@@ -102,7 +102,7 @@
     "@storybook/addon-vitest": "^10.5.7",
     "@storybook/web-components": "^10.5.7",
     "@storybook/web-components-vite": "^10.5.7",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.6.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitest/browser-playwright": "^4.1.10",
