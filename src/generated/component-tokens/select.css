@@ -8,7 +8,6 @@
   --select-opacity-disabled: 0.5;
   --select-option-font-weight: var(--font-weight);
   --select-space-inline-small: var(--space-medium);
-  --select-background-color-hover: light-dark(#d2c8ec, #75669f);
   --select-background-color-disabled: transparent;
   --select-border-color: var(--border-color-interactive);
   --select-border-color-hover: var(--border-color-interactive-hover);
@@ -21,6 +20,7 @@
   --select-padding-block: 0.25rem;
   --select-space-inline: 1rem;
   --select-text-color: light-dark(#161423, #fcfbff);
+  --select-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
   --select-padding-icon: var(--icon-size);
   --select-text-color-hover: light-dark(#161423, #fcfbff);
   --select-text-color-disabled: light-dark(#161423, #fcfbff);

@@ -27,8 +27,8 @@
 }
 @media (forced-colors: active) {
   :host {
-    --toolbarbutton-background-color-active: light-dark(#b6aad9, #9687c0);
-    --toolbarbutton-background-color-hover: light-dark(#d2c8ec, #75669f);
+    --toolbarbutton-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+    --toolbarbutton-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
     --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
     --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
   }
