@@ -62,7 +62,10 @@ jobs:
       - name: Deploy to Quick
         env:
           SITE: ${{ inputs.site || vars.QUICK_SITE || github.event.repository.name }}
+          FORCE: ${{ inputs.force && '--yes' || '' }}
         run: |
           gcloud storage cp "gs://${QUICK_PROJECT}-cli/quick-linux-amd64" "$RUNNER_TEMP/quick"
           chmod +x "$RUNNER_TEMP/quick"
-          "$RUNNER_TEMP/quick" deploy "$DIR" "$SITE" --mirror ${{ inputs.force && '--yes' || '' }}
+          # $FORCE is unquoted on purpose: it is either '--yes' or empty, and
+          # quoting an empty value would pass an extra empty argument.
+          "$RUNNER_TEMP/quick" deploy "$DIR" "$SITE" --mirror $FORCE
