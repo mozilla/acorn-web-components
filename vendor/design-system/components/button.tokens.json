@@ -35,8 +35,14 @@
           "nova": {
             "value": {
               "nativeTheme": "color-mix(in srgb, currentColor 17%, transparent)",
-              "light": "{color.violet-desaturated.20}",
-              "dark": "{color.violet-desaturated.50}",
+              "platform": {
+                "light": "color-mix(in srgb, {color.accent.primary.@base} 32%, transparent)",
+                "dark": "color-mix(in srgb, {color.accent.primary.@base} 55%, transparent)"
+              },
+              "brand": {
+                "light": "{color.violet-desaturated.20}",
+                "dark": "{color.violet-desaturated.50}"
+              },
               "forcedColors": "SelectedItemText"
             }
           }
@@ -56,8 +62,14 @@
           "nova": {
             "value": {
               "nativeTheme": "color-mix(in srgb, currentColor 30%, transparent)",
-              "light": "{color.violet-desaturated.30}",
-              "dark": "{color.violet-desaturated.40}",
+              "platform": {
+                "light": "color-mix(in srgb, {color.accent.primary.@base} 50%, transparent)",
+                "dark": "color-mix(in srgb, {color.accent.primary.@base} 75%, transparent)"
+              },
+              "brand": {
+                "light": "{color.violet-desaturated.30}",
+                "dark": "{color.violet-desaturated.40}"
+              },
               "forcedColors": "SelectedItemText"
             }
           }

@@ -13,8 +13,6 @@
   --button-text-color-toolbar: currentColor;
   --button-text-color-toolbar-hover: currentColor;
   --button-text-color-toolbar-active: currentColor;
-  --button-background-color-hover: light-dark(var(--color-violet-desaturated-20), var(--color-violet-desaturated-50));
-  --button-background-color-active: light-dark(var(--color-violet-desaturated-30), var(--color-violet-desaturated-40));
   --button-background-color-disabled: var(--button-background-color);
   --button-background-color-primary-disabled: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-40));
   --button-background-color-destructive: light-dark(var(--color-red-50), var(--color-red-30));
@@ -55,18 +53,17 @@
   --button-text-color: light-dark(var(--color-violet-90), var(--color-gray-0));
   --button-text-color-primary: light-dark(var(--color-white), var(--color-gray-70));
   --button-text-color-destructive: light-dark(var(--color-white), var(--button-text-color-primary));
+  --button-background-color-hover: light-dark(color-mix(in srgb, var(--color-accent-primary) 32%, transparent), color-mix(in srgb, var(--color-accent-primary) 55%, transparent));
+  --button-background-color-active: light-dark(color-mix(in srgb, var(--color-accent-primary) 50%, transparent), color-mix(in srgb, var(--color-accent-primary) 75%, transparent));
   --button-background-color-primary: var(--color-accent-primary);
   --button-background-color-primary-hover: var(--color-accent-primary-hover);
   --button-background-color-primary-active: var(--color-accent-primary-active);
   --button-background-color-destructive-disabled: var(--button-background-color-destructive);
   --button-background-color-destructive-selected: var(--button-background-color-destructive-active);
-  --button-background-color-ghost-active: var(--button-background-color-active);
   --button-background-color-ghost-disabled: var(--button-background-color-ghost);
-  --button-background-color-ghost-hover: var(--button-background-color-hover);
   --button-background-color-muted-disabled: var(--button-background-color-muted);
   --button-background-color-muted-selected: var(--button-background-color-muted-active);
   --button-background-color-menu: var(--button-background-color-ghost);
-  --button-background-color-selected: var(--button-background-color-active);
   --button-badge-background-color: var(--color-accent-attention);
   --button-border-color: var(--color-accent-primary);
   --button-border-color-destructive-active: var(--button-border-color-destructive);
@@ -103,11 +100,10 @@
   --button-text-color-selected: var(--button-text-color);
   --button-attention-dot-color: var(--color-accent-attention);
   --button-background-color-primary-selected: var(--button-background-color-primary-active);
-  --button-background-color-ghost-selected: var(--button-background-color-selected);
-  --button-background-color-menu-active: var(--button-background-color-ghost-active);
+  --button-background-color-ghost-active: var(--button-background-color-active);
+  --button-background-color-ghost-hover: var(--button-background-color-hover);
   --button-background-color-menu-disabled: var(--button-background-color-ghost-disabled);
-  --button-background-color-menu-hover: var(--button-background-color-ghost-hover);
-  --button-background-color-toolbar-selected: var(--button-background-color-ghost-active);
+  --button-background-color-selected: var(--button-background-color-active);
   --button-border-color-active: var(--button-border-color);
   --button-border-color-disabled: var(--button-border-color);
   --button-border-color-menu-selected: var(--button-border-color-menu-active);
@@ -123,7 +119,10 @@
   --button-text-color-menu: var(--button-text-color-ghost);
   --button-text-color-primary-selected: var(--button-text-color-primary-active);
   --button-text-color-toolbar-disabled: var(--button-text-color-disabled);
-  --button-background-color-menu-selected: var(--button-background-color-ghost-selected);
+  --button-background-color-ghost-selected: var(--button-background-color-selected);
+  --button-background-color-menu-active: var(--button-background-color-ghost-active);
+  --button-background-color-menu-hover: var(--button-background-color-ghost-hover);
+  --button-background-color-toolbar-selected: var(--button-background-color-ghost-active);
   --button-border-color-toolbar-disabled: var(--button-border-color-disabled);
   --button-text-color-ghost-selected: var(--button-text-color-ghost-active);
   --button-text-color-muted-selected: var(--button-text-color-muted-active);
@@ -131,6 +130,7 @@
   --button-text-color-menu-disabled: light-dark(var(--button-text-color-ghost-disabled), var(--button-text-color-disabled));
   --button-text-color-menu-hover: light-dark(var(--button-text-color-ghost-hover), var(--button-text-color-hover));
   --button-text-color-toolbar-selected: var(--button-text-color-ghost-active);
+  --button-background-color-menu-selected: var(--button-background-color-ghost-selected);
   --button-text-color-menu-selected: light-dark(var(--button-text-color-ghost-selected), var(--button-text-color-selected));
 }
 @media (prefers-contrast: more) {
