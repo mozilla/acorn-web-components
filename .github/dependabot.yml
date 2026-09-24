@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 99
+    cooldown:
+      default-days: 7
+  - package-ecosystem: "github-actions"
+    directories:
+    - "/"
+    - "/.github/actions/*"
+    schedule:
+      interval: daily
+    groups:
+      ssdlc-actions:
+        patterns:
+          - "mozilla/ssdlc-actions/*"
+    open-pull-requests-limit: 99
+    cooldown:
+      default-days: 7
