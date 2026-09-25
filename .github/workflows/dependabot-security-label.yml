@@ -1,0 +1,38 @@
+# Adds a "security" label to Dependabot PRs that resolve a Dependabot alert, so
+# the PR list separates "fixes a known advisory" from routine version bumps.
+#
+# The label is driven off the alert API, not the PR body: plenty of ordinary
+# version bumps quote release notes that mention security (see #57, #59), so
+# matching on text would over-label exactly the PRs this is meant to rank below.
+
+name: Label Dependabot security PRs
+
+# pull_request_target, because `pull_request` runs triggered by Dependabot get a
+# read-only token and so can't label. Nothing from the PR branch is checked out
+# or executed here, which is what makes that safe.
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions: {}
+
+jobs:
+  label:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      vulnerability-alerts: read
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          alert-lookup: true
+      # ghsa-id is empty unless the PR is tied to an alert.
+      - name: Add the security label
+        if: steps.metadata.outputs.ghsa-id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr edit "$PR_URL" --add-label security
