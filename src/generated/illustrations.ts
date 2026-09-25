@@ -251,6 +251,9 @@ export const illustrationLoaders = {
   "kit-sparkle-ai": {
     default: () => import("./illustrations/kit-sparkle-ai.js"),
   },
+  "kit-sympathetic": {
+    default: () => import("./illustrations/kit-sympathetic.js"),
+  },
   "kit-tab-groups": {
     default: () => import("./illustrations/kit-tab-groups.js"),
   },
