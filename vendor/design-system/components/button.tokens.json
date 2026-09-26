@@ -232,10 +232,7 @@
           "value": "{toolbarbutton.background.color.active}"
         },
         "disabled": {
-          "value": {
-            "default": "{toolbarbutton.background.color.@base}",
-            "forcedColors": "{button.background.color.disabled}"
-          }
+          "value": "{toolbarbutton.background.color.disabled}"
         },
         "selected": {
           "value": "{button.background.color.ghost.active}"
@@ -674,7 +671,16 @@
           }
         },
         "selected": {
-          "value": "{button.text.color.ghost.active}"
+          "value": {
+            "default": "{button.text.color.ghost.active}",
+            "nova": {
+              "comment": "Pair with the SelectedItem background in HCM",
+              "value": {
+                "default": "{button.text.color.ghost.active}",
+                "forcedColors": "{button.text.color.selected}"
+              }
+            }
+          }
         }
       },
       "muted": {
