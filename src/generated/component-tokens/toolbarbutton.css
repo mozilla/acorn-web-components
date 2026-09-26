@@ -21,14 +21,20 @@
   --toolbarbutton-badge-background-color: light-dark(var(--color-red-60), var(--color-red-40));
   --toolbarbutton-icon-fill: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-10));
   --toolbarbutton-icon-fill-attention-text: light-dark(var(--color-gray-20), var(--color-gray-90));
+  --toolbarbutton-background-color-disabled: var(--toolbarbutton-background-color);
   --toolbarbutton-outline: var(--border-width) solid var(--toolbarbutton-outline-color);
+  --toolbarbutton-icon-fill-hover: var(--toolbarbutton-icon-fill);
+  --toolbarbutton-icon-fill-active: var(--toolbarbutton-icon-fill);
   --toolbarbutton-icon-fill-attention: var(--color-accent-primary);
   --toolbarbutton-border-radius: 24px;
 }
 @media (forced-colors: active) {
   :host {
     --toolbarbutton-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+    --toolbarbutton-background-color-disabled: transparent;
     --toolbarbutton-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
+    --toolbarbutton-icon-fill-active: light-dark(#161423, #fcfbff);
+    --toolbarbutton-icon-fill-hover: light-dark(#161423, #fcfbff);
     --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
     --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
   }

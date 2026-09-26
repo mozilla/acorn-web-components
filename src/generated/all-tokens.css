@@ -426,7 +426,6 @@
   --button-background-color-toolbar: transparent;
   --button-background-color-toolbar-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
   --button-background-color-toolbar-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
-  --button-background-color-toolbar-disabled: transparent;
   --button-border: var(--border-width) solid var(--button-border-color);
   --button-border-color-destructive: var(--button-border-color-ghost);
   --button-border-color-ghost-active: var(--button-border-color-ghost);
@@ -465,6 +464,7 @@
   --button-background-color-muted-disabled: var(--button-background-color-muted);
   --button-background-color-muted-selected: var(--button-background-color-muted-active);
   --button-background-color-menu: var(--button-background-color-ghost);
+  --button-background-color-toolbar-disabled: transparent;
   --button-badge-background-color: var(--color-accent-attention);
   --button-border-color: var(--color-accent-primary);
   --button-border-color-destructive-active: var(--button-border-color-destructive);
@@ -559,7 +559,6 @@
     --button-background-color-muted: var(--button-background-color);
     --button-background-color-primary-disabled: GrayText;
     --button-background-color-selected: SelectedItem;
-    --button-background-color-toolbar-disabled: var(--button-background-color-disabled);
     --button-background-color: ButtonFace;
     --button-border-color-active: var(--border-color-interactive-active);
     --button-border-color-destructive-active: var(--button-border-color-primary-active);
@@ -593,6 +592,7 @@
     --button-text-color-destructive: var(--button-text-color-primary);
     --button-text-color-disabled: GrayText;
     --button-text-color-ghost-hover: var(--button-text-color-ghost-active);
+    --button-text-color-ghost-selected: var(--button-text-color-selected);
     --button-text-color-hover: SelectedItem;
     --button-text-color-menu-disabled: var(--button-text-color-disabled);
     --button-text-color-menu-hover: -moz-menuhovertext;
@@ -811,20 +811,22 @@
   --page-nav-hr-background-color: var(--border-color-deemphasized);
   --page-nav-margin-block-start: 64px;
   --page-nav-button-background-color: transparent;
-  --page-nav-button-background-color-selected: var(--color-accent-primary);
   --page-nav-button-border-color-hover: transparent;
   --page-nav-button-border-color-active: transparent;
   --page-nav-button-text-color-selected: light-dark(#ffffff, #252428);
   --page-nav-heading-logo-size: var(--icon-size-large);
   --page-nav-button-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
   --page-nav-button-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+  --page-nav-button-background-color-selected: light-dark(#764edd, #b89cff);
   --page-nav-button-text-color: light-dark(#161423, #fcfbff);
   --page-nav-button-text-color-hover: light-dark(#161423, #fcfbff);
   --page-nav-button-text-color-active: light-dark(#161423, #fcfbff);
 }
 @media (forced-colors: active) {
   :root {
+    --page-nav-button-background-color-selected: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
     --page-nav-button-border-color: ButtonText;
+    --page-nav-button-text-color-selected: light-dark(#161423, #fcfbff);
   }
 }
 }
@@ -1048,14 +1050,20 @@
   --toolbarbutton-badge-background-color: light-dark(var(--color-red-60), var(--color-red-40));
   --toolbarbutton-icon-fill: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-10));
   --toolbarbutton-icon-fill-attention-text: light-dark(var(--color-gray-20), var(--color-gray-90));
+  --toolbarbutton-background-color-disabled: var(--toolbarbutton-background-color);
   --toolbarbutton-outline: var(--border-width) solid var(--toolbarbutton-outline-color);
+  --toolbarbutton-icon-fill-hover: var(--toolbarbutton-icon-fill);
+  --toolbarbutton-icon-fill-active: var(--toolbarbutton-icon-fill);
   --toolbarbutton-icon-fill-attention: var(--color-accent-primary);
   --toolbarbutton-border-radius: 24px;
 }
 @media (forced-colors: active) {
   :root {
     --toolbarbutton-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+    --toolbarbutton-background-color-disabled: transparent;
     --toolbarbutton-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
+    --toolbarbutton-icon-fill-active: light-dark(#161423, #fcfbff);
+    --toolbarbutton-icon-fill-hover: light-dark(#161423, #fcfbff);
     --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
     --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
   }
