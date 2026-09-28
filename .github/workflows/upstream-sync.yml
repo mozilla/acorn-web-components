@@ -124,14 +124,19 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: sync design tokens from Firefox"
 
+          # checkout runs with persist-credentials: false, so the remote has no
+          # credential attached — authenticate the push explicitly. Actions masks
+          # the token, so it can't surface in the log if git echoes the URL.
+          REMOTE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
           if [ "$EVENT_NAME" = "issue_comment" ]; then
-            git push origin HEAD
+            git push "$REMOTE" "HEAD:refs/heads/$(git branch --show-current)"
             gh pr comment "$PR" --body "Synced vendored design tokens from upstream and pushed a commit to this branch."
             exit 0
           fi
 
           git branch -f chore/upstream-sync
-          git push --force origin chore/upstream-sync
+          git push --force "$REMOTE" chore/upstream-sync
           REV=$(jq -r .revision vendor/design-system/VENDOR.json)
           TOKENS_PATH=$(jq -r .source vendor/design-system/VENDOR.json | sed 's/^firefox: //')
           BODY=$(cat <<'EOF'

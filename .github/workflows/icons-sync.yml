@@ -86,7 +86,10 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: sync icons + illustrations from acorn-icons ${LATEST}"
           git branch -f chore/icons-sync
-          git push --force origin chore/icons-sync
+          # checkout runs with persist-credentials: false, so the remote has no
+          # credential attached — authenticate the push explicitly. Actions masks
+          # the token, so it can't surface in the log if git echoes the URL.
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" chore/icons-sync
           BODY="Automated sync of the vendored icons and illustrations to [acorn-icons \`${LATEST}\`](https://github.com/FirefoxUX/acorn-icons/releases/tag/${LATEST}), with regenerated output.
 
           Review the diffs, check Storybook, and let tests run before merging."
