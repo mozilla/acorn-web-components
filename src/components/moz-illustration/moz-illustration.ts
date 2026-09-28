@@ -57,13 +57,35 @@ export class MozIllustration extends MozLitElement {
     this.#media?.removeEventListener('change', this.#onMediaChange);
   }
 
+  #loading?: Promise<void>;
+
   protected willUpdate(changed: PropertyValues<this>) {
     // `theme` (inherited from MozLitElement) is the ambient context that selects
     // the variant, so reload when either changes.
     const changedKeys = changed as Map<PropertyKey, unknown>;
     if (changedKeys.has('name') || changedKeys.has('theme')) {
-      void this.load();
+      const loading = this.load().finally(() => {
+        // Only clear if a later load hasn't already replaced this one.
+        if (this.#loading === loading) this.#loading = undefined;
+      });
+      this.#loading = loading;
     }
+  }
+
+  /**
+   * Also settles the on-demand illustration module. Without this,
+   * `updateComplete` resolves before the `<svg>` exists, so a consumer (or a
+   * test) awaiting it would query an empty shadow root and have to poll.
+   */
+  override async getUpdateComplete(): Promise<boolean> {
+    let complete = await super.getUpdateComplete();
+    // The module's arrival sets `svg`, which schedules another update; settle
+    // that too. Converges because only name/theme start a load.
+    while (this.#loading) {
+      await this.#loading;
+      complete = await super.getUpdateComplete();
+    }
+    return complete;
   }
 
   private async load() {

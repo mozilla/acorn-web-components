@@ -15,8 +15,12 @@
   block-size: 32px;
 }
 
-/* Selection is blocked in JS, so pointer-events stays on for the not-allowed cursor feedback. */
-:host(moz-segmented-control[disabled]) {
+/* Keyed off aria-disabled, not [disabled], so a group disabled by a container
+ * (a disabled moz-fieldset, or a checkbox's `nested` slot) dims too — that
+ * arrives as `parentDisabled`, which doesn't reflect. `updated` keeps
+ * aria-disabled in sync with `isDisabled`.
+ * Selection is blocked in JS, so pointer-events stays on for the not-allowed cursor feedback. */
+:host(moz-segmented-control[aria-disabled="true"]) {
   opacity: var(--opacity-disabled);
   cursor: not-allowed;
 }

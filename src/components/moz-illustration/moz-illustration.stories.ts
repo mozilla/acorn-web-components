@@ -45,12 +45,9 @@ type Story = StoryObj<IllustrationArgs>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const illo = canvasElement.querySelector('moz-illustration')!;
-    let svg: SVGElement | null | undefined;
-    for (let i = 0; i < 50 && !svg; i++) {
-      svg = illo.shadowRoot?.querySelector('svg');
-      if (!svg) await new Promise((r) => setTimeout(r, 20));
-    }
-    expect(svg).toBeTruthy();
+    // updateComplete settles the on-demand illustration module too.
+    await illo.updateComplete;
+    expect(illo.shadowRoot?.querySelector('svg')).toBeTruthy();
   },
 };
 
@@ -82,12 +79,7 @@ export const Themed: Story = {
   `,
   play: async ({ canvasElement }) => {
     const [light, dark] = canvasElement.querySelectorAll('moz-illustration');
-    for (const illo of [light, dark]) {
-      await illo.updateComplete;
-      for (let i = 0; i < 50 && !illo.shadowRoot?.querySelector('svg'); i++) {
-        await new Promise((r) => setTimeout(r, 20));
-      }
-    }
+    await Promise.all([light.updateComplete, dark.updateComplete]);
     // The two providers resolve the same name to different theme variants.
     const lightSvg = light.shadowRoot?.querySelector('svg')?.outerHTML;
     const darkSvg = dark.shadowRoot?.querySelector('svg')?.outerHTML;
