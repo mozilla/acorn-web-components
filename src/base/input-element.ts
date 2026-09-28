@@ -143,7 +143,7 @@ export abstract class MozBaseInputElement<
     this.inputLayout = (
       this.constructor as typeof MozBaseInputElement
     ).inputLayout;
-    this.addEventListener('keydown', this.#handleKeydown);
+    this.addEventListener('keydown', (event) => this.handleKeydown(event));
   }
 
   connectedCallback(): void {
@@ -186,11 +186,13 @@ export abstract class MozBaseInputElement<
     }
   }
 
-  #handleKeydown = (event: KeyboardEvent) => {
-    // Match native single-line controls: Enter submits the associated form. A
-    // multiline control (textarea) must override this to leave Enter alone.
+  /**
+   * Match native single-line controls: Enter submits the associated form.
+   * A multiline control (textarea) overrides this to leave Enter alone.
+   */
+  protected handleKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter') this.#internals.form?.requestSubmit();
-  };
+  }
 
   /** Disabled by its own `disabled` or by a disabled container. */
   get isDisabled(): boolean {
@@ -271,7 +273,12 @@ export abstract class MozBaseInputElement<
     }
     const gated = this.isDisabled || off;
     for (const el of assigned) {
-      if (el instanceof MozBaseInputElement) el.parentDisabled = gated;
+      // Duck-type rather than instanceof: containers that aren't inputs
+      // themselves opt in too (moz-radio-group, moz-fieldset), and an
+      // instanceof check would leave their controls live and submittable.
+      if ('parentDisabled' in el) {
+        (el as Element & { parentDisabled: boolean }).parentDisabled = gated;
+      }
     }
   };
 

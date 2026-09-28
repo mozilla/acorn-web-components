@@ -1,6 +1,7 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { type AttrValue, attrs } from '../../base/attrs';
 import fieldWidth from '../../base/field-width.css';
 import { iconButton } from '../../base/icon-button';
 import { MozBaseInputElement } from '../../base/input-element';
@@ -68,6 +69,19 @@ export class MozInputText extends MozBaseInputElement {
     return this.type;
   }
 
+  /**
+   * Extra attributes for the inner `<input>`, for subclasses that add native
+   * constraints the text types don't have (see `moz-input-number`).
+   */
+  protected get inputAttributes(): Record<string, AttrValue> {
+    return {};
+  }
+
+  /** Trailing controls inside the field, after the clear button. */
+  protected fieldEndTemplate(): unknown {
+    return nothing;
+  }
+
   #clear = () => {
     this.value = '';
     this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
@@ -87,6 +101,7 @@ export class MozInputText extends MozBaseInputElement {
           : nothing
       }
       <input
+        ${attrs(this.inputAttributes)}
         id="input"
         part="input"
         type=${this.inputType}
@@ -116,6 +131,7 @@ export class MozInputText extends MozBaseInputElement {
             })
           : nothing
       }
+      ${this.fieldEndTemplate()}
     </div>`;
   }
 }

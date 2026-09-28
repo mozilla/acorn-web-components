@@ -5,6 +5,8 @@ import { expect } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-checkbox';
 import '../moz-provider/moz-provider';
+import '../moz-radio/moz-radio';
+import '../moz-radio-group/moz-radio-group';
 import { type IconName, iconNames } from '../../generated/icons';
 
 interface CheckboxArgs {
@@ -215,5 +217,42 @@ export const NestedDisables: Story = {
     await parent.updateComplete;
     await new Promise((r) => setTimeout(r, 20));
     expect(child.shadowRoot!.querySelector('input')!.disabled).toBe(false);
+  },
+};
+
+// A nested container gates too, not just nested inputs: an unchecked parent
+// must not leave a nested radio group interactive or submittable.
+export const NestedGroupDisables: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <form>
+      <moz-checkbox label="Notify me" name="notify" value="on">
+        <moz-radio-group slot="nested" name="cadence" value="daily">
+          <moz-radio value="daily" label="Daily"></moz-radio>
+          <moz-radio value="weekly" label="Weekly"></moz-radio>
+        </moz-radio-group>
+      </moz-checkbox>
+    </form>
+  `,
+  play: async ({ canvasElement }) => {
+    const form = canvasElement.querySelector('form')!;
+    const parent = canvasElement.querySelector('moz-checkbox')!;
+    const group = canvasElement.querySelector('moz-radio-group')!;
+    const radio = canvasElement.querySelector('moz-radio')!;
+    await parent.updateComplete;
+    await new Promise((r) => setTimeout(r, 20));
+
+    // Parent unchecked: the group is gated, so its options are inert and the
+    // selection stays out of the submitted data.
+    expect(group.parentDisabled).toBe(true);
+    expect(radio.shadowRoot!.querySelector('input')!.disabled).toBe(true);
+    expect(new FormData(form).get('cadence')).toBeNull();
+
+    parent.checked = true;
+    await parent.updateComplete;
+    await new Promise((r) => setTimeout(r, 20));
+    expect(group.parentDisabled).toBe(false);
+    expect(radio.shadowRoot!.querySelector('input')!.disabled).toBe(false);
+    expect(new FormData(form).get('cadence')).toBe('daily');
   },
 };

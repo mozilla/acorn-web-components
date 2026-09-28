@@ -21,6 +21,9 @@ import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/mo
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozIllustration as MozIllustrationElement } from '../components/moz-illustration/moz-illustration';
+import { MozInputDate as MozInputDateElement } from '../components/moz-input-date/moz-input-date';
+import { MozInputNumber as MozInputNumberElement } from '../components/moz-input-number/moz-input-number';
+import { MozInputPassword as MozInputPasswordElement } from '../components/moz-input-password/moz-input-password';
 import { MozInputSearch as MozInputSearchElement } from '../components/moz-input-search/moz-input-search';
 import { MozInputText as MozInputTextElement } from '../components/moz-input-text/moz-input-text';
 import { MozLabel as MozLabelElement } from '../components/moz-label/moz-label';
@@ -183,6 +186,36 @@ export const MozIllustration = createComponent({
   tagName: 'moz-illustration',
   elementClass: MozIllustrationElement,
   react: React,
+});
+
+export const MozInputDate = createComponent({
+  tagName: 'moz-input-date',
+  elementClass: MozInputDateElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozInputNumber = createComponent({
+  tagName: 'moz-input-number',
+  elementClass: MozInputNumberElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozInputPassword = createComponent({
+  tagName: 'moz-input-password',
+  elementClass: MozInputPasswordElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
 });
 
 export const MozInputSearch = createComponent({
