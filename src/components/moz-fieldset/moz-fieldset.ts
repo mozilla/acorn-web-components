@@ -56,7 +56,8 @@ export class MozFieldset extends MozLitElement {
     this.#propagated = current;
   }
 
-  // Slotted Acorn controls that opt in: MozBaseInputElement inputs and moz-radio-group.
+  // Slotted Acorn controls that opt in by exposing `parentDisabled`:
+  // MozBaseInputElement inputs, moz-radio-group, and moz-segmented-control.
   get #controls(): Array<Element & { parentDisabled: boolean }> {
     const slot =
       this.renderRoot?.querySelector<HTMLSlotElement>('slot:not([name])');

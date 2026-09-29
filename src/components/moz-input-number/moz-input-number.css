@@ -1,0 +1,9 @@
+:host([hide-spinner]) #input {
+  appearance: textfield;
+}
+
+:host([hide-spinner]) #input::-webkit-inner-spin-button,
+:host([hide-spinner]) #input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}

@@ -59,11 +59,33 @@ export class MozIcon extends LitElement {
 
   @state() private svg?: string;
 
+  #loading?: Promise<void>;
+
   protected willUpdate(changed: PropertyValues<this>) {
     // Size selects the optical variant, so reload when either changes.
     if (changed.has('name') || changed.has('size')) {
-      void this.load();
+      const loading = this.load().finally(() => {
+        // Only clear if a later load hasn't already replaced this one.
+        if (this.#loading === loading) this.#loading = undefined;
+      });
+      this.#loading = loading;
     }
+  }
+
+  /**
+   * Also settles the on-demand icon module. Without this, `updateComplete`
+   * resolves before the `<svg>` exists, so a consumer (or a test) awaiting it
+   * would measure or query an empty shadow root and have to poll instead.
+   */
+  override async getUpdateComplete(): Promise<boolean> {
+    let complete = await super.getUpdateComplete();
+    // The module's arrival sets `svg`, which schedules another update; settle
+    // that too. Converges because only name/size start a load.
+    while (this.#loading) {
+      await this.#loading;
+      complete = await super.getUpdateComplete();
+    }
+    return complete;
   }
 
   private async load() {

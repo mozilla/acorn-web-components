@@ -3,6 +3,8 @@ import { html } from 'lit';
 import { expect, userEvent } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-segmented-control';
+import '../moz-checkbox/moz-checkbox';
+import '../moz-fieldset/moz-fieldset';
 import type {
   MozSegmentedControl,
   MozSegmentedControlDeck,
@@ -339,5 +341,85 @@ export const DisabledBehavior: Story = {
     // Selection is unchanged and no event fired.
     expect(group.value).toBe('day');
     expect(fired).toBe(false);
+  },
+};
+
+// A container disables the group through `parentDisabled` without touching its
+// own `disabled`, so lifting the container's state hands control back.
+export const DisabledByFieldset: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-fieldset label="Range" disabled>
+      <moz-segmented-control label="Range" value="day">
+        <moz-segmented-control-item value="day" label="Day"></moz-segmented-control-item>
+        <moz-segmented-control-item value="week" label="Week"></moz-segmented-control-item>
+      </moz-segmented-control>
+    </moz-fieldset>
+  `,
+  play: async ({ canvasElement }) => {
+    const fieldset = canvasElement.querySelector('moz-fieldset')!;
+    const group = canvasElement.querySelector(
+      'moz-segmented-control',
+    ) as MozSegmentedControl;
+    const items = [
+      ...canvasElement.querySelectorAll('moz-segmented-control-item'),
+    ];
+    await group.updateComplete;
+    await Promise.all(items.map((i) => i.updateComplete));
+
+    // Gated by the container, but its own `disabled` is untouched.
+    expect(group.parentDisabled).toBe(true);
+    expect(group.disabled).toBe(false);
+    expect(group.isDisabled).toBe(true);
+    expect(group.getAttribute('aria-disabled')).toBe('true');
+    expect(items[0].getAttribute('tabindex')).toBe('-1');
+
+    let fired = false;
+    group.addEventListener('moz-segmented-control:change', () => {
+      fired = true;
+    });
+    await userEvent.click(items[1]);
+    await group.updateComplete;
+    expect(group.value).toBe('day');
+    expect(fired).toBe(false);
+
+    // Lifting the container's state returns the group to its own.
+    fieldset.disabled = false;
+    await fieldset.updateComplete;
+    await group.updateComplete;
+    await Promise.all(items.map((i) => i.updateComplete));
+    expect(group.isDisabled).toBe(false);
+    expect(group.hasAttribute('aria-disabled')).toBe(false);
+  },
+};
+
+// Same gating through a checkbox's `nested` slot.
+export const DisabledByNestedSlot: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-checkbox label="Limit by range">
+      <moz-segmented-control slot="nested" label="Range" value="day">
+        <moz-segmented-control-item value="day" label="Day"></moz-segmented-control-item>
+        <moz-segmented-control-item value="week" label="Week"></moz-segmented-control-item>
+      </moz-segmented-control>
+    </moz-checkbox>
+  `,
+  play: async ({ canvasElement }) => {
+    const checkbox = canvasElement.querySelector('moz-checkbox')!;
+    const group = canvasElement.querySelector(
+      'moz-segmented-control',
+    ) as MozSegmentedControl;
+    await checkbox.updateComplete;
+    await new Promise((r) => setTimeout(r, 20));
+
+    // Parent unchecked: the group is inert.
+    expect(group.parentDisabled).toBe(true);
+    expect(group.getAttribute('aria-disabled')).toBe('true');
+
+    checkbox.checked = true;
+    await checkbox.updateComplete;
+    await new Promise((r) => setTimeout(r, 20));
+    expect(group.parentDisabled).toBe(false);
+    expect(group.hasAttribute('aria-disabled')).toBe(false);
   },
 };
