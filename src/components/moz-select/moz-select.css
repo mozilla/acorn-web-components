@@ -1,0 +1,153 @@
+/* Icon and chevron are overlaid, not siblings, so the select spans the whole
+ * field and a click anywhere on it — icon included — opens the popup. */
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-block-size: var(--select-min-height);
+}
+
+.field:focus-within {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-inset);
+}
+
+#input {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  min-block-size: inherit;
+  padding-inline: var(--space-small) calc(var(--space-small) + var(--icon-size));
+  border: var(--input-text-border);
+  border-radius: var(--input-text-border-radius);
+  color: var(--input-text-color);
+  font: inherit;
+  background-color: var(--background-color-box);
+
+  /* Drop the platform arrow; the chevron below replaces it. */
+  appearance: none;
+}
+
+/* A select has no ::placeholder, so dim the unselected state by class. */
+#input.placeholder-shown {
+  color: var(--text-color-deemphasized);
+}
+
+#input:focus-visible {
+  /* The ring lives on .field via focus-within, so the control mustn't add one. */
+  outline: none;
+}
+
+/* The option list is the OS popup, so only its colours are ours to set. */
+#input option {
+  color: var(--select-option-text-color);
+  font-weight: var(--select-option-font-weight);
+}
+
+.icon,
+.chevron {
+  position: absolute;
+  flex-shrink: 0;
+  color: var(--text-color-deemphasized);
+
+  /* Decorative, and the select underneath owns the interaction. */
+  pointer-events: none;
+}
+
+.chevron {
+  inset-inline-end: var(--space-small);
+}
+
+.icon {
+  inset-inline-start: var(--space-small);
+}
+
+.field.with-icon #input {
+  padding-inline-start: calc(
+    var(--space-small) +
+    var(--icon-size) +
+    var(--space-xsmall)
+  );
+}
+
+:host(:not(:state(disabled)):not(:state(error))) .field:hover #input {
+  border-color: var(--border-color-interactive-hover);
+}
+
+:host(:state(disabled)) #input {
+  border-color: var(--input-text-border-color-disabled);
+  background-color: var(--input-text-background-color-disabled);
+  opacity: var(--input-text-opacity-disabled);
+  cursor: not-allowed;
+}
+
+:host(:state(disabled)) .icon,
+:host(:state(disabled)) .chevron {
+  opacity: var(--input-text-opacity-disabled);
+}
+
+:host(:state(error)) #input {
+  border-color: var(--border-color-error);
+}
+
+:host(:state(error)) .field:focus-within {
+  outline-color: var(--border-color-error);
+}
+
+:host([variant="pill"]) #input {
+  border: var(--select-border);
+  border-radius: var(--select-border-radius);
+  color: var(--select-text-color);
+  font-weight: var(--select-font-weight);
+  background-color: var(--select-background-color);
+}
+
+:host([variant="pill"]) .icon,
+:host([variant="pill"]) .chevron {
+  color: currentcolor;
+}
+
+:host([variant="pill"]:not(:state(disabled)):not(:state(error)))
+  .field:hover
+  #input {
+  border-color: var(--select-border-color-hover);
+  color: var(--select-text-color-hover);
+  background-color: var(--select-background-color-hover);
+}
+
+:host([variant="pill"]:state(disabled)) #input {
+  border-color: var(--select-border-color-disabled);
+  color: var(--select-text-color-disabled);
+  background-color: var(--select-background-color-disabled);
+  opacity: var(--select-opacity-disabled);
+}
+
+/* The pill hugs its content rather than filling a form column, unless asked to. */
+:host([variant="pill"]:not([full-width])) {
+  inline-size: fit-content;
+}
+
+:host([size="small"]) .field {
+  min-block-size: var(--select-min-height-small);
+}
+
+:host([size="small"]) #input {
+  padding-inline: var(--space-xsmall)
+    calc(var(--space-xsmall) + var(--icon-size));
+  font-size: var(--select-font-size-small);
+}
+
+:host([size="small"]) .field.with-icon #input {
+  padding-inline-start: calc(
+    var(--space-xsmall) +
+    var(--icon-size) +
+    var(--space-xxsmall)
+  );
+}
+
+:host([size="small"]) .chevron {
+  inset-inline-end: var(--space-xsmall);
+}
+
+:host([size="small"]) .icon {
+  inset-inline-start: var(--space-xsmall);
+}

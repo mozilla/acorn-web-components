@@ -6,10 +6,8 @@ import { snapshot, snapshotContrast, snapshotDark } from './snapshot';
 const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-// Two columns covering: placeholder, filled, taller rows, description, counter
-// with and without a limit, required, error, disabled, read-only.
-// Split into columns deliberately — a single column of multiline fields runs
-// past the 800px snapshot viewport, and the rows below it never paint.
+// Two columns so the matrix stays inside the 800px snapshot viewport — past
+// that, the rows below never paint and the baseline bakes in the truncation.
 const areas = html`<div style="display:flex;gap:16px;align-items:flex-start;">
   <div style="display:flex;flex-direction:column;gap:16px;inline-size:320px;">
     <moz-textarea

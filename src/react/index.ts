@@ -41,6 +41,10 @@ import {
   MozSegmentedControl as MozSegmentedControlElement,
   MozSegmentedControlItem as MozSegmentedControlItemElement,
 } from '../components/moz-segmented-control/moz-segmented-control';
+import {
+  MozOption as MozOptionElement,
+  MozSelect as MozSelectElement,
+} from '../components/moz-select/moz-select';
 import { MozStatusBadge as MozStatusBadgeElement } from '../components/moz-status-badge/moz-status-badge';
 import { MozStatusDot as MozStatusDotElement } from '../components/moz-status-dot/moz-status-dot';
 import { MozTextarea as MozTextareaElement } from '../components/moz-textarea/moz-textarea';
@@ -301,6 +305,22 @@ export const MozSegmentedControlItem = createComponent({
 export const MozSegmentedControlDeck = createComponent({
   tagName: 'moz-segmented-control-deck',
   elementClass: MozSegmentedControlDeckElement,
+  react: React,
+});
+
+export const MozSelect = createComponent({
+  tagName: 'moz-select',
+  elementClass: MozSelectElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozOption = createComponent({
+  tagName: 'moz-option',
+  elementClass: MozOptionElement,
   react: React,
 });
 
