@@ -127,6 +127,8 @@ There is one `<component>.visual.ts` spec per component, each importing the shar
 
 Pixel output depends on the browser build and fonts, so baselines are authoritative on one environment: the pinned Playwright Linux container. Only the `-chromium-linux` baselines are committed (local `-darwin` / `-win32` ones are git-ignored), and the `visual` CI job compares against them in that same container.
 
+CPU architecture counts as part of that environment. The `:docker` scripts pass `--platform linux/amd64` to match CI's runner, because Chromium's arm64 and amd64 Linux builds are not pixel-identical — they ship different ICU data, so a control that formats a value through the platform (a `month` input renders `April 2026` on amd64 but `2026-04` on arm64) diverges. On Apple Silicon the run is emulated and therefore slower, but without the flag baselines generated locally would pass locally and fail CI, and the `-chromium-linux` filename gives no hint which architecture produced them.
+
 To add or refresh baselines, regenerate them in the container so they match CI, then review and commit the PNGs:
 
 ```sh
