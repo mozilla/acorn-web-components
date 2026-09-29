@@ -23,10 +23,15 @@ export type InputType = 'text' | 'email' | 'url' | 'tel';
  * the text-specific attributes, an optional in-field leading icon (`icon-start`,
  * distinct from the label's `label-icon`), and an optional clear button.
  *
+ * Generic over the control element so a subclass can swap in a `<textarea>`
+ * (see `moz-textarea`) without `inputEl` lying about its type.
+ *
  * @csspart field - The bordered box wrapping the icon, input, and clear button.
  * @csspart input - The native `<input>` element.
  */
-export class MozInputText extends MozBaseInputElement {
+export class MozInputText<
+  T extends HTMLInputElement | HTMLTextAreaElement = HTMLInputElement,
+> extends MozBaseInputElement<T> {
   static styles = [
     ...MozBaseInputElement.styles,
     inputTokens,
