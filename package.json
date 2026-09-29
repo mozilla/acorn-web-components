@@ -114,7 +114,7 @@
     "react-dom": "^19.2.8",
     "storybook": "^10.5.7",
     "style-dictionary": "^5.5.1",
-    "stylelint": "^17.14.1",
+    "stylelint": "^17.15.0",
     "stylelint-order": "^8.1.1",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
