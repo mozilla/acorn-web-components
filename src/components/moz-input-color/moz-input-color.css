@@ -1,0 +1,123 @@
+:host {
+  --input-color-swatch-size: var(--size-item-medium);
+
+  /* 40px per the design, not the 32px of the text fields: the row is a
+   * button-like target sized around a 24px swatch. Set explicitly because
+   * leaving it at the text-field height let the swatch overrun it. */
+  --input-color-min-height: var(--button-min-height-large);
+}
+
+/* `small` lines the row up with the 32px text fields, which needs a smaller
+ * swatch — 24px wouldn't fit inside the border and padding. */
+:host([size="small"]) {
+  --input-color-swatch-size: var(--size-item-small);
+  --input-color-min-height: var(--input-text-min-height);
+}
+
+/* The bordered row is the label when the label sits inside it, and .field when
+ * the value does — so every box rule needs both selectors. */
+:host(:not([show-value])) label,
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+  min-block-size: var(--input-color-min-height);
+  padding-block: var(--space-xsmall);
+  padding-inline: var(--space-small);
+  border: var(--input-text-border);
+  border-radius: var(--input-text-border-radius);
+  background-color: var(--input-text-background-color);
+  cursor: pointer;
+}
+
+#input {
+  flex-shrink: 0;
+  inline-size: var(--input-color-swatch-size);
+  block-size: var(--input-color-swatch-size);
+  padding: 0;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius-circle);
+  background-color: transparent;
+  cursor: inherit;
+  appearance: none;
+}
+
+#input::-moz-color-swatch {
+  border: none;
+  border-radius: var(--border-radius-circle);
+}
+
+/* Keep this separate from the -moz- rule above: Chrome drops the whole
+ * declaration if the two vendor swatch pseudo-elements share a selector. */
+#input::-webkit-color-swatch {
+  border: none;
+  border-radius: var(--border-radius-circle);
+}
+
+#input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.value {
+  /* Tabular figures keep the six digits from shifting as the colour changes. */
+  font-variant-numeric: tabular-nums;
+}
+
+.edit {
+  flex-shrink: 0;
+
+  /* In the label-inside layout the base fixes DOM order as control-then-text,
+   * so reorder rather than restructure; harmless in the .field layout, where
+   * the icon is already last. */
+  order: 1;
+  margin-inline-start: auto;
+
+  /* Track the label text. moz-icon otherwise resolves --icon-color, which is a
+   * token reference and so wouldn't follow the row's colour in other states. */
+  color: inherit;
+}
+
+:host(:not([show-value]):not(:state(disabled))) label:hover,
+:host(:not(:state(disabled))) .field:hover {
+  border-color: var(--border-color-interactive-hover);
+  background-color: var(--button-background-color-ghost-hover);
+}
+
+:host(:not([show-value]):not(:state(disabled))) label:active,
+:host(:not(:state(disabled))) .field:active {
+  background-color: var(--button-background-color-ghost-active);
+}
+
+:host(:not([show-value])) label:focus-within,
+.field:focus-within {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-inset);
+}
+
+:host(:state(disabled)) label,
+:host(:state(disabled)) .field {
+  border-color: var(--input-text-border-color-disabled);
+
+  /* Set on the row so the label, the hex readout, and the icon all shift
+   * together. Not an opacity: one low enough to read as disabled puts 15px
+   * text under 4.5:1 whatever colour it starts from, and this is real text. */
+  color: var(--text-color-deemphasized);
+  background-color: var(--input-text-background-color-disabled);
+  cursor: not-allowed;
+}
+
+/* The swatch shows a colour rather than text, so dimming it is the only way to
+ * make it read as disabled. */
+:host(:state(disabled)) #input {
+  opacity: var(--input-text-opacity-disabled);
+}
+
+:host(:state(error)) label,
+:host(:state(error)) .field {
+  border-color: var(--border-color-error);
+}
+
+:host(:state(error)) label:focus-within,
+:host(:state(error)) .field:focus-within {
+  outline-color: var(--border-color-error);
+}
