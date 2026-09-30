@@ -1,9 +1,8 @@
 :host {
   --input-color-swatch-size: var(--size-item-medium);
 
-  /* 40px per the design, not the 32px of the text fields: the row is a
-   * button-like target sized around a 24px swatch. Set explicitly because
-   * leaving it at the text-field height let the swatch overrun it. */
+  /* 40px per the design, not the text fields' 32px. Explicit because at 32px
+   * the 24px swatch overran it and set the height itself. */
   --input-color-min-height: var(--button-min-height-large);
 }
 
@@ -66,9 +65,8 @@
 .edit {
   flex-shrink: 0;
 
-  /* In the label-inside layout the base fixes DOM order as control-then-text,
-   * so reorder rather than restructure; harmless in the .field layout, where
-   * the icon is already last. */
+  /* The base fixes DOM order as control-then-text, so reorder rather than
+   * restructure. */
   order: 1;
   margin-inline-start: auto;
 
@@ -98,16 +96,14 @@
 :host(:state(disabled)) .field {
   border-color: var(--input-text-border-color-disabled);
 
-  /* Set on the row so the label, the hex readout, and the icon all shift
-   * together. Not an opacity: one low enough to read as disabled puts 15px
-   * text under 4.5:1 whatever colour it starts from, and this is real text. */
+  /* On the row so label, readout and icon shift together. Not an opacity: one
+   * low enough to read as disabled puts 15px text under 4.5:1. */
   color: var(--text-color-deemphasized);
   background-color: var(--input-text-background-color-disabled);
   cursor: not-allowed;
 }
 
-/* The swatch shows a colour rather than text, so dimming it is the only way to
- * make it read as disabled. */
+/* The swatch shows a colour, not text, so dimming is the only signal it has. */
 :host(:state(disabled)) #input {
   opacity: var(--input-text-opacity-disabled);
 }

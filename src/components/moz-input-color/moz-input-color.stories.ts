@@ -283,9 +283,8 @@ export const RequiredIsCosmetic: Story = {
   },
 };
 
-// Pinned to the design: a 40px row around a 24px swatch. Worth asserting
-// because the swatch can overrun the row's min-height and silently set the
-// height itself — which is how it first landed at 33.5px.
+// Pinned to the design: a 40px row around a 24px swatch. The swatch can
+// overrun the row and set the height itself, which is how it first hit 33.5px.
 export const Metrics: Story = {
   tags: ['!dev', '!autodocs'],
   play: async ({ canvasElement }) => {
@@ -377,8 +376,7 @@ export const SmallMetrics: Story = {
     expect(row.height).toBeCloseTo(32, 0);
     expect(dot.width).toBeCloseTo(16, 0);
 
-    // The swatch must not overrun the row, which is what pushed the default
-    // size to 33.5px before the height was set explicitly.
+    // The swatch must not overrun the row (see Metrics).
     expect(dot.height).toBeLessThan(row.height);
   },
 };
@@ -442,9 +440,8 @@ export const DisabledRowDoesNotOpenPicker: Story = {
   },
 };
 
-// The edit icon takes the label text's colour, in every state. moz-icon
-// otherwise resolves --icon-color, a token reference that wouldn't follow the
-// row, so the two would drift apart as soon as a state changed the text.
+// The edit icon takes the label text's colour in every state. moz-icon
+// otherwise resolves --icon-color, which wouldn't follow the row.
 export const EditIconMatchesLabelColour: Story = {
   tags: ['!dev', '!autodocs'],
   play: async ({ canvasElement }) => {

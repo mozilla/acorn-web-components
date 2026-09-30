@@ -73,10 +73,9 @@ export class MozInputColor extends MozBaseInputElement {
   }
 
   /**
-   * With `show-value` the row is a plain element — the label sits above it —
-   * so only the swatch would be clickable, unlike the default layout where the
-   * row *is* the label. Forward row clicks to the swatch to keep the whole row
-   * the target in both modes.
+   * With `show-value` the row is a plain element rather than the label, so only
+   * the swatch would respond. Forward row clicks to keep the whole row the
+   * target in both layouts.
    */
   #activateFromRow = (event: MouseEvent) => {
     const input = this.inputEl;
@@ -115,16 +114,16 @@ export class MozInputColor extends MozBaseInputElement {
   }
 
   protected inputTemplate() {
-    // Without `show-value` the base nests this inside the label, which is what
-    // makes the whole row the control. With it, the row is ours to draw.
+    // The base nests this inside the label, which is what makes the row the
+    // control; with `show-value` the row is ours to draw instead.
     if (!this.showValue) {
       return html`${this.#swatchTemplate()}${this.#editTemplate()}`;
     }
 
+    // The readout is hidden from AT: it renders the value the input already
+    // exposes, so announcing it twice is noise.
     return html`<div class="field" part="field" @click=${this.#activateFromRow}>
       ${this.#swatchTemplate()}
-      <!-- Hidden from AT: this is a visual rendering of the value the input
-           already exposes, so announcing it again is noise. -->
       <span class="value" part="value" aria-hidden="true"
         >${this.value.toUpperCase()}</span
       >
