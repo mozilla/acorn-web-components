@@ -14,47 +14,20 @@ const ANNOUNCE_THRESHOLD = 10;
 export type TextareaResize = 'both' | 'vertical' | 'horizontal' | 'none';
 
 /**
- * Multiline text input. A `moz-input-text` that swaps the native control for a
- * `<textarea>`, so it keeps the shared label, description, and form/validation
- * wiring, and adds `rows`, a resize handle, and an optional character counter.
+ * Multiline text input: a `moz-input-text` with a `<textarea>` in place of the
+ * input, plus `rows`, a resize handle, and an optional character counter.
  *
- * Unlike a single-line field, Enter inserts a newline rather than submitting;
- * Ctrl/Cmd+Enter still submits the form, which is the convention for getting
- * out of a textarea without reaching for the mouse.
+ * Enter inserts a newline rather than submitting; Ctrl/Cmd+Enter submits. The
+ * inherited `icon-start` and `clearable` don't apply here and aren't rendered.
  *
- * The inherited in-field affordances — `icon-start` and `clearable` — don't
- * apply to a multiline field and are not rendered.
- *
- * @tagname moz-textarea
- * @slot description - Rich helper text, as an alternative to the `description` attribute.
- * @csspart wrapper - The label + control container.
- * @csspart label - The `<label>` element.
  * @csspart field - The bordered box wrapping the textarea.
  * @csspart input - The native `<textarea>`.
  * @csspart counter - The character counter, when shown.
- * @csspart description - The helper-text region.
- * @csspart error - The error message region.
- * @fires input - Composed; the value changed.
- * @fires change - Composed; the value was committed.
- *
- * @example
- * ```html
- * <moz-textarea
- *   label="Summary"
- *   name="summary"
- *   rows="4"
- *   maxlength="250"
- * ></moz-textarea>
- * ```
  */
 export class MozTextarea extends MozInputText<HTMLTextAreaElement> {
   static styles = [...MozInputText.styles, styles];
 
-  /**
-   * Visible rows, i.e. the field's starting height.
-   *
-   * @default 2
-   */
+  /** Visible rows, i.e. the field's starting height. */
   @property({ type: Number, reflect: true }) rows = 2;
 
   /**
@@ -64,10 +37,8 @@ export class MozTextarea extends MozInputText<HTMLTextAreaElement> {
   @property({ type: Number }) maxlength?: number;
 
   /**
-   * Show the character counter even with no `maxlength`, in which case it's a
-   * plain count rather than `n/max`.
-   *
-   * @default false
+   * Show the counter even with no `maxlength`, where it's a plain count rather
+   * than `n/max`.
    */
   @property({ type: Boolean, reflect: true, attribute: 'show-counter' })
   showCounter = false;
@@ -75,12 +46,9 @@ export class MozTextarea extends MozInputText<HTMLTextAreaElement> {
   /**
    * Which axes the field can be dragged along. Horizontal resizing grows the
    * host too, up to the width of its container.
-   *
-   * @default 'both'
    */
   @property({ reflect: true }) resize: TextareaResize = 'both';
 
-  /** A counter is meaningful once there's a limit, or when asked for. */
   get #hasCounter(): boolean {
     return this.showCounter || this.maxlength !== undefined;
   }
@@ -94,9 +62,8 @@ export class MozTextarea extends MozInputText<HTMLTextAreaElement> {
     if (event.ctrlKey || event.metaKey) super.handleKeydown(event);
   }
 
-  // The count is visible text, so it's announced when focus lands on the
-  // field. Re-announcing every keystroke is noise, so the live region only
-  // opens up near the limit, where it's actually news.
+  // Already announced as static text on focus, so only open the live region
+  // near the limit, where the running count is actually news.
   get #announceCount(): boolean {
     return (
       this.maxlength !== undefined &&

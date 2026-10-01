@@ -285,10 +285,8 @@ export const EmitsComposedEvents: Story = {
   },
 };
 
-// Resize maps onto the textarea's CSS, and a horizontal drag has to grow the
-// host too — field-width.css would otherwise clamp it and the drag would
-// silently do nothing. The drag itself isn't scriptable, so this sets the
-// inline width the browser would set and checks the host follows.
+// A drag isn't scriptable, so set the inline width the browser would set and
+// check the host follows — otherwise field-width.css clamps it silently.
 export const ResizeGrowsHost: Story = {
   tags: ['!dev', '!autodocs'],
   args: { value: 'resize me' },
@@ -318,11 +316,8 @@ export const ResizeGrowsHost: Story = {
   },
 };
 
-// The grip sits one --space-xsmall step in from the field border on both edges,
-// rather than inheriting the single-line field's larger inline padding. The
-// step is 0.25rem against Nova's 15px root, so it resolves to 3.75px — asserted
-// against the resolved token rather than a literal, since the whole spacing
-// scale lands on non-integer pixels.
+// The grip sits one --space-xsmall step in on every edge. Asserted against the
+// resolved token, not a literal: the rem scale lands on non-integer pixels.
 export const GripInset: Story = {
   tags: ['!dev', '!autodocs'],
   play: async ({ canvasElement }) => {

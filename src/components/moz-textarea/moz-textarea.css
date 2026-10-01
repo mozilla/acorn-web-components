@@ -3,10 +3,8 @@
   --input-text-min-height: auto;
 }
 
-/* Horizontal resizing only does anything if the host can follow the textarea;
- * otherwise field-width.css clamps it and the drag silently does nothing.
- * fit-content lets it grow, the min keeps the normal starting width, and
- * field-width.css's max-inline-size:100% still stops it escaping the column. */
+/* A horizontal drag does nothing unless the host can follow it — field-width.css
+ * would otherwise clamp it. The min keeps the normal starting width. */
 :host([resize="both"]),
 :host([resize="horizontal"]) {
   inline-size: fit-content;
@@ -16,14 +14,13 @@
 .field {
   align-items: stretch;
 
-  /* 4px all round, so the browser's resize grip sits 4px from the field border
-   * rather than inheriting the single-line field's 8px inline padding. */
+  /* One step all round puts the resize grip just inside the border, instead of
+   * inheriting the single-line field's larger inline padding. The textarea
+   * pads by the same step again, keeping the shared text inset. */
   padding: var(--space-xsmall);
 }
 
 #input {
-  /* The field's 4px plus this 4px keeps the text inset at the 8px every other
-   * field uses. */
   padding: var(--space-xsmall);
   resize: both;
 }
