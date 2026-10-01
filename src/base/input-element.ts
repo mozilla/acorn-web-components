@@ -143,7 +143,7 @@ export abstract class MozBaseInputElement<
     this.inputLayout = (
       this.constructor as typeof MozBaseInputElement
     ).inputLayout;
-    this.addEventListener('keydown', this.#handleKeydown);
+    this.addEventListener('keydown', (event) => this.handleKeydown(event));
   }
 
   connectedCallback(): void {
@@ -186,15 +186,27 @@ export abstract class MozBaseInputElement<
     }
   }
 
-  #handleKeydown = (event: KeyboardEvent) => {
-    // Match native single-line controls: Enter submits the associated form. A
-    // multiline control (textarea) must override this to leave Enter alone.
+  /**
+   * Match native single-line controls: Enter submits the associated form.
+   * A multiline control (textarea) overrides this to leave Enter alone.
+   */
+  protected handleKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter') this.#internals.form?.requestSubmit();
-  };
+  }
 
   /** Disabled by its own `disabled` or by a disabled container. */
   get isDisabled(): boolean {
     return this.disabled || this.parentDisabled || this.formDisabled;
+  }
+
+  /**
+   * What this control contributes to form submission, normally its `value`.
+   * A control whose real state can't be expressed as a string — a file picker,
+   * whose value is `File` objects — returns `null` so it submits nothing
+   * rather than a misleading stand-in under its `name`.
+   */
+  protected get submissionValue(): string | null {
+    return this.value;
   }
 
   protected willUpdate(changed: PropertyValues<this>): void {
@@ -244,7 +256,9 @@ export abstract class MozBaseInputElement<
         this.#updateNestedElements();
       }
     } else if (changed.has('value') || disabledChanged) {
-      this.#internals.setFormValue(this.isDisabled ? null : this.value);
+      this.#internals.setFormValue(
+        this.isDisabled ? null : this.submissionValue,
+      );
     }
     // Validity depends on value plus any number of constraint attributes, so
     // re-mirror it from the inner control on every update rather than enumerate.
@@ -271,7 +285,12 @@ export abstract class MozBaseInputElement<
     }
     const gated = this.isDisabled || off;
     for (const el of assigned) {
-      if (el instanceof MozBaseInputElement) el.parentDisabled = gated;
+      // Duck-type rather than instanceof: containers that aren't inputs
+      // themselves opt in too (moz-radio-group, moz-fieldset), and an
+      // instanceof check would leave their controls live and submittable.
+      if ('parentDisabled' in el) {
+        (el as Element & { parentDisabled: boolean }).parentDisabled = gated;
+      }
     }
   };
 
@@ -395,7 +414,13 @@ export abstract class MozBaseInputElement<
   }
 
   select() {
-    if (this.inputEl instanceof HTMLInputElement) this.inputEl.select();
+    // Both input and textarea implement select(); a select element doesn't.
+    if (
+      this.inputEl instanceof HTMLInputElement ||
+      this.inputEl instanceof HTMLTextAreaElement
+    ) {
+      this.inputEl.select();
+    }
   }
 
   /** The ids for `aria-describedby`: the description and/or the error message. */

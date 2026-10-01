@@ -8,8 +8,9 @@ import '../src/components/moz-provider/moz-provider';
 // autodocs pages. `cem analyze` writes it to dist/ and the pre*/analyze scripts
 // regenerate it before Storybook starts, so it's always current.
 import customElements from '../dist/custom-elements.json';
+import { forDocs } from './manifest-docs';
 
-setCustomElementsManifest(customElements);
+setCustomElementsManifest(forDocs(customElements));
 
 const preview: Preview = {
   initialGlobals: {
@@ -69,7 +70,13 @@ const preview: Preview = {
     backgrounds: { disable: true, grid: { disable: true } },
     outline: { disable: true },
     // "Show code" shows just the component usage, not the decorator wrappers.
-    docs: { source: { excludeDecorators: true } },
+    // Sorted because the default ("none") is manifest order — a component's own
+    // attributes, then each base class's — which has no visual grouping in the
+    // table, so it reads as arbitrary and you can't scan for a name.
+    docs: {
+      source: { excludeDecorators: true },
+      controls: { sort: 'alpha' },
+    },
     options: {
       storySort: {
         method: 'alphabetical',

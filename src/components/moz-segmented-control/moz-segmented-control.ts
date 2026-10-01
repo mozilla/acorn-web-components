@@ -47,6 +47,19 @@ export class MozSegmentedControl extends SelectControlBaseElement {
   /** Whether the whole group is disabled. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /**
+   * Set by a container (a disabled `moz-fieldset`, or a checkbox/toggle whose
+   * `nested` slot this sits in) to disable the group without touching its own
+   * `disabled`, matching `MozBaseInputElement` and `moz-radio-group`. Read
+   * `isDisabled`.
+   */
+  @state() parentDisabled = false;
+
+  /** Disabled by its own `disabled` or by a container. */
+  get isDisabled(): boolean {
+    return this.disabled || this.parentDisabled;
+  }
+
   /** Whether segments fill the container width equally, rather than hugging
    * their content. */
   @property({ type: Boolean, reflect: true }) fill = false;
@@ -87,7 +100,7 @@ export class MozSegmentedControl extends SelectControlBaseElement {
   // selection and tab stop, so a group-disabled option is never chosen as the
   // focusable one.
   override syncStateToChildElements(): void {
-    for (const item of this.#segmentItems) item.groupDisabled = this.disabled;
+    for (const item of this.#segmentItems) item.groupDisabled = this.isDisabled;
     super.syncStateToChildElements();
     this.#syncModes();
   }
@@ -97,10 +110,11 @@ export class MozSegmentedControl extends SelectControlBaseElement {
     this.setAttribute('role', this.#tabs ? 'tablist' : 'radiogroup');
     if (this.label) this.setAttribute('aria-label', this.label);
     else this.removeAttribute('aria-label');
-    if (this.disabled) this.setAttribute('aria-disabled', 'true');
+    if (this.isDisabled) this.setAttribute('aria-disabled', 'true');
     else this.removeAttribute('aria-disabled');
-    if (changed.has('disabled')) {
-      for (const item of this.#segmentItems) item.groupDisabled = this.disabled;
+    if (changed.has('disabled') || changed.has('parentDisabled')) {
+      for (const item of this.#segmentItems)
+        item.groupDisabled = this.isDisabled;
       this.syncFocusState();
     }
     this.#syncModes();

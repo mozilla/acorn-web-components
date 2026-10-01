@@ -1,0 +1,18 @@
+/* The engine's picker button sits at the trailing edge of the input, so let it
+ * hug the field edge the way the clear button does, and tint it to match the
+ * in-field icon instead of the UA's default. */
+#input::-webkit-calendar-picker-indicator {
+  margin-inline-end: 0;
+  padding-inline: var(--space-xxsmall);
+  border-radius: var(--border-radius-small);
+  color: var(--text-color-deemphasized);
+  cursor: pointer;
+}
+
+#input::-webkit-calendar-picker-indicator:hover {
+  background-color: var(--background-color-dimmed);
+}
+
+:host(:state(disabled)) #input::-webkit-calendar-picker-indicator {
+  cursor: not-allowed;
+}

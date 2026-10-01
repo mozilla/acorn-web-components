@@ -53,13 +53,10 @@ export const Default: Story = {
   play: async ({ canvasElement }) => {
     const icon = canvasElement.querySelector('moz-icon');
     expect(icon).toBeTruthy();
-    // The icon module loads asynchronously; poll for the rendered svg.
-    let svg: SVGElement | null | undefined;
-    for (let i = 0; i < 50 && !svg; i++) {
-      svg = icon?.shadowRoot?.querySelector('svg');
-      if (!svg) await new Promise((r) => setTimeout(r, 20));
-    }
-    expect(svg).toBeTruthy();
+    // updateComplete settles the on-demand icon module too, so the svg is
+    // there once it resolves.
+    await icon!.updateComplete;
+    expect(icon!.shadowRoot?.querySelector('svg')).toBeTruthy();
   },
 };
 

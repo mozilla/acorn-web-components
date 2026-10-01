@@ -21,6 +21,11 @@ import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/mo
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozIllustration as MozIllustrationElement } from '../components/moz-illustration/moz-illustration';
+import { MozInputColor as MozInputColorElement } from '../components/moz-input-color/moz-input-color';
+import { MozInputDate as MozInputDateElement } from '../components/moz-input-date/moz-input-date';
+import { MozInputFile as MozInputFileElement } from '../components/moz-input-file/moz-input-file';
+import { MozInputNumber as MozInputNumberElement } from '../components/moz-input-number/moz-input-number';
+import { MozInputPassword as MozInputPasswordElement } from '../components/moz-input-password/moz-input-password';
 import { MozInputSearch as MozInputSearchElement } from '../components/moz-input-search/moz-input-search';
 import { MozInputText as MozInputTextElement } from '../components/moz-input-text/moz-input-text';
 import { MozLabel as MozLabelElement } from '../components/moz-label/moz-label';
@@ -38,8 +43,13 @@ import {
   MozSegmentedControl as MozSegmentedControlElement,
   MozSegmentedControlItem as MozSegmentedControlItemElement,
 } from '../components/moz-segmented-control/moz-segmented-control';
+import {
+  MozOption as MozOptionElement,
+  MozSelect as MozSelectElement,
+} from '../components/moz-select/moz-select';
 import { MozStatusBadge as MozStatusBadgeElement } from '../components/moz-status-badge/moz-status-badge';
 import { MozStatusDot as MozStatusDotElement } from '../components/moz-status-dot/moz-status-dot';
+import { MozTextarea as MozTextareaElement } from '../components/moz-textarea/moz-textarea';
 import { MozToggle as MozToggleElement } from '../components/moz-toggle/moz-toggle';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
@@ -185,6 +195,56 @@ export const MozIllustration = createComponent({
   react: React,
 });
 
+export const MozInputColor = createComponent({
+  tagName: 'moz-input-color',
+  elementClass: MozInputColorElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozInputDate = createComponent({
+  tagName: 'moz-input-date',
+  elementClass: MozInputDateElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozInputFile = createComponent({
+  tagName: 'moz-input-file',
+  elementClass: MozInputFileElement,
+  react: React,
+  events: {
+    onChange: 'change',
+    onRejected: 'moz-input-file:rejected',
+  },
+});
+
+export const MozInputNumber = createComponent({
+  tagName: 'moz-input-number',
+  elementClass: MozInputNumberElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozInputPassword = createComponent({
+  tagName: 'moz-input-password',
+  elementClass: MozInputPasswordElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
 export const MozInputSearch = createComponent({
   tagName: 'moz-input-search',
   elementClass: MozInputSearchElement,
@@ -270,6 +330,22 @@ export const MozSegmentedControlDeck = createComponent({
   react: React,
 });
 
+export const MozSelect = createComponent({
+  tagName: 'moz-select',
+  elementClass: MozSelectElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
+});
+
+export const MozOption = createComponent({
+  tagName: 'moz-option',
+  elementClass: MozOptionElement,
+  react: React,
+});
+
 export const MozStatusBadge = createComponent({
   tagName: 'moz-status-badge',
   elementClass: MozStatusBadgeElement,
@@ -280,6 +356,16 @@ export const MozStatusDot = createComponent({
   tagName: 'moz-status-dot',
   elementClass: MozStatusDotElement,
   react: React,
+});
+
+export const MozTextarea = createComponent({
+  tagName: 'moz-textarea',
+  elementClass: MozTextareaElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
 });
 
 export const MozToggle = createComponent({
