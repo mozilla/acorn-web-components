@@ -199,6 +199,16 @@ export abstract class MozBaseInputElement<
     return this.disabled || this.parentDisabled || this.formDisabled;
   }
 
+  /**
+   * What this control contributes to form submission, normally its `value`.
+   * A control whose real state can't be expressed as a string — a file picker,
+   * whose value is `File` objects — returns `null` so it submits nothing
+   * rather than a misleading stand-in under its `name`.
+   */
+  protected get submissionValue(): string | null {
+    return this.value;
+  }
+
   protected willUpdate(changed: PropertyValues<this>): void {
     super.willUpdate?.(changed);
     // `disabled` drives `:host(:state(disabled))`; the activated flag (e.g.
@@ -246,7 +256,9 @@ export abstract class MozBaseInputElement<
         this.#updateNestedElements();
       }
     } else if (changed.has('value') || disabledChanged) {
-      this.#internals.setFormValue(this.isDisabled ? null : this.value);
+      this.#internals.setFormValue(
+        this.isDisabled ? null : this.submissionValue,
+      );
     }
     // Validity depends on value plus any number of constraint attributes, so
     // re-mirror it from the inner control on every update rather than enumerate.
@@ -402,7 +414,13 @@ export abstract class MozBaseInputElement<
   }
 
   select() {
-    if (this.inputEl instanceof HTMLInputElement) this.inputEl.select();
+    // Both input and textarea implement select(); a select element doesn't.
+    if (
+      this.inputEl instanceof HTMLInputElement ||
+      this.inputEl instanceof HTMLTextAreaElement
+    ) {
+      this.inputEl.select();
+    }
   }
 
   /** The ids for `aria-describedby`: the description and/or the error message. */

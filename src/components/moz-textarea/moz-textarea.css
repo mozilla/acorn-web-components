@@ -1,0 +1,54 @@
+/* A multiline field grows with `rows`, so drop the single-line min-height. */
+:host {
+  --input-text-min-height: auto;
+}
+
+/* Horizontal resizing only does anything if the host can follow the textarea;
+ * otherwise field-width.css clamps it and the drag silently does nothing.
+ * fit-content lets it grow, the min keeps the normal starting width, and
+ * field-width.css's max-inline-size:100% still stops it escaping the column. */
+:host([resize="both"]),
+:host([resize="horizontal"]) {
+  inline-size: fit-content;
+  min-inline-size: min(var(--field-width, 320px), 100%);
+}
+
+.field {
+  align-items: stretch;
+
+  /* 4px all round, so the browser's resize grip sits 4px from the field border
+   * rather than inheriting the single-line field's 8px inline padding. */
+  padding: var(--space-xsmall);
+}
+
+#input {
+  /* The field's 4px plus this 4px keeps the text inset at the 8px every other
+   * field uses. */
+  padding: var(--space-xsmall);
+  resize: both;
+}
+
+:host([resize="none"]) #input {
+  resize: none;
+}
+
+:host([resize="vertical"]) #input {
+  resize: vertical;
+}
+
+:host([resize="horizontal"]) #input {
+  resize: horizontal;
+}
+
+.counter {
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+  text-align: end;
+
+  /* Tabular figures stop the count jittering as digits change. */
+  font-variant-numeric: tabular-nums;
+}
+
+:host(:state(disabled)) .counter {
+  opacity: var(--input-text-opacity-disabled);
+}

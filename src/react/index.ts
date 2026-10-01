@@ -43,6 +43,7 @@ import {
 } from '../components/moz-segmented-control/moz-segmented-control';
 import { MozStatusBadge as MozStatusBadgeElement } from '../components/moz-status-badge/moz-status-badge';
 import { MozStatusDot as MozStatusDotElement } from '../components/moz-status-dot/moz-status-dot';
+import { MozTextarea as MozTextareaElement } from '../components/moz-textarea/moz-textarea';
 import { MozToggle as MozToggleElement } from '../components/moz-toggle/moz-toggle';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
@@ -313,6 +314,16 @@ export const MozStatusDot = createComponent({
   tagName: 'moz-status-dot',
   elementClass: MozStatusDotElement,
   react: React,
+});
+
+export const MozTextarea = createComponent({
+  tagName: 'moz-textarea',
+  elementClass: MozTextareaElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
 });
 
 export const MozToggle = createComponent({
