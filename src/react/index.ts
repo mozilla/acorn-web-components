@@ -21,6 +21,7 @@ import { MozFieldset as MozFieldsetElement } from '../components/moz-fieldset/mo
 import { MozFiveStar as MozFiveStarElement } from '../components/moz-five-star/moz-five-star';
 import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozIllustration as MozIllustrationElement } from '../components/moz-illustration/moz-illustration';
+import { MozInputColor as MozInputColorElement } from '../components/moz-input-color/moz-input-color';
 import { MozInputDate as MozInputDateElement } from '../components/moz-input-date/moz-input-date';
 import { MozInputNumber as MozInputNumberElement } from '../components/moz-input-number/moz-input-number';
 import { MozInputPassword as MozInputPasswordElement } from '../components/moz-input-password/moz-input-password';
@@ -191,6 +192,16 @@ export const MozIllustration = createComponent({
   tagName: 'moz-illustration',
   elementClass: MozIllustrationElement,
   react: React,
+});
+
+export const MozInputColor = createComponent({
+  tagName: 'moz-input-color',
+  elementClass: MozInputColorElement,
+  react: React,
+  events: {
+    onInput: 'input',
+    onChange: 'change',
+  },
 });
 
 export const MozInputDate = createComponent({

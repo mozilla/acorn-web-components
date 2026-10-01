@@ -18,6 +18,7 @@ export * from './components/moz-fieldset/moz-fieldset';
 export * from './components/moz-five-star/moz-five-star';
 export * from './components/moz-icon/moz-icon';
 export * from './components/moz-illustration/moz-illustration';
+export * from './components/moz-input-color/moz-input-color';
 export * from './components/moz-input-date/moz-input-date';
 export * from './components/moz-input-number/moz-input-number';
 export * from './components/moz-input-password/moz-input-password';
