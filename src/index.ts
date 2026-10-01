@@ -20,6 +20,7 @@ export * from './components/moz-icon/moz-icon';
 export * from './components/moz-illustration/moz-illustration';
 export * from './components/moz-input-color/moz-input-color';
 export * from './components/moz-input-date/moz-input-date';
+export * from './components/moz-input-file/moz-input-file';
 export * from './components/moz-input-number/moz-input-number';
 export * from './components/moz-input-password/moz-input-password';
 export * from './components/moz-input-search/moz-input-search';

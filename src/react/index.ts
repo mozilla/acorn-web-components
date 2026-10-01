@@ -23,6 +23,7 @@ import { MozIcon as MozIconElement } from '../components/moz-icon/moz-icon';
 import { MozIllustration as MozIllustrationElement } from '../components/moz-illustration/moz-illustration';
 import { MozInputColor as MozInputColorElement } from '../components/moz-input-color/moz-input-color';
 import { MozInputDate as MozInputDateElement } from '../components/moz-input-date/moz-input-date';
+import { MozInputFile as MozInputFileElement } from '../components/moz-input-file/moz-input-file';
 import { MozInputNumber as MozInputNumberElement } from '../components/moz-input-number/moz-input-number';
 import { MozInputPassword as MozInputPasswordElement } from '../components/moz-input-password/moz-input-password';
 import { MozInputSearch as MozInputSearchElement } from '../components/moz-input-search/moz-input-search';
@@ -211,6 +212,16 @@ export const MozInputDate = createComponent({
   events: {
     onInput: 'input',
     onChange: 'change',
+  },
+});
+
+export const MozInputFile = createComponent({
+  tagName: 'moz-input-file',
+  elementClass: MozInputFileElement,
+  react: React,
+  events: {
+    onChange: 'change',
+    onRejected: 'moz-input-file:rejected',
   },
 });
 

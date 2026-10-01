@@ -27,14 +27,16 @@
   text-wrap: pretty;
 }
 
-/* Disabled dims the label + description, matching the button/field.
- * `:state(disabled)` covers form controls (incl. a disabled ancestor fieldset);
- * `[disabled]` covers the standalone moz-label. --opacity-disabled (shared.css)
- * already drops to 1 under forced colors. */
+/* Disabled dims the label, matching the button/field. `:state(disabled)` covers
+ * form controls (incl. a disabled ancestor fieldset); `[disabled]` covers the
+ * standalone moz-label. --opacity-disabled (shared.css) already drops to 1
+ * under forced colors.
+ *
+ * The description is deliberately left out: it's already
+ * --text-color-deemphasized, and dimming that again drops 13px text under
+ * 4.5:1 contrast. */
 :host([disabled]) label,
-:host(:state(disabled)) label,
-:host([disabled]) .description,
-:host(:state(disabled)) .description {
+:host(:state(disabled)) label {
   opacity: var(--opacity-disabled);
 }
 

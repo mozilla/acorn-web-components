@@ -1,0 +1,161 @@
+:host {
+  --input-file-min-height: 140px;
+
+  /* 2px stroke with an 8-on/4-off dash, per the design. */
+  --input-file-outline-width: 2px;
+  --input-file-outline-dash: 8 4;
+  --input-file-outline-color: var(--border-color-interactive);
+}
+
+.zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xsmall);
+  min-block-size: var(--input-file-min-height);
+  padding: var(--space-large);
+  border-radius: var(--input-text-border-radius);
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Inset by half the stroke so the outer edge lands on the zone's box, with
+ * overflow visible because a centred stroke half-sits outside the rect. */
+.outline {
+  position: absolute;
+  inset: calc(var(--input-file-outline-width) / 2);
+  overflow: visible;
+  inline-size: calc(100% - var(--input-file-outline-width));
+  block-size: calc(100% - var(--input-file-outline-width));
+  pointer-events: none;
+}
+
+.outline rect {
+  fill: none;
+
+  /* Tracks the token; the rx attribute is the fallback for engines that don't
+   * take SVG geometry from CSS. */
+  rx: var(--input-text-border-radius);
+  stroke: var(--input-file-outline-color);
+  stroke-dasharray: var(--input-file-outline-dash);
+  stroke-width: var(--input-file-outline-width);
+}
+
+.prompt {
+  color: var(--text-color);
+}
+
+.trigger {
+  /* Styled as a link, but a button because it opens a dialog — which also
+   * brings the tab stop and Enter/Space handling for free. */
+  padding: 0;
+  border: none;
+  color: var(--link-color);
+  font: inherit;
+  text-decoration: underline;
+  background: none;
+  cursor: inherit;
+}
+
+.trigger:hover {
+  color: var(--link-color-hover);
+}
+
+.trigger:focus-visible {
+  border-radius: var(--link-border-radius-focus);
+  outline: var(--focus-outline);
+  outline-offset: var(--link-focus-outline-offset);
+}
+
+.hint {
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+}
+
+.hint[hidden] {
+  display: none;
+}
+
+/* Filled, the zone is a row: the files sit in the middle and Remove takes the
+ * trailing edge, per the design. */
+.zone.filled {
+  flex-direction: row;
+  gap: var(--space-small);
+}
+
+.files {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--space-xxsmall);
+
+  /* A long filename shouldn't stretch the zone past its container. */
+  min-inline-size: 0;
+}
+
+.remove {
+  flex: none;
+}
+
+.file {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-small);
+}
+
+.file-name {
+  overflow-wrap: anywhere;
+}
+
+.file-size {
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+}
+
+.zone:hover {
+  --input-file-outline-color: var(--border-color-interactive-hover);
+}
+
+/* Neutral washes rather than accent tints, which can't hold 4.5:1 under the
+ * violet link. The outline carries the signal, and the metrics are identical
+ * across all three states so nothing reflows under the pointer mid-drag. */
+.zone.accepted {
+  /* Solid reads as armed. */
+  --input-file-outline-dash: none;
+  --input-file-outline-color: var(--border-color-interactive-hover);
+
+  background-color: var(--background-color-dimmed);
+}
+
+.zone.forbidden {
+  --input-file-outline-dash: none;
+  --input-file-outline-color: var(--border-color-error);
+
+  background-color: var(--background-color-dimmed);
+  cursor: not-allowed;
+}
+
+/* Mid-drag the zone is the drop target, so the link colour has no job. */
+.zone.accepted .trigger,
+.zone.forbidden .trigger {
+  color: var(--text-color);
+}
+
+:host(:state(disabled)) .zone {
+  --input-file-outline-color: var(--input-text-border-color-disabled);
+
+  cursor: not-allowed;
+}
+
+:host(:state(disabled)) .trigger {
+  color: inherit;
+  text-decoration: none;
+}
+
+:host(:state(error)) .zone {
+  --input-file-outline-color: var(--border-color-error);
+}
