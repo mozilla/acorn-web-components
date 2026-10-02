@@ -1,0 +1,34 @@
+/*
+ * The radio mark: an unfilled circle that gains a centred dot when selected,
+ * shared by moz-radio and moz-visual-picker-item.
+ *
+ * Appearance only. The state rules stay with each component because they're
+ * driven differently — moz-radio off its input's `:checked`, the picker off a
+ * reflected `checked` attribute and the card's hover.
+ */
+:host {
+  --radio-size: var(--size-item-small);
+  --radio-dot-size: calc(var(--radio-size) / 2);
+}
+
+.mark-circle {
+  inline-size: var(--radio-size);
+  block-size: var(--radio-size);
+  border: var(--border-width) solid var(--border-color-interactive);
+  border-radius: var(--border-radius-circle);
+  background-color: var(--button-background-color);
+}
+
+/* Hidden until a component's own state rule shows it. */
+.mark-dot {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  display: none;
+  inline-size: var(--radio-dot-size);
+  block-size: var(--radio-dot-size);
+  border-radius: var(--border-radius-circle);
+  background-color: var(--button-background-color-primary);
+  pointer-events: none;
+  translate: -50% -50%;
+}

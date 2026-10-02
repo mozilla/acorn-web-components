@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozBaseInputElement } from '../../base/input-element';
+import radioMark from '../../base/radio-mark.css';
 import { SelectControlItemMixin } from '../../base/select-control';
 import buttonTokens from '../../generated/component-tokens/button.css';
 import styles from './moz-radio.css';
@@ -16,7 +17,12 @@ import styles from './moz-radio.css';
  * @csspart dot - The inner selection dot.
  */
 export class MozRadio extends SelectControlItemMixin(MozBaseInputElement) {
-  static styles = [...MozBaseInputElement.styles, buttonTokens, styles];
+  static styles = [
+    ...MozBaseInputElement.styles,
+    buttonTokens,
+    radioMark,
+    styles,
+  ];
   static inputLayout = 'inline' as const;
   static activatedProperty = 'checked';
 
@@ -44,6 +50,7 @@ export class MozRadio extends SelectControlItemMixin(MozBaseInputElement) {
     return html`<span class="circle">
       <input
         id="input"
+        class="mark-circle"
         part="input"
         type="radio"
         name=${ifDefined(this.name)}
@@ -58,7 +65,7 @@ export class MozRadio extends SelectControlItemMixin(MozBaseInputElement) {
         @click=${this.handleClick}
         @change=${this.#handleChange}
       />
-      <span class="dot" part="dot" aria-hidden="true"></span>
+      <span class="dot mark-dot" part="dot" aria-hidden="true"></span>
     </span>`;
   }
 }

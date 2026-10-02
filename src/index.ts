@@ -38,6 +38,7 @@ export * from './components/moz-status-badge/moz-status-badge';
 export * from './components/moz-status-dot/moz-status-dot';
 export * from './components/moz-textarea/moz-textarea';
 export * from './components/moz-toggle/moz-toggle';
+export * from './components/moz-visual-picker/moz-visual-picker';
 export * from './context/contrast-context';
 export * from './context/locale-context';
 export * from './context/theme-context';
