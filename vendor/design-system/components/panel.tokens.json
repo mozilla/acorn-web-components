@@ -72,11 +72,21 @@
   },
   "text": {
     "color": {
-      "value": {
-        "light": "{color.black.@base}",
-        "dark": "rgb(251, 251, 254)",
-        "nativeTheme": "FieldText",
-        "forcedColors": "MenuText"
+      "@base": {
+        "value": {
+          "light": "{color.black.@base}",
+          "dark": "rgb(251, 251, 254)",
+          "nativeTheme": "FieldText",
+          "forcedColors": "MenuText"
+        }
+      },
+      "dimmed": {
+        "@base": {
+          "value": "{panel.text.color.@base}"
+        },
+        "further": {
+          "value": "{panel.text.color.@base}"
+        }
       }
     }
   },
