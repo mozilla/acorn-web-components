@@ -42,6 +42,9 @@ export type VisualPickerVariant = 'card' | 'radio';
 export class MozVisualPicker extends SelectControlBaseElement {
   static styles = [shared, styles];
   static childElementName = 'moz-visual-picker-item';
+  // The items aren't form-associated — they're buttons, not inputs — so unlike
+  // moz-radio-group, where each radio submits its own value, the group has to.
+  static formAssociated = true;
 
   constructor() {
     super();
@@ -79,6 +82,9 @@ export class MozVisualPicker extends SelectControlBaseElement {
 
   @state() private hasSlottedDescription = false;
 
+  #internals = this.attachInternals();
+  #defaultValue?: string;
+
   /** Disabled by its own `disabled` or by a container. */
   get isDisabled(): boolean {
     return this.disabled || this.parentDisabled;
@@ -90,6 +96,12 @@ export class MozVisualPicker extends SelectControlBaseElement {
     return this.childElements as MozVisualPickerItem[];
   }
 
+  protected firstUpdated(changed: PropertyValues<this>): void {
+    super.firstUpdated?.(changed);
+    this.#defaultValue = this.value;
+    this.#syncForm();
+  }
+
   protected updated(changed: PropertyValues<this>): void {
     super.updated?.(changed);
     if (changed.has('disabled') || changed.has('parentDisabled')) {
@@ -98,6 +110,52 @@ export class MozVisualPicker extends SelectControlBaseElement {
     } else if (changed.has('variant')) {
       this.#propagateToItems();
     }
+    this.#syncForm();
+  }
+
+  formResetCallback(): void {
+    // Reset clears each item before this fires, so restore on the next
+    // microtask and let the group's saved selection win.
+    queueMicrotask(() => {
+      this.value = this.#defaultValue;
+    });
+  }
+
+  #syncForm(): void {
+    this.#internals.setFormValue(
+      this.isDisabled ? null : (this.value ?? null),
+    );
+    if (!this.isDisabled && this.required && !this.hasValue) {
+      this.#internals.setValidity(
+        { valueMissing: true },
+        'Please select an option.',
+        this.renderRoot?.querySelector<HTMLElement>('fieldset') ?? undefined,
+      );
+    } else {
+      this.#internals.setValidity({});
+    }
+  }
+
+  /** Whether the group passes its constraints. */
+  checkValidity(): boolean {
+    return this.#internals.checkValidity();
+  }
+
+  /** Like `checkValidity`, but also shows the platform validity UI. */
+  reportValidity(): boolean {
+    return this.#internals.reportValidity();
+  }
+
+  get validity(): ValidityState {
+    return this.#internals.validity;
+  }
+
+  get validationMessage(): string {
+    return this.#internals.validationMessage;
+  }
+
+  get willValidate(): boolean {
+    return this.#internals.willValidate;
   }
 
   override syncStateToChildElements(): void {

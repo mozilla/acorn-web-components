@@ -558,3 +558,73 @@ export const DefaultsToHorizontal: Story = {
     expect(getComputedStyle(all[0]).flexGrow).toBe('1');
   },
 };
+
+// The group submits under its own name: its items are buttons, not inputs, so
+// unlike moz-radio-group there's nothing beneath it to carry the value.
+export const InForm: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <form>
+      <moz-visual-picker label="Theme" name="theme" value="dark">
+        <moz-visual-picker-item value="light" label="Light"></moz-visual-picker-item>
+        <moz-visual-picker-item value="dark" label="Dark"></moz-visual-picker-item>
+      </moz-visual-picker>
+    </form>
+  `,
+  play: async ({ canvasElement }) => {
+    const form = canvasElement.querySelector('form')!;
+    const picker = group(canvasElement);
+    await picker.updateComplete;
+    await wait(50);
+    expect(new FormData(form).get('theme')).toBe('dark');
+
+    button(items(canvasElement)[0]).click();
+    await wait();
+    expect(new FormData(form).get('theme')).toBe('light');
+
+    form.reset();
+    await wait(50);
+    expect(picker.value).toBe('dark');
+    expect(new FormData(form).get('theme')).toBe('dark');
+  },
+};
+
+// A disabled group submits nothing, like a disabled native control.
+export const DisabledSubmitsNothing: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <form>
+      <moz-visual-picker label="Theme" name="theme" value="dark" disabled>
+        <moz-visual-picker-item value="dark" label="Dark"></moz-visual-picker-item>
+      </moz-visual-picker>
+    </form>
+  `,
+  play: async ({ canvasElement }) => {
+    const form = canvasElement.querySelector('form')!;
+    await group(canvasElement).updateComplete;
+    await wait(50);
+    expect([...new FormData(form).keys()]).not.toContain('theme');
+  },
+};
+
+// `required` is enforced, not just announced: the group owns its validity
+// because no inner input can mirror it.
+export const RequiredValidity: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-visual-picker label="Theme" name="theme" required>
+      <moz-visual-picker-item value="light" label="Light"></moz-visual-picker-item>
+    </moz-visual-picker>
+  `,
+  play: async ({ canvasElement }) => {
+    const picker = group(canvasElement);
+    await picker.updateComplete;
+    await wait(50);
+    expect(picker.checkValidity()).toBe(false);
+    expect(picker.validity.valueMissing).toBe(true);
+
+    button(items(canvasElement)[0]).click();
+    await wait();
+    expect(picker.checkValidity()).toBe(true);
+  },
+};
