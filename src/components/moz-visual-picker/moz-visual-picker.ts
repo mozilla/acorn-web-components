@@ -122,9 +122,7 @@ export class MozVisualPicker extends SelectControlBaseElement {
   }
 
   #syncForm(): void {
-    this.#internals.setFormValue(
-      this.isDisabled ? null : (this.value ?? null),
-    );
+    this.#internals.setFormValue(this.isDisabled ? null : (this.value ?? null));
     if (!this.isDisabled && this.required && !this.hasValue) {
       this.#internals.setValidity(
         { valueMissing: true },
