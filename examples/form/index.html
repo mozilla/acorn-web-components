@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Form — acorn-web-components</title>
+    <style>
+      body {
+        margin: 0;
+        background: var(--background-color-canvas);
+        color: var(--text-color);
+        font-family: var(--font-family, system-ui, sans-serif);
+      }
+
+      .page {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+
+      /* The form owns its own rhythm; the controls size themselves. */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      /* Nothing here is a component: the summary is a plain message bar whose
+         content the app builds. */
+      #summary ol {
+        margin: 0.25rem 0 0;
+        padding-inline-start: 1.25rem;
+      }
+
+      h1 {
+        margin: 0;
+      }
+
+      .intro {
+        margin: 0;
+        color: var(--text-color-deemphasized);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <h1>Submit a new version</h1>
+      <p class="intro">
+        A worked example of composing a form from these components. A real <code>&lt;form&gt;</code> plus the controls' own form association does the work, and the app owns submit, busy state, and where errors surface.
+      </p>
+
+      <moz-message-bar id="summary" type="error" hidden></moz-message-bar>
+      <moz-message-bar id="success" type="success" dismissable hidden
+        >Version submitted.</moz-message-bar
+      >
+
+      <form id="version-form" novalidate>
+        <moz-input-text
+          name="title"
+          label="Version name"
+          description="Shown to users in the Add-ons Manager."
+          required
+          full-width
+        ></moz-input-text>
+
+        <moz-select name="licence" label="Licence" required full-width>
+          <moz-option value="" label="Choose a licence…"></moz-option>
+          <moz-option value="mpl-2.0" label="MPL 2.0"></moz-option>
+          <moz-option value="apache-2.0" label="Apache 2.0"></moz-option>
+          <moz-option value="mit" label="MIT"></moz-option>
+          <hr />
+          <moz-option value="other" label="Something else"></moz-option>
+        </moz-select>
+
+        <moz-textarea
+          name="description"
+          label="Release notes"
+          description="What changed in this version."
+          rows="4"
+          maxlength="500"
+          required
+          full-width
+        ></moz-textarea>
+
+        <moz-visual-picker
+          name="distribution"
+          label="Distribution"
+          description="Where this version will be available."
+          orientation="vertical"
+          variant="radio"
+          required
+        >
+          <moz-visual-picker-item
+            value="amo"
+            label="On AMO (addons.mozilla.org)"
+            description="Listed publicly after code review. Updates handled for you."
+          >
+            <moz-status-badge slot="badge" icon-start="globe"
+              >AMO</moz-status-badge
+            >
+          </moz-visual-picker-item>
+          <moz-visual-picker-item
+            value="self"
+            label="On your own"
+            description="Signed for self-distribution. You handle updates."
+          >
+            <moz-status-badge slot="badge" icon-start="home"
+              >Self</moz-status-badge
+            >
+          </moz-visual-picker-item>
+        </moz-visual-picker>
+
+        <moz-input-file
+          id="package"
+          name="package"
+          label="Package"
+          description="The built extension."
+          accept=".zip,.xpi"
+          placeholder="Drag & drop your package, or"
+          full-width
+        ></moz-input-file>
+
+        <moz-fieldset label="Options" full-width>
+          <moz-checkbox
+            name="beta"
+            label="Mark as a beta release"
+          ></moz-checkbox>
+          <moz-checkbox
+            name="notify"
+            label="Email me when review finishes"
+            checked
+          ></moz-checkbox>
+        </moz-fieldset>
+
+        <div class="actions">
+          <!-- Inside the form, so Enter in a single-line field submits it. -->
+          <moz-button id="submit" type="submit" variant="primary"
+            >Submit version</moz-button
+          >
+          <moz-button id="reset" type="reset">Reset</moz-button>
+        </div>
+      </form>
+    </div>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

@@ -51,6 +51,10 @@ import { MozStatusBadge as MozStatusBadgeElement } from '../components/moz-statu
 import { MozStatusDot as MozStatusDotElement } from '../components/moz-status-dot/moz-status-dot';
 import { MozTextarea as MozTextareaElement } from '../components/moz-textarea/moz-textarea';
 import { MozToggle as MozToggleElement } from '../components/moz-toggle/moz-toggle';
+import {
+  MozVisualPicker as MozVisualPickerElement,
+  MozVisualPickerItem as MozVisualPickerItemElement,
+} from '../components/moz-visual-picker/moz-visual-picker';
 
 // Typed React wrappers. React 19 handles custom elements natively, but the
 // wrappers give proper typed props/events and a React-idiomatic API. Importing
@@ -366,6 +370,21 @@ export const MozTextarea = createComponent({
     onInput: 'input',
     onChange: 'change',
   },
+});
+
+export const MozVisualPicker = createComponent({
+  tagName: 'moz-visual-picker',
+  elementClass: MozVisualPickerElement,
+  react: React,
+  events: {
+    onChange: 'change',
+  },
+});
+
+export const MozVisualPickerItem = createComponent({
+  tagName: 'moz-visual-picker-item',
+  elementClass: MozVisualPickerItemElement,
+  react: React,
 });
 
 export const MozToggle = createComponent({

@@ -1,8 +1,6 @@
 :host {
-  --radio-size: var(--size-item-small);
-  --radio-dot-size: calc(var(--radio-size) / 2);
-
-  /* Indent the description under the label text, past the circle. */
+  /* --radio-size and --radio-dot-size come from radio-mark.css. Indent the
+   * description under the label text, past the circle. */
   --field-inline-offset: calc(var(--radio-size) + var(--space-small));
 }
 
@@ -12,13 +10,9 @@
   flex-shrink: 0;
 }
 
+/* Appearance comes from .mark-circle; these are the input-only bits. */
 #input {
-  inline-size: var(--radio-size);
-  block-size: var(--radio-size);
   margin: 0;
-  border: var(--border-width) solid var(--border-color-interactive);
-  border-radius: var(--border-radius-circle);
-  background-color: var(--button-background-color);
   cursor: inherit;
   appearance: none;
 }
@@ -63,19 +57,6 @@
 /* Keep the primary border when disabled; the label's opacity already dims the whole control. */
 #input:disabled:checked {
   border-color: var(--button-background-color-primary);
-}
-
-.dot {
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
-  display: none;
-  inline-size: var(--radio-dot-size);
-  block-size: var(--radio-dot-size);
-  border-radius: var(--border-radius-circle);
-  background-color: var(--button-background-color-primary);
-  pointer-events: none;
-  translate: -50% -50%;
 }
 
 #input:checked ~ .dot {
