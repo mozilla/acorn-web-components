@@ -10,8 +10,9 @@ import cardTokens from '../../generated/component-tokens/card.css';
 import type { IconName } from '../../generated/icons';
 import styles from './moz-card.css';
 
-export type CardSpacing = 'default' | 'compact';
+export type CardSpacing = 'default' | 'compact' | 'spacious';
 export type CardVariant = 'default' | 'accordion';
+export type CardAppearance = 'default' | 'outline';
 
 /**
  * Nova card: a presentational surface grouping content and actions about a
@@ -19,7 +20,8 @@ export type CardVariant = 'default' | 'accordion';
  * `heading` slot) titles the card with an optional leading `icon-start`, the
  * `media` slot holds a cover image, and the `actions` slot holds a footer row
  * (e.g. buttons). Appearance is driven by the scoped `--card-*` tokens;
- * `spacing` picks the default or compact scale.
+ * `spacing` picks the compact, default, or spacious scale, and
+ * `appearance="outline"` swaps the filled surface for a flat bordered one.
  *
  * With `variant="accordion"` the header becomes a clickable summary and the body
  * collapses; `open` controls (and reflects) the open state. The disclosure
@@ -44,11 +46,17 @@ export type CardVariant = 'default' | 'accordion';
 export class MozCard extends MozLitElement {
   static styles = [shared, cardTokens, styles];
 
-  /** Spacing scale: `compact` pulls the reduced padding/gap/radius tokens. */
+  /**
+   * Spacing scale: `compact` pulls the reduced padding/gap/radius tokens;
+   * `spacious` widens the padding.
+   */
   @property({ reflect: true }) spacing: CardSpacing = 'default';
 
   /** `accordion` makes the card an expandable disclosure. */
   @property({ reflect: true }) variant: CardVariant = 'default';
+
+  /** `outline` drops the fill and shadow for a flat, bordered surface. */
+  @property({ reflect: true }) appearance: CardAppearance = 'default';
 
   /** Whether the accordion is open (only meaningful when `variant="accordion"`). */
   @property({ type: Boolean, reflect: true }) open = false;

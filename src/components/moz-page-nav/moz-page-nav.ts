@@ -178,9 +178,12 @@ export class MozPageNav extends MozLitElement {
     this.#visibleSections.clear();
     if (!this.scrollspy) return;
 
+    // Resolve targets from the nav's own root so sections rendered in a shadow
+    // tree (any Lit app embedding the nav) are found, not just light-DOM ones.
+    const root = this.getRootNode() as Document | ShadowRoot;
     for (const button of this.#buttons) {
       const id = button.href?.startsWith('#') ? button.navValue : undefined;
-      const target = id ? document.getElementById(id) : null;
+      const target = id ? root.getElementById(id) : null;
       if (id && target) this.#scrollTargets.set(target, id);
     }
     if (!this.#scrollTargets.size) return;
