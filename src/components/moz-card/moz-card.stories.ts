@@ -6,16 +6,18 @@ import { logEvents } from '../../../.storybook/story-actions';
 import '../moz-button/moz-button';
 import type { IconName } from '../../generated/icons';
 import './moz-card';
-import type { CardSpacing } from './moz-card';
+import type { CardAppearance, CardSpacing } from './moz-card';
 
 interface Args {
   heading?: string;
   iconStart?: IconName;
   spacing: CardSpacing;
+  appearance: CardAppearance;
   content: string;
 }
 
-const spacings: CardSpacing[] = ['default', 'compact'];
+const spacings: CardSpacing[] = ['default', 'compact', 'spacious'];
+const appearances: CardAppearance[] = ['default', 'outline'];
 
 // A neutral placeholder cover image (inline SVG data URI, so no network fetch).
 const coverImage =
@@ -40,11 +42,13 @@ const meta: Meta<Args> = {
     heading: { control: 'text' },
     iconStart: { control: 'text' },
     spacing: { control: 'select', options: spacings },
+    appearance: { control: 'select', options: appearances },
     content: { control: 'text' },
   },
   args: {
     heading: 'Card heading',
     spacing: 'default',
+    appearance: 'default',
     content: 'Cards group related content and actions about a single subject.',
   },
   render: (args) => html`
@@ -54,6 +58,7 @@ const meta: Meta<Args> = {
         heading=${ifDefined(args.heading)}
         icon-start=${ifDefined(args.iconStart)}
         spacing=${args.spacing}
+        appearance=${args.appearance}
       >
         ${args.content}
       </moz-card>
@@ -65,6 +70,22 @@ export default meta;
 type Story = StoryObj<Args>;
 
 export const Default: Story = {};
+
+// Wider padding for denser, form-like content.
+export const Spacious: Story = { args: { spacing: 'spacious' } };
+
+// Flat bordered surface (no fill or shadow).
+export const Outline: Story = {
+  args: { appearance: 'outline' },
+  play: async ({ canvasElement }) => {
+    const card = canvasElement.querySelector('moz-card')!;
+    await card.updateComplete;
+    const surface = card.shadowRoot!.querySelector<HTMLElement>('.card')!;
+    const bg = getComputedStyle(surface).backgroundColor;
+    // Transparent fill — rgba alpha 0 (or the keyword in engines that keep it).
+    expect(/transparent|, ?0\)/.test(bg)).toBe(true);
+  },
+};
 
 // A leading icon before the heading.
 export const WithIcon: Story = {
