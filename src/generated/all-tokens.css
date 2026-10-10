@@ -5,8 +5,6 @@
    (e.g. --button-*, --badge-*) in your own app, outside the components. */
 @layer acorn.tokens {
   :root {
-  --background-color-dimmed: light-dark(color-mix(in srgb, currentColor 12%, transparent), color-mix(in srgb, currentColor 17%, transparent));
-  --background-color-dimmed-further: light-dark(color-mix(in srgb, currentColor 20%, transparent), color-mix(in srgb, currentColor 14%, transparent));
   --border-color-transparent: transparent;
   --border-color-deemphasized: color-mix(in srgb, currentColor 24%, transparent);
   --border-radius-circle: 9999px;
@@ -426,7 +424,6 @@
   --button-background-color-toolbar: transparent;
   --button-background-color-toolbar-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
   --button-background-color-toolbar-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
-  --button-background-color-toolbar-disabled: transparent;
   --button-border: var(--border-width) solid var(--button-border-color);
   --button-border-color-destructive: var(--button-border-color-ghost);
   --button-border-color-ghost-active: var(--button-border-color-ghost);
@@ -465,6 +462,7 @@
   --button-background-color-muted-disabled: var(--button-background-color-muted);
   --button-background-color-muted-selected: var(--button-background-color-muted-active);
   --button-background-color-menu: var(--button-background-color-ghost);
+  --button-background-color-toolbar-disabled: transparent;
   --button-badge-background-color: var(--color-accent-attention);
   --button-border-color: var(--color-accent-primary);
   --button-border-color-destructive-active: var(--button-border-color-destructive);
@@ -559,7 +557,6 @@
     --button-background-color-muted: var(--button-background-color);
     --button-background-color-primary-disabled: GrayText;
     --button-background-color-selected: SelectedItem;
-    --button-background-color-toolbar-disabled: var(--button-background-color-disabled);
     --button-background-color: ButtonFace;
     --button-border-color-active: var(--border-color-interactive-active);
     --button-border-color-destructive-active: var(--button-border-color-primary-active);
@@ -593,6 +590,7 @@
     --button-text-color-destructive: var(--button-text-color-primary);
     --button-text-color-disabled: GrayText;
     --button-text-color-ghost-hover: var(--button-text-color-ghost-active);
+    --button-text-color-ghost-selected: var(--button-text-color-selected);
     --button-text-color-hover: SelectedItem;
     --button-text-color-menu-disabled: var(--button-text-color-disabled);
     --button-text-color-menu-hover: -moz-menuhovertext;
@@ -694,22 +692,20 @@
 @layer acorn.tokens {
 :root {
   --input-text-color: light-dark(rgb(21, 20, 26), rgb(251, 251, 254));
-  --input-folder-gap: var(--space-medium);
+  --input-border: var(--border-width) solid var(--input-border-color);
+  --input-border-radius: var(--border-radius-medium);
   --input-height: var(--size-item-small);
-  --input-text-border: var(--border-width) solid var(--input-text-border-color);
-  --input-text-border-radius: var(--border-radius-medium);
-  --input-text-color-disabled: var(--input-text-color);
-  --input-text-opacity-disabled: 0.5;
+  --input-opacity-disabled: 0.5;
   --input-search-border-radius: var(--border-radius-circle);
+  --input-text-color-disabled: var(--input-text-color);
   --input-width: var(--size-item-small);
+  --input-background-color: var(--background-color-box);
   --input-border-color: var(--border-color-interactive);
-  --input-text-background-color: var(--background-color-box);
-  --input-text-border-color: var(--border-color);
-  --input-text-border-color-disabled: var(--border-color-interactive-disabled);
-  --input-text-icon-size: var(--icon-size-xsmall);
-  --input-text-min-height: 32px;
+  --input-border-color-disabled: var(--border-color-interactive-disabled);
+  --input-icon-size: var(--icon-size-xsmall);
+  --input-min-height: 32px;
   --input-search-icon-size: var(--icon-size-small);
-  --input-text-background-color-disabled: transparent;
+  --input-background-color-disabled: transparent;
 }
 @media (forced-colors: active) {
   :root {
@@ -776,6 +772,9 @@
   --message-bar-icon-color: var(--icon-color-information);
   --message-bar-icon-container-border-radius: calc(var(--message-bar-border-radius) - 1px);
   --message-bar-text-color: var(--text-color);
+  --message-bar-text-color-warning: var(--text-color);
+  --message-bar-text-color-success: var(--text-color);
+  --message-bar-text-color-critical: var(--text-color);
   --message-bar-border-color: oklch(from var(--message-bar-icon-color) l c h / 12%);
   --message-bar-icon-container-border-radius-start-start: var(--message-bar-icon-container-border-radius);
   --message-bar-icon-container-border-radius-end-start: var(--message-bar-icon-container-border-radius);
@@ -811,34 +810,36 @@
   --page-nav-hr-background-color: var(--border-color-deemphasized);
   --page-nav-margin-block-start: 64px;
   --page-nav-button-background-color: transparent;
-  --page-nav-button-background-color-selected: var(--color-accent-primary);
   --page-nav-button-border-color-hover: transparent;
   --page-nav-button-border-color-active: transparent;
   --page-nav-button-text-color-selected: light-dark(#ffffff, #252428);
   --page-nav-heading-logo-size: var(--icon-size-large);
   --page-nav-button-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
   --page-nav-button-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+  --page-nav-button-background-color-selected: light-dark(#764edd, #b89cff);
   --page-nav-button-text-color: light-dark(#161423, #fcfbff);
   --page-nav-button-text-color-hover: light-dark(#161423, #fcfbff);
   --page-nav-button-text-color-active: light-dark(#161423, #fcfbff);
 }
 @media (forced-colors: active) {
   :root {
+    --page-nav-button-background-color-selected: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
     --page-nav-button-border-color: ButtonText;
+    --page-nav-button-text-color-selected: light-dark(#161423, #fcfbff);
   }
 }
 }
 @layer acorn.tokens {
 :root {
   --panel-box-shadow-margin: 4px;
+  --panel-footer-background-color: light-dark(color-mix(in srgb, currentColor 12%, transparent), color-mix(in srgb, currentColor 17%, transparent));
+  --panel-footer-text-color: inherit;
   --panel-padding: 16px;
   --panel-padding-block: 4px;
   --panel-separator-color: color-mix(in srgb, currentColor 25%, transparent);
   --panel-separator-padding-block: 4px;
   --panel-separator-padding-inline: 8px;
   --panel-width: initial;
-  --panel-background-color-dimmed: var(--background-color-dimmed);
-  --panel-background-color-dimmed-further: var(--background-color-dimmed-further);
   --panel-box-shadow: 0 0 var(--panel-box-shadow-margin) hsla(0, 0%, 0%, 0.2);
   --panel-separator-padding: var(--panel-separator-padding-block) var(--panel-separator-padding-inline);
   --panel-border-color: color-mix(in srgb, currentColor 24%, transparent);
@@ -1048,14 +1049,20 @@
   --toolbarbutton-badge-background-color: light-dark(var(--color-red-60), var(--color-red-40));
   --toolbarbutton-icon-fill: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-10));
   --toolbarbutton-icon-fill-attention-text: light-dark(var(--color-gray-20), var(--color-gray-90));
+  --toolbarbutton-background-color-disabled: var(--toolbarbutton-background-color);
   --toolbarbutton-outline: var(--border-width) solid var(--toolbarbutton-outline-color);
+  --toolbarbutton-icon-fill-hover: var(--toolbarbutton-icon-fill);
+  --toolbarbutton-icon-fill-active: var(--toolbarbutton-icon-fill);
   --toolbarbutton-icon-fill-attention: var(--color-accent-primary);
   --toolbarbutton-border-radius: 24px;
 }
 @media (forced-colors: active) {
   :root {
     --toolbarbutton-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+    --toolbarbutton-background-color-disabled: transparent;
     --toolbarbutton-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
+    --toolbarbutton-icon-fill-active: light-dark(#161423, #fcfbff);
+    --toolbarbutton-icon-fill-hover: light-dark(#161423, #fcfbff);
     --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
     --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
   }

@@ -9,8 +9,6 @@ export const tokens = {
   '--background-color-warning': "light-dark(#fde8b5, #5f3100)",
   '--background-color-overlay': "oklch(0 0 0 / 50%)",
   '--background-color-list-item-hover': "color-mix(in srgb, light-dark(#764edd, #b89cff) 20%, transparent)",
-  '--background-color-dimmed': "light-dark(color-mix(in srgb, currentColor 12%, transparent), color-mix(in srgb, currentColor 17%, transparent))",
-  '--background-color-dimmed-further': "light-dark(color-mix(in srgb, currentColor 20%, transparent), color-mix(in srgb, currentColor 14%, transparent))",
   '--border-color': "light-dark(#b7b6ba, #949297)",
   '--border-color-transparent': "transparent",
   '--border-color-deemphasized': "color-mix(in srgb, currentColor 24%, transparent)",
@@ -275,8 +273,6 @@ export type TokenName =
   | '--background-color-warning'
   | '--background-color-overlay'
   | '--background-color-list-item-hover'
-  | '--background-color-dimmed'
-  | '--background-color-dimmed-further'
   | '--border-color'
   | '--border-color-transparent'
   | '--border-color-deemphasized'
