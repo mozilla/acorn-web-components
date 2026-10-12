@@ -2,6 +2,7 @@ import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
+import shared from '../../base/shared.css';
 import buttonTokens from '../../generated/component-tokens/button.css';
 import '../moz-icon/moz-icon';
 import type { IconName } from '../../generated/icons';
@@ -32,7 +33,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
  * @csspart button - the `<button>` (or `<a>` in link mode).
  */
 export class MozButton extends MozLitElement {
-  static styles = [buttonTokens, styles];
+  static styles = [shared, buttonTokens, styles];
 
   static shadowRootOptions = {
     ...super.shadowRootOptions,
@@ -54,11 +55,22 @@ export class MozButton extends MozLitElement {
 
   /**
    * Whether to render as a compact icon-only square (`--button-size-icon`
-   * scale); provide the icon via `icon-start` and a visually-hidden slotted
-   * label for the accessible name.
+   * scale), with the icon coming from `icon-start`. Give it a string
+   * (`icon-only="Close"`) and that becomes the button's accessible name,
+   * rendered visually hidden; as a bare boolean, supply the name yourself as
+   * visually-hidden slotted text.
    */
-  @property({ type: Boolean, reflect: true, attribute: 'icon-only' })
-  iconOnly = false;
+  @property({
+    reflect: true,
+    attribute: 'icon-only',
+    converter: {
+      fromAttribute: (value: string | null) =>
+        value === null ? false : value || true,
+      toAttribute: (value: string | boolean) =>
+        value === false ? null : value === true ? '' : value,
+    },
+  })
+  iconOnly: string | boolean = false;
 
   /** Native button type. */
   @property() type: 'button' | 'submit' | 'reset' = 'button';
@@ -86,10 +98,16 @@ export class MozButton extends MozLitElement {
   }
 
   #content() {
+    const hiddenLabel = typeof this.iconOnly === 'string' ? this.iconOnly : '';
     return html`
       ${
         this.iconStart
           ? html`<moz-icon name=${this.iconStart}></moz-icon>`
+          : nothing
+      }
+      ${
+        hiddenLabel
+          ? html`<span class="visually-hidden">${hiddenLabel}</span>`
           : nothing
       }
       <slot></slot>
