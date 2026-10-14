@@ -105,6 +105,85 @@ export const Fill: Story = {
   `,
 };
 
+// Long labels in a narrow container stack one segment per row rather than
+// overflowing the group's border.
+export const Stacks: Story = {
+  render: () => html`
+    <div style="max-width:390px;">
+      <moz-segmented-control label="Manage sections" value="listing" fill>
+        <moz-segmented-control-item
+          value="versions"
+          label="Versions"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="activity"
+          label="Activity & Notification"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="listing"
+          label="Listing Details"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="statistics"
+          label="Statistics"
+        ></moz-segmented-control-item>
+      </moz-segmented-control>
+    </div>
+  `,
+};
+
+export const StacksWithoutOverflow: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <div id="narrow" style="inline-size:390px;">
+      <moz-segmented-control label="Manage sections" value="listing" fill>
+        <moz-segmented-control-item
+          value="versions"
+          label="Versions"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="activity"
+          label="Activity & Notification"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="listing"
+          label="Listing Details"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="statistics"
+          label="Statistics"
+        ></moz-segmented-control-item>
+      </moz-segmented-control>
+    </div>
+  `,
+  play: async ({ canvasElement }) => {
+    const group = canvasElement.querySelector(
+      'moz-segmented-control',
+    ) as MozSegmentedControl;
+    await group.updateComplete;
+    const items = [
+      ...canvasElement.querySelectorAll('moz-segmented-control-item'),
+    ];
+    await Promise.all(items.map((item) => item.updateComplete));
+
+    // Stacking is measured, so it settles a frame after a reflow the group
+    // doesn't drive itself — here the web font landing.
+    await new Promise((r) => setTimeout(r, 100));
+
+    const groupBox = group.getBoundingClientRect();
+    const rows = new Set(items.map((item) => item.offsetTop));
+    // One segment per row, not however many happen to fit.
+    expect(rows.size).toBe(items.length);
+    // Every segment stays inside the group's border box.
+    for (const item of items) {
+      const box = item.getBoundingClientRect();
+      expect(box.right).toBeLessThanOrEqual(groupBox.right);
+      expect(box.bottom).toBeLessThanOrEqual(groupBox.bottom);
+    }
+    expect(group.hasAttribute('data-stacked')).toBe(true);
+  },
+};
+
 export const Small: Story = { args: { size: 'small' } };
 
 // Icon-only segments render as circles; the label stays the accessible name.

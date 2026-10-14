@@ -49,6 +49,33 @@ test('segmented-control fill', () =>
     </div>`,
   ));
 
+// Stacked: long labels in a narrow container take a row each, inside a radius
+// tightened to suit the taller box.
+test('segmented-control stacked', () =>
+  snapshot(
+    'segmented-control-stacked',
+    html`<div style="inline-size:390px;">
+      <moz-segmented-control label="Manage sections" value="listing" fill>
+        <moz-segmented-control-item
+          value="versions"
+          label="Versions"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="activity"
+          label="Activity & Notification"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="listing"
+          label="Listing Details"
+        ></moz-segmented-control-item>
+        <moz-segmented-control-item
+          value="statistics"
+          label="Statistics"
+        ></moz-segmented-control-item>
+      </moz-segmented-control>
+    </div>`,
+  ));
+
 // Sizes: large (40px, default) and small (32px) total heights.
 test('segmented-control sizes', () =>
   snapshot(

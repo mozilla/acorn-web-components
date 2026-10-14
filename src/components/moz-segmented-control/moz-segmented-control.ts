@@ -34,6 +34,9 @@ export interface SegmentedControlChangeDetail {
  * `role=tablist`, items `role=tab` with `aria-controls`), and selecting an item
  * switches the deck's visible panel automatically.
  *
+ * Segments stack one per row when they can't all fit the available width;
+ * `data-stacked` is set on the host while they are.
+ *
  * @slot - segment items (`<moz-segmented-control-item>` children).
  * @fires moz-segmented-control:change - `{ value }` when the selection changes.
  */
@@ -71,10 +74,75 @@ export class MozSegmentedControl extends SelectControlBaseElement {
    * control to the tabs ARIA pattern. */
   @property() deck?: string;
 
+  #resizeObserver = new ResizeObserver(() => this.#scheduleStackedSync());
+
+  #stackedSyncFrame = 0;
+
   constructor() {
     super();
     // Segments lay out horizontally, so the arrow-key axis follows.
     this.orientation = 'horizontal';
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    this.#observeSizes();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#resizeObserver.disconnect();
+    cancelAnimationFrame(this.#stackedSyncFrame);
+    this.#stackedSyncFrame = 0;
+  }
+
+  // Deferred out of the observer callback, and coalesced: `data-stacked`
+  // resizes the very segments being observed, and mutating an observed box
+  // during delivery trips "ResizeObserver loop completed with undelivered
+  // notifications". Renders measure synchronously through `updated`; this path
+  // is for reflows the group doesn't drive, where it settles a frame later.
+  #scheduleStackedSync(): void {
+    if (this.#stackedSyncFrame) return;
+    this.#stackedSyncFrame = requestAnimationFrame(() => {
+      this.#stackedSyncFrame = 0;
+      this.#syncStacked();
+    });
+  }
+
+  // The segments are watched as well as the group, because a reflow that
+  // changes whether they fit doesn't always resize the group: under `fill` its
+  // width is the container's, so a late font load re-flows the rows without the
+  // group's box changing at all.
+  #observeSizes(): void {
+    this.#resizeObserver.disconnect();
+    this.#resizeObserver.observe(this);
+    for (const item of this.#segmentItems) this.#resizeObserver.observe(item);
+  }
+
+  // Segments either all share one row or get a row each — `flex-wrap` alone
+  // would pack as many as fit per row and leave a ragged last one.
+  //
+  // Whether they fit is computed rather than read back off a trial layout:
+  // once stacked they're wrapped by definition, so measuring would mean
+  // unstacking first, and mutating layout from inside the observer sets off a
+  // "ResizeObserver loop completed with undelivered notifications" error on
+  // every transition.
+  #syncStacked(): void {
+    const items = this.#segmentItems;
+    if (items.length < 2) {
+      this.removeAttribute('data-stacked');
+      return;
+    }
+    const style = getComputedStyle(this);
+    const available =
+      this.clientWidth -
+      parseFloat(style.paddingInlineStart) -
+      parseFloat(style.paddingInlineEnd);
+    const needed =
+      items.reduce((sum, item) => sum + item.intrinsicInlineSize, 0) +
+      (items.length - 1) * (parseFloat(style.columnGap) || 0);
+    // Sub-pixel slack: a row needing exactly the space available still fits.
+    this.toggleAttribute('data-stacked', needed - available > 0.5);
   }
 
   get #tabs(): boolean {
@@ -103,6 +171,7 @@ export class MozSegmentedControl extends SelectControlBaseElement {
     for (const item of this.#segmentItems) item.groupDisabled = this.isDisabled;
     super.syncStateToChildElements();
     this.#syncModes();
+    this.#observeSizes();
   }
 
   protected updated(changed: PropertyValues<this>): void {
@@ -118,6 +187,7 @@ export class MozSegmentedControl extends SelectControlBaseElement {
       this.syncFocusState();
     }
     this.#syncModes();
+    this.#syncStacked();
   }
 
   // Set each option's ARIA mode and, in tabs mode, wire it to its deck panel.
@@ -254,6 +324,29 @@ export class MozSegmentedControlItem
 
   get isDisabled(): boolean {
     return this.disabled || this.groupDisabled;
+  }
+
+  /**
+   * Inline size this segment needs to sit on one row. Measured from its
+   * content, because the group stretches segments to fill their row, so the
+   * segment's own box says nothing about what it needs. Read by the group to
+   * decide whether they all fit.
+   */
+  get intrinsicInlineSize(): number {
+    // A circle is never stretched, so its box is already its intrinsic size.
+    if (this.iconOnly) return this.getBoundingClientRect().width;
+    const style = getComputedStyle(this);
+    const parts = [...this.renderRoot.children].map(
+      (child) => child.getBoundingClientRect().width,
+    );
+    return (
+      parts.reduce((sum, width) => sum + width, 0) +
+      Math.max(parts.length - 1, 0) * (parseFloat(style.columnGap) || 0) +
+      parseFloat(style.paddingInlineStart) +
+      parseFloat(style.paddingInlineEnd) +
+      parseFloat(style.borderInlineStartWidth) +
+      parseFloat(style.borderInlineEndWidth)
+    );
   }
 
   updated(changed: PropertyValues<this>) {
