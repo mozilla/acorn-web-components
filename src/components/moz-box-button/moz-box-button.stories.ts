@@ -91,3 +91,28 @@ export const DisabledBlocksClick: Story = {
     expect(clicks).toBe(0);
   },
 };
+
+// A page that breaks words anywhere is inherited into the shadow tree, where it
+// used to split the label mid-word.
+export const KeepsWordsWhole: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <div style="word-break:break-all;overflow-wrap:anywhere;hyphens:auto;">
+      <div style="inline-size:120px;">
+        <moz-box-button label="Unsubscribe"></moz-box-button>
+      </div>
+    </div>
+  `,
+  play: async ({ canvasElement }) => {
+    const box = canvasElement.querySelector('moz-box-button')!;
+    await (box as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+    await document.fonts.ready;
+
+    // One client rect per line box, so a label split across lines gives more
+    // than one — whatever the container does to it.
+    const range = document.createRange();
+    range.selectNodeContents(box.shadowRoot!.querySelector('.label')!);
+    expect(range.getClientRects().length).toBe(1);
+  },
+};
