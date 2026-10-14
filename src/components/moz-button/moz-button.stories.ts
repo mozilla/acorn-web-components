@@ -78,13 +78,47 @@ export const WithIcon: Story = {
   args: { variant: 'primary', label: 'Edit', iconStart: 'edit' },
 };
 
-// Icon-only; the accessible name comes from visually-hidden slotted text.
+// Icon-only; a string value of icon-only is the accessible name.
 export const Icon: Story = {
+  render: () => html`
+    <moz-button icon-only="Close" variant="ghost" icon-start="close">
+    </moz-button>
+  `,
+};
+
+// The bare boolean still works; then the name comes from slotted hidden text.
+export const IconWithSlottedLabel: Story = {
   render: () => html`
     <moz-button icon-only variant="ghost" icon-start="close">
       <span class="visually-hidden">Close</span>
     </moz-button>
   `,
+};
+
+export const IconOnlyLabelRenders: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-button id="labelled" icon-only="Close" icon-start="close"></moz-button>
+    <moz-button id="slotted" icon-only icon-start="close"
+      ><span class="visually-hidden">Close</span></moz-button
+    >
+  `,
+  play: async ({ canvasElement }) => {
+    const labelled = canvasElement.querySelector<HTMLElement>('#labelled')!;
+    const slotted = canvasElement.querySelector<HTMLElement>('#slotted')!;
+    await (labelled as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+    await (slotted as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+
+    expect(
+      labelled.shadowRoot!.querySelector('.visually-hidden')?.textContent,
+    ).toBe('Close');
+    // Still compact: the string form keeps the icon-only attribute reflected.
+    expect(labelled.getAttribute('icon-only')).toBe('Close');
+    expect(slotted.getAttribute('icon-only')).toBe('');
+    expect(slotted.shadowRoot!.querySelector('.visually-hidden')).toBeNull();
+  },
 };
 
 export const InForm: Story = {

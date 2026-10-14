@@ -181,6 +181,7 @@ export const iconKeywords: Partial<Record<IconName, string[]>> = {
   notifications: ['bell', 'alert', 'reminder'],
   'notifications-slash': ['bell', 'mute', 'silent'],
   'notification-fill': ['bell', 'alert', 'reminder'],
+  'page-actions': ['dots', 'three'],
   palette: ['color', 'paint', 'theme', 'swatch'],
   paperclip: ['attach', 'attachment', 'clip'],
   passkey: ['key', 'password', 'login', 'credential'],
