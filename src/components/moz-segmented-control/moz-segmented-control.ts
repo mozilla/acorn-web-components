@@ -96,11 +96,10 @@ export class MozSegmentedControl extends SelectControlBaseElement {
     this.#stackedSyncFrame = 0;
   }
 
-  // Deferred out of the observer callback, and coalesced: `data-stacked`
-  // resizes the very segments being observed, and mutating an observed box
-  // during delivery trips "ResizeObserver loop completed with undelivered
-  // notifications". Renders measure synchronously through `updated`; this path
-  // is for reflows the group doesn't drive, where it settles a frame later.
+  // Deferred out of the observer callback and coalesced: `data-stacked` resizes
+  // the very segments being observed, and mutating an observed box during
+  // delivery trips "ResizeObserver loop completed with undelivered
+  // notifications".
   #scheduleStackedSync(): void {
     if (this.#stackedSyncFrame) return;
     this.#stackedSyncFrame = requestAnimationFrame(() => {
@@ -109,24 +108,19 @@ export class MozSegmentedControl extends SelectControlBaseElement {
     });
   }
 
-  // The segments are watched as well as the group, because a reflow that
-  // changes whether they fit doesn't always resize the group: under `fill` its
+  // The segments are watched as well as the group: under `fill` the group's
   // width is the container's, so a late font load re-flows the rows without the
-  // group's box changing at all.
+  // group's own box changing at all.
   #observeSizes(): void {
     this.#resizeObserver.disconnect();
     this.#resizeObserver.observe(this);
     for (const item of this.#segmentItems) this.#resizeObserver.observe(item);
   }
 
-  // Segments either all share one row or get a row each — `flex-wrap` alone
-  // would pack as many as fit per row and leave a ragged last one.
-  //
-  // Whether they fit is computed rather than read back off a trial layout:
-  // once stacked they're wrapped by definition, so measuring would mean
-  // unstacking first, and mutating layout from inside the observer sets off a
-  // "ResizeObserver loop completed with undelivered notifications" error on
-  // every transition.
+  // Segments either all share one row or get a row each; `flex-wrap` alone
+  // would pack as many as fit and leave a ragged last row. Whether they fit has
+  // to be computed rather than read back off a trial layout: stacked, they're
+  // wrapped by definition, so there's nothing left to measure.
   #syncStacked(): void {
     const items = this.#segmentItems;
     if (items.length < 2) {
@@ -327,10 +321,9 @@ export class MozSegmentedControlItem
   }
 
   /**
-   * Inline size this segment needs to sit on one row. Measured from its
-   * content, because the group stretches segments to fill their row, so the
-   * segment's own box says nothing about what it needs. Read by the group to
-   * decide whether they all fit.
+   * Inline size this segment needs to sit on one row, measured from its content
+   * because the group stretches segments to fill their row. Read by the group
+   * to decide whether they all fit.
    */
   get intrinsicInlineSize(): number {
     // A circle is never stretched, so its box is already its intrinsic size.

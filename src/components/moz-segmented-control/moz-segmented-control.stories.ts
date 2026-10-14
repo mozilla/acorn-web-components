@@ -105,8 +105,7 @@ export const Fill: Story = {
   `,
 };
 
-// Long labels in a narrow container stack one segment per row rather than
-// overflowing the group's border.
+// Long labels in a narrow container take a row each rather than overflowing.
 export const Stacks: Story = {
   render: () => html`
     <div style="max-width:390px;">
@@ -174,7 +173,6 @@ export const StacksWithoutOverflow: Story = {
     const rows = new Set(items.map((item) => item.offsetTop));
     // One segment per row, not however many happen to fit.
     expect(rows.size).toBe(items.length);
-    // Every segment stays inside the group's border box.
     for (const item of items) {
       const box = item.getBoundingClientRect();
       expect(box.right).toBeLessThanOrEqual(groupBox.right);

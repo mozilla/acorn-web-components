@@ -49,8 +49,8 @@ test('segmented-control fill', () =>
     </div>`,
   ));
 
-// Stacked: long labels in a narrow container take a row each, inside a radius
-// tightened to suit the taller box.
+// Stacked: long labels take a row each, inside a radius tightened to suit the
+// taller box.
 test('segmented-control stacked', () =>
   snapshot(
     'segmented-control-stacked',
