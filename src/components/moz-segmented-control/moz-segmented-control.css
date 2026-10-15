@@ -1,18 +1,39 @@
 :host(moz-segmented-control) {
   box-sizing: border-box;
   display: inline-flex;
+  flex-wrap: wrap;
   gap: var(--space-xsmall);
   inline-size: fit-content;
-  block-size: 40px;
+  min-block-size: var(--segmented-control-block-size);
   padding: var(--segmented-control-padding);
   border: var(--segmented-control-border);
   border-radius: var(--segmented-control-border-radius);
   background-color: transparent;
+
+  /* Total control height (Figma): large 40px (default), small 32px — a minimum
+   * rather than a fixed height, since the segments stack when they can't all
+   * fit one row. */
+  --segmented-control-block-size: 40px;
+  --segmented-control-segment-size: calc(
+    var(--segmented-control-block-size) -
+    2 *
+    (var(--segmented-control-padding) + var(--border-width))
+  );
 }
 
-/* Total control height (Figma): large 40px (default), small 32px. */
 :host(moz-segmented-control[size="small"]) {
-  block-size: 32px;
+  --segmented-control-block-size: 32px;
+}
+
+/* Set by the control when its segments can't all fit one row. The radius above
+ * is tuned to the single-row height, so on a taller box its curve would cut
+ * across a segment sitting in a corner; this keeps the clearance around one. */
+:host(moz-segmented-control[data-stacked]) {
+  border-radius: calc(
+    var(--segmented-control-padding) +
+    var(--segmented-control-segment-size) /
+    2
+  );
 }
 
 /* Keyed off aria-disabled, not [disabled], so a group disabled by a container
@@ -34,7 +55,12 @@
 }
 
 ::slotted(moz-segmented-control-item) {
+  /* Sized rather than left to stretch, so stacked rows keep the single-row
+   * height instead of collapsing to their line box; border-box because
+   * shared.css's `*` reset doesn't reach a slotted element's host. */
+  box-sizing: border-box;
   flex: 1 1 auto;
+  block-size: var(--segmented-control-segment-size);
 }
 
 ::slotted(moz-segmented-control-item[icon-only]) {
@@ -49,6 +75,14 @@
 
 :host(moz-segmented-control[fill]) ::slotted(moz-segmented-control-item) {
   flex-basis: 0;
+}
+
+/* A row each rather than however many happen to fit, so the group reads as a
+ * list instead of a ragged grid. Icon-only segments keep flowing — a row of
+ * circles is already narrow. */
+:host(moz-segmented-control[data-stacked])
+::slotted(moz-segmented-control-item:not([icon-only])) {
+  flex-basis: 100%;
 }
 
 :host(moz-segmented-control-item) {

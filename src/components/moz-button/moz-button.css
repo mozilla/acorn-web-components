@@ -1,5 +1,12 @@
 :host {
   display: inline-block;
+
+  /* Word-breaking is inherited, so a page that sets `word-break: break-all` (or
+   * `overflow-wrap: anywhere`, or hyphenation) reaches the label through the
+   * host and splits it mid-word. A label wraps between words or not at all. */
+  word-break: normal;
+  hyphens: none;
+  overflow-wrap: normal;
 }
 
 :is(button, a) {
