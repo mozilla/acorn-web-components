@@ -215,6 +215,9 @@ export const iconLoaders = {
   "closed-tabs": {
     16: () => import("./icons/closed-tabs-16.js"),
   },
+  "collapse-all": {
+    16: () => import("./icons/collapse-all-16.js"),
+  },
   "color-picker": {
     16: () => import("./icons/color-picker-16.js"),
     20: () => import("./icons/color-picker-20.js"),
@@ -330,6 +333,9 @@ export const iconLoaders = {
   },
   "even-spreads": {
     16: () => import("./icons/even-spreads-16.js"),
+  },
+  "expand-all": {
+    16: () => import("./icons/expand-all-16.js"),
   },
   "experiments": {
     20: () => import("./icons/experiments-20.js"),
