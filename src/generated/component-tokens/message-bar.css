@@ -39,6 +39,9 @@
   --message-bar-icon-color: var(--icon-color-information);
   --message-bar-icon-container-border-radius: calc(var(--message-bar-border-radius) - 1px);
   --message-bar-text-color: var(--text-color);
+  --message-bar-text-color-warning: var(--text-color);
+  --message-bar-text-color-success: var(--text-color);
+  --message-bar-text-color-critical: var(--text-color);
   --message-bar-border-color: oklch(from var(--message-bar-icon-color) l c h / 12%);
   --message-bar-icon-container-border-radius-start-start: var(--message-bar-icon-container-border-radius);
   --message-bar-icon-container-border-radius-end-start: var(--message-bar-icon-container-border-radius);
