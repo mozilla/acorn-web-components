@@ -1,6 +1,6 @@
 /* A multiline field grows with `rows`, so drop the single-line min-height. */
 :host {
-  --input-text-min-height: auto;
+  --input-min-height: auto;
 }
 
 /* A horizontal drag does nothing unless the host can follow it — field-width.css
@@ -47,5 +47,5 @@
 }
 
 :host(:state(disabled)) .counter {
-  opacity: var(--input-text-opacity-disabled);
+  opacity: var(--input-opacity-disabled);
 }

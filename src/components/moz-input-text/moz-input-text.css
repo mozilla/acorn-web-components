@@ -3,10 +3,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-xsmall);
-  min-block-size: var(--input-text-min-height);
+  min-block-size: var(--input-min-height);
   padding-inline: var(--space-small);
-  border: var(--input-text-border);
-  border-radius: var(--input-text-border-radius);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
 
   /* Box surface (white / gray-70) rather than the Firefox field grey in dark. */
   background-color: var(--background-color-box);
@@ -54,9 +54,9 @@
 }
 
 :host(:state(disabled)) .field {
-  border-color: var(--input-text-border-color-disabled);
-  background-color: var(--input-text-background-color-disabled);
-  opacity: var(--input-text-opacity-disabled);
+  border-color: var(--input-border-color-disabled);
+  background-color: var(--input-background-color-disabled);
+  opacity: var(--input-opacity-disabled);
   cursor: not-allowed;
 }
 

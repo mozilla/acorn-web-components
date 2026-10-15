@@ -10,7 +10,7 @@
  * swatch — 24px wouldn't fit inside the border and padding. */
 :host([size="small"]) {
   --input-color-swatch-size: var(--size-item-small);
-  --input-color-min-height: var(--input-text-min-height);
+  --input-color-min-height: var(--input-min-height);
 }
 
 /* The bordered row is the label when the label sits inside it, and .field when
@@ -23,9 +23,9 @@
   min-block-size: var(--input-color-min-height);
   padding-block: var(--space-xsmall);
   padding-inline: var(--space-small);
-  border: var(--input-text-border);
-  border-radius: var(--input-text-border-radius);
-  background-color: var(--input-text-background-color);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
+  background-color: var(--input-background-color);
   cursor: pointer;
 }
 
@@ -94,18 +94,18 @@
 
 :host(:state(disabled)) label,
 :host(:state(disabled)) .field {
-  border-color: var(--input-text-border-color-disabled);
+  border-color: var(--input-border-color-disabled);
 
   /* On the row so label, readout and icon shift together. Not an opacity: one
    * low enough to read as disabled puts 15px text under 4.5:1. */
   color: var(--text-color-deemphasized);
-  background-color: var(--input-text-background-color-disabled);
+  background-color: var(--input-background-color-disabled);
   cursor: not-allowed;
 }
 
 /* The swatch shows a colour, not text, so dimming is the only signal it has. */
 :host(:state(disabled)) #input {
-  opacity: var(--input-text-opacity-disabled);
+  opacity: var(--input-opacity-disabled);
 }
 
 :host(:state(error)) label,

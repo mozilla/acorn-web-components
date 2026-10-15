@@ -17,8 +17,8 @@
   min-inline-size: 0;
   min-block-size: inherit;
   padding-inline: var(--space-small) calc(var(--space-small) + var(--icon-size));
-  border: var(--input-text-border);
-  border-radius: var(--input-text-border-radius);
+  border: var(--input-border);
+  border-radius: var(--input-border-radius);
   color: var(--input-text-color);
   font: inherit;
   background-color: var(--background-color-box);
@@ -74,15 +74,15 @@
 }
 
 :host(:state(disabled)) #input {
-  border-color: var(--input-text-border-color-disabled);
-  background-color: var(--input-text-background-color-disabled);
-  opacity: var(--input-text-opacity-disabled);
+  border-color: var(--input-border-color-disabled);
+  background-color: var(--input-background-color-disabled);
+  opacity: var(--input-opacity-disabled);
   cursor: not-allowed;
 }
 
 :host(:state(disabled)) .icon,
 :host(:state(disabled)) .chevron {
-  opacity: var(--input-text-opacity-disabled);
+  opacity: var(--input-opacity-disabled);
 }
 
 :host(:state(error)) #input {
