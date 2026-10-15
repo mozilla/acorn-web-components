@@ -16,19 +16,21 @@
   --page-nav-hr-background-color: var(--border-color-deemphasized);
   --page-nav-margin-block-start: 64px;
   --page-nav-button-background-color: transparent;
-  --page-nav-button-background-color-selected: var(--color-accent-primary);
   --page-nav-button-border-color-hover: transparent;
   --page-nav-button-border-color-active: transparent;
   --page-nav-button-text-color-selected: light-dark(#ffffff, #252428);
   --page-nav-heading-logo-size: var(--icon-size-large);
   --page-nav-button-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
   --page-nav-button-background-color-active: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
+  --page-nav-button-background-color-selected: light-dark(#764edd, #b89cff);
   --page-nav-button-text-color: light-dark(#161423, #fcfbff);
   --page-nav-button-text-color-hover: light-dark(#161423, #fcfbff);
   --page-nav-button-text-color-active: light-dark(#161423, #fcfbff);
 }
 @media (forced-colors: active) {
   :host {
+    --page-nav-button-background-color-selected: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 50%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 75%, transparent));
     --page-nav-button-border-color: ButtonText;
+    --page-nav-button-text-color-selected: light-dark(#161423, #fcfbff);
   }
 }

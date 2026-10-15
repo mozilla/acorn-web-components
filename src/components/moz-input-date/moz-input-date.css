@@ -9,8 +9,13 @@
   cursor: pointer;
 }
 
+/* The 2026-10-15 token sync dropped the dimmed background tokens; kept at the
+ * old value so the hover stays a neutral wash over the field colour. */
 #input::-webkit-calendar-picker-indicator:hover {
-  background-color: var(--background-color-dimmed);
+  background-color: light-dark(
+    color-mix(in srgb, currentColor 12%, transparent),
+    color-mix(in srgb, currentColor 17%, transparent)
+  );
 }
 
 :host(:state(disabled)) #input::-webkit-calendar-picker-indicator {

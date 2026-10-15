@@ -5,6 +5,14 @@
   --input-file-outline-width: 2px;
   --input-file-outline-dash: 8 4;
   --input-file-outline-color: var(--border-color-interactive);
+
+  /* The 2026-10-15 token sync dropped the dimmed background tokens with no
+   * successor. Kept at their old value rather than swapped for a themed token,
+   * because the drag wash has to stay neutral (see .zone.accepted below). */
+  --input-file-drag-background-color: light-dark(
+    color-mix(in srgb, currentColor 12%, transparent),
+    color-mix(in srgb, currentColor 17%, transparent)
+  );
 }
 
 .zone {
@@ -16,7 +24,7 @@
   gap: var(--space-xsmall);
   min-block-size: var(--input-file-min-height);
   padding: var(--space-large);
-  border-radius: var(--input-text-border-radius);
+  border-radius: var(--input-border-radius);
   text-align: center;
   cursor: pointer;
 }
@@ -37,7 +45,7 @@
 
   /* Tracks the token; the rx attribute is the fallback for engines that don't
    * take SVG geometry from CSS. */
-  rx: var(--input-text-border-radius);
+  rx: var(--input-border-radius);
   stroke: var(--input-file-outline-color);
   stroke-dasharray: var(--input-file-outline-dash);
   stroke-width: var(--input-file-outline-width);
@@ -128,14 +136,14 @@
   --input-file-outline-dash: none;
   --input-file-outline-color: var(--border-color-interactive-hover);
 
-  background-color: var(--background-color-dimmed);
+  background-color: var(--input-file-drag-background-color);
 }
 
 .zone.forbidden {
   --input-file-outline-dash: none;
   --input-file-outline-color: var(--border-color-error);
 
-  background-color: var(--background-color-dimmed);
+  background-color: var(--input-file-drag-background-color);
   cursor: not-allowed;
 }
 
@@ -146,7 +154,7 @@
 }
 
 :host(:state(disabled)) .zone {
-  --input-file-outline-color: var(--input-text-border-color-disabled);
+  --input-file-outline-color: var(--input-border-color-disabled);
 
   cursor: not-allowed;
 }

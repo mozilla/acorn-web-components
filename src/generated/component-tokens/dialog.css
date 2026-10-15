@@ -1,0 +1,8 @@
+/* Generated from vendored Firefox Nova tokens. Do not edit. */
+:host {
+  --dialog-padding: var(--space-large);
+  --dialog-border-radius: 24px;
+  --dialog-border-color: color-mix(in srgb, currentColor 24%, transparent);
+  --dialog-background-color: light-dark(#ffffff, #252428);
+  --dialog-box-shadow: 0 0.375px 1.5px light-dark(rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06)), 0 3px 12px light-dark(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.12));
+}
