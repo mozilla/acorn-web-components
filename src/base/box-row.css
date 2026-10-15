@@ -33,6 +33,14 @@
   --box-min-block-size: 68px;
 }
 
+/* Word-breaking is inherited, so a page that breaks words anywhere reaches this
+ * row's text and splits it mid-word. A button's label keeps its words whole. */
+:host(moz-box-button) {
+  word-break: normal;
+  hyphens: none;
+  overflow-wrap: normal;
+}
+
 :host([layout="medium-icon"]) {
   --box-icon-size: var(--icon-size-large);
 }

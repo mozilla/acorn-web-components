@@ -121,6 +121,31 @@ export const IconOnlyLabelRenders: Story = {
   },
 };
 
+// A page that breaks words anywhere (`word-break: break-all` and friends) is
+// inherited into the shadow tree, where it used to split button labels mid-word.
+export const KeepsWordsWhole: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <div style="word-break:break-all;overflow-wrap:anywhere;hyphens:auto;">
+      <div style="inline-size:90px;">
+        <moz-button variant="primary">Unsubscribe</moz-button>
+      </div>
+    </div>
+  `,
+  play: async ({ canvasElement }) => {
+    const button = canvasElement.querySelector('moz-button')!;
+    await (button as unknown as { updateComplete: Promise<unknown> })
+      .updateComplete;
+    await document.fonts.ready;
+
+    // One client rect per line box, so a label split across lines gives more
+    // than one — whatever the container does to it.
+    const range = document.createRange();
+    range.selectNodeContents(button);
+    expect(range.getClientRects().length).toBe(1);
+  },
+};
+
 export const InForm: Story = {
   render: () => html`
     <form
