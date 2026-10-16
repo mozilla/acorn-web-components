@@ -29,6 +29,8 @@ export * from './components/moz-label/moz-label';
 export * from './components/moz-message-bar/moz-message-bar';
 export * from './components/moz-page-header/moz-page-header';
 export * from './components/moz-page-nav/moz-page-nav';
+export * from './components/moz-panel-item/moz-panel-item';
+export * from './components/moz-panel-list/moz-panel-list';
 export * from './components/moz-provider/moz-provider';
 export * from './components/moz-radio/moz-radio';
 export * from './components/moz-radio-group/moz-radio-group';

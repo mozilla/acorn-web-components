@@ -1,0 +1,140 @@
+:host {
+  position: fixed;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 12em;
+  margin: 0;
+  padding-block: var(--space-small);
+  padding-inline: var(--panel-menuitem-margin-inline);
+  border: var(--border-width) solid var(--panel-border-color);
+  border-radius: var(--panel-border-radius);
+  color: var(--panel-text-color);
+  background-color: var(--panel-background-color);
+  box-shadow: var(--box-shadow-level-3);
+  cursor: default;
+  user-select: none;
+}
+
+/* Our author-level `display: flex` above outranks the UA's rule for a closed
+   popover, so the panel has to be hidden from here instead. */
+:host(:not([open])),
+:host([hidden]) {
+  display: none;
+}
+
+/* Laid out but not yet painted, so #position() can measure it. */
+:host([showing]) {
+  visibility: hidden;
+}
+
+:host([stay-open]) {
+  position: static;
+  display: inline-flex;
+}
+
+/* The host carries the max-block-size the viewport allows, so the rows are what
+   scrolls and the header stays put above them. */
+.list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-block-size: 0;
+  scrollbar-width: thin;
+}
+
+::slotted(hr) {
+  flex: none;
+  block-size: var(--border-width);
+  margin: var(--panel-separator-padding-block) 0;
+  border: 0;
+  background-color: var(--panel-separator-color);
+}
+
+/* Firefox's `.subview-subheader`: a plain heading among the rows, captioning the
+   ones that follow it. Spelled out rather than wrapped in `:is()`, which
+   `::slotted()` takes only a compound selector for.
+   A slotted element is styled from its own tree first, so base.css's heading
+   rules outrank `::slotted()` however specific we get. Only the three
+   declarations it sets have to say so. */
+::slotted(h1),
+::slotted(h2),
+::slotted(h3),
+::slotted(h4),
+::slotted(h5),
+::slotted(h6) {
+  flex: none;
+
+  /* biome-ignore lint/complexity/noImportantStyles: outranks base.css's heading rules. */
+  margin: 0 !important;
+  padding: var(--space-xsmall) var(--panel-menuitem-padding-inline);
+  color: var(--text-color-deemphasized);
+
+  /* biome-ignore lint/complexity/noImportantStyles: outranks base.css's heading rules. */
+  font-size: var(--font-size-small) !important;
+
+  /* biome-ignore lint/complexity/noImportantStyles: outranks base.css's heading rules. */
+  font-weight: inherit !important;
+}
+
+/* --- Header --- */
+
+/* Three tracks so the title stays optically centred whether or not either side
+   holds a button, rather than being nudged by whichever one does. */
+.header {
+  display: grid;
+  flex: none;
+  grid-template-columns: var(--button-size-icon) 1fr var(--button-size-icon);
+  align-items: center;
+  min-block-size: var(--button-size-icon);
+}
+
+.heading {
+  overflow: hidden;
+  margin: 0;
+  color: var(--panel-text-color);
+  font-size: inherit;
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header-separator {
+  flex: none;
+  block-size: var(--border-width);
+  margin: var(--panel-separator-padding-block) 0;
+  border: 0;
+  background-color: var(--panel-separator-color);
+}
+
+/* --- Overflow indicators --- */
+
+/* Figma's "Panel / Overflow" takes a row of its own rather than overlaying the
+   row it hints at, which would leave that row half-legible under it.
+   Both rows are reserved for as long as the list scrolls at all, and only the
+   chevrons come and go. Reserving one per end instead would shorten the scroll
+   port the moment it appeared, which can bring the other end back into overflow
+   — the two then take turns indefinitely. */
+.overflow {
+  display: none;
+  flex: none;
+  align-self: center;
+  color: var(--text-color-deemphasized);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+:host([data-scrollable]) .overflow {
+  display: block;
+}
+
+:host([data-overflow-top]) .overflow.top,
+:host([data-overflow-bottom]) .overflow.bottom {
+  visibility: visible;
+}
