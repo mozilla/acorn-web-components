@@ -11,7 +11,7 @@ import {
   iconSizes,
 } from '../../generated/icon-options';
 import { type IconName, iconNames } from '../../generated/icons';
-import { iconKeywords } from './icon-keywords';
+import { iconKeywordsFor } from './icon-keywords';
 
 interface IconArgs {
   name: IconName;
@@ -149,7 +149,7 @@ export const Colors: Story = {
 };
 
 const searchText = (n: IconName): string =>
-  [n, ...(iconKeywords[n] ?? [])].join(' ').toLowerCase();
+  [n, ...iconKeywordsFor(n)].join(' ').toLowerCase();
 
 const filterGallery = (e: Event) => {
   const search = e.currentTarget as HTMLElement;
@@ -218,4 +218,43 @@ export const Gallery: Story = {
       </div>
     </div>
   `,
+};
+
+// Interaction test: the Gallery finds an icon by an alias, and a variant is
+// reachable through the aliases of the icon it is a variant of — so a sync that
+// adds a batch of `-fill`s doesn't leave them findable by name only.
+export const GalleryFindsByKeyword: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: Gallery.render,
+  play: async ({ canvasElement }) => {
+    const search = canvasElement.querySelector('moz-input-search')!;
+    await search.updateComplete;
+
+    const shown = () =>
+      [...canvasElement.querySelectorAll<HTMLElement>('[data-search]')]
+        .filter((cell) => cell.style.display !== 'none')
+        .map((cell) => cell.dataset.search?.split(' ')[0]);
+
+    const find = async (query: string) => {
+      search.value = query;
+      search.dispatchEvent(new Event('input', { bubbles: true }));
+      await search.updateComplete;
+      return shown();
+    };
+
+    // An alias on the icon itself.
+    expect(await find('puppy')).toContain('dog');
+    // The same alias reaches the variant, which has no entry of its own.
+    expect(await find('puppy')).toContain('dog-fill');
+    // A compound variant follows the chain back to `tracking-cookies`.
+    expect(await find('tracker')).toContain('tracking-cookies-slash-fill');
+    // A `-slash` entry overrides rather than inherits, so it keeps its own "off".
+    expect(await find('off')).toContain('xr-slash');
+
+    // `apple` is a piece of fruit here, not the platform logo.
+    expect(await find('fruit')).toContain('apple');
+    // `share-macos` still matches by name, which is the point — the fruit no
+    // longer does.
+    expect(await find('macos')).not.toContain('apple');
+  },
 };

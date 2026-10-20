@@ -38,6 +38,9 @@ export const iconLoaders = {
   "apple": {
     16: () => import("./icons/apple-16.js"),
   },
+  "apple-fill": {
+    16: () => import("./icons/apple-fill-16.js"),
+  },
   "applied-policy": {
     16: () => import("./icons/applied-policy-16.js"),
   },
@@ -152,6 +155,9 @@ export const iconLoaders = {
     20: () => import("./icons/briefcase-20.js"),
     40: () => import("./icons/briefcase-40.js"),
   },
+  "briefcase-fill": {
+    16: () => import("./icons/briefcase-fill-16.js"),
+  },
   "calendar": {
     20: () => import("./icons/calendar-20.js"),
   },
@@ -200,6 +206,9 @@ export const iconLoaders = {
   },
   "chevron-up-small": {
     16: () => import("./icons/chevron-up-small-16.js"),
+  },
+  "circle-fill": {
+    16: () => import("./icons/circle-fill-16.js"),
   },
   "close": {
     12: () => import("./icons/close-12.js"),
@@ -287,8 +296,14 @@ export const iconLoaders = {
   "dog": {
     16: () => import("./icons/dog-16.js"),
   },
+  "dog-fill": {
+    16: () => import("./icons/dog-fill-16.js"),
+  },
   "dollar-sign-circle": {
     16: () => import("./icons/dollar-sign-circle-16.js"),
+  },
+  "dollar-sign-circle-fill": {
+    16: () => import("./icons/dollar-sign-circle-fill-16.js"),
   },
   "double-checkmark": {
     16: () => import("./icons/double-checkmark-16.js"),
@@ -367,6 +382,9 @@ export const iconLoaders = {
   "fence": {
     16: () => import("./icons/fence-16.js"),
   },
+  "fence-fill": {
+    16: () => import("./icons/fence-fill-16.js"),
+  },
   "filter": {
     16: () => import("./icons/filter-16.js"),
   },
@@ -433,6 +451,9 @@ export const iconLoaders = {
   },
   "gift-box": {
     12: () => import("./icons/gift-box-12.js"),
+  },
+  "gift-fill": {
+    16: () => import("./icons/gift-fill-16.js"),
   },
   "glasses": {
     16: () => import("./icons/glasses-16.js"),
@@ -534,6 +555,9 @@ export const iconLoaders = {
   },
   "knife-and-fork": {
     16: () => import("./icons/knife-and-fork-16.js"),
+  },
+  "knife-and-fork-fill": {
+    16: () => import("./icons/knife-and-fork-fill-16.js"),
   },
   "labs": {
     16: () => import("./icons/labs-16.js"),
@@ -761,6 +785,9 @@ export const iconLoaders = {
   "plane": {
     16: () => import("./icons/plane-16.js"),
   },
+  "plane-fill": {
+    16: () => import("./icons/plane-fill-16.js"),
+  },
   "play-circle-fill": {
     12: () => import("./icons/play-circle-fill-12.js"),
     16: () => import("./icons/play-circle-fill-16.js"),
@@ -907,6 +934,9 @@ export const iconLoaders = {
     16: () => import("./icons/shopping-cart-16.js"),
     20: () => import("./icons/shopping-cart-20.js"),
     40: () => import("./icons/shopping-cart-40.js"),
+  },
+  "shopping-cart-fill": {
+    16: () => import("./icons/shopping-cart-fill-16.js"),
   },
   "show-password": {
     16: () => import("./icons/show-password-16.js"),
@@ -1085,6 +1115,9 @@ export const iconLoaders = {
   "tree": {
     16: () => import("./icons/tree-16.js"),
   },
+  "tree-fill": {
+    16: () => import("./icons/tree-fill-16.js"),
+  },
   "unauthenticated-user": {
     16: () => import("./icons/unauthenticated-user-16.js"),
   },
@@ -1159,6 +1192,9 @@ export const iconLoaders = {
   },
   "xr": {
     16: () => import("./icons/xr-16.js"),
+  },
+  "xr-fill": {
+    16: () => import("./icons/xr-fill-16.js"),
   },
   "xr-slash": {
     16: () => import("./icons/xr-slash-16.js"),

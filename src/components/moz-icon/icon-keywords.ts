@@ -1,4 +1,4 @@
-import type { IconName } from '../../generated/icons';
+import { type IconName, iconNames } from '../../generated/icons';
 
 /**
  * Extra search terms for the icon Gallery, keyed by icon name. These are aliases
@@ -6,7 +6,9 @@ import type { IconName } from '../../generated/icons';
  * turns up even when you can't recall its exact name (e.g. "trash" finds
  * `delete`, "magnifying glass" finds `search`).
  *
- * Only icons that benefit from an alias need an entry; the rest are found by name.
+ * Only icons that benefit from an alias need an entry; the rest are found by
+ * name, and a variant falls back to the icon it is a variant of — see
+ * `iconKeywordsFor`, which is what the Gallery searches through.
  */
 export const iconKeywords: Partial<Record<IconName, string[]>> = {
   accessibility: ['a11y', 'wheelchair', 'disability'],
@@ -19,7 +21,7 @@ export const iconKeywords: Partial<Record<IconName, string[]>> = {
   plane: ['flight', 'travel', 'airport', 'airplane'],
   'all-tabs': ['tabs', 'overview'],
   'app-menu': ['hamburger', 'menu', 'more', 'kebab'],
-  apple: ['mac', 'ios', 'macos'],
+  apple: ['fruit', 'food', 'health', 'nutrition'],
   archive: ['box', 'store'],
   'arrow-clockwise': ['refresh', 'redo', 'reload', 'rotate'],
   'arrow-counterclockwise': ['undo', 'rotate', 'back'],
@@ -55,6 +57,8 @@ export const iconKeywords: Partial<Record<IconName, string[]>> = {
   briefcase: ['work', 'job', 'business'],
   calendar: ['date', 'schedule', 'event'],
   camera: ['photo', 'webcam'],
+  'circle-fill': ['dot', 'bullet', 'status', 'record', 'solid'],
+  craft: ['button', 'fastener', 'sewing', 'hobby', 'arts and crafts'],
   'camera-slash': ['photo', 'webcam', 'off'],
   canvas: ['drawing', 'draw'],
   'chat-history': ['messages', 'conversation'],
@@ -114,6 +118,7 @@ export const iconKeywords: Partial<Record<IconName, string[]>> = {
   flower: ['nature', 'plant', 'bloom'],
   leaf: ['nature', 'plant', 'eco'],
   tree: ['nature', 'plant', 'forest'],
+  fence: ['garden', 'yard', 'picket', 'boundary'],
   folder: ['directory', 'file'],
   'folder-fill': ['directory', 'file'],
   'folder-arrow-down': ['directory', 'download', 'save'],
@@ -251,6 +256,8 @@ export const iconKeywords: Partial<Record<IconName, string[]>> = {
   update: ['refresh', 'reload', 'upgrade'],
   'update-circle': ['refresh', 'reload', 'upgrade'],
   tab: ['browser tab'],
+  'open-tabs': ['browser tabs', 'switch'],
+  'tab-group-label': ['browser tabs', 'group', 'name'],
   'tab-group': ['browser tabs', 'group'],
   'text-cursor': ['caret', 'type', 'insert'],
   themes: ['appearance', 'color', 'skin'],
@@ -271,3 +278,45 @@ export const iconKeywords: Partial<Record<IconName, string[]>> = {
   xr: ['vr', 'ar', 'virtual reality', 'augmented reality'],
   'xr-slash': ['vr', 'ar', 'off'],
 };
+
+/**
+ * `-fill`, `-slash` and the rest draw the same subject as the icon they are a
+ * variant of, so they are searchable through its aliases rather than restating
+ * them — which also means a sync that adds a batch of fills needs no new entries
+ * at all. Longest suffix first, and only when stripping it names a real icon, so
+ * `media-fill-no-circle` isn't mistaken for a variant of anything.
+ */
+const VARIANT_SUFFIXES = [
+  '-mask-only',
+  '-mask',
+  '-smaller',
+  '-small',
+  '-disabled',
+  '-duotone',
+  '-slash',
+  '-fill',
+];
+
+function variantBase(name: string): string | undefined {
+  for (const suffix of VARIANT_SUFFIXES) {
+    if (!name.endsWith(suffix)) continue;
+    const base = name.slice(0, -suffix.length);
+    if ((iconNames as readonly string[]).includes(base)) return base;
+  }
+  return undefined;
+}
+
+/**
+ * The search terms for an icon: its own entry if it has one — which is how a
+ * `-slash` variant adds "off" — otherwise its base's, following the chain for a
+ * compound like `tracking-cookies-slash-fill`.
+ */
+export function iconKeywordsFor(name: string): readonly string[] {
+  let current: string | undefined = name;
+  while (current) {
+    const own = iconKeywords[current as IconName];
+    if (own) return own;
+    current = variantBase(current);
+  }
+  return [];
+}
