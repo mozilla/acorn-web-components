@@ -1,5 +1,5 @@
-import { html, nothing } from 'lit';
-import { property } from 'lit/decorators.js';
+import { html, nothing, type PropertyValues } from 'lit';
+import { property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
@@ -17,6 +17,16 @@ export type ButtonVariant =
 export type ButtonSize = 'small' | 'medium' | 'large';
 
 /**
+ * The slice of `<moz-panel-list>` a trigger needs. Structural rather than an
+ * import, so that a button which opens no menu doesn't pull one into its
+ * bundle — and so the list can keep depending on the button's tokens.
+ */
+interface MenuTarget extends HTMLElement {
+  open: boolean;
+  toggle(triggeringEvent?: Event, target?: HTMLElement): void;
+}
+
+/**
  * Nova button. Appearance is driven entirely by the scoped `--button-*` tokens
  * (added via `buttonTokens`), selected by the `variant` and `size` attributes.
  * Label goes in the default slot; `icon-start` / `icon-end` render a moz-icon.
@@ -28,6 +38,10 @@ export type ButtonSize = 'small' | 'medium' | 'large';
  * With `href` set it renders a real `<a>` (styled identically) so it gets link
  * semantics — new-tab, context menu, screen-reader "link". A disabled button
  * with `href` stays a `<button>`, since a disabled link isn't a real state.
+ *
+ * `menu-id` makes it the trigger for a `<moz-panel-list>`: clicking toggles
+ * that list anchored to this button, and the button carries the matching
+ * `aria-haspopup` / `aria-expanded` on the real control in its shadow tree.
  *
  * @slot - button label.
  * @csspart button - the `<button>` (or `<a>` in link mode).
@@ -90,8 +104,56 @@ export class MozButton extends MozLitElement {
   /** Link `rel` (link mode only); defaults to `noopener` when `target="_blank"`. */
   @property() rel?: string;
 
+  /** `id` of a `<moz-panel-list>` this button opens as its menu. */
+  @property({ attribute: 'menu-id' }) menuId?: string;
+
+  @state() private menuOpen = false;
+
+  #menu: MenuTarget | null = null;
+
+  protected updated(changed: PropertyValues<this>) {
+    super.updated(changed);
+    if (changed.has('menuId')) this.#bindMenu();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#unbindMenu();
+  }
+
+  #bindMenu() {
+    this.#unbindMenu();
+    if (!this.menuId) return;
+    const root = this.getRootNode() as Document | ShadowRoot;
+    const menu = root.getElementById?.(this.menuId) as MenuTarget | null;
+    if (!menu || typeof menu.toggle !== 'function') return;
+    this.#menu = menu;
+    menu.addEventListener('moz-panel-list:shown', this.#syncMenuOpen);
+    menu.addEventListener('moz-panel-list:hidden', this.#syncMenuOpen);
+    this.menuOpen = !!menu.open;
+  }
+
+  #unbindMenu() {
+    this.#menu?.removeEventListener('moz-panel-list:shown', this.#syncMenuOpen);
+    this.#menu?.removeEventListener(
+      'moz-panel-list:hidden',
+      this.#syncMenuOpen,
+    );
+    this.#menu = null;
+    this.menuOpen = false;
+  }
+
+  #syncMenuOpen = () => {
+    this.menuOpen = !!this.#menu?.open;
+  };
+
   #handleClick() {
     if (this.disabled) return;
+    if (this.menuId) {
+      // The menu may have been rendered after this button bound to it.
+      if (!this.#menu) this.#bindMenu();
+      this.#menu?.toggle(undefined, this);
+    }
     // The shadow-DOM <button> can't reach the light-DOM form, so forward it.
     if (this.type === 'submit') this.#internals.form?.requestSubmit();
     else if (this.type === 'reset') this.#internals.form?.reset();
@@ -136,6 +198,8 @@ export class MozButton extends MozLitElement {
         part="button"
         type=${this.type}
         ?disabled=${this.disabled}
+        aria-haspopup=${ifDefined(this.menuId ? 'menu' : undefined)}
+        aria-expanded=${ifDefined(this.menuId ? String(this.menuOpen) : undefined)}
         @click=${this.#handleClick}
       >
         ${this.#content()}

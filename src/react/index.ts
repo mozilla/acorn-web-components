@@ -35,6 +35,11 @@ import {
   MozPageNavButton as MozPageNavButtonElement,
   MozPageNav as MozPageNavElement,
 } from '../components/moz-page-nav/moz-page-nav';
+import {
+  MozPanelItem as MozPanelItemElement,
+  MozPanelRow as MozPanelRowElement,
+} from '../components/moz-panel-item/moz-panel-item';
+import { MozPanelList as MozPanelListElement } from '../components/moz-panel-list/moz-panel-list';
 import { MozProvider as MozProviderElement } from '../components/moz-provider/moz-provider';
 import { MozRadio as MozRadioElement } from '../components/moz-radio/moz-radio';
 import { MozRadioGroup as MozRadioGroupElement } from '../components/moz-radio-group/moz-radio-group';
@@ -412,4 +417,27 @@ export const MozRadioGroup = createComponent({
   events: {
     onChange: 'change',
   },
+});
+
+export const MozPanelList = createComponent({
+  tagName: 'moz-panel-list',
+  elementClass: MozPanelListElement,
+  react: React,
+  events: {
+    onShown: 'moz-panel-list:shown',
+    onHidden: 'moz-panel-list:hidden',
+    onBack: 'moz-panel-list:back',
+  },
+});
+
+export const MozPanelRow = createComponent({
+  tagName: 'moz-panel-row',
+  elementClass: MozPanelRowElement,
+  react: React,
+});
+
+export const MozPanelItem = createComponent({
+  tagName: 'moz-panel-item',
+  elementClass: MozPanelItemElement,
+  react: React,
 });

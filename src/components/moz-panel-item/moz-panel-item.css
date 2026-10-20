@@ -1,0 +1,174 @@
+/* Shared by <moz-panel-item> (a menuitem row) and <moz-panel-row> (a row that
+ * only holds controls), the way Firefox shares `.subviewbutton` between a
+ * `toolbarbutton` and a `toolbaritem`. */
+
+:host(:not([hidden])) {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xsmall);
+}
+
+:host {
+  --panel-item-gutter-size: var(--icon-size);
+}
+
+:host([size="large"]) {
+  --panel-item-gutter-size: var(--icon-size-large);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  align-items: center;
+  gap: var(--space-small);
+  min-inline-size: 0;
+  min-block-size: var(--button-min-height);
+  padding-block: var(--button-padding-block);
+  padding-inline: var(--space-small) var(--space-xsmall);
+  border: var(--border-width) solid var(--button-border-color-menu);
+  border-radius: var(--panel-menuitem-border-radius);
+  color: var(--button-text-color-menu);
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  background-color: var(--button-background-color-menu);
+  cursor: default;
+}
+
+:host([size="large"]) .item {
+  min-block-size: var(--button-min-height-large);
+}
+
+button.item:enabled:hover,
+a.item:hover {
+  border-color: var(--button-border-color-menu-hover);
+  color: var(--button-text-color-menu-hover);
+  background-color: var(--button-background-color-menu-hover);
+}
+
+button.item:enabled:active,
+a.item:active {
+  border-color: var(--button-border-color-menu-active);
+  color: var(--button-text-color-menu-active);
+  background-color: var(--button-background-color-menu-active);
+}
+
+.item:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-inset);
+}
+
+.item:disabled {
+  color: var(--button-text-color-menu-disabled);
+  background-color: var(--button-background-color-menu-disabled);
+  opacity: var(--button-opacity-disabled);
+}
+
+/* Reserved by the list for every row as soon as one of them has something to
+   put here, so labels line up down the column. */
+.gutter {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--panel-item-gutter-size);
+  block-size: var(--panel-item-gutter-size);
+}
+
+/* No label to space away from, so the box shouldn't reserve the gap for one. */
+.gutter moz-checkbox-visual {
+  gap: 0;
+}
+
+/* The dot is smaller than the dimension scale's smallest step. */
+.badged {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: -1px;
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: var(--border-radius-circle);
+  background-color: var(--color-accent-primary);
+}
+
+.labels {
+  flex: 1 0 0;
+  min-inline-size: 0;
+}
+
+.label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  display: block;
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+}
+
+.hint {
+  flex: none;
+  color: var(--text-color-deemphasized);
+  font-size: var(--font-size-small);
+  white-space: nowrap;
+}
+
+.badge,
+.icon-end {
+  flex: none;
+}
+
+/* High contrast conveys the hovered row through the system menu colors the
+   token layer swaps in, so the transparent ghost border has to become visible. */
+@media (forced-colors: active) {
+  button.item:enabled:hover,
+  a.item:hover {
+    border-color: var(--button-text-color-menu-hover);
+  }
+}
+
+/* --- Row (moz-panel-row) --- */
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-xsmall);
+}
+
+/* Firefox's combined-buttons shape: a round toolbar button beside the row, so
+   the two hit areas read as the separate choices they are. */
+.action {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--toolbarbutton-padding-inner);
+  border: var(--border-width) solid var(--toolbarbutton-outline-color);
+  border-radius: var(--border-radius-circle);
+  color: inherit;
+  background-color: var(--toolbarbutton-background-color);
+  cursor: default;
+}
+
+.action:enabled:hover {
+  background-color: var(--toolbarbutton-background-color-hover);
+}
+
+.action:enabled:active {
+  background-color: var(--toolbarbutton-background-color-active);
+}
+
+.action:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+.action:disabled {
+  background-color: var(--toolbarbutton-background-color-disabled);
+  opacity: var(--toolbarbutton-opacity-disabled);
+}

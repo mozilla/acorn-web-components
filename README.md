@@ -10,7 +10,7 @@ Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.
 - `<moz-provider>` provides ambient theme, locale, and high-contrast state to its descendants.
 - The Nova design tokens, as CSS custom properties and a typed map.
 - A set of Nova-styled components:
-  - Actions: `<moz-button>` (default / primary / destructive / ghost / muted, plus icon-only), `<moz-chip>`.
+  - Actions: `<moz-button>` (default / primary / destructive / ghost / muted, plus icon-only; `menu-id` points it at a panel list), `<moz-chip>`, `<moz-panel-list>` with `<moz-panel-item>` and `<moz-panel-row>` (an anchored action menu, with an optional header, subheadings, separators and submenus).
   - Surfaces & layout: `<moz-card>`, `<moz-details>`, `<moz-dialog>`, `<moz-box-group>` with `<moz-box-item>` / `<moz-box-button>` / `<moz-box-link>`.
   - Navigation & structure: `<moz-page-nav>`, `<moz-breadcrumb>`, `<moz-segmented-control>`, `<moz-page-header>`.
   - Forms: `<moz-input-text>` (text / email / url / tel), `<moz-input-search>` (debounced search field), `<moz-checkbox>` (with `<moz-checkbox-all>` for select-all and `<moz-checkbox-visual>` for display-only), `<moz-radio-group>` with `<moz-radio>`, `<moz-toggle>` (a switch), `<moz-label>`, `<moz-fieldset>` — form-associated, with built-in labelling, description, and validation.
