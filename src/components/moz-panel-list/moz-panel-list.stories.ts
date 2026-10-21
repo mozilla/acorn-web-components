@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
-import { expect, userEvent } from 'storybook/test';
+import { expect, userEvent, waitFor } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-panel-list';
 import '../moz-button/moz-button';
@@ -168,6 +168,18 @@ export const Overflow: Story = {
 const control = (el: Element) =>
   el.shadowRoot!.querySelector<HTMLElement>('button, a')!;
 
+/**
+ * The list measures and positions across a frame, so every open and close
+ * settles asynchronously. Waiting for the event it finishes with beats a fixed
+ * delay, which a loaded CI machine can outrun.
+ */
+const settled = (list: MozPanelList, event: 'shown' | 'hidden') =>
+  new Promise<void>((resolve) =>
+    list.addEventListener(`moz-panel-list:${event}`, () => resolve(), {
+      once: true,
+    }),
+  );
+
 const settle = () => new Promise((r) => setTimeout(r, 50));
 
 const open = async (canvasElement: HTMLElement) => {
@@ -175,9 +187,9 @@ const open = async (canvasElement: HTMLElement) => {
   const list = canvasElement.querySelector('moz-panel-list') as MozPanelList;
   await trigger.updateComplete;
   await list.updateComplete;
+  const shown = settled(list, 'shown');
   await userEvent.click(control(trigger));
-  // #position() measures across a frame before the list is painted.
-  await settle();
+  await shown;
   return { trigger, list };
 };
 
@@ -201,8 +213,9 @@ export const TriggerToggles: Story = {
     const items = [...canvasElement.querySelectorAll('moz-panel-item')];
     expect(document.activeElement).toBe(items[0]);
 
+    const hidden = settled(list, 'hidden');
     await userEvent.click(control(trigger));
-    await settle();
+    await hidden;
     expect(list.open).toBe(false);
     expect(button.getAttribute('aria-expanded')).toBe('false');
   },
@@ -239,8 +252,9 @@ export const KeyboardNavigates: Story = {
     await userEvent.keyboard('{ArrowUp}');
     expect(document.activeElement).toBe(items[2]);
 
+    const hidden = settled(list, 'hidden');
     await userEvent.keyboard('{Escape}');
-    await settle();
+    await hidden;
     expect(list.open).toBe(false);
     expect(document.activeElement).toBe(trigger);
   },
@@ -283,8 +297,9 @@ export const ChoosingARowCloses: Story = {
     await settle();
     expect(list.open).toBe(true);
 
+    const hidden = settled(list, 'hidden');
     await userEvent.click(control(items[1]));
-    await settle();
+    await hidden;
     expect(list.open).toBe(false);
   },
 };
@@ -294,8 +309,9 @@ export const ClickOutsideDismisses: Story = {
   tags: ['!dev', '!autodocs'],
   play: async ({ canvasElement }) => {
     const { list } = await open(canvasElement);
+    const hidden = settled(list, 'hidden');
     await userEvent.click(document.body);
-    await settle();
+    await hidden;
     expect(list.open).toBe(false);
   },
 };
@@ -314,17 +330,19 @@ export const SubmenuOpensOnArrowKey: Story = {
       'moz-panel-list[slot="submenu"]',
     ) as MozPanelList;
 
+    const shown = settled(submenu, 'shown');
     parent.focus();
     await userEvent.keyboard('{ArrowRight}');
-    await settle();
+    await shown;
     expect(submenu.open).toBe(true);
     expect(parent.submenuOpen).toBe(true);
 
     const subItems = [...submenu.querySelectorAll('moz-panel-item')];
     expect(document.activeElement).toBe(subItems[0]);
 
+    const hidden = settled(submenu, 'hidden');
     await userEvent.keyboard('{ArrowLeft}');
-    await settle();
+    await hidden;
     expect(submenu.open).toBe(false);
     expect(document.activeElement).toBe(parent);
   },
@@ -366,16 +384,18 @@ export const AnchorAttributeResolves: Story = {
     await list.updateComplete;
 
     // No target and no event, so only the `anchor` id can supply one.
+    const shown = settled(list, 'shown');
     list.show();
-    await settle();
+    await shown;
     expect(list.open).toBe(true);
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
     expect(Math.round(list.getBoundingClientRect().top)).toBe(
       Math.round(trigger.getBoundingClientRect().bottom),
     );
 
+    const hidden = settled(list, 'hidden');
     list.hide();
-    await settle();
+    await hidden;
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   },
 };
@@ -402,9 +422,9 @@ export const AlignsToAnchorEdge: Story = {
     list.align = 'start';
     await list.updateComplete;
     list.hide();
-    await settle();
+    const reshown = settled(list, 'shown');
     await userEvent.click(control(trigger));
-    await settle();
+    await reshown;
     expect(Math.round(list.getBoundingClientRect().left)).toBe(
       Math.round(trigger.getBoundingClientRect().left),
     );
@@ -426,23 +446,28 @@ export const SubmenuOpensOnHover: Story = {
       'moz-panel-list[slot="submenu"]',
     ) as MozPanelList;
 
+    let shown = settled(submenu, 'shown');
     await userEvent.hover(parent);
-    await settle();
+    await shown;
     expect(submenu.open).toBe(true);
     // The pointer only swept over the row, so focus stays where it was.
     expect(document.activeElement).toBe(items[0]);
 
     // ArrowLeft is handled by the row, so focus has to be on it.
     parent.focus();
+    let hidden = settled(submenu, 'hidden');
     await userEvent.keyboard('{ArrowLeft}');
-    await settle();
+    await hidden;
     expect(submenu.open).toBe(false);
 
+    shown = settled(submenu, 'shown');
     await userEvent.hover(parent);
-    await settle();
+    await shown;
     expect(submenu.open).toBe(true);
+
+    hidden = settled(submenu, 'hidden');
     await userEvent.hover(items[0]);
-    await settle();
+    await hidden;
     expect(submenu.open).toBe(false);
   },
 };
@@ -473,35 +498,44 @@ export const DisabledRowIsInert: Story = {
   },
 };
 
-// Interaction test: scrolling the page keeps the list on its anchor rather than
-// leaving it stranded where it opened.
+// Interaction test: scrolling the anchor keeps the list on it, rather than
+// leaving the list stranded where it opened.
+//
+// A scrolling container, not the window: `scrollBy` is committed on a later
+// frame and only if the document happens to be scrollable at all, which made
+// this flaky in WebKit, whereas setting `scrollTop` takes effect there and then.
+// The list listens for scroll in the capture phase precisely so a container
+// like this reaches it.
 export const RepositionsOnScroll: Story = {
   tags: ['!dev', '!autodocs'],
   render: () => html`
-    <div style="block-size:200vh;">
-      <moz-button icon-only="Actions" icon-start="app-menu" menu-id="scrolled">
-      </moz-button>
-      <moz-panel-list id="scrolled" label="Actions">
-        <moz-panel-item>Edit listing</moz-panel-item>
-        <moz-panel-item>Remove</moz-panel-item>
-      </moz-panel-list>
+    <div id="scroller" style="block-size:120px;overflow:auto;">
+      <div style="block-size:400px;padding-block-start:8px;">
+        <moz-button icon-only="Actions" icon-start="app-menu" menu-id="scrolled">
+        </moz-button>
+      </div>
     </div>
+    <moz-panel-list id="scrolled" label="Actions">
+      <moz-panel-item>Edit listing</moz-panel-item>
+      <moz-panel-item>Remove</moz-panel-item>
+    </moz-panel-list>
   `,
   play: async ({ canvasElement }) => {
     const { trigger, list } = await open(canvasElement);
+    const scroller = canvasElement.querySelector('#scroller') as HTMLElement;
     const before = list.getBoundingClientRect().top;
 
-    // Small enough that the trigger stays on screen, so the list can still sit
+    // Small enough that the trigger stays in view, so the list can still sit
     // flush under it rather than clamping to the viewport edge.
-    window.scrollBy(0, 30);
-    window.dispatchEvent(new Event('scroll'));
-    await settle();
+    scroller.scrollTop = 30;
+    expect(scroller.scrollTop).toBe(30);
 
+    await waitFor(() => {
+      expect(Math.round(list.getBoundingClientRect().top)).toBe(
+        Math.round(trigger.getBoundingClientRect().bottom),
+      );
+    });
     expect(list.getBoundingClientRect().top).not.toBe(before);
-    expect(Math.round(list.getBoundingClientRect().top)).toBe(
-      Math.round(trigger.getBoundingClientRect().bottom),
-    );
-    window.scrollTo(0, 0);
   },
 };
 
@@ -554,18 +588,21 @@ export const OverflowIndicators: Story = {
   play: async ({ canvasElement }) => {
     const list = canvasElement.querySelector('moz-panel-list') as MozPanelList;
     await list.updateComplete;
-    await settle();
 
     const rows = list.shadowRoot!.querySelector('.list')!;
-    expect(list.hasAttribute('data-overflow-bottom')).toBe(true);
-    expect(list.hasAttribute('data-overflow-top')).toBe(false);
+    // A ResizeObserver settles these, so wait for them rather than a clock.
+    await waitFor(() => {
+      expect(list.hasAttribute('data-overflow-bottom')).toBe(true);
+      expect(list.hasAttribute('data-overflow-top')).toBe(false);
+    });
 
     // To the real maximum: reserving the indicator rows shortens the scroll
     // port, and the browser doesn't re-clamp an existing scrollTop for that.
     rows.scrollTop = rows.scrollHeight - rows.clientHeight;
-    await settle();
-    expect(list.hasAttribute('data-overflow-top')).toBe(true);
-    expect(list.hasAttribute('data-overflow-bottom')).toBe(false);
+    await waitFor(() => {
+      expect(list.hasAttribute('data-overflow-top')).toBe(true);
+      expect(list.hasAttribute('data-overflow-bottom')).toBe(false);
+    });
   },
 };
 
@@ -617,8 +654,9 @@ export const SlotTypeIsNotAMenu: Story = {
     await userEvent.keyboard('{ArrowDown}');
     expect(document.activeElement).toBe(before);
 
+    const hidden = settled(list, 'hidden');
     await userEvent.keyboard('{Escape}');
-    await settle();
+    await hidden;
     expect(list.open).toBe(false);
   },
 };

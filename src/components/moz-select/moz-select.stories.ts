@@ -533,6 +533,17 @@ const trigger = (node: MozSelect) =>
   node.shadowRoot!.querySelector<HTMLButtonElement>('button#input')!;
 const panel = (node: MozSelect) =>
   node.shadowRoot!.querySelector('moz-panel-list')!;
+/**
+ * The panel measures and positions across a frame, so it opens and closes
+ * asynchronously. Waiting for the event it finishes with beats a fixed delay,
+ * which a loaded CI machine can outrun.
+ */
+const settled = (node: MozSelect, event: 'shown' | 'hidden') =>
+  new Promise<void>((resolve) =>
+    node.addEventListener(`moz-panel-list:${event}`, () => resolve(), {
+      once: true,
+    }),
+  );
 const items = (node: MozSelect) => [
   ...panel(node).querySelectorAll('moz-panel-item'),
 ];
@@ -567,14 +578,16 @@ export const PanelOpensAndChooses: Story = {
       changes += 1;
     });
 
+    const shown = settled(select, 'shown');
     button.click();
-    await wait(60);
+    await shown;
     expect(panel(select).open).toBe(true);
     await select.updateComplete;
     expect(trigger(select).getAttribute('aria-expanded')).toBe('true');
 
+    const hidden = settled(select, 'hidden');
     rows[1].click();
-    await wait(60);
+    await hidden;
     await select.updateComplete;
 
     expect(select.value).toBe('apache2');
@@ -596,8 +609,9 @@ export const PanelOpensOnTheSelectedOption: Story = {
     await select.updateComplete;
     await wait();
 
+    const shown = settled(select, 'shown');
     trigger(select).click();
-    await wait(80);
+    await shown;
 
     const rows = items(select);
     const checked = rows.find((row) => row.checked)!;
@@ -618,6 +632,7 @@ export const PanelOpensFromKeyboard: Story = {
     await wait();
 
     const button = trigger(select);
+    const shown = settled(select, 'shown');
     button.focus();
     button.dispatchEvent(
       new KeyboardEvent('keydown', {
@@ -626,7 +641,7 @@ export const PanelOpensFromKeyboard: Story = {
         cancelable: true,
       }),
     );
-    await wait(60);
+    await shown;
     expect(panel(select).open).toBe(true);
   },
 };
@@ -705,8 +720,10 @@ export const PanelInForm: Story = {
     expect(select.shadowRoot!.querySelector('select')).toBeNull();
     expect(new FormData(form).get('licence')).toBe('mit');
 
+    // Choosing without opening first: the panel's click handler is bound in the
+    // template, so the value lands without a close to wait on.
     items(select)[1].click();
-    await wait(60);
+    await select.updateComplete;
     expect(select.value).toBe('apache2');
     expect(new FormData(form).get('licence')).toBe('apache2');
 
@@ -734,6 +751,31 @@ export const PanelDisabledDoesNotOpen: Story = {
     expect(trigger(select).disabled).toBe(true);
     trigger(select).click();
     await wait(60);
+    // Nothing to wait on when nothing should happen; the delay is the point.
     expect(panel(select).open).toBe(false);
+  },
+};
+
+// Interaction test: with no placeholder to fall back on, panel mode adopts the
+// first choosable option the way a native select does — rather than rendering a
+// trigger with nothing in it.
+export const PanelAdoptsFirstOption: Story = {
+  tags: ['!dev', '!autodocs'],
+  render: () => html`
+    <moz-select label="Licence" popup="panel">
+      <moz-option value="mpl2" label="MPL 2.0" disabled></moz-option>
+      <moz-option value="apache2" label="Apache 2.0"></moz-option>
+      <moz-option value="mit" label="MIT"></moz-option>
+    </moz-select>
+  `,
+  play: async ({ canvasElement }) => {
+    const select = el(canvasElement);
+    await select.updateComplete;
+    await wait(50);
+
+    // The disabled option isn't choosable, so the first one that is wins.
+    expect(select.value).toBe('apache2');
+    expect(trigger(select).textContent?.trim()).toBe('Apache 2.0');
+    expect(items(select)[1].checked).toBe(true);
   },
 };
