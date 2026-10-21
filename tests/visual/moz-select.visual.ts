@@ -100,3 +100,37 @@ const widths = html`<div
 </div>`;
 
 test('select widths', () => snapshot('select-widths', widths));
+
+// Panel mode's closed control is a button standing in for the select's box, so
+// it has to present identically across both variants and sizes. The popup lives
+// in the top layer, which an element screenshot doesn't capture — its own
+// appearance is covered by moz-panel-list's specs, and its behaviour by the
+// interaction tests.
+const panelClosed = html`<div
+  style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;"
+>
+  <moz-select label="panel / standard" value="mpl2" popup="panel"
+    >${licences}</moz-select
+  >
+  <moz-select label="panel / small" value="mpl2" popup="panel" size="small"
+    >${licences}</moz-select
+  >
+  <moz-select label="panel / pill" value="mpl2" popup="panel" variant="pill"
+    >${licences}</moz-select
+  >
+  <moz-select label="panel / option icon" value="public" popup="panel">
+    <moz-option value="public" label="Public" icon="globe"></moz-option>
+    <moz-option value="private" label="Private" icon="lock"></moz-option>
+  </moz-select>
+  <moz-select
+    label="panel / placeholder"
+    popup="panel"
+    placeholder="Choose a licence"
+    >${licences}</moz-select
+  >
+</div>`;
+
+test('select panel closed', () => snapshot('select-panel-closed', panelClosed));
+
+test('select panel closed dark', () =>
+  snapshotDark('select-panel-closed-dark', panelClosed));

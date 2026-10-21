@@ -27,6 +27,22 @@
   appearance: none;
 }
 
+/* The trigger stands in for the select's box, so it only has to add what a
+   button doesn't already share with one. */
+.trigger {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-align: start;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.trigger-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* A select has no ::placeholder, so dim the unselected state by class. */
 #input.placeholder-shown {
   color: var(--text-color-deemphasized);
