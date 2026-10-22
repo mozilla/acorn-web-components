@@ -8,6 +8,10 @@ import inputTokens from '../../generated/component-tokens/input.css';
 import selectTokens from '../../generated/component-tokens/select.css';
 import type { IconName } from '../../generated/icons';
 import '../moz-icon/moz-icon';
+import { MozPanelItem } from '../moz-panel-item/moz-panel-item';
+import type { MozPanelList } from '../moz-panel-list/moz-panel-list';
+import '../moz-panel-item/moz-panel-item';
+import '../moz-panel-list/moz-panel-list';
 import styles from './moz-select.css';
 
 /** Presentational shape: a form field, or the pill-shaped dropdown button. */
@@ -15,6 +19,12 @@ export type SelectVariant = 'standard' | 'pill';
 
 /** Control height, from the `--select-min-height[-small]` tokens. */
 export type SelectSize = 'default' | 'small';
+
+/**
+ * Which popup the control opens: the platform's own, or a `<moz-panel-list>`
+ * styled like the rest of Nova.
+ */
+export type SelectPopup = 'native' | 'panel';
 
 /** One harvested option, or a separator standing in for a slotted `<hr>`. */
 interface SelectOption {
@@ -42,9 +52,12 @@ const OBSERVED_OPTION_ATTRIBUTES = [
  * mirrored into the real `<select>` in the shadow root.
  *
  * `<optgroup>` is deliberately unsupported, matching Firefox's `moz-select`;
- * use an `<hr>` separator instead. An option's `icon` shows only on the closed
- * control, for the selected option — a native popup can't render icons, which
- * is why Firefox swaps in a custom `<panel-list>` we don't have yet.
+ * use an `<hr>` separator instead.
+ *
+ * `popup` picks what opens: the platform's own popup, or a `<moz-panel-list>`
+ * styled like the rest of Nova. An option with an `icon` takes the panel either
+ * way, since a native popup can't render one — the same swap Firefox's
+ * `moz-select` makes.
  *
  * @slot - the `<moz-option>` options, and any `<hr>` separators.
  * @csspart field - The bordered box wrapping the icon, select, and chevron.
@@ -67,6 +80,16 @@ export class MozSelect extends MozBaseInputElement<HTMLSelectElement> {
 
   /** Control height. */
   @property({ reflect: true }) size: SelectSize = 'default';
+
+  /**
+   * Which popup to open. `native` is the platform's, which brings the mobile
+   * picker and the OS keyboard model for free but can't be styled or show an
+   * option's icon. `panel` swaps in a `<moz-panel-list>`, which can.
+   *
+   * An option with an `icon` forces `panel` whatever this says, since there is
+   * no way for a native popup to render one.
+   */
+  @property({ reflect: true }) popup: SelectPopup = 'native';
 
   /** Fill the container instead of the default 320px width. */
   @property({ type: Boolean, reflect: true, attribute: 'full-width' })
@@ -101,6 +124,25 @@ export class MozSelect extends MozBaseInputElement<HTMLSelectElement> {
 
   get #icon(): IconName | undefined {
     return this.selectedOption?.icon ?? this.iconStart;
+  }
+
+  /** Whether this render uses the panel rather than the platform popup. */
+  get #usePanel(): boolean {
+    return (
+      this.popup === 'panel' ||
+      this.options.some((option) => !option.separator && option.icon)
+    );
+  }
+
+  get #panelList(): MozPanelList | null {
+    return this.renderRoot?.querySelector('moz-panel-list') ?? null;
+  }
+
+  /** The options a user can land on, in render order. */
+  get #choosableOptions(): SelectOption[] {
+    return this.options.filter(
+      (option) => !option.separator && !option.disabled && !option.hidden,
+    );
   }
 
   disconnectedCallback(): void {
@@ -158,17 +200,74 @@ export class MozSelect extends MozBaseInputElement<HTMLSelectElement> {
 
   protected updated(changed: PropertyValues<this>): void {
     super.updated(changed);
+    // The base mirrors validity off the inner control, and in panel mode that
+    // is a <button>, which is always valid — so `required` has to be enforced
+    // here instead.
+    if (this.#usePanel) {
+      this.setCustomValidity(
+        this.required && !this.value
+          ? 'Please select an item in the list.'
+          : '',
+      );
+    }
+    if (!this.options.length) return;
+    const matches = this.options.some(
+      (option) => !option.separator && option.value === this.value,
+    );
+    if (this.#usePanel) {
+      // No platform popup to fall back on, so adopt the first choosable option
+      // rather than render a trigger with no label.
+      if (!matches && !this.placeholder) {
+        this.value = this.#choosableOptions[0]?.value ?? '';
+      }
+      return;
+    }
     // A native select always has something selected, so an unmatched value
     // would submit something other than what the user can see.
     const control = this.inputEl;
-    if (!control || !this.options.length) return;
-    if (control.value !== this.value) {
-      const matches = this.options.some(
-        (option) => !option.separator && option.value === this.value,
-      );
-      if (!matches) this.value = control.value;
-    }
+    if (!control) return;
+    if (control.value !== this.value && !matches) this.value = control.value;
   }
+
+  #openPanel(event: Event) {
+    const panel = this.#panelList;
+    if (!panel || this.isDisabled) return;
+    panel.toggle(event, this.inputEl ?? undefined);
+  }
+
+  // A select opens onto the option it is already on, not the top of the list.
+  #onPanelShown = () => {
+    const panel = this.#panelList;
+    const current = panel?.querySelector<MozPanelItem>(
+      'moz-panel-item[checked]',
+    );
+    current?.focus();
+  };
+
+  #onPanelClick = (event: Event) => {
+    const item = event
+      .composedPath()
+      .find((node): node is MozPanelItem => node instanceof MozPanelItem);
+    if (!item || item.disabled) return;
+    const value = item.dataset.value ?? '';
+    if (value === this.value) return;
+    this.value = value;
+    // Only `change` fires: the panel commits a choice outright, where a native
+    // select would have fired `input` for each one the user moved across.
+    this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+  };
+
+  #onTriggerKeydown = (event: KeyboardEvent) => {
+    if (this.#panelList?.open) return;
+    // Every one of these opens the panel rather than stepping the value in
+    // place, which is what a closed native select does on Windows and Linux.
+    // A popup that can show icons is worth seeing before choosing from, and it
+    // is the one behaviour both platforms agree on.
+    if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
+      event.preventDefault();
+      this.#openPanel(event);
+    }
+  };
 
   protected inputTemplate() {
     const icon = this.#icon;
@@ -188,7 +287,20 @@ export class MozSelect extends MozBaseInputElement<HTMLSelectElement> {
           ></moz-icon>`
           : nothing
       }
-      <select
+      ${this.#usePanel ? this.#triggerTemplate() : this.#selectTemplate()}
+      <moz-icon
+        class="chevron"
+        part="chevron"
+        name="chevron-down"
+        size="small"
+      ></moz-icon>
+      <slot hidden @slotchange=${this.#populate}></slot>
+    </div>
+    ${this.#usePanel ? this.#panelTemplate() : nothing}`;
+  }
+
+  #selectTemplate() {
+    return html`<select
         id="input"
         part="input"
         class=${this.placeholder && !this.value ? 'placeholder-shown' : ''}
@@ -222,15 +334,59 @@ export class MozSelect extends MozBaseInputElement<HTMLSelectElement> {
                 ${option.label}
               </option>`,
         )}
-      </select>
-      <moz-icon
-        class="chevron"
-        part="chevron"
-        name="chevron-down"
-        size="small"
-      ></moz-icon>
-      <slot hidden @slotchange=${this.#populate}></slot>
-    </div>`;
+      </select>`;
+  }
+
+  /**
+   * The closed control in panel mode. A `<button>` rather than a `<select>`, so
+   * `<label for="input">` still names it and the base's form plumbing — which
+   * runs off the host's ElementInternals, not this element — keeps working.
+   */
+  #triggerTemplate() {
+    const label = this.selectedOption?.label ?? this.placeholder ?? '';
+    return html`<button
+      id="input"
+      part="input"
+      type="button"
+      class="trigger ${this.placeholder && !this.value ? 'placeholder-shown' : ''}"
+      role="combobox"
+      aria-haspopup="menu"
+      aria-controls="popup"
+      aria-expanded=${this.#panelList?.open ? 'true' : 'false'}
+      aria-label=${ifDefined(this.inputAriaLabel ?? undefined)}
+      aria-describedby=${ifDefined(this.describedBy)}
+      aria-invalid=${ifDefined(this.error ? 'true' : undefined)}
+      accesskey=${ifDefined(this.controlAccessKey)}
+      ?disabled=${this.isDisabled}
+      @click=${this.#openPanel}
+      @keydown=${this.#onTriggerKeydown}
+    >
+      <span class="trigger-label">${label}</span>
+    </button>`;
+  }
+
+  #panelTemplate() {
+    return html`<moz-panel-list
+      id="popup"
+      min-width-from-anchor
+      label=${ifDefined(this.label ?? this.inputAriaLabel ?? undefined)}
+      @moz-panel-list:shown=${this.#onPanelShown}
+      @click=${this.#onPanelClick}
+    >
+      ${this.options.map((option) =>
+        option.separator
+          ? html`<hr />`
+          : html`<moz-panel-item
+              type="radio"
+              data-value=${ifDefined(option.value)}
+              ?checked=${option.value === this.value}
+              ?disabled=${option.disabled}
+              ?hidden=${option.hidden}
+              icon-start=${ifDefined(option.icon)}
+              >${option.label}</moz-panel-item
+            >`,
+      )}
+    </moz-panel-list>`;
   }
 }
 

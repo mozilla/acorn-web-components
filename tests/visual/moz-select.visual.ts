@@ -100,3 +100,59 @@ const widths = html`<div
 </div>`;
 
 test('select widths', () => snapshot('select-widths', widths));
+
+// Panel mode, open — the state worth a baseline, since the closed control is
+// the same box the native variant draws. The popup paints in the top layer, so
+// these capture the viewport rather than the rendered box.
+const openPanel = html`<moz-select
+  label="Visibility"
+  value="unlisted"
+  popup="panel"
+>
+  <moz-option value="public" label="Public" icon="globe"></moz-option>
+  <moz-option value="unlisted" label="Unlisted" icon="show-password"></moz-option>
+  <hr />
+  <moz-option value="private" label="Private" icon="lock"></moz-option>
+</moz-select>`;
+
+const openIt = async (root: HTMLElement) => {
+  const select = root.querySelector('moz-select')!;
+  const shown = new Promise((resolve) =>
+    select.addEventListener('moz-panel-list:shown', resolve, { once: true }),
+  );
+  select.shadowRoot!.querySelector<HTMLButtonElement>('button#input')!.click();
+  await shown;
+};
+
+const panelOptions = { act: openIt, viewport: [420, 340] as [number, number] };
+
+test('select panel open', () =>
+  snapshot('select-panel-open', openPanel, panelOptions));
+
+test('select panel open dark', () =>
+  snapshotDark('select-panel-open-dark', openPanel, panelOptions));
+
+test('select panel open high-contrast', () =>
+  snapshotContrast('select-panel-open-high-contrast', openPanel, panelOptions));
+
+// The trigger standing in for the select's box, in the shapes the open shot
+// above doesn't show.
+const panelTriggers = html`<div
+  style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;"
+>
+  <moz-select label="panel / small" value="mpl2" popup="panel" size="small"
+    >${licences}</moz-select
+  >
+  <moz-select label="panel / pill" value="mpl2" popup="panel" variant="pill"
+    >${licences}</moz-select
+  >
+  <moz-select
+    label="panel / placeholder"
+    popup="panel"
+    placeholder="Choose a licence"
+    >${licences}</moz-select
+  >
+</div>`;
+
+test('select panel triggers', () =>
+  snapshot('select-panel-triggers', panelTriggers));

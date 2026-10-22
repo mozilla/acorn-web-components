@@ -77,6 +77,16 @@ a.item:active {
   block-size: var(--panel-item-gutter-size);
 }
 
+/* Sized like the gutter so the two columns read as one leading block. */
+.marker {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--icon-size);
+  block-size: var(--icon-size);
+}
+
 /* No label to space away from, so the box shouldn't reserve the gap for one. */
 .gutter moz-checkbox-visual {
   gap: 0;

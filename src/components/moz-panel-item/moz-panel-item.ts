@@ -22,7 +22,7 @@ interface SubmenuList extends HTMLElement {
 }
 
 /** Semantic category of a row, mapping to its ARIA role. */
-export type PanelItemType = 'button' | 'checkbox';
+export type PanelItemType = 'button' | 'checkbox' | 'radio';
 
 /** Row height and leading-icon step, from Figma's MenuItem `Size` variants. */
 export type PanelItemSize = 'default' | 'large';
@@ -43,12 +43,18 @@ const isRtl = (el: Element) => getComputedStyle(el).direction === 'rtl';
  * the gutter, and it toggles itself. That diverges from Firefox's `panel-item`,
  * which draws a bare checkmark and leaves `checked` to the consumer.
  *
+ * `type="radio"` is the one-of-many form, for a menu that stands in for a
+ * `<select>`: a `menuitemradio` marked with a checkmark. Activating it checks it
+ * and never unchecks it, since a chosen option can't be un-chosen by choosing it
+ * again — clearing the siblings belongs to whatever owns the choice.
+ *
  * Give it `submenu` and slot a nested `<moz-panel-list slot="submenu">` to make
  * it open a submenu on hover, or on Right (Left in RTL).
  *
  * @slot - the row's label.
  * @slot submenu - a nested `<moz-panel-list>`, when `submenu` is set.
  * @csspart button - the `<button>` (or `<a>` in link mode).
+ * @csspart marker - the selection column on a `radio` row.
  * @csspart gutter - the leading icon/checkbox column.
  * @csspart label - the label text.
  * @csspart description - the secondary line.
@@ -66,13 +72,13 @@ export class MozPanelItem extends MozLitElement {
     styles,
   ];
 
-  /** Semantic category; `checkbox` makes the row a `menuitemcheckbox`. */
+  /** Semantic category, which sets the row's ARIA role. */
   @property({ reflect: true }) type: PanelItemType = 'button';
 
   /** Row height and leading-icon size. */
   @property({ reflect: true }) size: PanelItemSize = 'default';
 
-  /** Whether a `checkbox` row is checked. Toggled by activating the row. */
+  /** Whether a `checkbox` or `radio` row is checked. Set by activating the row. */
   @property({ type: Boolean, reflect: true }) checked = false;
 
   /** Whether the row can be chosen. */
@@ -220,6 +226,7 @@ export class MozPanelItem extends MozLitElement {
     // Updated before the event reaches the list, so a listener there already
     // sees the new state.
     if (this.type === 'checkbox') this.checked = !this.checked;
+    else if (this.type === 'radio') this.checked = true;
   };
 
   #onAction = (event: Event) => {
@@ -268,6 +275,17 @@ export class MozPanelItem extends MozLitElement {
     </span>`;
   }
 
+  /**
+   * The current choice, marked in a column before the icon — the way a platform
+   * menu does it, so a chosen option doesn't have to give up its own icon to
+   * show that it is chosen.
+   */
+  #markerTemplate() {
+    return html`<span class="marker" part="marker">
+      ${this.checked ? html`<moz-icon name="checkmark"></moz-icon>` : nothing}
+    </span>`;
+  }
+
   #contentTemplate() {
     // A submenu's chevron is the affordance for the submenu, so it wins over a
     // trailing icon the consumer set for another reason.
@@ -279,6 +297,7 @@ export class MozPanelItem extends MozLitElement {
         ? undefined
         : this.iconEnd;
     return html`
+      ${this.type === 'radio' ? this.#markerTemplate() : nothing}
       ${this.gutter ? this.#gutterTemplate() : nothing}
       <span class="labels">
         <span class="label" part="label"><slot></slot></span>
@@ -311,7 +330,12 @@ export class MozPanelItem extends MozLitElement {
   }
 
   render() {
-    const role = this.type === 'checkbox' ? 'menuitemcheckbox' : 'menuitem';
+    const role =
+      this.type === 'checkbox'
+        ? 'menuitemcheckbox'
+        : this.type === 'radio'
+          ? 'menuitemradio'
+          : 'menuitem';
     const control =
       this.href && !this.disabled
         ? html`<a
@@ -321,7 +345,7 @@ export class MozPanelItem extends MozLitElement {
             href=${this.href}
             target=${ifDefined(this.target)}
             rel=${ifDefined(this.target === '_blank' ? 'noopener' : undefined)}
-            aria-checked=${ifDefined(this.type === 'checkbox' ? String(this.checked) : undefined)}
+            aria-checked=${ifDefined(this.type === 'button' ? undefined : String(this.checked))}
             aria-haspopup=${ifDefined(this.submenu ? 'menu' : undefined)}
             aria-expanded=${ifDefined(this.submenu ? String(this.submenuOpen) : undefined)}
             @click=${this.#onClick}
@@ -334,7 +358,7 @@ export class MozPanelItem extends MozLitElement {
             type="button"
             role=${ifDefined(this.menu ? role : undefined)}
             ?disabled=${this.disabled}
-            aria-checked=${ifDefined(this.type === 'checkbox' ? String(this.checked) : undefined)}
+            aria-checked=${ifDefined(this.type === 'button' ? undefined : String(this.checked))}
             aria-haspopup=${ifDefined(this.submenu ? 'menu' : undefined)}
             aria-expanded=${ifDefined(this.submenu ? String(this.submenuOpen) : undefined)}
             @click=${this.#onClick}
