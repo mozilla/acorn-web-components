@@ -136,6 +136,7 @@
 @media (prefers-contrast: more) {
   :host {
     --button-border-color-ghost: var(--button-border-color);
+    --button-text-color-menu: inherit;
   }
 }
 @media (forced-colors: active) {
@@ -214,5 +215,6 @@
 }
 :host([data-contrast='high']) {
     --button-border-color-ghost: var(--button-border-color);
+    --button-text-color-menu: inherit;
     --button-border-color: var(--button-text-color);
 }
