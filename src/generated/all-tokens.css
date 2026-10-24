@@ -535,6 +535,7 @@
 @media (prefers-contrast: more) {
   :root {
     --button-border-color-ghost: var(--button-border-color);
+    --button-text-color-menu: inherit;
   }
 }
 @media (forced-colors: active) {
@@ -613,6 +614,7 @@
 }
 [data-contrast='high'] {
     --button-border-color-ghost: var(--button-border-color);
+    --button-text-color-menu: inherit;
     --button-border-color: var(--button-text-color);
 }
 }
@@ -753,7 +755,6 @@
   --message-bar-icon-container-height: auto;
   --message-bar-icon-container-margin-block-start: 0px;
   --message-bar-icon-container-margin-block-start-offset: 0px;
-  --message-bar-icon-container-padding-offset: 1px;
   --message-bar-text-container-padding-block: 0;
   --message-bar-actions-button-padding: var(--space-xsmall) var(--space-large);
   --message-bar-actions-gap: var(--space-small);
@@ -1008,7 +1009,7 @@
   --toolbar-padding-inline: 6px;
   --toolbar-background-color: light-dark(rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.2));
   --toolbar-field-border-color: light-dark(var(--color-gray-20), var(--color-gray-60));
-  --toolbar-field-background-color: var(--toolbar-background-color);
+  --toolbar-field-background-color: light-dark(var(--color-white-alpha-40), var(--color-black-alpha-20));
   --toolbar-field-text-color: light-dark(var(--color-violet-desaturated-70), var(--color-violet-desaturated-10));
   --toolbar-text-color: light-dark(var(--color-gray-100), var(--color-gray-0));
   --toolbar-field-background-color-focus: var(--background-color-box);
@@ -1055,6 +1056,7 @@
   --toolbarbutton-background-color-hover: light-dark(rgba(117, 102, 159, 0.25), rgba(182, 170, 217, 0.25));
   --toolbarbutton-background-color-active: light-dark(rgba(117, 102, 159, 0.4), rgba(182, 170, 217, 0.4));
   --toolbarbutton-outline-color: transparent;
+  --toolbarbutton-outline-color-disabled: transparent;
   --toolbarbutton-outline-offset: -1px;
   --toolbarbutton-badge-background-color: light-dark(var(--color-red-60), var(--color-red-40));
   --toolbarbutton-icon-fill: light-dark(var(--color-violet-desaturated-50), var(--color-violet-desaturated-10));
@@ -1063,6 +1065,7 @@
   --toolbarbutton-outline: var(--border-width) solid var(--toolbarbutton-outline-color);
   --toolbarbutton-icon-fill-hover: var(--toolbarbutton-icon-fill);
   --toolbarbutton-icon-fill-active: var(--toolbarbutton-icon-fill);
+  --toolbarbutton-icon-fill-disabled: var(--toolbarbutton-icon-fill);
   --toolbarbutton-icon-fill-attention: var(--color-accent-primary);
   --toolbarbutton-border-radius: 24px;
 }
@@ -1072,8 +1075,10 @@
     --toolbarbutton-background-color-disabled: transparent;
     --toolbarbutton-background-color-hover: light-dark(color-mix(in srgb, light-dark(#764edd, #b89cff) 32%, transparent), color-mix(in srgb, light-dark(#764edd, #b89cff) 55%, transparent));
     --toolbarbutton-icon-fill-active: light-dark(#161423, #fcfbff);
+    --toolbarbutton-icon-fill-disabled: light-dark(#161423, #fcfbff);
     --toolbarbutton-icon-fill-hover: light-dark(#161423, #fcfbff);
     --toolbarbutton-icon-fill: light-dark(#161423, #fcfbff);
+    --toolbarbutton-outline-color-disabled: light-dark(#764edd, #b89cff);
     --toolbarbutton-outline-color: light-dark(#764edd, #b89cff);
   }
 }
@@ -1087,17 +1092,17 @@
 :root {
   --toolbox-background-color-inactive: transparent;
   --toolbox-background-color: light-dark(var(--color-white), var(--color-gray-70));
-  --toolbox-background-color-gradient-leading: light-dark(var(--color-violet-10), var(--color-violet-desaturated-70));
-  --toolbox-background-color-gradient-trailing: light-dark(var(--color-orange-10), var(--color-orange-70));
-  --toolbox-background-gradient: linear-gradient(96deg, color-mix(var(--toolbox-background-color-gradient-leading) 50%, transparent) 39.84%, color-mix(var(--toolbox-background-color-gradient-trailing) 50%, transparent) 101.72%); /** This gradient is only used for Nova */
+  --toolbox-background-gradient-leading: light-dark(var(--color-violet-10), var(--color-violet-desaturated-70));
+  --toolbox-background-gradient-trailing: light-dark(var(--color-orange-10), var(--color-orange-70));
+  --toolbox-background-gradient: linear-gradient(96deg, color-mix(var(--toolbox-background-gradient-leading) 50%, transparent) 39.84%, color-mix(var(--toolbox-background-gradient-trailing) 50%, transparent) 101.72%); /** This gradient is only used for Nova */
   --toolbox-text-color: var(--text-color);
   --toolbox-text-color-inactive: var(--toolbox-text-color);
   --toolbox-text-color-current: var(--toolbox-text-color); /** Figma aliases this to toolbox/text/color so designers see a real color, but CSS must use currentColor: the tab inherits --lwt-text-color under an lwtheme and --toolbox-text-color-inactive in a background window, neither of which --toolbox-text-color tracks. Listed in figma-import.mjs's FIGMA_IGNORES so the alias doesn't overwrite this. */
 }
 @media (forced-colors: active) {
   :root {
-    --toolbox-background-color-gradient-leading: Canvas;
-    --toolbox-background-color-gradient-trailing: Canvas;
+    --toolbox-background-gradient-leading: Canvas;
+    --toolbox-background-gradient-trailing: Canvas;
     --toolbox-background-gradient: image(transparent);
   }
 }
