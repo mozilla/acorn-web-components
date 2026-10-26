@@ -1,0 +1,90 @@
+name: Bug report
+description: Something in a component behaves incorrectly
+labels: [bug]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      description: The element the bug is in, or "tokens" / "build" if it is not one component.
+      placeholder: moz-message-bar
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `npm ls acorn-web-components`, or the commit if you are working in this repo.
+      placeholder: 0.0.0-alpha.12
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: >
+        Minimal markup that shows the problem, or the Storybook story and the
+        controls to set. Paste code directly rather than linking to a large app.
+      render: html
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Firefox 145, Chrome 141
+    validations:
+      required: true
+
+  - type: dropdown
+    id: consumer
+    attributes:
+      label: How are you using the components?
+      options:
+        - Plain HTML / custom elements
+        - React wrappers (acorn-web-components/react)
+        - Another framework
+        - Working in this repo (Storybook or tests)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: modes
+    attributes:
+      label: Does it only happen in one of these?
+      description: The ambient modes `moz-provider` drives. Leave unchecked if it happens everywhere.
+      options:
+        - label: Dark theme
+        - label: High contrast / forced colors
+        - label: A specific locale or RTL
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: Screenshots, console errors, or what you have already ruled out.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before filing
+      options:
+        - label: I searched the existing issues.
+          required: true
