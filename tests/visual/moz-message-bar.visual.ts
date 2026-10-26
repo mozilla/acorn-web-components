@@ -2,6 +2,7 @@ import { html } from 'lit';
 import { test } from 'vitest';
 import type { MessageBarType } from '../../src/components/moz-message-bar/moz-message-bar';
 import '../../src/components/moz-message-bar/moz-message-bar';
+import '../../src/components/moz-button/moz-button';
 import { snapshot, snapshotContrast, snapshotDark } from './snapshot';
 
 const messageTypes: MessageBarType[] = [
@@ -34,6 +35,18 @@ test('message-bar dismissable', () =>
       <moz-message-bar type="info" heading="Heads up" dismissable
         >Your changes have been saved.</moz-message-bar
       >
+    </div>`,
+  ));
+
+test('message-bar stacked', () =>
+  snapshot(
+    'message-bar-stacked',
+    html`<div style="inline-size:600px;">
+      <moz-message-bar variant="stacked" type="info" heading="Update available" dismissable>
+        A new version is ready to install.
+        <a slot="support-link" href="#">Learn more</a>
+        <moz-button slot="actions" size="small">Restart</moz-button>
+      </moz-message-bar>
     </div>`,
   ));
 
