@@ -16,7 +16,7 @@ test-results/
 *-darwin.png
 *-win32.png
 *-[0-9].png
-.vitest-attachments/
+.vitest/
 # generated HTML visual-regression report (uploaded as a CI artifact instead)
 visual-report/
 
