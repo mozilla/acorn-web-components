@@ -1,0 +1,59 @@
+name: New component
+description: Request a component this library does not have yet
+labels: [new-component]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Components here track Firefox's Nova design system, so a request is much
+        easier to act on with the upstream reference attached.
+
+  - type: input
+    id: name
+    attributes:
+      label: Proposed element name
+      placeholder: moz-tooltip
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What do you need it for?
+      description: The product problem, not the implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: upstream
+    attributes:
+      label: Upstream reference
+      description: >
+        Searchfox link to Firefox's implementation under
+        toolkit/content/widgets, the Nova Figma frame, or both. If Firefox has
+        no equivalent, say so
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: API sketch
+      description: Rough markup, properties, slots, and events as you would want to use them.
+      render: html
+
+  - type: textarea
+    id: a11y
+    attributes:
+      label: Accessibility notes
+      description: >
+        Expected roles and keyboard behaviour, and anything the component needs
+        under high contrast.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before filing
+      options:
+        - label: I searched the existing issues and the components listed in the README.
+          required: true

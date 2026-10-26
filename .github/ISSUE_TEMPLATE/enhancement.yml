@@ -1,0 +1,54 @@
+name: Change to an existing component
+description: An addition or improvement to a component that already exists
+labels: [enhancement]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: moz-button
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is missing or awkward today?
+      description: Include what you are doing to work around it, if anything.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: A new property, slot, event, or behaviour; whatever shape you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: upstream
+    attributes:
+      label: Does Firefox's equivalent do this?
+      description: >
+        A searchfox or Figma link if there is upstream precedent. API decisions
+        follow Firefox where one exists, so this usually settles the shape.
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Would this change existing behaviour?
+      options:
+        - "No, purely additive"
+        - "Yes, changes current markup, API, or rendering"
+        - Not sure
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before filing
+      options:
+        - label: I searched the existing issues.
+          required: true
