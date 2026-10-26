@@ -1,10 +1,10 @@
 import { html } from 'lit';
 import { test } from 'vitest';
-import type { StatusDotType } from '../../src/components/moz-status-dot/moz-status-dot';
 import '../../src/components/moz-status-dot/moz-status-dot';
+import type { StatusBadgeType } from '../../src';
 import { snapshot, snapshotContrast, snapshotDark } from './snapshot';
 
-const types: StatusDotType[] = [
+const types: StatusBadgeType[] = [
   'information',
   'success',
   'warning',
