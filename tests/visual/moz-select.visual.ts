@@ -116,11 +116,15 @@ const openPanel = html`<moz-select
 </moz-select>`;
 
 const openIt = async (root: HTMLElement) => {
-  const select = root.querySelector('moz-select')!;
+  const select = root.querySelector('moz-select');
+  if (!select) throw new Error('no moz-select to open');
   const shown = new Promise((resolve) =>
     select.addEventListener('moz-panel-list:shown', resolve, { once: true }),
   );
-  select.shadowRoot!.querySelector<HTMLButtonElement>('button#input')!.click();
+  const trigger =
+    select.shadowRoot?.querySelector<HTMLButtonElement>('button#input');
+  if (!trigger) throw new Error('moz-select has no button#input trigger');
+  trigger.click();
   await shown;
 };
 
