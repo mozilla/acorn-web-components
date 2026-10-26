@@ -295,6 +295,12 @@
         }
       },
       "menu": {
+        "@base": {
+          "value": {
+            "default": "{button.text.color.ghost.@base}",
+            "forcedColors": "MenuText"
+          }
+        },
         "disabled": {
           "value": {
             "light": "{button.text.color.ghost.disabled}",
