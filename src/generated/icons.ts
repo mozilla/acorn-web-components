@@ -742,6 +742,10 @@ export const iconLoaders = {
   "paperclip": {
     16: () => import("./icons/paperclip-16.js"),
   },
+  "part-of-page": {
+    16: () => import("./icons/part-of-page-16.js"),
+    20: () => import("./icons/part-of-page-20.js"),
+  },
   "passkey": {
     16: () => import("./icons/passkey-16.js"),
     20: () => import("./icons/passkey-20.js"),
@@ -982,6 +986,11 @@ export const iconLoaders = {
   },
   "skip-forward": {
     20: () => import("./icons/skip-forward-20.js"),
+  },
+  "smart-page": {
+    12: () => import("./icons/smart-page-12.js"),
+    16: () => import("./icons/smart-page-16.js"),
+    20: () => import("./icons/smart-page-20.js"),
   },
   "smart-window": {
     16: () => import("./icons/smart-window-16.js"),
