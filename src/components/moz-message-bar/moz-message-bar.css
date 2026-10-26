@@ -97,6 +97,17 @@
   gap: var(--message-bar-actions-gap);
 }
 
+:host([variant="stacked"]) .content,
+:host([variant="stacked"]) .text-content {
+  flex-direction: column;
+  align-items: start;
+}
+
+/* The gutter only separates the link from what follows it on the same line. */
+:host([variant="stacked"]) .link ::slotted(a) {
+  margin-inline-end: 0;
+}
+
 /* Type colors drop under high contrast (a plain border wins) — for both the
  * OS `prefers-contrast` query and provider-driven `data-contrast`. */
 @media not (prefers-contrast) {

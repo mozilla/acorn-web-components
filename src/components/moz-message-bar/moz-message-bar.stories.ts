@@ -5,10 +5,11 @@ import { expect } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-message-bar';
 import '../moz-button/moz-button';
-import type { MessageBarType } from './moz-message-bar';
+import type { MessageBarType, MessageBarVariant } from './moz-message-bar';
 
 interface Args {
   type: MessageBarType;
+  variant: MessageBarVariant;
   heading?: string;
   dismissable: boolean;
   message: string;
@@ -22,6 +23,8 @@ const types: MessageBarType[] = [
   'critical',
 ];
 
+const variants: MessageBarVariant[] = ['default', 'stacked'];
+
 const meta: Meta<Args> = {
   title: 'Components/MessageBar',
   component: 'moz-message-bar',
@@ -31,12 +34,14 @@ const meta: Meta<Args> = {
   ],
   argTypes: {
     type: { control: 'select', options: types },
+    variant: { control: 'inline-radio', options: variants },
     heading: { control: 'text' },
     dismissable: { control: 'boolean' },
     message: { control: 'text' },
   },
   args: {
     type: 'info',
+    variant: 'default',
     dismissable: false,
     message: 'Your changes have been saved.',
   },
@@ -44,6 +49,7 @@ const meta: Meta<Args> = {
     <moz-message-bar
       id="demo-message-bar"
       type=${args.type}
+      variant=${args.variant}
       heading=${ifDefined(args.heading)}
       ?dismissable=${args.dismissable}
     >
@@ -72,6 +78,13 @@ export const WithHeading: Story = {
   args: {
     heading: 'Update available',
     message: 'A new version is ready to install.',
+  },
+};
+
+export const WithoutMessage: Story = {
+  args: {
+    heading: 'Update available',
+    message: '',
   },
 };
 
@@ -109,11 +122,26 @@ export const DismissBehavior: Story = {
 export const WithActions: Story = {
   args: { dismissable: true },
   render: (args) => html`
-    <moz-message-bar type=${args.type} ?dismissable=${args.dismissable}>
+    <moz-message-bar
+      type=${args.type}
+      variant=${args.variant}
+      heading=${ifDefined(args.heading)}
+      ?dismissable=${args.dismissable}
+    >
       ${args.message}
       <moz-button slot="actions" size="small">Undo</moz-button>
     </moz-message-bar>
   `,
+};
+
+export const Stacked: Story = {
+  ...WithActions,
+  args: {
+    ...WithActions.args,
+    variant: 'stacked',
+    heading: 'Update available',
+    message: 'A new version is ready to install.',
+  },
 };
 
 export const Types: Story = {
