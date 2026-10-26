@@ -4,12 +4,13 @@ import { MozLitElement } from '../../base/moz-lit-element';
 import shared from '../../base/shared.css';
 import '../moz-icon/moz-icon';
 import type { IconName } from '../../generated/icons';
+import type { StatusBadgeType } from '../moz-status-badge/moz-status-badge';
 import styles from './moz-status-dot.css';
 
-export type StatusDotType = 'information' | 'success' | 'warning' | 'critical';
-
 // Each status's glyph, matching moz-message-bar.
-const typeIcon: Record<StatusDotType, IconName> = {
+const typeIcon: Record<StatusBadgeType, IconName> = {
+  ghost: 'information-fill',
+  default: 'information-fill',
   information: 'information-fill',
   success: 'checkmark-circle-fill',
   warning: 'warning-fill',
@@ -28,7 +29,7 @@ export class MozStatusDot extends MozLitElement {
   static styles = [shared, styles];
 
   /** Status color. */
-  @property({ reflect: true }) type: StatusDotType = 'information';
+  @property({ reflect: true }) type: StatusBadgeType = 'information';
 
   /** Show the type's icon inside the disc; omit for a solid dot. */
   @property({ type: Boolean, reflect: true }) icon = false;
