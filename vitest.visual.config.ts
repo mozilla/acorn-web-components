@@ -16,8 +16,7 @@ export default defineConfig({
     // Emit the browsable HTML visual-regression report (reference vs actual per
     // snapshot) alongside the console output. Open visual-report/index.html, or
     // `npm run test:visual:report` to serve it; CI uploads it as an artifact.
-    reporters: ['default', 'html'],
-    outputFile: { html: 'visual-report/index.html' },
+    reporters: ['default', ['html', { outputDir: 'visual-report' }]],
     browser: {
       enabled: true,
       headless: true,

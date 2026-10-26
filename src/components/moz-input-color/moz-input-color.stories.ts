@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { expect } from 'storybook/test';
+import { expect, waitFor } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-input-color';
 import type { InputColorSize, MozInputColor } from './moz-input-color';
@@ -187,9 +187,13 @@ export const EditIconIsDecorative: Story = {
     expect(edit.getAttribute('aria-hidden')).toBe('true');
     expect(edit.hasAttribute('tabindex')).toBe(false);
 
-    // Focus goes to the swatch, and the row is a single tab stop.
-    input.focus();
-    expect(input.shadowRoot!.activeElement).toBe(swatch(input));
+    // Focus goes to the swatch, and the row is a single tab stop. Firefox on
+    // CI no-ops the first programmatic focus() after render, so retry the call
+    // itself rather than just the assertion.
+    await waitFor(() => {
+      input.focus();
+      expect(input.shadowRoot!.activeElement).toBe(swatch(input));
+    });
   },
 };
 

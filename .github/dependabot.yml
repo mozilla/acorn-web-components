@@ -4,6 +4,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      # vitest and its companions peer-depend on each other by exact version,
+      # so a PR that moves one of them alone cannot install.
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
     open-pull-requests-limit: 99
     cooldown:
       default-days: 7
