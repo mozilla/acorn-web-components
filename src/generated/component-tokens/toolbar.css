@@ -3,7 +3,7 @@
   --toolbar-padding-inline: 6px;
   --toolbar-background-color: light-dark(rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.2));
   --toolbar-field-border-color: light-dark(var(--color-gray-20), var(--color-gray-60));
-  --toolbar-field-background-color: var(--toolbar-background-color);
+  --toolbar-field-background-color: light-dark(var(--color-white-alpha-40), var(--color-black-alpha-20));
   --toolbar-field-text-color: light-dark(var(--color-violet-desaturated-70), var(--color-violet-desaturated-10));
   --toolbar-text-color: light-dark(var(--color-gray-100), var(--color-gray-0));
   --toolbar-field-background-color-focus: var(--background-color-box);
