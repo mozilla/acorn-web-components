@@ -26,7 +26,7 @@
   text-size-adjust: none;
 
   --font-family:
-    system-ui, -apple-system, "Segoe UI", "Ubuntu Sans", Roboto, sans-serif;
+    "Segoe UI", "Ubuntu Sans", Roboto, system-ui, -apple-system, sans-serif;
 
   /* Reference breakpoints (Material-derived), for JS and matching custom page
    * layouts. CSS can't use custom properties in `@media` conditions, so these

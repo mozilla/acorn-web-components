@@ -98,6 +98,9 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup
+      # Keep in step with the Docker scripts; tests/visual/fonts.conf has the why.
+      - name: Install snapshot fonts
+        run: npm run test:visual:fonts
       - name: Visual snapshots (Chromium)
         run: npm run test:visual
       # On a mismatch, publish the browsable HTML report (reference vs actual per
