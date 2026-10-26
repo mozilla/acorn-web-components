@@ -2,8 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { ref } from 'lit/directives/ref.js';
-import { expect } from 'storybook/test';
-import { focusDebug } from '../../base/focus-debug';
+import { expect, waitFor } from 'storybook/test';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-input-file';
 import type { InputFileRejectedDetail, MozInputFile } from './moz-input-file';
@@ -473,12 +472,12 @@ export const FocusGoesToTheTrigger: Story = {
     const trigger = input.shadowRoot!.querySelector('.trigger')!;
 
     expect(inner.getAttribute('tabindex')).toBe('-1');
-    input.focus();
-    // TEMPORARY: diagnosing a Firefox-only CI failure where this reads null.
-    // Remove once the cause is known.
-    const debug = focusDebug(input, trigger);
-    console.log('[focus-debug] input-file', debug);
-    expect(input.shadowRoot!.activeElement, debug).toBe(trigger);
+    // Firefox on CI no-ops the first programmatic focus() after render, so
+    // retry the call itself rather than just the assertion.
+    await waitFor(() => {
+      input.focus();
+      expect(input.shadowRoot!.activeElement).toBe(trigger);
+    });
   },
 };
 
