@@ -77,7 +77,13 @@ export async function snapshot(
   try {
     await expect(viewport ? document.body : host).toMatchScreenshot(name, {
       comparatorName: 'pixelmatch',
-      comparatorOptions: { allowedMismatchedPixelRatio: 0 },
+      // Whichever snapshot runs first in a page rasterizes a glyph or icon edge
+      // a shade differently from the same capture in a warm page, so a spec run
+      // on its own disagrees with the full-suite baselines by a few antialiasing
+      // pixels. Neither a longer settle nor a warm-up render fixes it. 20 of
+      // ~134k pixels absorbs that; anything real (a missing icon, a shifted row,
+      // a wrong color) runs to thousands.
+      comparatorOptions: { allowedMismatchedPixels: 20 },
     });
   } finally {
     // Tests in a spec share one page, so a host left behind by a failure — or
