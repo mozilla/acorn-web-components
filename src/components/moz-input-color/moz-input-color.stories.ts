@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { expect } from 'storybook/test';
+import { focusDebug } from '../../base/focus-debug';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-input-color';
 import type { InputColorSize, MozInputColor } from './moz-input-color';
@@ -189,7 +190,11 @@ export const EditIconIsDecorative: Story = {
 
     // Focus goes to the swatch, and the row is a single tab stop.
     input.focus();
-    expect(input.shadowRoot!.activeElement).toBe(swatch(input));
+    // TEMPORARY: diagnosing a Firefox-only CI failure where this reads null.
+    // Remove once the cause is known.
+    const debug = focusDebug(input, swatch(input));
+    console.log('[focus-debug] input-color', debug);
+    expect(input.shadowRoot!.activeElement, debug).toBe(swatch(input));
   },
 };
 

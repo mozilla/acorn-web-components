@@ -3,6 +3,7 @@ import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { ref } from 'lit/directives/ref.js';
 import { expect } from 'storybook/test';
+import { focusDebug } from '../../base/focus-debug';
 import { logEvents } from '../../../.storybook/story-actions';
 import './moz-input-file';
 import type { InputFileRejectedDetail, MozInputFile } from './moz-input-file';
@@ -473,7 +474,11 @@ export const FocusGoesToTheTrigger: Story = {
 
     expect(inner.getAttribute('tabindex')).toBe('-1');
     input.focus();
-    expect(input.shadowRoot!.activeElement).toBe(trigger);
+    // TEMPORARY: diagnosing a Firefox-only CI failure where this reads null.
+    // Remove once the cause is known.
+    const debug = focusDebug(input, trigger);
+    console.log('[focus-debug] input-file', debug);
+    expect(input.shadowRoot!.activeElement, debug).toBe(trigger);
   },
 };
 
