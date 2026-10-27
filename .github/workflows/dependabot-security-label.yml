@@ -4,35 +4,86 @@
 # The label is driven off the alert API, not the PR body: plenty of ordinary
 # version bumps quote release notes that mention security (see #57, #59), so
 # matching on text would over-label exactly the PRs this is meant to rank below.
+#
+# dependabot/fetch-metadata's `alert-lookup` is deliberately not used: it
+# documents a PAT or App token as a requirement, and with the default token it
+# returns an empty ghsa-id rather than failing, so the workflow silently never
+# labelled anything. This queries the alerts API directly instead.
 
 name: Label Dependabot security PRs
 
 # pull_request_target, because `pull_request` runs triggered by Dependabot get a
 # read-only token and so can't label. Nothing from the PR branch is checked out
 # or executed here, which is what makes that safe.
+#
+# An advisory is often published days after the PR that happens to fix it (#164
+# opened Oct 23, its @vitest/mocker alert landed Oct 25), so the PR events alone
+# would miss those; the schedule re-checks every open Dependabot PR.
 on:
   pull_request_target:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
 
 permissions: {}
 
 jobs:
   label:
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      security-events: read
       vulnerability-alerts: read
     steps:
-      - name: Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
-        with:
-          alert-lookup: true
-      # ghsa-id is empty unless the PR is tied to an alert.
-      - name: Add the security label
-        if: steps.metadata.outputs.ghsa-id != ''
+      - name: Label Dependabot PRs that fix an open alert
         env:
           GH_TOKEN: ${{ github.token }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr edit "$PR_URL" --add-label security
+          REPO: ${{ github.repository }}
+          EVENT_PR: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.number || '' }}
+          EVENT_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$EVENT_PR" ]; then
+            if [ "$EVENT_AUTHOR" != "dependabot[bot]" ]; then
+              echo "Not a Dependabot PR; nothing to do."
+              exit 0
+            fi
+            prs="$EVENT_PR"
+          else
+            prs=$(gh pr list --repo "$REPO" --state open \
+              --author "app/dependabot" --json number --jq '.[].number')
+          fi
+
+          if [ -z "$prs" ]; then
+            echo "No open Dependabot PRs."
+            exit 0
+          fi
+
+          # Fails loudly if the default token cannot read alerts, rather than
+          # treating "no alerts" and "no access" as the same thing.
+          alerts=$(gh api "repos/$REPO/dependabot/alerts?state=open&per_page=100" \
+            --jq '.[].dependency.package.name' | sort -u)
+          echo "Packages with open alerts:"
+          echo "${alerts:-(none)}"
+
+          if [ -z "$alerts" ]; then
+            exit 0
+          fi
+
+          for pr in $prs; do
+            # Dependabot records what it moved in an `updated-dependencies`
+            # block in the commit message; that covers grouped PRs, which the
+            # branch name does not. It quotes scoped names ("@scope/pkg"), while
+            # the alerts API does not, so strip the quotes before comparing.
+            deps=$(gh api "repos/$REPO/pulls/$pr/commits" --jq '.[].commit.message' \
+              | sed -n 's/^- dependency-name: //p' | tr -d '"' | sort -u)
+            hits=$(comm -12 <(echo "$alerts") <(echo "$deps") || true)
+            if [ -n "$hits" ]; then
+              echo "PR #$pr updates alerted package(s): $(echo "$hits" | tr '\n' ' ')"
+              gh pr edit "$pr" --repo "$REPO" --add-label security
+            else
+              echo "PR #$pr: no alerted packages."
+            fi
+          done

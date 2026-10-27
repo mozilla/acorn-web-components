@@ -4,6 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    assignees:
+      - "nothingrandom"
     groups:
       # vitest and its companions peer-depend on each other by exact version,
       # so a PR that moves one of them alone cannot install.
@@ -11,6 +13,22 @@ updates:
         patterns:
           - "vitest"
           - "@vitest/*"
+      # Storybook ships its addons and frameworks as one version line.
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+      # react, react-dom and their types have to agree.
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      lit:
+        patterns:
+          - "lit"
+          - "@lit/*"
     open-pull-requests-limit: 99
     cooldown:
       default-days: 7
@@ -20,6 +38,8 @@ updates:
     - "/.github/actions/*"
     schedule:
       interval: daily
+    assignees:
+      - "nothingrandom"
     groups:
       ssdlc-actions:
         patterns:
