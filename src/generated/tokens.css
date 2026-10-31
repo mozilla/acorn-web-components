@@ -184,6 +184,8 @@
   --font-weight: normal;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --motion-easing-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
   --size-image-xsmall: 40px;
   --size-image-small: 48px;
   --size-image-medium: 56px;
@@ -240,9 +242,8 @@
   --font-size-heading-large: var(--font-size-xlarge);
   --font-size-heading-medium: var(--font-size-large);
   --text-color-accent-primary-selected: light-dark(var(--color-white), var(--color-gray-55));
-  --icon-size-xsmall: var(--size-item-xsmall);
   --icon-size-small: var(--size-item-small);
-  --icon-size-xlarge: var(--size-item-large);
+  --icon-size-large: var(--size-item-medium);
   --icon-size-xxlarge: var(--size-item-xlarge);
   --focus-outline-color: var(--color-accent-primary);
   --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color);
@@ -255,7 +256,8 @@
   --icon-color-success: light-dark(var(--color-green-50), var(--color-green-20));
   --icon-color-warning: light-dark(var(--color-yellow-50), var(--color-yellow-20));
   --icon-color-critical: light-dark(var(--color-red-50), var(--color-red-20));
-  --icon-size-large: var(--size-item-medium);
+  --icon-size-xsmall: var(--size-item-xsmall);
+  --icon-size-xlarge: var(--size-item-large);
   --background-color-list-item-hover: color-mix(in srgb, var(--color-accent-primary) 20%, transparent);
   --border-color-selected: var(--color-accent-primary);
   --text-color-list-item-hover: var(--text-color);
