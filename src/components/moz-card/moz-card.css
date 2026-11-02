@@ -38,10 +38,7 @@
 :host([appearance="outline"]) {
   --card-background-color: transparent;
   --card-box-shadow: none;
-  --card-border-color: light-dark(
-    var(--color-violet-desaturated-10),
-    var(--color-violet-desaturated-70)
-  );
+  --card-border-color: var(--border-color);
 }
 
 .header {
