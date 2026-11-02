@@ -7,6 +7,7 @@ import shared from '../../base/shared.css';
 import { slotHasContent } from '../../base/slots';
 import '../moz-button/moz-button';
 import '../moz-icon/moz-icon';
+import dialogTokens from '../../generated/component-tokens/dialog.css';
 import type { IconName } from '../../generated/icons';
 import styles from './moz-dialog.css';
 
@@ -35,7 +36,7 @@ export type DialogVariant = 'inline' | 'modal';
  *   dialog stays open.
  */
 export class MozDialog extends MozLitElement {
-  static styles = [shared, styles];
+  static styles = [shared, dialogTokens, styles];
 
   /** Whether the dialog is open. Reflected for two-way binding. */
   @property({ type: Boolean, reflect: true }) open = false;

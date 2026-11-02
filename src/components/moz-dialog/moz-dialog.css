@@ -13,11 +13,11 @@ dialog {
   /* Padding lives on .content so backdrop clicks (target === dialog) stay
    * distinguishable from clicks on the dialog's own content. */
   padding: 0;
-  border: none;
-  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--dialog-border-color);
+  border-radius: var(--dialog-border-radius);
   color: var(--text-color);
-  background-color: var(--background-color-box);
-  box-shadow: var(--box-shadow-level-4);
+  background-color: var(--dialog-background-color);
+  box-shadow: var(--dialog-box-shadow);
 }
 
 /* Focus is moved to the dialog programmatically on open (tabindex=-1, not a tab
@@ -43,7 +43,7 @@ dialog::backdrop {
   display: flex;
   flex-direction: column;
   gap: var(--space-medium);
-  padding: var(--space-large);
+  padding: var(--dialog-padding);
 }
 
 .header {
