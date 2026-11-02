@@ -2,8 +2,8 @@
 
 Mozilla Nova-styled web components written in TypeScript with [Lit](https://lit.dev). The design tokens are compiled from Firefox's [Nova design system](https://searchfox.org/firefox-main/source/toolkit/themes/shared/design-system), and the icons and illustrations from [FirefoxUX/acorn-icons](https://github.com/FirefoxUX/acorn-icons), so the components match Firefox and can be kept up to date with it.
 
-> Status: early proof of concept (see [AMOENG-2723](https://mozilla-hub.atlassian.net/browse/AMOENG-2723)).
-> Published to npm under the `alpha` dist-tag; the API may change.
+> [!NOTE]
+> This project is still in development and may experience changes. This project is also built by and for the AMO team primarily and not the Acorn team.
 
 ## What's inside
 
@@ -24,10 +24,8 @@ These are standard custom elements, so they work in plain HTML and in any framew
 Published to [npm](https://www.npmjs.com/package/@mozilla/lit-web-components) as `@mozilla/lit-web-components` — a public scoped package, so no registry configuration or token is needed:
 
 ```sh
-npm install @mozilla/lit-web-components@alpha
+npm install @mozilla/lit-web-components
 ```
-
-Releases publish under the `alpha` dist-tag, so `@alpha` always resolves the newest prerelease. Use it rather than a bare install: npm pins `latest` to whichever version lands first, so `latest` is currently an alpha too and won't track new ones.
 
 `lit` and `@lit/context` are dependencies and install automatically. `react` and `react-dom` are optional peer dependencies, needed only if you use the `@mozilla/lit-web-components/react` entry.
 

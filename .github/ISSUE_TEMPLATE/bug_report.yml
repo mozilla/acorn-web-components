@@ -16,7 +16,7 @@ body:
     attributes:
       label: Version
       description: Output of `npm ls @mozilla/lit-web-components`, or the commit if you are working in this repo.
-      placeholder: 0.0.0-alpha.12
+      placeholder: 1.0.0
     validations:
       required: true
 
