@@ -21,6 +21,9 @@ export const iconLoaders = {
   "add-user": {
     16: () => import("./icons/add-user-16.js"),
   },
+  "administrators": {
+    16: () => import("./icons/administrators-16.js"),
+  },
   "airplane": {
     12: () => import("./icons/airplane-12.js"),
     20: () => import("./icons/airplane-20.js"),
@@ -79,6 +82,9 @@ export const iconLoaders = {
   },
   "authenticated-user": {
     16: () => import("./icons/authenticated-user-16.js"),
+  },
+  "authentication": {
+    16: () => import("./icons/authentication-16.js"),
   },
   "autoplay": {
     16: () => import("./icons/autoplay-16.js"),
@@ -237,6 +243,9 @@ export const iconLoaders = {
   "competitiveness": {
     16: () => import("./icons/competitiveness-16.js"),
     20: () => import("./icons/competitiveness-20.js"),
+  },
+  "content-analysis": {
+    16: () => import("./icons/content-analysis-16.js"),
   },
   "content-width": {
     20: () => import("./icons/content-width-20.js"),
@@ -895,6 +904,9 @@ export const iconLoaders = {
     16: () => import("./icons/send-tab-to-device-right-16.js"),
     20: () => import("./icons/send-tab-to-device-right-20.js"),
   },
+  "service-accounts": {
+    16: () => import("./icons/service-accounts-16.js"),
+  },
   "settings": {
     16: () => import("./icons/settings-16.js"),
     20: () => import("./icons/settings-20.js"),
@@ -1198,6 +1210,9 @@ export const iconLoaders = {
   },
   "wrapped-scrolling": {
     16: () => import("./icons/wrapped-scrolling-16.js"),
+  },
+  "wrench": {
+    16: () => import("./icons/wrench-16.js"),
   },
   "xr": {
     16: () => import("./icons/xr-16.js"),

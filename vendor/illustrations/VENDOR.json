@@ -4,8 +4,8 @@
     "acorn-icons: illustrations/desktop/pictograms/*.svg"
   ],
   "repo": "github.com/FirefoxUX/acorn-icons",
-  "ref": "v1.145.0",
-  "revision": "184de7b0659aebb08ec8be20931defe5f4cfb3dc",
-  "vendored": "2026-10-26",
+  "ref": "v1.150.0",
+  "revision": "75aa5ed8bc358a95b15d18fd36abb7a2b7e2bc75",
+  "vendored": "2026-11-02",
   "notes": "Desktop illustration kit pieces and pictograms. Full-colour SVGs; -light/-dark suffixes are theme variants the build pairs by base name."
 }
