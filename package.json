@@ -1,16 +1,19 @@
 {
-  "name": "acorn-web-components",
+  "name": "@mozilla/lit-web-components",
   "version": "0.0.0-alpha",
   "description": "Nova-styled web components; TypeScript with Lit.",
   "license": "MPL-2.0",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mozilla/acorn-web-components.git"
+    "url": "git+https://github.com/mozilla/lit-web-components.git"
   },
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

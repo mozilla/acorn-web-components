@@ -1,4 +1,4 @@
-# Developing acorn-web-components
+# Developing lit-web-components
 
 How to build, test, and extend the library, and how the tokens and icons are compiled from Firefox.
 

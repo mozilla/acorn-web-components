@@ -1,4 +1,4 @@
-# CI for acorn-web-components (Lit web-components library).
+# CI for lit-web-components (Lit web-components library).
 #
 # Split into independent, parallel jobs so a red check names itself in the PR
 # checks list (lint / typecheck / build / test / visual) instead of hiding one

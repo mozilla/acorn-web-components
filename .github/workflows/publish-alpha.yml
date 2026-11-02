@@ -1,8 +1,8 @@
-# Publishes the built library to the public npm registry while acorn is in alpha.
+# Publishes the built library to the public npm registry while the library is in alpha.
 #
 # Trigger it manually (Actions → Publish alpha → Run workflow, giving a version)
 # or by publishing a GitHub Release whose tag is the version. Versions are
-# published under the `alpha` dist-tag so `acorn-web-components@alpha` tracks
+# published under the `alpha` dist-tag so `@mozilla/lit-web-components@alpha` tracks
 # the latest alpha.
 name: Publish alpha
 
