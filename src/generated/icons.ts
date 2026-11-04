@@ -647,6 +647,24 @@ export const iconLoaders = {
   "login": {
     16: () => import("./icons/login-16.js"),
   },
+  "logo-firefox": {
+    32: () => import("./icons/logo-firefox-32.js"),
+  },
+  "logo-firefox-beta": {
+    32: () => import("./icons/logo-firefox-beta-32.js"),
+  },
+  "logo-firefox-nightly": {
+    32: () => import("./icons/logo-firefox-nightly-32.js"),
+  },
+  "logo-thunderbird": {
+    32: () => import("./icons/logo-thunderbird-32.js"),
+  },
+  "logo-thunderbird-beta": {
+    32: () => import("./icons/logo-thunderbird-beta-32.js"),
+  },
+  "logo-thunderbird-nightly": {
+    32: () => import("./icons/logo-thunderbird-nightly-32.js"),
+  },
   "makeup": {
     12: () => import("./icons/makeup-12.js"),
     16: () => import("./icons/makeup-16.js"),

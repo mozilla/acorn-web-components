@@ -83,7 +83,9 @@ Output:
 
 ### Icons (`scripts/icons/build.ts`)
 
-Input: `vendor/icons/<size>/`, the desktop SVGs from `github.com/FirefoxUX/acorn-icons` (Acorn/Nova). Each icon is normalized for the web: `context-fill` becomes `currentColor`, fixed sizes are stripped, a `viewBox` is ensured, and single-color icons become `currentColor`. Acorn draws each icon at several optical sizes, so each `(name, size)` is emitted as its own module (`icons/<name>-<size>.ts`) and the registry (`icons.ts`) maps name → available sizes → lazy loader; `moz-icon` picks the closest size and a consumer only bundles what it renders.
+Input: `vendor/icons/<size>/`, the desktop SVGs from `github.com/FirefoxUX/acorn-icons` (Acorn/Nova), plus `assets/icons/<size>/` for first-party SVGs we draw ourselves (brand logos). Both use the same `<size>/<name>-<size>.svg` layout and land in one registry; a name defined in both sources is an error rather than a silent override. `assets/` exists because `npm run vendor:icons` wipes `vendor/icons`.
+
+Each icon is normalized for the web: `context-fill` becomes `currentColor`, the root `<svg>`'s fixed size is stripped, and a `viewBox` is ensured. Vendored icons additionally get a single hardcoded fill rewritten to `currentColor`; first-party ones do not, so a logo keeps its palette — write `fill="currentColor"` yourself if you want one to follow text color. Acorn draws each icon at several optical sizes, so each `(name, size)` is emitted as its own module (`icons/<name>-<size>.ts`) and the registry (`icons.ts`) maps name → available sizes → lazy loader; `moz-icon` picks the closest size and a consumer only bundles what it renders.
 
 ### Updating from upstream
 
