@@ -1,6 +1,6 @@
 # Examples
 
-Runnable usage examples for `acorn-web-components`, served against the library **source** (edit a component and the example live-reloads).
+Runnable usage examples for `lit-web-components`, served against the library **source** (edit a component and the example live-reloads).
 
 ## Running
 

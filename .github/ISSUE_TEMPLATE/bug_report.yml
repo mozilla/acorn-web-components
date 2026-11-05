@@ -15,8 +15,8 @@ body:
     id: version
     attributes:
       label: Version
-      description: Output of `npm ls acorn-web-components`, or the commit if you are working in this repo.
-      placeholder: 0.0.0-alpha.12
+      description: Output of `npm ls @mozilla/lit-web-components`, or the commit if you are working in this repo.
+      placeholder: 1.0.0
     validations:
       required: true
 
@@ -59,7 +59,7 @@ body:
       label: How are you using the components?
       options:
         - Plain HTML / custom elements
-        - React wrappers (acorn-web-components/react)
+        - React wrappers (@mozilla/lit-web-components/react)
         - Another framework
         - Working in this repo (Storybook or tests)
     validations:

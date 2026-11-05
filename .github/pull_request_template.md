@@ -1,4 +1,4 @@
-Fixes mozilla/acorn-web-components#ISSUENUM
+Fixes mozilla/lit-web-components#ISSUENUM
 
 ### Description
 
