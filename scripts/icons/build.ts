@@ -1,4 +1,5 @@
 import {
+  existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -25,13 +26,17 @@ import { basename, join } from 'node:path';
 
 const OUT = 'src/generated';
 const ICONS_OUT = join(OUT, 'icons');
-const SRC = 'vendor/icons';
+// `npm run vendor:icons` wipes vendor/, so hand-authored icons live outside it.
+const SOURCES = [
+  { dir: 'vendor/icons', vendored: true },
+  { dir: 'assets/icons', vendored: false },
+];
 
 // Rebuild cleanly so removed upstream icons do not linger.
 rmSync(ICONS_OUT, { recursive: true, force: true });
 mkdirSync(ICONS_OUT, { recursive: true });
 
-function normalise(raw: string): string {
+function normalise(raw: string, vendored: boolean): string {
   let svg = raw.replace(/<!--[\s\S]*?-->/g, '').trim();
 
   // Some Firefox-sourced icons toggle proton/nova via a chrome-only @media
@@ -64,7 +69,9 @@ function normalise(raw: string): string {
   // isn't already themeable via context-fill and uses exactly one hardcoded
   // colour do we swap it for currentColor, so genuinely multi-colour icons keep
   // their palette.
-  if (!usesContext) {
+  // Recolouring a brand logo drawn in one flat colour would be wrong; a
+  // hand-authored icon that wants text colour can just say `currentColor`.
+  if (!usesContext && vendored) {
     const fills = [...svg.matchAll(/fill="([^"]+)"/g)].map((m) => m[1]);
     const hardcoded = [
       ...new Set(fills.filter((f) => f !== 'none' && f !== 'currentColor')),
@@ -79,42 +86,60 @@ function normalise(raw: string): string {
     svg = svg.replace(/<svg\b/i, `<svg viewBox="0 0 ${width} ${height}"`);
   }
 
-  return svg
-    .replace(/\s(width|height)="[^"]*"/g, '') // let CSS size it
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    svg
+      // Stripping these anywhere would flatten a <rect>/<image>/<use>.
+      .replace(/<svg\b[^>]*>/i, (tag) =>
+        tag.replace(/\s(width|height)="[^"]*"/g, ''),
+      )
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 // Collect name -> sorted list of optical sizes present, emitting a module per
-// (name, size). vendor/icons/<size>/<name>-<size>.svg — the dir is the
+// (name, size). <source>/<size>/<name>-<size>.svg — the dir is the
 // authoritative size, so strip a trailing `-<size>` from the file name.
-const sizeDirs = readdirSync(SRC)
-  .filter((d) => statSync(join(SRC, d)).isDirectory())
-  .map(Number)
-  .filter((n) => !Number.isNaN(n))
-  .sort((a, b) => a - b);
-
 const byName = new Map<string, number[]>();
 const allSizes = new Set<number>();
+const seen = new Map<string, string>();
 
-for (const size of sizeDirs) {
-  const dir = join(SRC, String(size));
-  for (const file of readdirSync(dir).sort()) {
-    if (!file.endsWith('.svg')) continue;
-    const stem = basename(file, '.svg');
-    const name = stem.replace(new RegExp(`-${size}$`), '');
-    const svg = normalise(readFileSync(join(dir, file), 'utf8'));
-    writeFileSync(
-      join(ICONS_OUT, `${name}-${size}.ts`),
-      `/* Generated from a vendored Acorn icon. Do not edit. */\nexport default ${JSON.stringify(svg)};\n`,
-    );
-    let forName = byName.get(name);
-    if (!forName) {
-      forName = [];
-      byName.set(name, forName);
+for (const { dir: src, vendored } of SOURCES) {
+  if (!existsSync(src)) continue;
+  const sizeDirs = readdirSync(src)
+    .filter((d) => statSync(join(src, d)).isDirectory())
+    .map(Number)
+    .filter((n) => !Number.isNaN(n))
+    .sort((a, b) => a - b);
+
+  for (const size of sizeDirs) {
+    const dir = join(src, String(size));
+    for (const file of readdirSync(dir).sort()) {
+      if (!file.endsWith('.svg')) continue;
+      const stem = basename(file, '.svg');
+      const name = stem.replace(new RegExp(`-${size}$`), '');
+      // Shadowing would depend on source order, so make the clash explicit.
+      const key = `${name}-${size}`;
+      const previous = seen.get(key);
+      if (previous) {
+        throw new Error(
+          `Icon ${key} is defined twice: ${previous} and ${join(dir, file)}.`,
+        );
+      }
+      seen.set(key, join(dir, file));
+      const svg = normalise(readFileSync(join(dir, file), 'utf8'), vendored);
+      writeFileSync(
+        join(ICONS_OUT, `${name}-${size}.ts`),
+        `/* Generated from ${vendored ? 'a vendored Acorn icon' : 'assets/icons'}. Do not edit. */\nexport default ${JSON.stringify(svg)};\n`,
+      );
+      let forName = byName.get(name);
+      if (!forName) {
+        forName = [];
+        byName.set(name, forName);
+      }
+      forName.push(size);
+      allSizes.add(size);
     }
-    forName.push(size);
-    allSizes.add(size);
   }
 }
 

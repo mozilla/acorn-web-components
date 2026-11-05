@@ -25,3 +25,24 @@ test('icon dark', () => snapshotDark('icon-dark', iconColorRow));
 
 test('icon high-contrast', () =>
   snapshotContrast('icon-high-contrast', iconColorRow));
+
+// Side by side on purpose: the logos reuse gradient/clip ids, so this also
+// covers those staying scoped to each shadow root.
+const logos = [
+  'logo-firefox',
+  'logo-firefox-beta',
+  'logo-firefox-nightly',
+  'logo-thunderbird',
+  'logo-thunderbird-beta',
+  'logo-thunderbird-nightly',
+] as const;
+
+test('icon logos', () =>
+  snapshot(
+    'icon-logos',
+    html`<div style="display:flex;gap:16px;align-items:center;">
+      ${logos.map(
+        (n) => html`<moz-icon name=${n} style="--icon-size:40px;"></moz-icon>`,
+      )}
+    </div>`,
+  ));
