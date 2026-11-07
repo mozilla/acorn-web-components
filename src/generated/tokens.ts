@@ -215,6 +215,8 @@ export const tokens = {
   '--font-weight-semibold': "600",
   '--font-weight-bold': "700",
   '--font-weight-heading': "600",
+  '--motion-easing-emphasized': "cubic-bezier(0.2, 0, 0, 1)",
+  '--motion-easing-standard': "cubic-bezier(0.2, 0.8, 0.2, 1)",
   '--size-image-xsmall': "40px",
   '--size-image-small': "48px",
   '--size-image-medium': "56px",
@@ -479,6 +481,8 @@ export type TokenName =
   | '--font-weight-semibold'
   | '--font-weight-bold'
   | '--font-weight-heading'
+  | '--motion-easing-emphasized'
+  | '--motion-easing-standard'
   | '--size-image-xsmall'
   | '--size-image-small'
   | '--size-image-medium'
